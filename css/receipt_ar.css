@@ -1,0 +1,152 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	text-decoration: none;
+}
+
+html {
+	font-size: 62.5%;
+	font-family: 'Roboto', sans-serif;
+}
+body {
+	/* background-color: #eee; */
+	font-size: 1.6rem;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+    /* color: #fff; */
+    min-height: 100vh;
+}
+
+.receipt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* background-color: rgba(0, 0, 0, .2); */
+    background-color: #222831;
+    border-radius: .3rem;
+    /* padding: 1rem 0; */
+    position: relative;
+}
+
+.receipt--container {
+    background-color: #fff;
+    height: auto;
+    /* padding: 1rem 2rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.exit-icon {
+    font-size: 5rem;
+    position: fixed;
+    top: 1rem;
+    left: 5rem;
+
+}
+
+.fas.fa-times.exit-icon {
+    color: #df5e88;
+    transition: all .3s;
+}
+
+.fas.fa-times.exit-icon:hover {
+    cursor: pointer;
+    color: #e2979c;
+}
+
+.receipt__header {
+    padding: 2rem 1rem;
+}
+
+.receipt__header--text {
+    text-align: center;
+}
+
+.receipt__header--infos {
+    display: flex;
+    justify-content: space-evenly;
+    width: 60rem;
+    padding: 2rem 2rem 1rem 2rem;
+    font-size: 1.5rem;
+}
+
+.company__info {
+    /* font-size: 1.3rem; */
+    display: inline-flex;
+    flex-direction: column;
+    width: 30rem;
+}
+
+.company__info--container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+.info-label {
+    width: 6rem;
+    margin-right: 1rem;
+}
+
+.address--container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sales__info {
+    /* font-size: 1.3rem; */
+    display: inline-flex;
+    width: 30rem;
+    flex-direction: column;
+}
+
+.receipt__body {
+    padding: 1rem 2rem;
+    width: 100%;
+}
+
+.tfooter-total-text, .tfooter-amount-text {
+    font-size: 1.6rem;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even){background-color: #f2f2f2}
+  
+  th {
+    /* background-color: #343a40; */
+    background-color: #222831;
+    color: white;
+  }
+
+  tfoot {
+    background: #ddd;
+    border-top: 1px #000 solid;
+  }
+
+  tfoot tr td {
+    background: #fff;
+  }
+
+  .receipt__footer {
+    font-family: 'Dancing Script', cursive;
+    padding: 1rem 0;
+    font-size: 4rem;
+  }
+
+  td {
+      font-size: 1.5rem;
+  }
