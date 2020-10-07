@@ -209,7 +209,9 @@
       "order": [1, "asc"],
    });
 
-   $('#myForm').on('submit', function(e) {
+   $('#myForm').on('submit', function(event) {
+       event.preventDefault();
+
        var form = this
        var rowsel = table.column(0).checkboxes.selected();
        var stringData = "" 

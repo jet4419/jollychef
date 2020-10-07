@@ -634,7 +634,10 @@ $(document).ready( function () {
 }); 
 
     // Date Generator
-        $(document).on("click", ".date_transact", function() {
+        $(document).on("click", ".date_transact", function(event) {
+            
+            event.preventDefault();
+
             let custID = $(this).attr("id");
             $.ajax({
 
@@ -647,44 +650,6 @@ $(document).ready( function () {
             }
         })    
     }) // End of Date Generator  
-
-    // Adjustment Plus
-    //     $(document).on("click", ".btn-adjustment-plus", function() {
-    //         let custID = $(this).attr("id");
-    //         let startDate = $("#startDate").val();
-    //         let endDate = $("#endDate").val();
-
-    //         $.ajax({
-
-    //         url: "t_adjustment_plus_new.asp",
-    //         type: "POST",
-    //         data: {custID: custID, startDate: startDate, endDate: endDate},
-    //         success: function(data) {
-    //             $("#adjustment_plus_body").html(data);
-    //             $("#adjustment_plus").modal("show");
-    //         }
-    //     })    
-    // }) // End of Adjustment Plus
-
-    // Adjustment Minus
-    //     $(document).on("click", ".btn-adjustment-minus", function() {
-    //         let custID = $(this).attr("id");
-    //         let startDate = $("#startDate").val();
-    //         let endDate = $("#endDate").val();
-
-    //         $.ajax({
-
-    //         url: "t_adjustment_minus_new.asp",
-    //         type: "POST",
-    //         data: {custID: custID, startDate: startDate, endDate: endDate},
-    //         success: function(data) {
-    //             $("#adjustment_minus_body").html(data);
-    //             $("#adjustment_minus").modal("show");
-    //         }
-    //     })    
-    // }) // End of Adjustment Minus
-
-
 
     tail.select("#selectRecords", {
         search: true,

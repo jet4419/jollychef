@@ -328,7 +328,10 @@
     });
 
     // Edit Transaction
-    $(document).on("click", ".updateTransaction", function() {
+    $(document).on("click", ".updateTransaction", function(event) {
+
+        event.preventDefault();
+
         let collectionID = $(this).attr("id");
         //console.log(arID)
         $.ajax({

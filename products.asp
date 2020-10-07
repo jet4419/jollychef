@@ -364,7 +364,10 @@
     // });
 
     // Edit Product
-    $(document).on("click", ".updateProduct", function() {
+    $(document).on("click", ".updateProduct", function(event) {
+
+        event.preventDefault();
+
         let productID = $(this).attr("id");
         //console.log(arID)
         $.ajax({
@@ -397,7 +400,10 @@
     // })
 
     // Delete Modal
-    $(document).on("click", ".deleteProduct", function() {
+    $(document).on("click", ".deleteProduct", function(event) {
+
+        event.preventDefault();
+
         let productID = $(this).attr("id");
         //console.log(arID)
         $.ajax({
@@ -415,7 +421,10 @@
     }); 
 
      //Delete Product
-    $(document).on('click', '#btnDeleteProduct', function(){
+    $(document).on('click', '#btnDeleteProduct', function(event){
+
+        event.preventDefault();
+
         let result = confirm("Want to delete?");
 
         if(result) {

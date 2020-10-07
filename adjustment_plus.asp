@@ -216,6 +216,12 @@
         end if
     %>
 
+    <script type="text/javascript" >
+        function preventBack(){window.history.forward();}
+            setTimeout("preventBack()", 0);
+            window.onunload=function(){null};
+    </script>
+
 <body>
     <script src="tail.select-master/js/tail.select-full.min.js"></script>
 
@@ -406,6 +412,8 @@
                         <%
                             Dim maxAdjustment
                             maxAdjustment = CDbl(rs("receivable")) - CDbl(rs("balance"))
+                            maxAdjustment = Round(maxAdjustment, 2)
+                            'Response.Write maxAdjustment
                         %>
 
                         <td>
@@ -577,7 +585,7 @@ $(document).ready( function () {
     //     e.preventDefault();
     // });
 
-    $(document).on("click", "#myBtn", function() {
+    $(document).on("click", "#myBtn", function(event) {
 
         var valid = this.form.checkValidity();
 

@@ -447,7 +447,10 @@ $(document).ready( function () {
 }); 
 
     // Date Generator
-        $(document).on("click", ".date_transact", function() {
+        $(document).on("click", ".date_transact", function(event) {
+
+            event.preventDefault();
+
             let custID = $(this).attr("id");
             $.ajax({
 

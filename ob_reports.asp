@@ -265,7 +265,9 @@ let j = 0
 });
 
 // Date Transactions Generator
-        $(document).on("click", ".date_transact", function() {
+        $(document).on("click", ".date_transact", function(event) {
+
+            event.preventDefault();
             //let custID = $(this).attr("id");
             $.ajax({
 

@@ -336,7 +336,10 @@ let j = 0
 
         
     // Pay Debt
-        $(document).on("click", ".btnPayDebt", function() {
+        $(document).on("click", ".btnPayDebt", function(event) {
+
+            event.preventDefault();
+
             let custID = $(this).attr("id");
             $.ajax({
 
@@ -351,7 +354,10 @@ let j = 0
     }) // End of Pay Debt    
 
     // Date Transactions Generator
-        $(document).on("click", ".date_transact", function() {
+        $(document).on("click", ".date_transact", function(event) {
+
+            event.preventDefault();
+
             let custID = $(this).attr("id");
             $.ajax({
 

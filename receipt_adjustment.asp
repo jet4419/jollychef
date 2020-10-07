@@ -15,7 +15,11 @@
 <body>
 
     <main class="receipt">
-
+        <p>
+            <a href="adjustments_main.asp">
+                <i class="fas fa-times exit-icon"></i>
+            </a>
+        </p>
         <div class="receipt--container">
             <div class="receipt__header">
                 <h1 class="receipt__header--text">Adjustment</h1>

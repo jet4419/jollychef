@@ -540,7 +540,10 @@ $(document).ready( function () {
 }); 
 
     // Date Generator
-        $(document).on("click", ".date_transact", function() {
+        $(document).on("click", ".date_transact", function(event) {
+
+            event.preventDefault();
+
             $.fn.dataTable.ext.classes.sPageButton = 'button primary_button';
             let custID = $(this).attr("id");
             $.ajax({
@@ -589,7 +592,7 @@ $(document).ready( function () {
         e.preventDefault();
     });
 
-    $(document).on("click", "#myBtn", function() {
+    $(document).on("click", "#myBtn", function(event) {
 
         var valid = this.form.checkValidity();
 

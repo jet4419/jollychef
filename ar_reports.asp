@@ -183,31 +183,6 @@
             next%>       
         </table>
     </div> 
-    <!-- Update Modal -->
-        <div class="modal fade" id="collect_money" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form class="form-group mb-3" id="updateForm" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Collect Cash <i class="icon-money"></i></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="collect_details">
-                        <!-- Modal Body (Contents) -->
-                        
-                    
-                    </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" id="collect" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>  
-                </div>
-            </div>
-        </div> 
-      <!-- END OF Update User MODAL --> 
 
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">
@@ -293,43 +268,6 @@
 
     });
 
-    $(document).on("click", ".btnCollect", function() {
-        let arID = $(this).attr("id");
-        $.ajax({
-
-            url: "bootCollect.asp",
-            type: "POST",
-            data: {arID: arID},
-            success: function(data) {
-                $("#collect_details").html(data);
-                $("#collect_money").modal("show");
-
-
-
-            }
-        })
-
-        //UPDATE AR
-        $(document).on('click', '#collect', function(){
-            $.ajax({
-                url: "bootCollect2.asp",
-                type: "POST",
-                data: $("#updateForm").serialize(),
-                success: function(data) {
-                    if (data === "Error") {
-                        $("#collect_money").modal("hide");
-                        alert("Money should be less than the current balance.")
-                        location.reload();
-                    } else {
-                        alert("Money Transfer Successfully!");
-                        $("#collect_money").modal("hide");
-                        location.reload();
-                    }
-                }
-            })
-        })
-
-    });
 } ); 
 </script>
 

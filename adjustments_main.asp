@@ -149,33 +149,7 @@
 
             </table>
         </div>    
-    </div>
-
-    <!-- Pay Debt -->
-        <div class="modal fade" id="pay_debt_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <form action="a_ob_paydebt2.asp" class="form-group mb-3" id="payDebtForm" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Pay Debt </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="payDebtBody">
-                        <!-- Modal Body (Contents) -->
-                        
-                    
-                    </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" id="payDebtCash" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>  
-                </div>
-            </div>
-        </div> 
-      <!-- END OF Pay Debt -->    
+    </div>   
 
     <!-- Date Range of Transactions -->
             <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -283,45 +257,11 @@ let j = 0
         ]
         });
 
-        
-    // Pay Debt
-        $(document).on("click", ".btnPayDebt", function() {
-            let custID = $(this).attr("id");
-            $.ajax({
-
-            url: "a_ob_paydebt.asp",
-            type: "POST",
-            data: {custID: custID},
-            success: function(data) {
-                $("#payDebtBody").html(data);
-                $("#pay_debt_modal").modal("show");
-            }
-        })    
-    }) // End of Pay Debt    
-
-    // Pay Debt 2 
-    // $(document).on('click', '#payDebtCash', function(){
-    //     $.ajax({
-    //         url: "ob_paydebt2.asp",
-    //         type: "POST",
-    //         data: $("#payDebtForm").serialize(),
-    //         success: function(data) {
-    //             if(data!="Error") {
-    //                 alert("Money Transfer Successfully!")
-    //                 $("#pay_debt_modal").modal("hide")
-    //                 location.reload();
-    //             } 
-    //             else {
-    //                 alert("Error transaction!")
-    //             }
-                    
-    //         }
-    //     })
-    // })
-    // End of Pay Debt 2 
-
     // Date Transactions Generator
-        $(document).on("click", ".date_transact", function() {
+        $(document).on("click", ".date_transact", function(event) {
+
+            event.preventDefault();
+
             let custID = $(this).attr("id");
             $.ajax({
 

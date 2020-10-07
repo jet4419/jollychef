@@ -125,6 +125,8 @@
         sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance + "&adjustmentValue&" WHERE invoice_no="&invoice
         cnroot.execute(sqlArUpdate)
 
+        if arOrigPath <> arPath then
+
         sqlGetAr = "SELECT * FROM "&arPath&" WHERE invoice_no = "&invoice
         set objAccess = cnroot.execute(sqlGetAr)
 
@@ -159,6 +161,8 @@
         set objAccess = nothing    
 
         maxArId = maxArId + 1
+
+        end if
         ' sqlAddAr = "INSERT INTO "&arPath&" "&_
         ' "(ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, status) "&_
         ' "VALUES ("&maxArId&", "&custID&", '"&custName&"', '"&department&"', '"&referenceNo&"', "&invoice&", "&receivable&", "&balance&", ctod(["&systemDate&"]), '"&arStatus&"')"

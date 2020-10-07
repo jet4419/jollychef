@@ -393,7 +393,10 @@
     // })
 
     // Delete Modal
-    $(document).on("click", ".deleteProduct", function() {
+    $(document).on("click", ".deleteProduct", function(event) {
+        
+        event.preventDefault();
+
         let productID = $(this).attr("id");
         //console.log(arID)
         $.ajax({
@@ -411,7 +414,10 @@
     }); 
 
      //Delete Product
-    $(document).on('click', '#btnDeleteProduct', function(){
+    $(document).on('click', '#btnDeleteProduct', function(event){
+
+        event.preventDefault();
+        
         let result = confirm("Are you sure to delete?");
 
         if(result) {

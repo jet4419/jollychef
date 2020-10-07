@@ -356,52 +356,7 @@
         ]
     });
 
-    // Edit Transaction
-    $(document).on("click", ".updateTransaction", function() {
-        let collectionID = $(this).attr("id");
-        //console.log(arID)
-        $.ajax({
-
-            url: "t_edit_transaction.asp",
-            type: "POST",
-            data: {collectionID: collectionID},
-            success: function(data) {
-                $("#collect_details").html(data);
-                $("#editProduct").modal("show");
-
-            }
-
-        });
-
-    }); 
-    // End of Edit Transaction
-
-    // Edit Transaction
-    //     $(document).on("click", ".updateTransaction", function() {
-    //         let collectID = $(this).attr("id");
-    //         $.ajax({
-
-    //         url: "t_edit_transaction2.asp",
-    //         type: "POST",
-    //         data: {collectID: collectID},
-    //         success: function(data) {
-    //             $("#daterange_modal_body").html(data);
-    //             $("#date_transactions").modal("show");
-    //         }
-    //     })    
-    // }) // End of Edit Transaction 
-
 }); 
-
-function edit_transact(collectID, custID, referenceNo) {
-    let isEdit = confirm("Are you sure to update this Reference No: "+referenceNo);
-	
-    if (isEdit) {
-        window.location.href='t_edit_transaction2.asp?collectID='+collectID+"&custID="+custID+"&ref_no="+referenceNo;
-    }
-		
-	
-}
 
 
 </script>

@@ -207,12 +207,13 @@
             }
 
         </style>
-        <!--<script type="text/javascript" >
+        
+        <script type="text/javascript" >
         function preventBack(){window.history.forward();}
             setTimeout("preventBack()", 0);
             window.onunload=function(){null};
         </script>
-        -->
+ 
     </head>
 
     <%
@@ -662,7 +663,7 @@ $(document).ready( function () {
     //     e.preventDefault();
     // });
 
-    $(document).on("click", "#myBtn", function() {
+    $(document).on("click", "#myBtn", function(event) {
 
         var valid = this.form.checkValidity();
 
