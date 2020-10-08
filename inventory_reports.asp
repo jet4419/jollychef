@@ -92,7 +92,7 @@
             -->
             <h1 class="h2 text-center my-3 main-heading"> <strong>Inventory Reports</strong> </h1>
             
-            <% rs.Open "SELECT prod_id, prod_brand, prod_name, orig_price, price, qty  FROM products WHERE category='drinks' or category= 'others'", CN2 %>
+            <% rs.Open "SELECT prod_id, prod_brand, prod_name, orig_price, price, qty  FROM products WHERE fix_menu='yes'", CN2 %>
 
             <%
  

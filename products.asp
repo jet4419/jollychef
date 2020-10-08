@@ -195,7 +195,7 @@
                                 </div>
                                 
                                 <div class="form-group mt-3">
-                                    <label class="form-label" style="font-weight: 500" for="particulars">Set as default for the daily menu? </label>
+                                    <label class="form-label" style="font-weight: 500" for="particulars">Track this on inventory report? </label>
                                     <div class="form-check form-check-inline ml-2">
                                         <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu1" value="yes" required>
                                         <label class="form-check-label" for="isFixMenu1">Yes</label>

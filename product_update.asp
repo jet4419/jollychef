@@ -65,7 +65,7 @@
     </div>
 
     <div class="form-group mt-3">
-        <label class="form-label" style="font-weight: 500" for="particulars">Set as default for the daily menu? </label>
+        <label class="form-label" style="font-weight: 500" for="particulars">Track this on inventory report? </label>
 
         <% if fixMenu = "yes" then %>
             <div class="form-check form-check-inline ml-2">
