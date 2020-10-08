@@ -235,11 +235,21 @@
                         %>
 
                         <tr>
+                            <% transactDate = FormatDateTime(CDate(rs("date")), 2)%>
                             <td class="text-darker"><%Response.Write(rs("ref_no"))%></td> 
-                            <td class="text-darker"><%Response.Write(rs("invoice_no"))%></td> 
+
+                            <%if Trim(rs("payment").value) = Trim("Credit") then%>
+                                <td class="text-darker">
+                                    <a class="text-info" target="_blank" href='ob_invoice_records.asp?invoice=<%=rs("invoice_no")%>&date=<%=transactDate%>'><%=rs("invoice_no")%>
+                                </td> 
+                            <%else%>
+                                <td class="text-darker">
+                                    <a class="text-info" target="_blank" href='receipt.asp?invoice=<%=rs("invoice_no")%>&date=<%=transactDate%>'><%=rs("invoice_no")%>
+                                </td>
+                            <%end if%>    
+
                             <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
-                            <% d = CDate(rs("date"))%>
-                            <td class="text-darker"><%Response.Write(FormatDateTime(d,2))%></td> 
+                            <td class="text-darker"><%Response.Write(transactDate)%></td> 
                             <td class="text-darker">
                                 <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("amount"))%>
                             </td>
