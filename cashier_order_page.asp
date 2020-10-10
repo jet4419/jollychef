@@ -787,6 +787,14 @@
     <%else%>   
         <body class="closed">     
         <%if currDate = dateClosed then%>
+            <a href="#">
+                <span class='unlock' data-toggle="modal" data-target="#confirmOpenStore">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </a>
+            <a href="canteen_homepage.asp"> 
+                <i class="fas fa-home home-link"></i> 
+            </a>
             <p class='center cursive'>Sorry :( , We're CLOSED</p>
         <%else%>
 
@@ -807,6 +815,14 @@
 <%else%>
 
     <body class="closed">
+        <a href="#">
+            <span class='unlock' data-toggle="modal" data-target="#confirmOpenStore">
+                <i class="fas fa-lock"></i>
+            </span>
+        </a>
+        <a href="canteen_homepage.asp"> 
+            <i class="fas fa-home home-link"></i> 
+        </a>
         <p class='center cursive'>Sorry :( , We're CLOSED</p>
     </body>
 
