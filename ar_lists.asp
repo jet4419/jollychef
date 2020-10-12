@@ -162,6 +162,10 @@
                 flex-wrap: wrap;
             }
 
+            .form-group {
+                margin-bottom: 10px !important;
+            }
+
         </style>
         <!--
         <script type="text/javascript" >
@@ -295,7 +299,7 @@
         <div class="container pb-3 mb-5">
 
             <div class="users-info mb-1">
-                <h1 class="h3 text-center main-heading my-0"> <strong><span class="order_of">Receivables of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
+                <h1 class="h3 text-center main-heading my-0"> <strong><span class="order_of">Credits of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
                 <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
                 
             </div>
@@ -379,15 +383,15 @@
 
                 
 
-                <div class="total-payment-container mt-2">
+                <div class="total-payment-container">
 
                     <div class="item item-left form-group ">
-                        <label class="total-text">Reference No</label>
+                        <span class="total-text">Reference No</span>
                         <input class="form-control form-control-sm" style="color: #e43f5a; font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
                     </div>
                     
                     <div class="item item-left form-group">
-                        <span class="total-text form-group col-6 pl-0">Sub Total
+                        <span class="total-text">Sub Total
                             <span class="text-primary">&#8369;</span>
                         </span>
                         <input class="input-total form-control form-control-sm" type="number" name="total" value="0" step="any" min="0.1" max="0" id="total" required data-readonly/>
