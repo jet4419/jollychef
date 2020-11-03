@@ -7,7 +7,7 @@
         <title>Products</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="css/grid.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -40,10 +40,6 @@
                 justify-content: space-between;
                 align-items: center;
             }
-
-            .btn-invi {
-                opacity: 0;
-            }
         </style>
     </head>
     <%
@@ -68,21 +64,22 @@
     <div class="container mb-5">
 
         <h1 class="main-heading--container h1 text-center mt-2 mb-4 pt-3"> 
-            <button type="button" id="btnAddProduct" class="btn btn-outline-dark float-left btn-invi" data-toggle="modal" data-target="#addProduct"> 
+            <button type="button" id="btnAddProduct" class="btn btn-outline-dark float-left" data-toggle="modal" data-target="#addProduct"> 
                 <i class="fas fa-plus-circle pr-1"></i> <span> Add Product </span> 
             </button> 
-            <span class="pr-5 main-heading"><strong>Daily Menu List</strong></span> 
-            <a href="daily_menu_add.asp" id="btnAddDailyMeal" class="btn btn-outline-dark float-right">
-                <i class="fas fa-plus-circle pr-1"></i> Add Meal
+            <span class="pr-5 main-heading"><strong>Products</strong></span> 
+            <a href="daily_menu_list.asp" id="btnAddDailyMeal" class="btn btn-outline-dark float-right">
+                Menu List
             </a>
         </h1>
 
-        <% rs.Open "SELECT prod_id, prod_brand, prod_name, prod_price, category, qty FROM daily_meals ORDER BY prod_brand, prod_name", CN2 %>
+        <% rs.Open "SELECT prod_id, prod_brand, prod_name, orig_price, price, category, qty FROM products", CN2 %>
 
         <table class="table table-hover table-bordered table-sm" id="myTable">
             <thead class="thead-dark">
                 <th>Brand Name</th>
                 <th>Product Name</th>
+                <th>Original Price</th>
                 <th>Sale Price</th>
                 <th>Category</th>
                 <th>Quantity</th>
@@ -101,7 +98,11 @@
                     </td> 
 
                     <td class="text-darker">
-                        <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("prod_price"))%>
+                        <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("orig_price"))%>
+                    </td> 
+
+                    <td class="text-darker">
+                        <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("price"))%>
                     </td> 
 
                     <td class="text-darker">
@@ -113,8 +114,11 @@
                     </td>  
 
                     <td>
-                        <button type="button" id="<%=rs("prod_id")%>" class="btn btn-sm btn-danger mb-2 deleteProduct"  data-toggle="modal" data-target="#deleteProductModal">
+                        <button type="button" id="<%=rs("prod_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct" style="max-width: 50px;" data-toggle="modal" data-target="#deleteProductModal" disabled>
                             <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button type="button" id="<%=rs("prod_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 updateProduct" style="max-width: 50px;" data-toggle="modal" data-target="#editProduct">
+                            <i class="fas fa-edit"></i>
                         </button>
                     </td>
                 </tr>
@@ -143,7 +147,7 @@
                         </div>
                         <div class="modal-body pb-0">
                             <!-- Modal Body (Contents) -->
-                            <form action="bootProductAdd.asp" class="form-group mb-3" method="POST">
+                            <form action="product_add.asp" class="form-group mb-3" method="POST">
 
                                 <div class="form-group mb-1">    
                                     <label class="ml-1" style="font-weight: 500"> Brand Name </label>
@@ -191,7 +195,7 @@
                                 </div>
                                 
                                 <div class="form-group mt-3">
-                                    <label class="form-label" style="font-weight: 500" for="particulars">Set as default for the daily menu? </label>
+                                    <label class="form-label" style="font-weight: 500" for="particulars">Track this on inventory report? </label>
                                     <div class="form-check form-check-inline ml-2">
                                         <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu1" value="yes" required>
                                         <label class="form-check-label" for="isFixMenu1">Yes</label>
@@ -201,7 +205,8 @@
                                         <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu2" value="no">
                                         <label class="form-check-label" for="isFixMenu2">No</label>
                                     </div>
-                                </div>    
+                                </div> 
+                                   
                         
                         </div>
                                 <div class="modal-footer">
@@ -218,7 +223,7 @@
         <div class="modal fade" id="editProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form action="bootProductsUpdate2.asp" class="form-group mb-3" id="updateForm" method="POST">
+                    <form action="product_update2.asp" class="form-group mb-3" id="updateForm" method="POST">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"> Edit Product <i class="icon-shopping-cart"></i></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -246,7 +251,7 @@
                 <div class="modal-content">
                     <form class="form-group mb-3" id="deleteForm" method="POST">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"> Delete Menu <i class="icon-shopping-cart"></i></h5>
+                        <h5 class="modal-title" id="exampleModalLabel"> Delete Product <i class="icon-shopping-cart"></i></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -266,12 +271,18 @@
         </div> 
       <!-- END OF Update User MODAL -->    
         </div>
-        
-<!-- FOOTER -->
+    <footer class="footer">
+        <p> <span class="copyright"> All rights reserved &copy </span> <script>document.write(new Date().getFullYear())</script> </p>
+        <p>Feel free to contact me via email at:<span class="email">curiosojet@gmail.com</span></p>
 
-<!--#include file="footer.asp"-->
+        <div class="footer__social-media">
+            <a href="https://twitter.com/devjet04" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.facebook.com/DevJet04" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
 
-<!-- End of FOOTER -->
+        </div>
+
+    </footer>
 
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">
@@ -333,8 +344,7 @@
     $('#myTable').DataTable({
         scrollY: "45vh",
         scroller: true,
-        scrollCollapse: true,
-        "order": [],
+        scrollCollapse: true
     });
 
 
@@ -350,7 +360,7 @@
     //     let category = $("#particulars").val();
 
     //     $.ajax({
-    //         url: "bootProductAdd.asp",
+    //         url: "product_add.asp",
     //         type: "post",
     //         data: {brandName: brandName, productName: productName, price: price, origPrice: origPrice, qty: qty, category: category},
     //         success: function(data) {
@@ -363,12 +373,15 @@
     // });
 
     // Edit Product
-    $(document).on("click", ".updateProduct", function() {
+    $(document).on("click", ".updateProduct", function(event) {
+
+        event.preventDefault();
+
         let productID = $(this).attr("id");
         //console.log(arID)
         $.ajax({
 
-            url: "bootProductsUpdate.asp",
+            url: "product_update.asp",
             type: "POST",
             data: {productID: productID},
             success: function(data) {
@@ -397,14 +410,14 @@
 
     // Delete Modal
     $(document).on("click", ".deleteProduct", function(event) {
-        
+
         event.preventDefault();
 
         let productID = $(this).attr("id");
         //console.log(arID)
         $.ajax({
 
-            url: "daily_menu_del.asp",
+            url: "product_del.asp",
             type: "POST",
             data: {productID: productID},
             success: function(data) {
@@ -420,16 +433,16 @@
     $(document).on('click', '#btnDeleteProduct', function(event){
 
         event.preventDefault();
-        
-        let result = confirm("Are you sure to delete?");
+
+        let result = confirm("Want to delete?");
 
         if(result) {
             $.ajax({
-                url: "daily_menu_del2.asp",
+                url: "product_del2.asp",
                 type: "POST",
                 data: $("#deleteForm").serialize(),
                 success: function(data) {
-                    alert("Meal Deleted Successfully!");
+                    alert("Product Deleted Successfully!");
                     $("#deleteProductModal").modal("hide");
                     location.reload();
                 }

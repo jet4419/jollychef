@@ -333,7 +333,7 @@
         transferDate2 = CStr(p_end_date)
     %>
 
-<div id="main">
+<div id="main" class="mb-5">
     <!-- Dates Container -->
     <input type="text" name="startDate" id="startDate" value="<%=transferDate1%>" hidden>
     <input type="text" name="endDate" id="endDate" value="<%=transferDate2%>" hidden>
@@ -361,7 +361,7 @@
                 <div class="users-info--divider">
                     <span class="p-0 m-0 d-block">
                         <strong>Adjustments</strong>
-                        <button class="btn btn-sm btn-adjustment btn-adjustment-plus" id="<%=rs("cust_id")%>" title="Adjustment plus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_plus">
+                        <button class="btn btn-success btn-sm btn-adjustment btn-adjustment-plus" id="<%=rs("cust_id")%>" title="Adjustment plus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_plus">
                             <i class="fas fa-plus"></i>
                         </button>
                         <button class="btn btn-sm btn-adjustment btn-adjustment-minus" id="<%=rs("cust_id")%>" title="Adjustment minus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_minus">
@@ -518,6 +518,13 @@
     </div>
 
 </div>
+
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
+
     <!-- Date Range of Transactions -->
         <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

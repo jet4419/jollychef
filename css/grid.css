@@ -1,7 +1,7 @@
 body {
   font-family: 'Montserrat', sans-serif;
-  /* letter-spacing: 1px; */
-  /* color: #fff; */
+  display: grid;
+  grid-template-rows: 50px ifr 100px;
 }
 
 a:hover,
@@ -47,8 +47,8 @@ a:focus {
   left: 0;
   background: #438a5e;
   transition: 0.5s;
-  overflow-x: hidden;
-  padding-top: 50px;
+  overflow: hidden;
+  padding-top: 35px;
 
   white-space: nowrap;
 }
@@ -56,12 +56,13 @@ a:focus {
 .sidebar .main-menus--items {
   /* padding: 8px 8px 8px 32px; */
   padding-left: 13px;
-  padding-bottom: 30px;
+  padding-bottom: 25px;
   text-decoration: none;
   font-size: 16px;
   color: #f6f6f6;
   display: block;
   transition: all 0.3s;
+  cursor: pointer;
 }
 
 .sidebar #customer-menus--items {
@@ -78,8 +79,14 @@ a:focus {
   transition: all 0.3s;
 }
 
-.sidebar .main-menus--items:hover {
+.sidebar .main-menus--items:hover,
+.sidebar-label:hover {
   color: #363f4d;
+}
+
+.sidebar-label {
+  margin: 0;
+  color: #f6f6f6;
 }
 
 #main .sidebar {
@@ -88,6 +95,105 @@ a:focus {
   right: 25px;
   font-size: 16px;
   margin-left: 50px;
+}
+
+.sidebar-icons,
+.icon-text {
+  vertical-align: middle;
+}
+
+.icon-text {
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.sidebar-icons {
+  padding-bottom: 3px;
+  width: 60px;
+  font-size: 20px;
+  padding-left: 2px;
+}
+
+.cart-icon {
+  padding-left: 0;
+}
+
+.dollar-sign {
+  padding-left: 6px;
+}
+
+.reports-icon {
+  padding-left: 2px;
+}
+
+a.main-menus--items.customers-icon {
+  padding-left: 10px;
+}
+
+.container p.display-4.text-center {
+  font-size: 3rem;
+}
+
+.checkbox,
+.checkbox-customers,
+.checkbox-add-customer,
+.checkbox-receivables {
+  display: none;
+}
+
+.checked-items,
+.checked-items--customers,
+.checked--add-customers,
+.checked-items--receivables {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s;
+  padding-left: 20px;
+}
+
+.checked-items a,
+.checked-items--customers a,
+.checked--add-customers a,
+.checked-items--receivables a {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  padding-left: 55px;
+  margin-bottom: 15px;
+  position: relative;
+  color: #f4f4f4;
+}
+
+.checked-items a:hover,
+.checked-items--customers a:hover,
+.checked--add-customers a:hover,
+.checked-items--receivables a:hover {
+  text-decoration: none;
+  color: #363f4d;
+}
+
+.checkbox:checked ~ .checked-items,
+.checkbox-customers:checked ~ .checked-items--customers,
+.checkbox-add-customer:checked ~ .checked--add-customers,
+.checkbox-receivables:checked ~ .checked-items--receivables {
+  max-height: 30rem;
+}
+
+#main {
+  padding: 16px;
+  margin-left: 50px;
+  margin-top: 50px;
+  transition: margin-left 0.5s;
+  height: calc(100vh - 50px);
+  /* display: flex;
+      justify-content: center;
+      align-items: center; */
+  position: relative;
+}
+
+.main--main-page {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url('../img/home-bg.jpg') no-repeat center/ cover;
 }
 
 .home-main-heading {
@@ -109,7 +215,7 @@ a:focus {
 .home-main-heading--text-1 {
   font-size: 6rem;
   font-weight: 400;
-  animation: popupDelay 1.3s ease-in 1s;
+  animation: popupDelay 1.3s ease-in 0.5s;
   animation-fill-mode: backwards;
 }
 
@@ -117,90 +223,12 @@ a:focus {
   font-size: 2.3rem;
   font-weight: 400;
   font-family: 'Courier New', Courier, monospace;
-  animation: popupDelay 1.7s ease-in 1.5s;
+  animation: popupDelay 1.7s ease-in 1s;
   animation-fill-mode: backwards;
   color: #eee;
 }
 
-.sidebar-icons,
-.icon-text {
-  vertical-align: middle;
-}
-
-.icon-text {
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.sidebar-icons {
-  padding-bottom: 3px;
-  width: 60px;
-  font-size: 20px;
-  padding-left: 2px;
-}
-
-.dollar-sign {
-  padding-left: 7px;
-}
-
-.cart-icon {
-  padding-left: 0px;
-}
-
-.reports-icon {
-  padding-left: 2px;
-}
-
-.checkbox {
-  display: none;
-}
-
-.checked-items {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s;
-  padding-left: 20px;
-}
-
-.checked-items a {
-  display: block;
-  font-size: 14px;
-  font-weight: 400;
-  padding-left: 55px;
-  margin-bottom: 15px;
-  position: relative;
-  color: #f4f4f4;
-}
-
-.checked-items a:hover {
-  text-decoration: none;
-  color: #363f4d;
-}
-
-.checkbox:checked ~ .checked-items {
-  max-height: 30rem;
-}
-
-#main {
-  padding: 16px;
-  margin-left: 50px;
-  margin-top: 50px;
-  transition: margin-left 0.5s;
-
-  height: calc(100vh - 50px);
-  /* display: flex;
-	justify-content: center;
-	align-items: center; */
-  position: relative;
-}
-
-.main--main-page {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('../img/home-bg.jpg') no-repeat center/ cover;
-}
-
 #reports-container {
-  cursor: pointer;
   margin: 0;
 }
 
@@ -224,9 +252,11 @@ a:focus {
 .user-profile-pic {
   width: 35px;
   height: 35px;
+  /*
+      background-color: #438a5e;
+      */
   /*background-color: #336d88;*/
-  /* background-color: #438a5e; */
-  background-color: #228e4b;
+  background-color: #438a5e;
   margin-right: 10px;
   display: flex;
   justify-content: center;
@@ -258,15 +288,16 @@ a:focus {
 
 .user-logout-btn:hover {
   cursor: pointer;
-  /* background-color: #007bff; */
   color: #f4ea8e;
+  /* background-color: #007bff; */
+  /* color: salmon;   */
 }
 
 /* .user-logout-btn:focus{background-color:red;} */
 /* 
-.fa-sign-out-alt:hover {
-    color: salmon;
-} */
+  .fa-sign-out-alt:hover {
+      color: salmon;
+  } */
 
 .logout-container {
   background-color: #000;
@@ -307,7 +338,7 @@ a:focus {
 .user-photo {
   height: 3rem;
   width: 3rem;
-  background-color: salmon;
+  background-color: #f2aa4cff;
   border-radius: 50%;
   display: flex;
   flex-direction: column;

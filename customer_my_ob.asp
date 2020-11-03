@@ -248,6 +248,7 @@
             </table>
         </div>    
     </div> 
+    
 
     <!-- Date Range of Transactions -->
             <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -304,6 +305,12 @@
         <!-- End of Date Range of Sales -->
 
 </div>
+
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
 
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">

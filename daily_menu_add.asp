@@ -128,11 +128,11 @@
         CN2.close
     %>
 
-    
+<!-- FOOTER -->
 
-      <footer class="footer text-white text-center p-5" style="background-color: #252f3a;">
-        <span class=".lead">Email: curiosojet@gmail.com  &nbsp;&nbsp; <span class="text-danger">&copy <script>document.write(new Date().getFullYear())</script> </span> All rights reserved. </span>
-      </footer>
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
 
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">

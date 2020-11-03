@@ -305,7 +305,7 @@
         transferDate2 = CStr(p_end_date)
     %>
 
-<div id="main">
+<div id="main" class="mb-5">
     <!-- Dates Container -->
     <input type="text" name="startDate" id="startDate" value="<%=transferDate1%>" hidden>
     <input type="text" name="endDate" id="endDate" value="<%=transferDate2%>" hidden>
@@ -563,25 +563,25 @@
     <div class="modal-dialog" role="document">
         <form action="login_authentication.asp" method="POST">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                <div class="modal-header">
+                    <h5 class="modal-title">Customer Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
+                </div>
             </div>
         </form>
     </div>
@@ -593,24 +593,30 @@
     <div class="modal-dialog" role="document">
         <form action="canteen_logout.asp">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Logout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to logout?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
+                </div>
             </div>
         </form>
     </div>
 </div>  
 <!-- End of Logout -->
+
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
 
 <script src="js/main.js"></script> 
 <script>  

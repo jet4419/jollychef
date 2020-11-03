@@ -17,6 +17,14 @@
         <script src="./jquery/jquery_uncompressed.js"></script>
         <!-- Bootstrap JS -->
         <script src="./bootstrap/js/bootstrap.min.js"></script>
+
+        <style>
+
+            .container-rounded { border-radius: 1rem;}
+            
+
+        </style>
+
     </head>
    
 <body>
@@ -46,7 +54,7 @@
 
     <div class="container mb-5 pt-5">
 
-        <div class="container border rounded" style="max-width: 500px;">
+        <div class="container border container-rounded" style="max-width: 500px; background: #eee;">
             <h3 class="text-center pt-3 m-0">Employees </h3>
             <h3 class="text-center pt-1 pb-3">Registration </h3>
             <form action="customer_registration_c.asp" method="POST">
@@ -80,16 +88,23 @@
                 <div class="form-group mb-3">
                     <input type="text" name="department" class="form-control form-control-sm" placeholder="Department">
                 </div>
-        
-         
-                <input type="submit" name="btnRegister" value="Register" class="btn btn-success btn-block mb-2">
-                
+
+                <div class="d-flex justify-content-center">
+                    <input type="submit" name="btnRegister" value="Register" class="btn btn-success mb-2">
+                </div>
+
             </form>
             
         </div>
 
     </div>
 </div>
+
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
 
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">

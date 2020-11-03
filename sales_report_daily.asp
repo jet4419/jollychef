@@ -290,6 +290,12 @@
     </div>
 </div>
 
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
+
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">

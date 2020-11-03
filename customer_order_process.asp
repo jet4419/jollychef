@@ -853,6 +853,16 @@
             <!-- END OF CREDIT PAY MODAL -->
 
             </div>
+
+</div>
+
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
+            
+            
     <%else%>   
         <body class="closed">     
         <%if systemDate = dateClosed then%>
@@ -865,9 +875,11 @@
             </a>
             <p class='center cursive'>Sorry :( , We're CLOSED</p>
         <%end if%>
-        </div>
+        
         </body>
     <%end if%>
+
+    
 <%else%>
     <body class="closed">
         <p class='center cursive'>Sorry :( , We're CLOSED</p>

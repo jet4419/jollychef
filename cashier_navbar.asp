@@ -7,10 +7,19 @@
 
 <style>
 
+    button.btn-end-date {
+        font-weight: 700;
+    }
+
+    .nav {
+        font-family: Verdana, Geneva, sans-serif;
+    }
+
     .navbar-date {
         margin-right: 13px;
         font-size: .90rem;
-        color: #ccc;
+        font-weight: 600;
+        color: #fff;
     }
 
     .fas.fa-calendar-check {
@@ -21,7 +30,7 @@
 
     .brand-name {
         color: #fff;
-        font-family: 'Merienda', cursive;
+        font-family: 'Merienda', 'Brush Script MT', cursive;
     }
 
     .brand-name a {
@@ -30,11 +39,12 @@
     }
 
     .jollychef-text {
-        color: #f4ea8e;
+        /* color: #f4ea8e; */
+        color: #fff490;
     }
 
     .navbar--user-info {
-        color: #eee;
+        color: #fff;
         font-family: Helvetica;
         padding-top: 5px;
     }
@@ -66,10 +76,10 @@
             Dim cutoff
             
             if (Month(systemDate) <> Month(systemDate + 1)) then
-                cutoff = "<div class='mr-5 pr-5' ><button class='btn btn-sm btn-danger float-right' onClick='monthEnd()'>Month End</button></div>"
+                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-danger float-right' onClick='monthEnd()'>Month End</button></div>"
 
             else
-                cutoff = "<div class='mr-5 pr-5' ><button class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirmDayEnd'>Day End</button></div>"
+                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-danger' data-toggle='modal' data-target='#confirmDayEnd'>Day End</button></div>"
             end if
         %>
 

@@ -97,146 +97,154 @@
 
     <div id="content">
 
-    <div class="container mb-5  ">
+        <div class="container mb-5  ">
 
-        <div class="mt-3 mb-4 d-flex justify-content-between">
-            <form action="ar_reports.asp" method="POST" id="allData" class="">
-                
-                <label>Start Date</label>
-                <input class="form-control form-control-sm d-inline col-2" name="startDate" id="startDate" type="date" required> 
-            
-                <label class="ml-3">End Date&nbsp;</label>
-                <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date"> 
-                
-                <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate Report</button>
-            </form>
-            <p></p>
-        </div>
-
-        <h2 class="h2 text-center mb-4 main-heading"> <strong> Accounts Receivables </strong> </h2>
-
-        <%
- 
-            Response.Write("<p><strong> Date Range: </strong>")
-            Response.Write(displayDate1 & " - ")
-            Response.Write(displayDate2)
-                
-        %>
-
-        <table class="table table-hover table-bordered table-sm" id="myTable">
-            <thead class="thead-dark">
-                <th>Customer ID</th>
-                <th>Customer Name</th>
-                <th>Department</th>
-                <th>Invoice No</th>
-                <th>Date Credited</th>
-                <th>Total Receivable</th>
-               
-            </thead>
-
-        <%
-            Dim fs
-            set fs=Server.CreateObject("Scripting.FileSystemObject")
-
-            mainPath = CStr(Application("main_path"))
-
-            for i=0 to monthsDiff
-
-                monthLength = Month(DateAdd("m",i,queryDate1))
-                if Len(monthLength) = 1 then
-                    monthPath = "0" & CStr(Month(DateAdd("m",i,queryDate1)))
-                else
-                    monthPath = Month(DateAdd("m",i,queryDate1))
-                end if
-
-                yearPath = Year(DateAdd("m",i,queryDate1))
-
-                arFile = "\accounts_receivables.dbf"
-                folderPath = mainPath & yearPath & "-" & monthPath
-                arPath = folderPath & arFile
-
-                Do 
-
-                    if fs.FolderExists(folderPath) <> true then EXIT DO
-                    if fs.FileExists(arPath) <> true then EXIT DO
-
-                    rs.Open "SELECT * FROM "&arPath&" WHERE date_owed BETWEEN CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') and duplicate!='yes' ", CN2
-        %>
-
-                    <%do until rs.EOF%>
-                    <tr>
-                        <% d = CDate(rs("date_owed"))%>
-                        <td class="text-darker"><%Response.Write(rs("cust_id"))%></td>   
-                        <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
-                        <td class="text-darker"><%Response.Write(rs("cust_dept"))%></td> 
-                        <td class="text-darker"><%Response.Write(rs("invoice_no"))%></td> 
-                        <td class="text-darker"><%Response.Write(FormatDateTime(d,2))%></td>
-                        <td class="text-darker"><%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("receivable"))%></td> 
-                        
-                    <%rs.MoveNext%>
-                    </tr>
-                    <%loop%>
-
-                <%rs.close
-                Loop While False  
+            <div class="mt-3 mb-4 d-flex justify-content-between">
+                <form action="ar_reports.asp" method="POST" id="allData" class="">
                     
-            next%>       
-        </table>
-    </div> 
+                    <label>Start Date</label>
+                    <input class="form-control form-control-sm d-inline col-2" name="startDate" id="startDate" type="date" required> 
+                
+                    <label class="ml-3">End Date&nbsp;</label>
+                    <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date"> 
+                    
+                    <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate Report</button>
+                </form>
+                <p></p>
+            </div>
 
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
-            </div>
-        </form>
-    </div>
+            <h2 class="h2 text-center mb-4 main-heading"> <strong> Accounts Receivables </strong> </h2>
+
+            <%
+    
+                Response.Write("<p><strong> Date Range: </strong>")
+                Response.Write(displayDate1 & " - ")
+                Response.Write(displayDate2)
+                    
+            %>
+
+            <table class="table table-hover table-bordered table-sm" id="myTable">
+                <thead class="thead-dark">
+                    <th>Customer ID</th>
+                    <th>Customer Name</th>
+                    <th>Department</th>
+                    <th>Invoice No</th>
+                    <th>Date Credited</th>
+                    <th>Total Receivable</th>
+                
+                </thead>
+
+            <%
+                Dim fs
+                set fs=Server.CreateObject("Scripting.FileSystemObject")
+
+                mainPath = CStr(Application("main_path"))
+
+                for i=0 to monthsDiff
+
+                    monthLength = Month(DateAdd("m",i,queryDate1))
+                    if Len(monthLength) = 1 then
+                        monthPath = "0" & CStr(Month(DateAdd("m",i,queryDate1)))
+                    else
+                        monthPath = Month(DateAdd("m",i,queryDate1))
+                    end if
+
+                    yearPath = Year(DateAdd("m",i,queryDate1))
+
+                    arFile = "\accounts_receivables.dbf"
+                    folderPath = mainPath & yearPath & "-" & monthPath
+                    arPath = folderPath & arFile
+
+                    Do 
+
+                        if fs.FolderExists(folderPath) <> true then EXIT DO
+                        if fs.FileExists(arPath) <> true then EXIT DO
+
+                        rs.Open "SELECT * FROM "&arPath&" WHERE date_owed BETWEEN CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') and duplicate!='yes' ", CN2
+            %>
+
+                        <%do until rs.EOF%>
+                        <tr>
+                            <% d = CDate(rs("date_owed"))%>
+                            <td class="text-darker"><%Response.Write(rs("cust_id"))%></td>   
+                            <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
+                            <td class="text-darker"><%Response.Write(rs("cust_dept"))%></td> 
+                            <td class="text-darker"><%Response.Write(rs("invoice_no"))%></td> 
+                            <td class="text-darker"><%Response.Write(FormatDateTime(d,2))%></td>
+                            <td class="text-darker"><%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("receivable"))%></td> 
+                            
+                        <%rs.MoveNext%>
+                        </tr>
+                        <%loop%>
+
+                    <%rs.close
+                    Loop While False  
+                        
+                next%>       
+            </table>
+        </div> 
+    </div>        
 </div>
-<!-- End of Login -->
 
-<!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
+
+    <!-- Login -->
+    <div id="login" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form action="login_authentication.asp" method="POST">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Customer Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
+                </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>  
-<!-- End of Logout -->
+    <!-- End of Login -->
+
+    <!-- Logout -->
+    <div id="logout" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form action="canteen_logout.asp">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to logout?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>  
+    <!-- End of Logout -->
 
 <%
     'rs.close

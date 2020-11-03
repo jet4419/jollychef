@@ -193,10 +193,12 @@
     </div>  
     <!-- End of Logout -->
 </div>
-<!-- Page Footer -->
-<footer class="footer text-white text-center p-5">
-    <span class=".lead">Email: curiosojet@gmail.com  &nbsp;&nbsp; <span class="text-danger">&copy <script>document.write(new Date().getFullYear())</script> </span> All rights reserved. </span>
-</footer>
+
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
 
 <script src="js/main.js"></script> 
 <script>  

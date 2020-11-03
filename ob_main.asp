@@ -202,6 +202,14 @@
         </div>    
     </div>
 
+</div>
+
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
+
     <!-- Pay Debt -->
         <div class="modal fade" id="pay_debt_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">
@@ -254,8 +262,6 @@
                 </div>
             </div>
         <!-- End of Date Range of Transactions -->
-
-</div>
 
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">

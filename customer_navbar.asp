@@ -4,7 +4,8 @@
     .navbar-date {
         margin-right: 40px;
         font-size: .90rem;
-        color: #ccc;
+        color: #fff;
+        font-weight: 600;
     }
 
     .fas.fa-calendar-check {
@@ -15,7 +16,7 @@
 
     .brand-name {
         color: #fff;
-        font-family: 'Merienda', cursive;
+        font-family: 'Merienda', 'Brush Script MT', cursive;
     }
 
     .brand-name a {
@@ -24,7 +25,8 @@
     }
 
     .jollychef-text {
-        color: #f4ea8e;
+        /* color: #f4ea8e; */
+        color: #fff490;
     }
 
     .navbar--user-info {

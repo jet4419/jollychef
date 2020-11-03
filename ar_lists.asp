@@ -290,7 +290,7 @@
 
         <%if custID<>0  then%>
 
-<div id="main" class="mt-4 pt-4">
+<div id="main" class="mt-4 pt-4 mb-5">
 
     <!--
     <h1 class="h1 text-center my-4 main-heading"> <strong><'%=custFullName&"'s"%> Receivable Lists</strong> </h1>
@@ -424,6 +424,13 @@
     <%end if%>
 
 </div>
+
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
+
     <!-- Date Range of Transactions -->
         <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
