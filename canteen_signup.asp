@@ -10,6 +10,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
     <!-- Bootstrap JS -->
+    <script src="./jquery/jquery_uncompressed.js"></script>
     <script src="./bootstrap/js/bootstrap.min.js"></script>
     <title>Canteen Sign Up Page</title>
 
@@ -39,106 +40,14 @@
             font-weight: 500;
         }
 
+        .warning-border { border-color: red !important; }
+
     </style>
 
 </head>
 <body>
 
-<%
 
-    if Session("name")="" then
-        Response.Redirect("canteen_homepage.asp")
-    end if
-
-    if ASC(Session("type")) <> ASC("programmer") then 
-        Response.Redirect("canteen_homepage.asp")    
-    end if
-
-    btnSignup = Request.Form("btn-signup")
-    firstName = Trim(Request.Form("fname"))
-    firstName = Ucase(Left(firstName, 1)) & Mid(firstName, 2)
-
-    lastName = Trim(Request.Form("lname"))
-    lastName = Ucase(Left(lastName, 1)) & Mid(lastName, 2)
-
-    userEmail = Trim(Request.Form("email"))
-    userPassword = Trim(Request.Form("password1"))
-    confirmPassword = Trim(Request.Form("password2"))
-    userType = Trim(Request.Form("user-type"))
-    isValid = true
-
-    if userPassword<>confirmPassword then
-		Response.Write("<script language=""javascript"">")
-		Response.Write("alert('Password does not match!')")
-		Response.Write("</script>")
-        isValid=false
-        if isValid = false then
-            Response.Write("<script language=""javascript"">")
-            Response.Write("window.location.href=""canteen_signup.asp"";")
-            Response.Write("</script>")
-        end if
-	end if
-
-    If btnSignup<>"" then
-
-        rs.open "SELECT email FROM users WHERE email='"&userEmail&"'", CN2
-
-        if not rs.EOF then
-            
-            'if CStr(rs("email").value) = CStr(userEmail) then
-            
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Email already registered')")
-            Response.Write("</script>")
-            isValid = false
-            
-            if isValid = false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""canteen_signup.asp"";")
-                Response.Write("</script>")
-            end if
-            
-        end if
-
-        rs.close
-
-        if isValid = true then
-            rs.Open "SELECT MAX(id) FROM users;", CN2
-            do until rs.EOF
-                for each x in rs.Fields
-                    maxValue = x.value
-                next
-                rs.MoveNext
-            loop
-
-            maxValue= CInt(maxValue) + 1
-            id = maxValue
-
-            'Encryption of Password
-            salt = "2435uhu34hi34"
-            userPassword = sha256(userPassword&salt)
-            ' query
-            sqlAdd = "INSERT INTO users (id, first_name, last_name, email, password, user_type)"&_ 
-            "VALUES ("&id&", '"&firstName&"', '"&lastName&"','"&userEmail&"', '"&userPassword&"', '"&userType&"')"
-            set objAccess = cnroot.execute(sqlAdd)
-            set objAccess = nothing
-            rs.close
-            CN2.close
-
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Registered Successfully!')")
-            Response.Write("</script>")
-            registerSuccess = true
-                if registerSuccess = true then
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href=""canteen_homepage.asp"";")
-                    Response.Write("</script>")
-                end if
-        end if    
-        CN2.close
-    End If
-
-%>
 
     <main class="signup">
       
@@ -147,21 +56,23 @@
             </div>
 
             <div class="signup__body bg-white p-4 border rounded">
-                <form action="canteen_signup.asp" method="POST">
+                <form>
 
                     <div class="form-group d-flex justify-space-evenly">
-                    <input type="text" name="fname" id="fname" class="form-control form-control-sm " placeholder="First Name" required>
-                    <input type="text" name="lname" id="lname" class="form-control form-control-sm ml-3" placeholder="Last Name" required>
+                    <input type="text" name="fname" id="firstname" class="form-control form-control-sm " placeholder="First Name" required>
+                    <input type="text" name="lname" id="lastname" class="form-control form-control-sm ml-3" placeholder="Last Name" required>
                 </div>
                 
                 <div class="form-group">
                     <input type="email" name="email" id="email" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <span class="email-warning" style="color: red"></span>
                 </div>
 
                 <div class="form-group d-flex justify-space-evenly">
-                    <input type="password" name="password1" class="form-control form-control-sm"  placeholder="Password" required>
-                    <input type="password" name="password2" class="form-control form-control-sm ml-3"  placeholder="Confirm Password" required>
+                    <input type="password" name="password1" class="form-control form-control-sm"  placeholder="Password" id="password1" required>
+                    <input type="password" name="password2" class="form-control form-control-sm ml-3"  placeholder="Confirm Password" id="password2" required>
                 </div>
+                <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
 
                 <div class="form-group pb-3">
                     <label class="user-type">User Type</label>
@@ -174,7 +85,7 @@
                 </div>
 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-success" name="btn-signup" value="signup">Register</button>   
+                    <button type="submit" class="btn-main btn btn-success" name="btn-signup" value="signup">Register</button>   
                 </div>    
                 </form>
             </div>
@@ -183,5 +94,85 @@
         
     </main>
     
+<script>
+    
+    $('.btn-main').click(function(){
+
+        if($("form")[0].checkValidity()) {
+            //your form execution code
+        event.preventDefault();
+
+        let firstname = $("#firstname").val();
+        let lastname = $("#lastname").val();
+        let email = $("#email").val();
+        let password1 = $("#password1").val();
+        let password2 = $("#password2").val();
+        let userType = $("#user-type").val();
+
+        let emailWarning = "";
+        let passwordWarning = "";
+        const emailInput = document.querySelector("#email");
+        const passwordInput1 = document.querySelector("#password1");
+        const passwordInput2 = document.querySelector("#password2");
+        const emailWarningContainer = document.querySelector(".email-warning");
+        const passwordWarningContainer = document.querySelector(".password-warning");
+
+        //console.log(arID)
+            $.ajax({
+
+                url: "canteen_signup_c.asp",
+                type: "POST",
+                data: {
+                        firstname: firstname, lastname: lastname, email: email, password1: password1,
+                        password2: password2, userType: userType
+                },
+                success: function(data) {
+                    console.log(data, password1, password2)
+                    if (data==='invalid email') {
+                        emailWarning = "Email already exist"
+                        emailWarningContainer.innerHTML = emailWarning;
+                        emailInput.classList.add("warning-border");
+                        // emailInput.style.borderColor = "red";
+                        passwordWarningContainer.innerHTML = "";
+                        passwordInput1.classList.remove("warning-border");
+                        passwordInput2.classList.remove("warning-border");
+                    }
+
+                    else if (data === 'invalid password') {
+                        passwordWarning = "Password does not match";
+                        passwordWarningContainer.innerHTML = passwordWarning;
+                        passwordInput1.classList.add("warning-border");
+                        passwordInput2.classList.add("warning-border");
+                        emailWarningContainer.innerHTML = "";
+                        emailInput.classList.remove("warning-border");
+                    }
+
+                    else if (data === 'invalid email and password') {
+                        
+                        emailWarning = "Email already exist"
+                        emailWarningContainer.innerHTML = emailWarning;
+                        emailInput.classList.add("warning-border")
+
+                        passwordWarning = "Password does not match"
+                        passwordWarningContainer.innerHTML = passwordWarning;
+                        passwordInput1.classList.add("warning-border")
+                        passwordInput2.classList.add("warning-border")
+                    }
+
+                    else {
+                        alert("Registered successfully!");
+                        window.location.reload();
+                    }
+                    
+
+                }
+            })
+        }
+
+        else console.log("invalid form");
+    });
+
+</script>
+
 </body>
 </html>

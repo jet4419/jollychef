@@ -8,7 +8,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/login_page_styles.css">
         <title>Canteen Login Page</title>
+
+        <script src="./jquery/jquery_uncompressed.js"></script>
     </head>
+
+    
 <body>
 
 <!-- <%
@@ -30,17 +34,21 @@
             </div>
 
             <div class="login__body">
-                <form action="login_authentication.asp" method="POST" class="form-body">
+                <form class="form-body">
 
                     <div class="label-input-groups">
                         <label class="form-label" name="email" for="email">Email</label>
-                        <input class="form-inputs" type="email" name="email" id="email">
+                        <input class="form-inputs" type="email" name="email" id="email" required>
                     </div>
 
                     <div class="label-input-groups">
                         <label class="form-label" for="password">Password</label>   
-                        <input class="form-inputs" name="password" type="password" name="password" id="loginPassword">
+                        <input class="form-inputs" name="password" type="password" name="password" id="loginPassword" required>
+                        <span class="wrong-password-text" style="display: inline-block; padding-top: 10px; color: red; font-size: 11px; text-align: center;"></span>
+                        <!-- Sorry, your password was incorrect. Please double-check your password. -->
                     </div>
+                    
+                    
 
                     <button type="submit" class="btn-main btn-login-form" name="btn-login" value="login">Login</button>   
                 </form>
@@ -65,5 +73,52 @@ xhr.onload = () => {
 } 
 
 </script> -->
+<script>
+    
+    $('.btn-main').click(function(){
+
+        if($("form")[0].checkValidity()) {
+            //your form execution code
+        event.preventDefault();
+
+        let email = $("#email").val();
+        let password = $("#loginPassword").val();
+        let warningText = "";
+
+        //console.log(arID)
+            $.ajax({
+
+                url: "canteen_login_auth.asp",
+                type: "POST",
+                data: {email: email, password: password},
+                success: function(data) {
+                    
+                    console.log(data)
+                    if (data==='invalid email') {
+                        warningText = "Invalid Email"
+                        document.querySelector(".wrong-password-text").innerHTML = warningText;
+                    }
+
+                    else if (data==='True') {
+                        alert("Logged in successfully!");
+                        window.location.href = "canteen_homepage.asp";
+                    }
+
+                    else {
+                        warningText = "Sorry, your password was incorrect.";
+                        document.querySelector(".wrong-password-text").innerHTML = warningText;
+                    }
+                    
+
+                }
+            })
+        }
+
+        else console.log("invalid form");
+    });
+
+</script>
+
+
 </body>
 </html>

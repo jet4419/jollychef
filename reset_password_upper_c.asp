@@ -1,66 +1,64 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="sha256.asp"-->
 <%
-        btnReg = Request.Form("btnRegister")
+    Dim isValidEmail, isValidPassword
 
-        custEmail = Trim(Request.Form("custEmail"))
-        userPassword = Trim(Request.Form("password1"))
-        confirmPassword = Trim(Request.Form("password2"))
-        isValid = true
+    custEmail = Trim(Request.Form("email"))
+    userPassword = Trim(Request.Form("password1"))
+    confirmPassword = Trim(Request.Form("password2"))
+    isValid = true
 
-        if userPassword<>confirmPassword then
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Password does not match!')")
-            Response.Write("</script>")
-        isValid=false
-            if isValid = false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""reset_password_upper.asp"";")
-                Response.Write("</script>")
-            end if
-	    end if
+    rs.open "SELECT email FROM users WHERE email='"&custEmail&"'", CN2
+
+    if rs.EOF then
+
+        isValidEmail = false
+        Response.Write "invalid email"
+
+        if CStr(userPassword) <> CStr(confirmPassword) then
+            
+            Response.Write " and password"
+
+        end if
+
+    else
+
+        isValidEmail = true
+
+    end if 
+
+    rs.close
+
+    if isValidEmail = true then
+
+        if userPassword <> confirmPassword then
+            
+            isValidPassword = false
+
+            Response.Write "invalid password"
+
+        else
+
+            isValidPassword = true
+
+        end if
+
+    end if
 
 
 
-        If btnReg<>"" then
 
-        rs.open "SELECT email FROM users WHERE email='"&custEmail&"'", CN2
+    if isValidEmail = true and isValidPassword = true then
 
-        if rs.EOF then
+        'Encryption of Password
+        salt = "2435uhu34hi34"
+        userPassword = sha256(userPassword&salt)
 
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Can't find your account.')")
-            Response.Write("</script>")
-            isValid = false
-            if isValid = false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""reset_password_upper.asp"";")
-                Response.Write("</script>")
-            end if  
-        end if   
+        sqlUpdate = "UPDATE users SET password = '"&userPassword&"' WHERE email = '"&custEmail&"'"
+        cnroot.execute(sqlUpdate)
 
-        rs.close
+        Response.Write "password reset completed" 
 
-           if isValid = true then
+    end If
 
-
-            'Encryption of Password
-            salt = "2435uhu34hi34"
-            userPassword = sha256(userPassword&salt)
-
-            sqlUpdate = "UPDATE users SET password = '"&userPassword&"' WHERE email = '"&custEmail&"'"
-            cnroot.execute(sqlUpdate)
-
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Password reset successfully!')")
-            Response.Write("</script>")
-                isRegistered=true
-                if isRegistered = true then
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href=""reset_password_upper.asp"";")
-                    Response.Write("</script>")
-                end if
-            end if    
-        End If
-
-    %>
+%>

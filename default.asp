@@ -73,15 +73,16 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
+                    <input type="password" class="form-control" name="password" id="loginPassword" placeholder="Password" required>
+                    <span class="wrong-password-text" style=" padding-top: 10px; color: red; font-size: 11px; text-align: center;"></span>
+                </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
+                <button type="submit" class="btn-main btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
             </div>
             </div>
         </form>
@@ -114,6 +115,53 @@
     <!-- End of Logout -->
 
 <!--<script src="js/script.js"></script> -->
+
+<script>
+    
+    $('.btn-main').click(function(){
+
+        if($("form")[0].checkValidity()) {
+            //your form execution code
+        event.preventDefault();
+
+        let email = $("#email").val();
+        let password = $("#loginPassword").val();
+        let warningText = "";
+
+        //console.log(arID)
+            $.ajax({
+
+                url: "cust_login_auth.asp",
+                type: "POST",
+                data: {email: email, password: password},
+                success: function(data) {
+                    
+                    if (data==='invalid email') {
+                        warningText = "Invalid Email"
+                        document.querySelector(".wrong-password-text").innerHTML = warningText;
+                    }
+
+                    else if (data==='True') {
+                        alert("Logged in successfully!");
+                        window.location.href = "default.asp";
+                    }
+
+                    else {
+                        warningText = "Sorry, your password was incorrect.";
+                        document.querySelector(".wrong-password-text").innerHTML = warningText;
+                    }
+                    
+
+                }
+            })
+        }
+
+        else console.log("invalid form");
+    });
+
+</script>
+
+
 <script src="js/main.js"></script>    
 </body>
 </html>

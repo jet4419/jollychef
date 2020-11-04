@@ -11,6 +11,8 @@
 %>
 
 <%
+    Dim isValidEmail, isValidPassword
+
         btnReg = Request.Form("btnRegister")
 
         custFirstName = Trim(Request.Form("firstname"))
@@ -19,7 +21,7 @@
         custLastName = Trim(Request.Form("lastname"))
         custLastName = Ucase(Left(custLastName, 1)) & Mid(custLastName, 2)
 
-        custEmail = Trim(Request.Form("custEmail"))
+        custEmail = Trim(Request.Form("email"))
         userPassword = Trim(Request.Form("password1"))
         confirmPassword = Trim(Request.Form("password2"))
 
@@ -34,41 +36,49 @@
         customerType = "in"
         isValid = true
 
-        if userPassword<>confirmPassword then
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Password does not match!')")
-            Response.Write("</script>")
-        isValid=false
-            if isValid = false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""customer_registration.asp"";")
-                Response.Write("</script>")
-            end if
-	    end if
-
-
-
-        If btnReg<>"" then
-
         rs.open "SELECT email FROM customers WHERE email='"&custEmail&"'", CN2
 
         if not rs.EOF then
 
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Email already registered')")
-            Response.Write("</script>")
-            isValid = false
-            if isValid = false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""customer_registration.asp"";")
-                Response.Write("</script>")
-            end if  
+            isValidEmail = false
+            Response.Write "invalid email"
+
+             if CStr(userPassword) <> CStr(confirmPassword) then
+                
+                Response.Write " and password"
+
+            end if
+
+
+        else
+
+            isValidEmail = true
+
         end if   
 
         rs.close
 
-           if isValid = true then
+        if isValidEmail = true then
+
+            if userPassword <> confirmPassword then
+                
+                isValidPassword = false
+
+                Response.Write "invalid password"
+
+            else
+
+                isValidPassword = true
+
+            end if
+
+        end if
+
+
+        if isValidEmail = true and isValidPassword = true then
+           
             rs.Open "SELECT MAX(cust_id) FROM customers;", CN2
+
                 do until rs.EOF
                     for each x in rs.Fields
                         maxValue = x.value
@@ -90,16 +100,8 @@
                 rs.close
                 CN2.close
 
-                Response.Write("<script language=""javascript"">")
-                Response.Write("alert('Registration complete!')")
-                Response.Write("</script>")
-                isRegistered=true
-                if isRegistered = true then
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href=""customer_registration.asp"";")
-                    Response.Write("</script>")
-                end if
-            end if    
-        End If
+                Response.Write "registered"
+  
+        end If
 
     %>

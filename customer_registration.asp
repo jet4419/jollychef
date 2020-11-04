@@ -22,6 +22,7 @@
 
             .container-rounded { border-radius: 1rem;}
             
+            .warning-border { border-color: red !important; }
 
         </style>
 
@@ -57,40 +58,39 @@
         <div class="container border container-rounded" style="max-width: 500px; background: #eee;">
             <h3 class="text-center pt-3 m-0">Employees </h3>
             <h3 class="text-center pt-1 pb-3">Registration </h3>
-            <form action="customer_registration_c.asp" method="POST">
+            
+            <form>
 
                 <div class="form-group d-flex justify-space-evenly">
-                    <input type="text" name="firstname" class="form-control form-control-sm " placeholder="First Name" required>
-                    <input type="text" name="lastname" class="form-control form-control-sm ml-3" placeholder="Last Name" required>
+                    <input type="text" id="firstname" name="firstname" class="form-control form-control-sm " placeholder="First Name" required>
+                    <input type="text" id="lastname" name="lastname" class="form-control form-control-sm ml-3" placeholder="Last Name" required>
                 </div>
-                <!--
-                <div class="form-group">    
-                    <input type="text" name="lastname" class="form-control form-control-sm" placeholder="Last Name" required>
-                </div>
-                -->
+    
                 <div class="form-group">
-                    <input type="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <span class="email-warning" style="color: red"></span>
                 </div>
 
-                <div class="form-group d-flex justify-space-evenly">
-                    <input type="password" name="password1" class="form-control form-control-sm"  placeholder="Password" required>
-                    <input type="password" name="password2" class="form-control form-control-sm ml-3"  placeholder="Confirm Password" required>
+                <div class="form-group d-flex justify-space-evenly m-0">
+                    <input type="password" id="password1" name="password1" class="form-control form-control-sm"  placeholder="Password" required>
+                    <input type="password" id="password2" name="password2" class="form-control form-control-sm ml-3"  placeholder="Confirm Password" required>
                 </div>
+                <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
 
                 <div class="form-group">
-                    <input type="text" name="address" class="form-control form-control-sm" placeholder="Address">
+                    <input type="text" id="address" name="address" class="form-control form-control-sm" placeholder="Address">
                 </div>
 
                 <div class="form-group">
-                    <input type="text" name="contact_no" class="form-control form-control-sm" pattern="[0-9]{11}" placeholder="Contact No">
+                    <input type="text" id="contact_no" name="contact_no" class="form-control form-control-sm" pattern="[0-9]{11}" placeholder="Contact No">
                 </div>
 
                 <div class="form-group mb-3">
-                    <input type="text" name="department" class="form-control form-control-sm" placeholder="Department">
+                    <input type="text" id="department" name="department" class="form-control form-control-sm" placeholder="Department">
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <input type="submit" name="btnRegister" value="Register" class="btn btn-success mb-2">
+                    <input type="submit" name="btnRegister" value="Register" class="btn-main btn btn-success mb-2">
                 </div>
 
             </form>
@@ -109,7 +109,7 @@
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
+        <form>
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Customer Login</h5>
@@ -159,6 +159,86 @@
     </div>
 </div>
 <!-- End of Logout -->
+
+<script>
+    
+    $('.btn-main').click(function(){
+
+        if($("form")[0].checkValidity()) {
+            //your form execution code
+        event.preventDefault();
+
+        let firstname = $("#firstname").val();
+        let lastname = $("#lastname").val();
+        let email = $("#email").val();
+        let password1 = $("#password1").val();
+        let password2 = $("#password2").val();
+        let address = $("#address").val();
+        let contact_no = $("#contact_no").val();
+        let department = $("#department").val();
+        let emailWarning = "";
+        let passwordWarning = "";
+        const emailInput = document.querySelector("#email");
+        const passwordInput1 = document.querySelector("#password1");
+        const passwordInput2 = document.querySelector("#password2");
+        const emailWarningContainer = document.querySelector(".email-warning");
+        const passwordWarningContainer = document.querySelector(".password-warning");
+
+        //console.log(arID)
+            $.ajax({
+
+                url: "customer_registration_c.asp",
+                type: "POST",
+                data: {firstname: firstname, lastname: lastname, email: email, password1: password1,
+                       password2:password2, address: address, contact_no: contact_no, department: department
+                },
+                success: function(data) {
+                    console.log(data, password1, password2)
+                    if (data==='invalid email') {
+                        emailWarning = "Email already exist"
+                        emailWarningContainer.innerHTML = emailWarning;
+                        emailInput.classList.add("warning-border");
+                        // emailInput.style.borderColor = "red";
+                        passwordWarningContainer.innerHTML = "";
+                        passwordInput1.classList.remove("warning-border");
+                        passwordInput2.classList.remove("warning-border");
+                    }
+
+                    else if (data === 'invalid password') {
+                        passwordWarning = "Password does not match";
+                        passwordWarningContainer.innerHTML = passwordWarning;
+                        passwordInput1.classList.add("warning-border");
+                        passwordInput2.classList.add("warning-border");
+                        emailWarningContainer.innerHTML = "";
+                        emailInput.classList.remove("warning-border");
+                    }
+
+                    else if (data === 'invalid email and password') {
+                        
+                        emailWarning = "Email already exist"
+                        emailWarningContainer.innerHTML = emailWarning;
+                        emailInput.classList.add("warning-border")
+
+                        passwordWarning = "Password does not match"
+                        passwordWarningContainer.innerHTML = passwordWarning;
+                        passwordInput1.classList.add("warning-border")
+                        passwordInput2.classList.add("warning-border")
+                    }
+
+                    else {
+                        alert("Registered successfully!");
+                        window.location.reload();
+                    }
+                    
+
+                }
+            })
+        }
+
+        else console.log("invalid form");
+    });
+
+</script>
 
 <script src="js/main.js"></script>
 </body>
