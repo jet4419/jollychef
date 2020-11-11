@@ -16,3 +16,15 @@
     end if
 
 %>    
+<!--
+<script>
+
+    if (!localStorage.getItem('name')) {
+
+        alert('Your session timed out!');
+        window.location.href='canteen_login.asp';
+    }
+
+
+</script>
+-->

@@ -1,4 +1,4 @@
-<!--#include file="session_cashier.asp"-->
+
 
 <!doctype html>
 <html>
@@ -82,39 +82,6 @@
 </div>
 <!-- End of Logout -->
 
-<!--
-    <div class="signupModal">
-    	<div class="modal-contents">
-        	<div class="modal-header">
-            	<span class="btn-signup-close">&times;</span>
-            	<h2 class="modal-header--text">Sign Up</h2>
-            </div>
-            	<div class="modal-body">
-
-                    <form action="" class="modal-body--form">
-                        <div class="label-input-groups">
-                            <label class="form-label" for="username">Username</label>
-                            <input class="form-inputs" type="text" name="username" id="username2">
-                        </div>
-
-                        <div class="label-input-groups">
-                            <label class="form-label" for="password">Password</label>   
-                            <input class="form-inputs" type="password" name="password" id="password2">
-                        </div>
-
-                        <button class="btn btn-login-form">Sign Up</button>   
-
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-                    Already have an account? <a href="#" id="modal-link-login" class="modal-footer-link">click here to login</a>
-                </div>
-       	 </div>
-    </div>
--->
-    <!-- <button id="btnAddProduct" data-toggle="modal" data-target="#addProduct" class='btn-main btn--add-product' hidden>Add Product</button> -->
-   
 	<h1 class="home-main-heading"> 
     	
     	<span class="home-main-heading-text home-main-heading--text-1">

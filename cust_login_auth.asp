@@ -1,4 +1,5 @@
 <!--#include file="dbConnect.asp"-->
+<!--#include file="aspJSON1.17.asp"-->
 <!--#include file="sha256.asp"-->
 
 <%
@@ -9,6 +10,8 @@
     'Encryption of Password
     salt = "2435uhu34hi34"
     userPassword = sha256(userPassword&salt)
+
+    
 
     rs.Open "SELECT * FROM customers WHERE email='"&userEmail&"'", CN2
 
@@ -22,6 +25,8 @@
 
     end if   
 
+    
+
     rs.close
 
     if isValidEmail = true then 
@@ -30,16 +35,27 @@
 
         if not rs.EOF  then 
 
-        Session("cust_id") = rs("cust_id")
-		Session("fname") = rs("cust_fname")
-        Session("lname") = rs("cust_lname")
-        Session("email") = rs("email")
-        Session.Timeout=60
-		'Session("type") = rs("user_type")
-        
-        isLoggedIn = true
+            Set oJSON = New aspJSON
 
-        Response.Write isLoggedIn
+            With oJSON.data
+
+            oJSON.Collection()
+
+                isLoggedIn = true
+
+                .Add 0, oJSON.Collection()
+                With .item(0)
+
+                    .Add "cust_id", rs("cust_id")
+                    .Add "fname", rs("cust_fname")
+                    .Add "lname", rs("cust_lname")
+                    .Add "email", rs("email")
+
+                End With      
+
+            End With
+
+            Response.Write(oJSON.JSONoutput())
 
         else
 

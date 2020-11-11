@@ -42,11 +42,12 @@
             <a href="t_ob_others.asp">OB Other Customer</a>
             <a href="t_monthly_reports.asp">Monthly Reports Royce</a>
         </div>
-    -->        
-    <%if ASC(Session("type")) = ASC("admin") or ASC(Session("type")) = ASC("programmer") then%>
-        <a href="customer_registration.asp" class="main-menus--items customers-icon"><i class="fas fa-user-plus sidebar-icons"></i> <span class="icon-text">Add Customer</span></a>
+    -->  
+    <%if Session("type") <> "" or Session("type") <> "" then %>      
+        <%if ASC(Session("type")) = ASC("admin") or ASC(Session("type")) = ASC("programmer") then%>
+            <a href="customer_registration.asp" class="main-menus--items customers-icon"><i class="fas fa-user-plus sidebar-icons"></i> <span class="icon-text">Add Customer</span></a>
+        <%end if%>
     <%end if%>
-    
     
             <!--
             <a href="t_ob_others.asp">OB Other Customer</a>

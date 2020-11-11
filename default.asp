@@ -141,14 +141,25 @@
                         document.querySelector(".wrong-password-text").innerHTML = warningText;
                     }
 
-                    else if (data==='True') {
-                        alert("Logged in successfully!");
-                        window.location.href = "default.asp";
+                    else if (data==='False') {
+                        warningText = "Sorry, your password was incorrect.";
+                        document.querySelector(".wrong-password-text").innerHTML = warningText;
+                        
                     }
 
                     else {
-                        warningText = "Sorry, your password was incorrect.";
-                        document.querySelector(".wrong-password-text").innerHTML = warningText;
+                        const jsonObject = JSON.parse(data)
+                        // console.log(jsonObject[0]);
+                        for (let i in jsonObject) {
+
+                            localStorage.setItem('cust_id', jsonObject[i].cust_id);
+                            localStorage.setItem('fname', jsonObject[i].fname);
+                            localStorage.setItem('lname', jsonObject[i].lname);
+                            localStorage.setItem('email', jsonObject[i].email); 
+                        }
+
+                        alert("Logged in successfully!");
+                        window.location.href = "default.asp";
                     }
                     
 

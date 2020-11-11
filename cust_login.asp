@@ -1,5 +1,6 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="sha256.asp"-->
+<!--#include file="customer_checker_login.html"-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,63 +14,6 @@
     <script src="./jquery/jquery_uncompressed.js"></script>
 </head>
 <body>
-
-<%
-
-    if Session("type") <> "" then
-        Response.Redirect("canteen_homepage.asp")
-    end if
-
-    if Session("cust_id") <> "" then
-        Response.Redirect("default.asp")
-
-    else
-
-        btnLogin = Request.Form("btn-login")
-        userEmail = Trim(Request.Form("email"))
-        userPassword = Request.Form("password")
-        'Decryption of Password
-        salt = "2435uhu34hi34"
-        userPassword = sha256(userPassword&salt)
-
-        If btnLogin<>"" then
-            rs.Open "SELECT * FROM customers WHERE email='"&userEmail&"' and password='"&userPassword&"'", CN2
-            if not rs.EOF  then 
-            Session("cust_id") = rs("cust_id")
-            Session("fname") = rs("cust_fname")
-            Session("lname") = rs("cust_lname")
-            Session("email") = rs("email")
-            'Session("type") = rs("user_type")
-            
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Logged in successfully!')")
-            Response.Write("</script>")
-            isLoggedIn = true
-    
-                if isLoggedIn = true then
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href=""default.asp"";")
-                    Response.Write("</script>")
-                end if
-
-            else
-                rs.close
-                CN2.close
-                Response.Write("<script language=""javascript"">")
-                Response.Write("alert('Logged in Failed')")
-                Response.Write("</script>")
-                loggedInFail = true
-                if loggedInFail = true then
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href=""cust_login.asp"";")
-                    Response.Write("</script>")
-                end if
-            end if
-
-        end if    
-
-    end if
-%>
 
     <main class="login">
 
@@ -123,20 +67,39 @@
                 type: "POST",
                 data: {email: email, password: password},
                 success: function(data) {
-                    
+                    // console.log(data);
                     if (data==='invalid email') {
                         warningText = "Invalid Email"
                         document.querySelector(".wrong-password-text").innerHTML = warningText;
                     }
 
-                    else if (data==='True') {
-                        alert("Logged in successfully!");
-                        window.location.href = "default.asp";
+                    else if (data==='False') {
+
+                        warningText = "Sorry, your password was incorrect.";
+                        document.querySelector(".wrong-password-text").innerHTML = warningText;                
                     }
 
                     else {
-                        warningText = "Sorry, your password was incorrect.";
-                        document.querySelector(".wrong-password-text").innerHTML = warningText;
+
+                        const jsonObject = JSON.parse(data)
+                        // console.log(jsonObject[0]);
+                        for (let i in jsonObject) {
+
+                            localStorage.setItem('cust_id', jsonObject[i].cust_id);
+                            localStorage.setItem('fname', jsonObject[i].fname);
+                            localStorage.setItem('lname', jsonObject[i].lname);
+                            localStorage.setItem('email', jsonObject[i].email); 
+                        }
+
+                            // console.log(localStorage.getItem('cust_id'));
+                            // console.log(localStorage.getItem('fname'));
+                            // console.log(localStorage.getItem('lname'));
+                            // console.log(localStorage.getItem('email'));
+
+                            
+
+                        alert("Logged in successfully!");
+                        window.location.href = "default.asp";
                     }
                     
 

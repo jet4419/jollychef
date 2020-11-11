@@ -1,4 +1,5 @@
 <!--#include file="dbConnect.asp"-->
+<!--#include file="aspJSON1.17.asp"-->
 <!--#include file="sha256.asp"-->
 <%
     Dim userEmail, userPassword, loginOutput, isValidEmail
@@ -30,15 +31,33 @@
         
         if not rs.EOF  then
 
-        Session("name") = rs("first_name").value
-        Session("fullname") = rs("first_name").value & " " & rs("last_name").value
-        Session("email") = rs("email").value
-        Session("type") = rs("user_type").value
-        Session.Timeout= 180
-        
-        isLoggedIn = true
+            isLoggedIn = true
 
-        Response.Write isLoggedIn
+            Set oJSON = New aspJSON
+
+            With oJSON.data
+
+            oJSON.Collection()
+
+                .Add 0, oJSON.Collection()
+                With .item(0)
+
+                    .Add "name", rs("first_name").value
+                    .Add "fullname", rs("first_name").value & " " & rs("last_name").value
+                    .Add "email", rs("email").value
+                    .Add "type", rs("user_type").value
+
+                End With     
+
+            ' Session("name") = rs("first_name").value
+            ' Session("fullname") = rs("first_name").value & " " & rs("last_name").value
+            ' Session("email") = rs("email").value
+            ' Session("type") = rs("user_type").value
+            ' Session.Timeout= 180
+
+            End With
+
+            Response.Write(oJSON.JSONoutput())
 
         else
             rs.close

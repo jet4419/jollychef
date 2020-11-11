@@ -67,24 +67,62 @@
 
         <div class="user-info">
             
-            <%
-                if Session("fname")<>"" or Session("name")<>"" then
-                    Response.Write("<button class='btn btn-sm btn-success' data-toggle='modal' data-target='#login' hidden>Login</button>")
-                    if Session("type") = "" then
-                    Response.Write("<div class='navbar-date'> <i class='fas fa-calendar-check'></i>"&FormatDateTime(systemDate, 1)&"</div>")
-                    Response.Write("<div class='user-profile-pic'><i class='fas fa-user'></i></div><p class='navbar--user-info'>"&Session("fname")&" - "&"Customer"&" <button class='user-logout-btn btn btn-sm' data-toggle='modal' data-target='#logout'><i class='fas fa-sign-out-alt'></i></button></p> ")
-                    else
-                    Response.Write("<div class='navbar-date'> <i class='fas fa-calendar-check'></i>"&FormatDateTime(systemDate, 1)&"</div>")
-                    Response.Write("<div class='user-profile-pic'><i class='fas fa-user'></i></div><p class='navbar--user-info'>"&Session("fname")&" - "&Session("type")&" <a class='user-logout-btn'><i class='fas fa-sign-out-alt'></i></a></p> ")
-                    ' Response.Write(" <a href='logout.asp' class='user-logout'>Logout</a>")
-                    end if
-                else
-                    Response.Write("<div class='navbar-date'> <i class='fas fa-calendar-check'></i>"&FormatDateTime(systemDate, 1)&"</div>")
-                    Response.Write("<button class='btn btn-sm btn-success' data-toggle='modal' data-target='#login'>Login</button>")
-                end if                    
-            %>
+            <div class='navbar-date'> 
+                <i class='fas fa-calendar-check'></i><%=FormatDateTime(systemDate, 1)%>
+            </div>
        
         </div>
 
         
 </nav>
+
+<script>
+
+    const userInfo = document.querySelector('.user-info');
+
+    if (localStorage.getItem('cust_id')) {
+        
+        const userFname = localStorage.getItem('fname');
+        const userType = 'Customer';
+
+        const userProfile = document.createElement('div');
+        userProfile.className = 'user-profile-pic';
+
+        const userIcon = document.createElement('i');
+        userIcon.className = 'fas fa-user';
+
+        userProfile.appendChild(userIcon);
+
+        const pElement = document.createElement('p');
+        pElement.className = 'navbar--user-info';
+        pElement.textContent = userFname + ' - ' + userType;
+
+        const btnSignOut = document.createElement('button');
+        btnSignOut.className = 'user-logout-btn btn btn-sm';
+        btnSignOut.setAttribute('data-toggle', 'modal');
+        btnSignOut.setAttribute('data-target', '#logout');
+
+        const btnSignOutIcon = document.createElement('i');
+        btnSignOutIcon.className = 'fas fa-sign-out-alt';
+
+        btnSignOut.appendChild(btnSignOutIcon);
+
+        pElement.appendChild(btnSignOut);
+
+        userInfo.appendChild(userProfile);
+        userInfo.appendChild(pElement);
+
+    } else {
+
+        const btnLogin = document.createElement('button');
+        btnLogin.className = 'btn btn-sm btn-success';
+        btnLogin.setAttribute('data-toggle', 'modal'); 
+        btnLogin.setAttribute('data-target', '#login'); 
+        btnLogin.textContent = 'Login';
+
+        userInfo.appendChild(btnLogin);
+
+    }
+    
+
+</script>

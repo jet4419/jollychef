@@ -15,16 +15,16 @@
     
 <body>
 
-<!-- <%
-    if Session("type")<>"" then
-        Response.Redirect("canteen_homepage.asp")
-    end if
+<%
+    ' if Session("type")<>"" then
+    '     Response.Redirect("canteen_homepage.asp")
+    ' end if
 
-    if Session("cust_id")<>"" then
-        response.Redirect("default.asp")
-    end if
+    ' if Session("cust_id")<>"" then
+    '     response.Redirect("default.asp")
+    ' end if
 
-%> -->
+%>
 
     <main class="login">
 
@@ -99,14 +99,24 @@ xhr.onload = () => {
                         document.querySelector(".wrong-password-text").innerHTML = warningText;
                     }
 
-                    else if (data==='True') {
-                        alert("Logged in successfully!");
-                        window.location.href = "canteen_homepage.asp";
+                    else if (data==='False') {
+                        warningText = "Sorry, your password was incorrect.";
+                        document.querySelector(".wrong-password-text").innerHTML = warningText;  
                     }
 
                     else {
-                        warningText = "Sorry, your password was incorrect.";
-                        document.querySelector(".wrong-password-text").innerHTML = warningText;
+                        const jsonObject = JSON.parse(data)
+
+                        for (let i in jsonObject) {
+
+                            localStorage.setItem('name', jsonObject[i].name);
+                            localStorage.setItem('fullname', jsonObject[i].fullname);
+                            localStorage.setItem('email', jsonObject[i].email);
+                            localStorage.setItem('type', jsonObject[i].type); 
+                        }
+
+                        alert("Logged in successfully!");
+                        window.location.href = "canteen_homepage.asp";
                     }
                     
 

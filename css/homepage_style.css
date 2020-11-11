@@ -206,7 +206,8 @@ a.main-menus--items.customers-icon {
 .home-main-heading-text {
   display: block;
   text-align: center;
-  color: #f2aa4cff;
+  /* color: #f2aa4cff; */
+  color: #ffaf46;
   font-family: 'Great Vibes', 'Brush Script MT', cursive, Helvetica, sans-serif;
   /* font-family: 'Tenali Ramakrishna', sans-serif; */
   /* font-family: 'Tenali Ramakrishna', sans-serif; */

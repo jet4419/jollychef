@@ -1,6 +1,12 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="session.asp"-->
 
+<%
+    Response.Write "<script>"
+    Response.Write "console.log('"&Session.SessionID&"')"
+    Response.Write "</script>"
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -413,7 +419,7 @@
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
+        <form action="cust_login_auth.asp" method="POST">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Customer Login</h5>
@@ -441,28 +447,28 @@
 <!-- End of Login -->
 
 <!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
+    <div id="logout" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form action="cust_logout.asp">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to logout?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
+                </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>  
-<!-- End of Logout -->
+    <!-- End of Logout -->   
 
 <script src="js/main.js"></script> 
 <script>  
