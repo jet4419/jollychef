@@ -28,7 +28,7 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <%
-    if Trim(Session("type")) <> Trim("programmer") then
+    if Trim(Session("type")) <> Trim("programmer")  then
         Response.Redirect("canteen_homepage.asp")
     end if        
 %>

@@ -1,11 +1,6 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="session.asp"-->
 
-<%
-    Response.Write "<script>"
-    Response.Write "console.log('"&Session.SessionID&"')"
-    Response.Write "</script>"
-%>
 
 <!DOCTYPE html>
 <html>
@@ -171,6 +166,10 @@
                 flex-wrap: wrap;
             }
 
+            #main {
+                padding-left: 50px;
+            }
+
         </style>
         <!--<script type="text/javascript" >
         function preventBack(){window.history.forward();}
@@ -181,9 +180,12 @@
     </head>
 
     <%
-        if Session("cust_id") = "" then
-            Response.Redirect("cust_login.asp")
-        end if
+        Session.Abandon
+
+        ' Session("cust_id") = 12
+        ' if Session("cust_id") = "" then
+        '     Response.Redirect("cust_login.asp")
+        ' end if
 
         Dim fs
         Set fs=Server.CreateObject("Scripting.FileSystemObject")
@@ -211,33 +213,6 @@
 
         mainPath = CStr(Application("main_path"))
         folderPath = mainPath & yearPath & "-" & monthPath
-
-
-        Dim maxRefNoChar, maxRefNo
-        rs.Open "SELECT MAX(ref_no) FROM reference_no;", CN2
-
-            do until rs.EOF
-                for each x in rs.Fields
-
-                    maxRefNoChar = x.value
-
-                next
-                rs.MoveNext
-            loop
-            Response.Write maxRefNoChar
-            if maxRefNoChar <> "" then
-                maxRefNo = Mid(maxRefNoChar, 6) + 1
-            else
-                maxRefNo = "000000000" + 1
-            end if
-            
-        rs.close  
-
-        Const NUMBER_DIGITS = 9
-        Dim formatedInteger
-
-        formattedInteger = Right(String(NUMBER_DIGITS, "0") & maxRefNo, NUMBER_DIGITS)
-        maxRefNo = formattedInteger
     %>
 
 <body>
@@ -283,7 +258,7 @@
 
     %>
 
-        <%if custID<>0  then%>
+        <%'if custID<>0  then%>
 
 <div id="main" class="mt-4 pt-4">
 
@@ -294,8 +269,8 @@
         <div class="container pb-3 mb-5">
 
             <div class="users-info mb-5">
-                <h1 class="h3 text-center main-heading my-0"> <strong><span class="order_of">Credits of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
-                <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
+                <h1 class="h3 text-center main-heading my-0"> <strong><span class="order_of">Credits of</span> <span class="cust_name"></span></strong> </h1>
+                <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong></strong></span> </h1>
                 
             </div>
 
@@ -337,31 +312,19 @@
                         <th>Balance</th>
                     </thead>
 
-                    <% Dim totalBalance 
-                    totalBalance = 0.00 
-                    %>
-                    <%do until rs.EOF%>
-                    <tr>
-                        <%invoice = rs("invoice_no").value%>
-                        <% d = CDate(rs("date_owed"))
-                           d = FormatDateTime(d, 2)
-                        %>
-                        <td class="text-darker"><%Response.Write(d)%></td>
-                        <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>'><%Response.Write(rs("invoice_no"))%></a></td>
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("receivable"))%></td>
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
-                    </tr>
-                    <%rs.MoveNext%>
-                    <%loop%>
+                <tfoot>
 
-                    <%rs.close%>
-                    <%CN2.close%>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3"> <strong> Total Balance </strong> </td>
-                            <td colspan="1"> <strong> <span class="text-primary">&#8369;</span> <%=currOB%> </strong> </td>
-                        </tr>
-                    </tfoot>
+                    <tr class="tfoot">
+
+                    </tr>
+
+                </tfoot>
+
+                <tbody>
+
+
+                </tbody>
+
                 </table>
 
             </div>
@@ -370,11 +333,13 @@
         </div>    
     </div>
 
-    <%else%>
-
+    <%'else%>
+    <!--
+    <div id="main" class="mt-4 pt-4">
         <h1 class="h1 no-records"> NO RECORDS </h1>
-
-    <%end if%>
+    </div>
+    -->
+    <%'end if%>
 
 </div>
 
@@ -472,12 +437,69 @@
 
 <script src="js/main.js"></script> 
 <script>  
-$(document).ready( function () {
+    const tr = document.querySelector('.tfoot');
+    $(document).ready( function () {
+
+    var custID = Number(localStorage.getItem('cust_id'));
+    var custOB = 0;
+    var obStr = '';
+   
+    // const tr = document.createElement('tr');
+
+//     $("#myTable").append(
+//        $('<tfoot/>').append( $("#example thead tr").clone() )
+//    );
+
     $('#myTable').DataTable({
         scrollY: "36vh",
         scroller: true,
         "paging": false,
         scrollCollapse: true,
+        ajax: {
+            'url': 'customer_get_credits.asp',
+            'type': 'POST',
+            'data': {'custID': custID},
+            "dataSrc": function (json) {
+            var return_data = new Array();
+            
+                for(var i=0;i< json.length; i++){
+
+                    return_data.push({
+                        'date': `<span class='text-darker'>${json[i].date} </span>` ,
+                        'invoice'  : `<a target='_blank' href='ob_invoice_records.asp?invoice=${json[i].invoice}&date=${json[i].date}'> ${json[i].invoice} </a> `,
+                        'receivable' :`<span class='text-primary'>&#8369; </span> ${json[i].receivable}` ,
+                        'balance' : `<span class='text-primary'>&#8369; </span> ${json[i].balance}`
+                    });
+                    
+                    custOB += json[i].balance;
+                    console.log(custOB);
+
+                    
+                }
+        
+                const td1 = document.createElement('td');
+                td1.setAttribute('colspan', '3');
+                td1.innerHTML = '<strong>Total Balance<strong>'
+                const td2 = document.createElement('td');
+                td2.setAttribute('colspan', '1');
+                td2.innerHTML = `<strong> <span class='text-primary'> &#8369; </span> ${custOB} </strong>`;
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+
+                document.querySelector('.cust_name').textContent = json[0].name;
+                document.querySelector('.department_lbl').textContent = json[0].department;
+
+                // time()
+                return return_data;
+            
+            }
+        },
+        "columns": [
+            {"data": "date"},
+            {"data": "invoice"},
+            {"data": "receivable"},
+            {"data": "balance"},
+        ],
         "order": [],
         dom: "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
              "<'row'<'col-sm-12'tr>>",
@@ -487,11 +509,35 @@ $(document).ready( function () {
             { extend: 'pdf', className: 'btn btn-sm btn-success' },
             { extend: 'print', className: 'btn btn-sm btn-success' }
         ]
+        
     });
+
+    
+    // function time() {
+                    
+    //     setTimeout( () => {
+    //         // $('tfoot').append(tr)
+    //     }, 10);
+
+    // }
+
+    // $('#myTable').append(tr);
+
+    // obStr = `<tr>
+    //             <td colspan="3"> 
+    //                 <strong>Total Balance<strong>
+    //             </td>
+    //             <td colspan="1"> <strong> <span class='text-primary'> &#8369; </span> ${custOB} </strong> 
+    //             </td>
+    //         </tr>`
+    // $('#myTable').append(tr);
+
 }); 
 
+
+
     // Date Generator
-        $(document).on("click", ".date_transact", function(event) {
+    $(document).on("click", ".date_transact", function(event) {
 
             event.preventDefault();
 
@@ -509,112 +555,87 @@ $(document).ready( function () {
         })    
     }) // End of Date Generator  
 
+    // getCredits();
+    // // getOb();
 
+    // function getCredits () {
+            
+    //     var URL = 'customer_get_credits.asp';
+    //     var custID = Number(localStorage.getItem('cust_id'));
+    //     var custName = "";
+    //     var custDepartment = "";
+    //     var custOB = 0;
+    //     var obStr = "";
+        
+    //     $.ajax({
+    //         url: URL,
+    //         type: 'POST',
+    //         data: {custID: custID},
+    //         //data: {},
+    //     })
+    //     .done(function(data) {
+    //         // console.log(data)
+    //         if (data!=="no data") {
 
-    tail.select("#selectRecords", {
-        search: true,
-        deselect: true,
-        descriptions: true
-    });
+    //             let jsonObject = JSON.parse(data)
 
-    function monthEnd(nId, nCreditBal, nDebitBal) {
+    //             let output = '';
 
-        //alert("Are you sure to cutoff?")
-        if(confirm('Are you sure to cutoff on this date?'))
-        {
-            window.location.href='a_ob_month_end.asp?cust_id='+nId+'&credit_bal='+nCreditBal+'&debit_bal='+nDebitBal;
-            //window.location.href='delete.asp?delete_id='+id;
-        }
+    //             for (let i in jsonObject) {
+    //                 output += ` <tr>
+    //                                 <td class='text-darker'> ${jsonObject[i].date} </td>
+    //                                 <td class='text-darker'> <a target='_blank' href='ob_invoice_records.asp?invoice=${jsonObject[i].invoice}&date=${jsonObject[i].date}'> ${jsonObject[i].invoice} </td>
+    //                                 <td class='text-darker'> <span class='text-primary'>&#8369; </span> ${jsonObject[i].receivable} </td> 
+    //                                 <td class='text-darker'> <span class='text-primary'>&#8369; </span> ${jsonObject[i].balance} </td> 
 
-    }
+    //                             </tr>    
 
-    
-    // Payment
+                                
+    //                         `;
+                        
+    //                     custOB += jsonObject[i].balance;
+    //             }  
 
-    // var $myForm = $('#myForm');
+    //             obStr = `<tr>
+    //                         <td colspan="3"> 
+    //                             <strong>Total Balance<strong>
+    //                         </td>
+    //                         <td colspan="1"> <strong> <span class='text-primary'> &#8369; </span> ${custOB} </strong> 
+    //                         </td>
+    //                     </tr>`
 
-    // if(! $myForm[0].checkValidity()) {
-    // // If the form is invalid, submit it. The form won't actually submit;
-    // // this will just cause the browser to display the native HTML5 error messages.
-    // $myForm.find(':submit').click();
+    //             custName = jsonObject[0].name;
+    //             custDepartment = jsonObject[0].department;
+
+    //             // console.log(custName);
+
+    //             document.querySelector('.cust_name').textContent = custName;
+    //             document.querySelector('.department_lbl').textContent = custDepartment;       
+
+    //             $('td.dataTables_empty').attr('hidden', 'hidden');
+    //             $('#myTable tr:last').after(output + obStr);
+    //             // document.querySelector('#customerID').value = Number(localStorage.getItem('cust_id'));
+    //             // document.querySelector('#totalProfit').value = totProfit;
+    //             // document.querySelector('#totalAmount').value = totAmount;
+
+    //             // custName = jsonObject[0].name;
+    //             // custDepartment = jsonObject[0].department;
+
+    //             // document.querySelector('.cust_name').textContent = custName;
+    //             // document.querySelector('.department_lbl').textContent = custDepartment;
+    //             // document.querySelector('#totalAmount').value = totAmount;
+
+    //         } else {
+    //             console.log("no new data");
+    //             // $('.btnPayment').attr('disabled', "");
+    //         }
+    //     })
+    //     .fail(function() {
+    //         console.log("error");
+    //     });
+        
     // }
 
-     $("#total").keydown(function(e){
-        e.preventDefault();
-    });
-
-    $(document).on("click", "#myBtn", function(event) {
-
-        var valid = this.form.checkValidity();
-
-        if (valid) {
-
-            event.preventDefault();
-
-            var myValue = document.querySelectorAll('input[name="sub_total"]');
-            var myStrings = ""
-            var myInvoices = ""
-            var myValues = ""
-            var custID = document.getElementById("cust_id").value
-            var subTotal = document.getElementById("total").value
-            var cashPayment = document.getElementById("cash_payment").value
-            var referenceNo = document.getElementById("reference_no").value
-            myValue.forEach(function(item) {
-                if (item.value.trim().length !== 0) {
-                    //console.log(item.id + " " + item.value)
-                    myInvoices = myInvoices + item.id  + ","
-                    myValues = myValues + item.value + ","
-                }
-            });
-            
-            $.ajax({
-                url: "t_receivables.asp",
-                type: "POST",
-                data: {
-                       myInvoices: myInvoices, myValues: myValues, subTotal: subTotal, 
-                       custID: custID, cashPayment: cashPayment, referenceNo: referenceNo
-                      },
-                success: function(data) {
-                    //alert(data)
-
-                    if (data=='false') {
-                        
-                        alert('Error: Reference already exist!');
-                        location.reload();
-                    }
-
-                    else {
-
-                        alert("Payment Transfer Successfully!");
-                        //location.reload();
-                        //alert(data)
-                        location.replace("receipt_ar.asp?ref_no="+data);
-
-
-                        //window.location.href= "editAR.asp?#";
-                    }
-                }
-            });
-
-            // console.log(myStrings)
-            // $("post")
-            // window.location.href= "t_receivables.asp?myStrings="+myStrings
-        }
-    });
-
-     function findTotal(){
-        var arr = document.getElementsByName('sub_total');
-        var total = 0;
-        for(var i=0;i<arr.length;i++){
-            if(parseFloat(arr[i].value))
-                total += parseFloat(arr[i].value);
-        }
-        total = total.toFixed(2)
-        document.querySelector('input#total').value = total;
-        document.querySelector('input#total').min = total;
-        document.querySelector('input#total').max = total;
-        document.querySelector('input#cash_payment').min = total;
-    }
 </script>
 
 

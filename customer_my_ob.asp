@@ -64,7 +64,6 @@
 <!--#include file="customer_navbar.asp"-->
 <!--#include file="customer_sidebar.asp"-->
 
-
 <div id="main">    
     <h1 class="h1 text-center mt-3 mb-4 main-heading"> <strong>Outstanding Balance</strong> </h1>
     <div id="content">
@@ -82,134 +81,134 @@
                 end if
             %>
             <%' rs.Open "SELECT cust_id, cust_name, department, credit_bal, debit_bal FROM ob_tbl WHERE cust_id="&Session("cust_id")&" GROUP BY cust_id", CN2 %>
-            <%  
-                Dim mainPath, systemDate
+            ' <%  
+            '     Dim mainPath, systemDate
 
-                mainPath = CStr(Application("main_path"))
-                systemDate = CDate(Application("date"))
+            '     mainPath = CStr(Application("main_path"))
+            '     systemDate = CDate(Application("date"))
                 
-                Dim userID
-                userID = CInt(Session("cust_id"))
+            '     Dim userID
+            '     userID = CInt(Session("cust_id"))
 
-                'Response.Write userID
+            '     'Response.Write userID
 
-                Dim monthLength, monthPath, yearPath
+            '     Dim monthLength, monthPath, yearPath
 
-                monthLength = Month(systemDate)
-                if Len(monthLength) = 1 then
-                    monthPath = "0" & CStr(Month(systemDate))
-                else
-                    monthPath = Month(systemDate)
-                end if
+            '     monthLength = Month(systemDate)
+            '     if Len(monthLength) = 1 then
+            '         monthPath = "0" & CStr(Month(systemDate))
+            '     else
+            '         monthPath = Month(systemDate)
+            '     end if
 
-                yearPath = Year(systemDate)
+            '     yearPath = Year(systemDate)
 
-                Dim obFile, folderPath, obPath
+            '     Dim obFile, folderPath, obPath
 
-                obFile = "\ob_test.dbf"
-                folderPath = mainPath & yearPath & "-" & monthPath
-                obPath = folderPath & obFile
+            '     obFile = "\ob_test.dbf"
+            '     folderPath = mainPath & yearPath & "-" & monthPath
+            '     obPath = folderPath & obFile
 
-                'Check if table has a data record'
-                isThereObData = "SELECT id FROM "&obPath&""
-                set objAccess = cnroot.execute(isThereObData)
+            '     'Check if table has a data record'
+            '     isThereObData = "SELECT id FROM "&obPath&""
+            '     set objAccess = cnroot.execute(isThereObData)
 
 
-                if objAccess.EOF then
+            '     if objAccess.EOF then
 
-                    Dim recentMonthPath, recentYearPath
+            '         Dim recentMonthPath, recentYearPath
 
-                    recentMonthPath = CInt(monthPath) - 1
-                    recentYearPath = CInt(yearPath)
+            '         recentMonthPath = CInt(monthPath) - 1
+            '         recentYearPath = CInt(yearPath)
 
-                    Dim fs
-                    Set fs = Server.CreateObject("Scripting.FileSystemObject")
+            '         Dim fs
+            '         Set fs = Server.CreateObject("Scripting.FileSystemObject")
 
-                    if recentMonthPath = 0 then
+            '         if recentMonthPath = 0 then
 
-                        recentMonthPath = 12
-                        recentYearPath = CInt(yearPath) - 1
+            '             recentMonthPath = 12
+            '             recentYearPath = CInt(yearPath) - 1
 
-                    end if
+            '         end if
 
-                    if Len(recentMonthPath) = 1 then
+            '         if Len(recentMonthPath) = 1 then
 
-                        recentMonthPath = "0" & recentMonthPath
+            '             recentMonthPath = "0" & recentMonthPath
 
-                    end if
+            '         end if
 
-                    Dim recentFolderPath
+            '         Dim recentFolderPath
 
-                    recentFolderPath = mainPath & recentYearPath & "-" & recentMonthPath
+            '         recentFolderPath = mainPath & recentYearPath & "-" & recentMonthPath
 
-                    Dim isFolderExist, recentObPath, isFileExist
+            '         Dim isFolderExist, recentObPath, isFileExist
 
-                    isFolderExist = fs.FolderExists(recentFolderPath)         
+            '         isFolderExist = fs.FolderExists(recentFolderPath)         
                     
-                    do until isFolderExist = false 
+            '         do until isFolderExist = false 
 
-                        recentObPath = recentFolderPath & obFile
-                        isFileExist = fs.FileExists(recentObPath)     
+            '             recentObPath = recentFolderPath & obFile
+            '             isFileExist = fs.FileExists(recentObPath)     
 
-                        if isFileExist <> true then EXIT DO   
+            '             if isFileExist <> true then EXIT DO   
 
-                        'Check if table has a data record'
-                        checkRecord = "SELECT id FROM "&recentObPath&""
-                        set objAccess = cnroot.execute(checkRecord)
+            '             'Check if table has a data record'
+            '             checkRecord = "SELECT id FROM "&recentObPath&""
+            '             set objAccess = cnroot.execute(checkRecord)
 
-                        if objAccess.EOF then
+            '             if objAccess.EOF then
 
-                            recentMonthPath = CInt(recentMonthPath) - 1
-                            recentYearPath = CInt(recentYearPath)
+            '                 recentMonthPath = CInt(recentMonthPath) - 1
+            '                 recentYearPath = CInt(recentYearPath)
 
-                            if recentMonthPath = 0 then
+            '                 if recentMonthPath = 0 then
 
-                                recentMonthPath = 12
-                                recentYearPath = CInt(recentYearPath) - 1
+            '                     recentMonthPath = 12
+            '                     recentYearPath = CInt(recentYearPath) - 1
 
-                            end if
+            '                 end if
 
-                            if Len(recentMonthPath) = 1 then
-                                recentMonthPath = "0" & recentMonthPath
-                            end if
+            '                 if Len(recentMonthPath) = 1 then
+            '                     recentMonthPath = "0" & recentMonthPath
+            '                 end if
 
-                            recentFolderPath = mainPath & recentYearPath & "-" & recentMonthPath
-                            isFolderExist = fs.FolderExists(recentFolderPath)
+            '                 recentFolderPath = mainPath & recentYearPath & "-" & recentMonthPath
+            '                 isFolderExist = fs.FolderExists(recentFolderPath)
 
-                        else
+            '             else
 
-                            obPath = recentObPath
-                            EXIT DO
+            '                 obPath = recentObPath
+            '                 EXIT DO
 
-                        end if
+            '             end if
 
-                    loop
+            '         loop
 
-                end if
+            '     end if
 
-                ' Response.Write obPath
+            '     ' Response.Write obPath
 
-                ' getCustId = "SELECT cust_lname, cust_fname, department FROM customers WHERE cust_id="&userID
-                ' set objAccess = cnroot.execute(getCustId)
+            '     ' getCustId = "SELECT cust_lname, cust_fname, department FROM customers WHERE cust_id="&userID
+            '     ' set objAccess = cnroot.execute(getCustId)
 
-                ' if not objAccess.EOF then
+            '     ' if not objAccess.EOF then
 
-                '     custFullName = Trim(CStr(objAccess("cust_lname").value)) & " " & Trim(CStr(objAccess("cust_fname").value))
-                '     department = Trim(CStr(objAccess("department")))
+            '     '     custFullName = Trim(CStr(objAccess("cust_lname").value)) & " " & Trim(CStr(objAccess("cust_fname").value))
+            '     '     department = Trim(CStr(objAccess("department")))
 
-                ' end if
+            '     ' end if
 
-                ' rs.open "SELECT id, ref_no, cust_id, balance "&_
-                ' "FROM "&obPath&" "&_
-                ' "WHERE cust_id="&userID&" and id IN ( SELECT MAX(id) FROM "&obPath&" GROUP BY cust_id)", CN2
+            '     ' rs.open "SELECT id, ref_no, cust_id, balance "&_
+            '     ' "FROM "&obPath&" "&_
+            '     ' "WHERE cust_id="&userID&" and id IN ( SELECT MAX(id) FROM "&obPath&" GROUP BY cust_id)", CN2
 
-                'Response.Write obPath
+            '     'Response.Write obPath
 
-                rs.open "SELECT OB_TEST.id, OB_TEST.ref_no, OB_TEST.cust_id, OB_TEST.balance, CUSTOMERS.cust_fname, CUSTOMERS.cust_lname, CUSTOMERS.department "&_
-                "FROM "&obPath&" "&_
-                "INNER JOIN CUSTOMERS ON OB_TEST.cust_id = CUSTOMERS.cust_id "&_
-                "WHERE CUSTOMERS.cust_id="&userID&" and id IN ( SELECT MAX(OB_TEST.id) FROM "&obPath&" GROUP BY OB_TEST.cust_id)", CN2
-            %>
+            '     rs.open "SELECT OB_TEST.id, OB_TEST.ref_no, OB_TEST.cust_id, OB_TEST.balance, CUSTOMERS.cust_fname, CUSTOMERS.cust_lname, CUSTOMERS.department "&_
+            '     "FROM "&obPath&" "&_
+            '     "INNER JOIN CUSTOMERS ON OB_TEST.cust_id = CUSTOMERS.cust_id "&_
+            '     "WHERE CUSTOMERS.cust_id="&userID&" and id IN ( SELECT MAX(OB_TEST.id) FROM "&obPath&" GROUP BY OB_TEST.cust_id)", CN2
+            ' %>
             <table class="table table-hover table-bordered table-sm" id="myTable">
                 <thead class="thead-dark">
                     <th>Customer ID</th>
@@ -219,31 +218,7 @@
                     <th>Transactions</th>     
                 </thead>
 
-                <%do until rs.EOF%>
-                <tr>
                 
-                    <td class="text-darker"><%Response.Write(rs("cust_id"))%></td>
-                    <td class="text-darker"><%Response.Write(Trim(rs("cust_lname")) & " " & Trim(rs("cust_fname")))%></td>
-                    <td class="text-darker"><%Response.Write(rs("department"))%></td>
-                    <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
-
-                    <td>
-
-                        <button type="button" id="<%=rs("cust_id")%>" class="btn btn-sm btn-success mx-auto mb-2 date_sales w-100" data-toggle="modal" data-target="#date_sales"  title="View Transactions" data-toggle="tooltip" data-placement="top">
-                            Cash
-                        </button>
-
-                        <button type="button" id="<%=rs("cust_id")%>" class="btn btn-sm btn-dark mx-auto mb-2 date_transact w-100" data-toggle="modal" data-target="#date_transactions"  title="View Transactions" data-toggle="tooltip" data-placement="top">
-                            Credit
-                        </button>
-                        
-                    </td>
-
-                     
-                </tr>
-                <%rs.MoveNext%>
-                <%loop%>
-                <%rs.close%>
 
             </table>
         </div>    
@@ -371,12 +346,56 @@
 <script src="tail.select-full.min.js"></script>
 <script>  
 let j = 0
+
+const custID = localStorage.getItem('cust_id');
+
  $(document).ready( function () {
     $('#myTable').DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         //scrollY: 430,
         scrollY: "auto",
         scroller: true,
+        ajax: {
+            'url': 'customer_get_main_ob.asp',
+            'type': 'POST',
+            'data': {'custID': custID},
+            "dataSrc": function (json) {
+            var return_data = new Array();
+            
+                for(var i=0;i< json.length; i++){
+
+                    return_data.push({
+                        'id': `<span class='text-darker'>${json[i].id} </span>` ,
+                        'name'  : `<span class='text-darker'> ${json[i].name}`,
+                        'department' :`<span class='text-darker'> ${json[i].department}`,
+                        'balance' : `<span class='text-darker'> <span class='text-primary'> &#8369; </span> ${json[i].balance} </span>`,
+                        'buttons' : `<button type='button' id='${json[i].id}' class='btn btn-sm btn-success mx-auto mb-2 date_sales w-100' data-toggle='modal' data-target='#date_sales'  title='View Transactions' data-toggle='tooltip' data-placement='top'>
+                            Cash
+                        </button>
+                        
+                        <button type='button' id='${json[i].id}' class='btn btn-sm btn-dark mx-auto mb-2 date_transact w-100' data-toggle='modal' data-target='#date_transactions'  title='View Transactions' data-toggle='tooltip' data-placement='top'>
+                            Credit
+                        </button>
+                        ` 
+                    });
+                    
+                    // custOB += json[i].balance;
+                    // console.log(custOB);
+
+                    
+                }
+  
+                return return_data;
+            
+            }
+        },
+        "columns": [
+            {"data": "id"},
+            {"data": "name"},
+            {"data": "department"},
+            {"data": "balance"},
+            {"data": "buttons"},
+        ],
         dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",

@@ -32,9 +32,9 @@
 <body>
 
 <%
-    if Session("cust_id") = "" then
-        Response.Redirect("cust_login.asp")
-    else
+    ' if Session("cust_id") = "" then
+    '     Response.Redirect("cust_login.asp")
+    ' else
 %>
 
 <!--#include file="customer_navbar.asp"-->
@@ -63,8 +63,9 @@
 
                 Dim ordersHolderPath
                 ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
+
             %>
-            <% rs.Open "SELECT DISTINCT unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" and cust_id="&Session("cust_id")&" GROUP BY unique_num", CN2 %>
+
             <table class="table table-striped table-bordered table-sm" id="myTable">
             <caption>List of orders</caption>
                 <thead class="thead-dark">
@@ -76,24 +77,8 @@
                     <th>Action</th>
                     <!--<th>Date</th>-->
                 </thead>
-                <% Dim i %>
-                <%do until rs.EOF%>
-                <tr>
-                    <%i = i + 1%>
-                    <td class="text-bold"><%Response.Write(i)%></td> 
-                    <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
-                    <td class="text-darker"><%Response.Write(rs("department"))%></td>   
-                    <td class="text-darker"><%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("amount"))%></td> 
-                    <td class="text-darker"><%Response.Write(FormatDateTime(rs("date"), 2))%></td>   
-                    <td>
-                    <a href='customer_my_orders_list.asp?unique_num=<%=rs("unique_num")%>&cust_id=<%=rs("cust_id")%>' id="<%=rs("cust_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct w-100">
-                        View Orders
-                    </a>
-                    </td>
-                <%rs.MoveNext%>
-                </tr>
-                <%loop%>
-                <%rs.close%>
+
+                
             </table>
         </div>    
     </div>
@@ -178,11 +163,64 @@
 
 <script>
 
+var custID = localStorage.getItem('cust_id');
+
 $(document).ready( function () {
     $('#myTable').DataTable({
         scrollY: "38vh",
         scroller: true,
         scrollCollapse: true,
+        ajax: {
+            'url': 'customer_get_pending_orders.asp',
+            'type': 'POST',
+            'data': {'custID': custID},
+            "dataSrc": function (json) {
+            var return_data = new Array();
+            
+                for(var i=0;i< json.length; i++){
+
+                    return_data.push({
+                        'order': `<span class='text-bold'>${json[i].orderNumber} </span>` ,
+                        'name'  : `<span class='text-darker'> ${json[i].custName} </span> `,
+                        'department' :`<span class='text-darker'>${json[i].department} </span> ` ,
+                        'amount' : `<strong class='text-darker'>&#8369; </strong> ${json[i].amount}`,
+                        'date' : `<span class='text-darker'>${json[i].date} </span> `,
+                        'button' : `<a href='customer_my_orders_list.asp?unique_num=${json[i].uniqueNum}&cust_id=${json[i].custID}' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
+                        View Orders
+                        </a>`
+
+                    });
+                    
+                    // custOB += json[i].balance;
+                    // console.log(custOB);
+                    
+                }
+        
+                // const td1 = document.createElement('td');
+                // td1.setAttribute('colspan', '3');
+                // td1.innerHTML = '<strong>Total Balance<strong>'
+                // const td2 = document.createElement('td');
+                // td2.setAttribute('colspan', '1');
+                // td2.innerHTML = `<strong> <span class='text-primary'> &#8369; </span> ${custOB} </strong>`;
+                // tr.appendChild(td1);
+                // tr.appendChild(td2);
+
+                // document.querySelector('.cust_name').textContent = json[0].name;
+                // document.querySelector('.department_lbl').textContent = json[0].department;
+
+                // time()
+                return return_data;
+            
+            }
+        },
+        "columns": [
+            {"data": "order"},
+            {"data": "name"},
+            {"data": "department"},
+            {"data": "amount"},
+            {"data": "date"},
+            {"data": "button"},
+        ],
         dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
@@ -195,9 +233,58 @@ $(document).ready( function () {
     });
 }); 
 
+// function getPendingOrders () {
+
+//     var URL = 'customer_get_pending_orders.asp';
+//     var custID = localStorage.getItem('cust_id');
+    
+//     $.ajax({
+//         url: URL,
+//         type: 'POST',
+//         data: {custID: custID},
+//         //data: {},
+//     })
+//     .done(function(data) {
+//         // console.log(data)
+//         if (data!=="no data") {
+
+//             let jsonObject = JSON.parse(data)
+
+//             let output = '';
+
+//             for (let i in jsonObject) {
+//                 output += ` <tr>
+//                                 <td class='text-bold'> ${jsonObject[i].orderNumber} </td>
+//                                 <td class='text-darker'> ${jsonObject[i].custName} </td>
+//                                 <td class='text-darker'> ${jsonObject[i].department} </td> 
+//                                 <td class='text-darker'> <strong class='text-primary'> &#8369; </strong> ${jsonObject[i].amount} </td> 
+//                                 <td class='text-darker'> ${jsonObject[i].date} </td> 
+//                                 <td class='m-0'>
+//                                     <a href='customer_my_orders_list.asp?unique_num=${jsonObject[i].uniqueNum}&cust_id=${jsonObject[i].custID}' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
+//                                         View Orders
+//                                     </a>
+//                                 </td>
+//                             </tr>        
+//                         `;
+//             }
+
+//             $('td.dataTables_empty').attr('hidden', 'hidden');
+//             $('#myTable tr:last').after(output);
+
+//         } else {
+//             console.log("no new data");
+//         }
+//     })
+//     .fail(function() {
+//         console.log("error");
+//     });
+// }
+
+// getPendingOrders();
+
 </script>
 
-<%end if%>
+<%'end if%>
 
 </body>
 </html>

@@ -88,7 +88,10 @@
         </style>
     </head>
     <%
-        if Session("type") = "" then
+        Dim userType
+        userType = CStr(Request.QueryString("userType"))
+
+        if userType = "" then
             Response.Redirect("canteen_login.asp")
         end if
     %> 
@@ -290,7 +293,7 @@
             'Response.Write("Record Count: " & rsCount & "<br>")%>
 
             <!-- ORDER FORM -->
-            <%if ASC(Session("type")) = ASC("admin") then%>
+            <%if userType = "admin" then%>
                 <!-- ORDER FORM -->
             <form action="customer_incoming2.asp" class="form-group form-inline" method="POST">
                 <input type="number" name="cust_id" id="cust_id" value="<%=custID%>" hidden>
@@ -709,7 +712,7 @@
                                 <td> <span class="text-primary">&#8369;</span><%=rs("price")%> </td>
                                 <td><%=rs("qty")%> </td>
                                 <td> <span class="text-primary">&#8369;</span><%=rs("profit")%> </td>
-                            <%if ASC(Session("type")) = ASC("admin") then%>    
+                            <%if userType = "admin" then%>    
                                 <!--
                                     <td width="90"><a href="a_order_process_cancel.asp?transact_id=<'%=CLng(rs("id"))%>&salesQty=<'%=productQty%>&product_id=<'%=productID%>&unique_num=<'%=uniqueNum%>&cust_id=<'%=custID%>"><button class="btn btn-sm btn-warning"> Cancel </button></a></td>
                                 -->

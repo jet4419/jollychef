@@ -1,3 +1,4 @@
+<!--#include file="cust_homepage_checker.html"-->
 <!doctype html>
 <html>
     <head>
@@ -35,18 +36,18 @@
 
     </head>
 
-<body>
+<body class="customer-default-page">
 
 <%
-    if Session("type") <> "" then
-        Response.Redirect("canteen_homepage.asp")
-    end if
+    ' if Session("type") <> "" then
+    '     Response.Redirect("canteen_homepage.asp")
+    ' end if
 %>
 
 <!--#include file="customer_navbar.asp"-->
 <!--#include file="customer_sidebar.asp"-->
 
-<main id="main" class="main--main-page">
+<main id="main" class="main--main-page default">
 
     <h1 class="home-main-heading"> 
     	

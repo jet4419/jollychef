@@ -5,7 +5,13 @@
     
 	'RESPONSE.End()
 
-	
+	' if Application("test_global_asa") <> "" then
+
+   '    Response.Write Application("test_global_asa")
+
+   ' else
+   '    Response.Write "Not working"
+   ' end if
 'v_DpathRoot = "\\cluster\salesdata"
 v_DpathRoot = CStr(Application("main_path"))
 

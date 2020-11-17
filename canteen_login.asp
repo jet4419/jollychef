@@ -1,4 +1,5 @@
 <!--#include file="dbConnect.asp"-->
+<!--#include file="canteen_login_checker.asp"-->
 
 <!DOCTYPE html>
 <html lang="en">

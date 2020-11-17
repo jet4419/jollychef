@@ -32,11 +32,10 @@
                             <span class="info-label"><strong>Address: </strong></span>
                             <span>Km. 112 Maharlika Highway, Cabanatuan City</span>
                             <!-- <span class="info-text">Royce Canteen</span> -->
-                            
                         </span>
                     </div>
                     
-                    <%
+                    <%  
 
                         if isDate(Request.QueryString("date")) = true then
 
@@ -68,7 +67,6 @@
                         Dim salesOrderPath
 
                         salesOrderPath = mainPath & yearPath & "-" & monthPath & salesOrderFile  
-                        'Response.Write salesOrderPath
 
                         
 
@@ -125,8 +123,8 @@
                                     end if
 
                                 loop
+                                ' Response.Write checkPath
 
-                                'Response.Write salesOrderPath
                                 totalAmount = 0.00
                                 rs.Open "SELECT ref_no, prod_qty, prod_gen, prod_price, prodamount, date FROM "&salesOrderPath&" WHERE invoice_no="&invoice, CN2                      
                                 if not rs.EOF then

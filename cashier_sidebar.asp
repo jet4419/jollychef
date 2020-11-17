@@ -31,55 +31,33 @@
         </div>
 
     <a href="customers_list.asp" class="main-menus--items customers-icon"><i class="fas fa-users sidebar-icons"></i> <span class="icon-text">Customers</span></a>
-    <!--
-    <input class="checkbox-receivables" type="checkbox" id="reports2">
-        <label class="sidebar-label" for="reports2" id="reports-container2">    
-            <a class="main-menus--items"><i class="fas fa-layer-group sidebar-icons"></i> <span class="icon-text">Receivables</span></a>
-        </label>
-        <div class="checked-items--receivables">
-            <a href="bootAccountsReceivables.asp">Receivables</a>
-            <a href="t_ob_main.asp">OB Royce</a>
-            <a href="t_ob_others.asp">OB Other Customer</a>
-            <a href="t_monthly_reports.asp">Monthly Reports Royce</a>
-        </div>
-    -->  
-    <%if Session("type") <> "" or Session("type") <> "" then %>      
-        <%if ASC(Session("type")) = ASC("admin") or ASC(Session("type")) = ASC("programmer") then%>
-            <a href="customer_registration.asp" class="main-menus--items customers-icon"><i class="fas fa-user-plus sidebar-icons"></i> <span class="icon-text">Add Customer</span></a>
-        <%end if%>
-    <%end if%>
-    
-            <!--
-            <a href="t_ob_others.asp">OB Other Customer</a>
-            <a href="t_monthly_reports.asp">Monthly Reports Royce</a>
-        </div>
 
-    <input class="checkbox-customers" type="checkbox" id="reports3">
-        <label class="sidebar-label" for="reports3" id="reports-container3">
-            <a class="main-menus--items customers-icon"><i class="fas fa-users sidebar-icons"></i> <span class="icon-text">Customers</span></a>
-        </label>
-        <div class="checked-items--customers">
-            <a href="a_customers_list.asp">Royce Customers</a>
-    -->        
-            <!--
-            <a href="a_customers_others.asp">Other Customers</a>
-            
-            
-        </div>-->
-        <%'if ASC(Session("type")) = ASC("admin") then%>
-    <!--
-    <input class="checkbox-add-customer" type="checkbox" id="add-customer">
-        <label class="sidebar-label" for="add-customer" >
-            <a class="main-menus--items customers-icon"><i class="fas fa-user-plus sidebar-icons"></i> <span class="icon-text">Add Customer</span></a>
-        </label>
+   
 
-        
-        <div class="checked--add-customers">
-            <a href="a_register_customer.asp">Royce Customer</a>
-            
-            <a href="a_register_other_cust.asp">Other Customer</a>
-            
-        </div> 
-        -->   
-        <%'end if%>
 </div>
+
+<script>
+
+    const sidebar = document.getElementById('mySidebar');
+
+    if (localStorage.getItem('type') === 'admin' || localStorage.getItem('type') === 'programmer') {
+
+        const addCustomerLink = document.createElement('a');
+        addCustomerLink.setAttribute('href', 'customer_registration.asp');
+        addCustomerLink.className = 'main-menus--items customers-icon';
+
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-user-plus sidebar-icons';
+
+        const iconText = document.createElement('span');
+        iconText.textContent = 'Add Customer';
+        iconText.className = 'icon-text';
+
+        addCustomerLink.appendChild(icon);
+        addCustomerLink.appendChild(iconText); 
+
+        sidebar.appendChild(addCustomerLink);
+
+    }
+
+</script>

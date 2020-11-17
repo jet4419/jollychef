@@ -49,6 +49,10 @@
         padding-top: 5px;
     }
 
+    .hidden {
+        display: none;
+    }
+
 </style>
 
 <%
@@ -88,8 +92,9 @@
             <div class='navbar-date'> 
                 <i class='fas fa-calendar-check'></i><%=FormatDateTime(systemDate, 1)%>
             </div>
+            <span class='btn-cutoff'>
              <%Response.Write(cutoff)%>
-            
+            </span>
             <%
                 ' if Session("name")<>"" then
                 '     Response.Write("<button class='btn btn-sm btn-success' data-toggle='modal' data-target='#login' hidden>Login</button>")
@@ -156,6 +161,8 @@
 <script>
 
     const userInfo = document.querySelector('.user-info');
+    const btnCutoff = document.querySelector('.btn-cutoff');
+    btnCutoff.classList.add('hidden');
 
     if (localStorage.getItem('type')) {
         
@@ -189,6 +196,8 @@
 
         userInfo.appendChild(userProfile);
         userInfo.appendChild(pElement);
+
+        btnCutoff.classList.remove('hidden');
 
     } else {
 

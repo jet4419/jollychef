@@ -1,16 +1,17 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="session.asp"-->
 <%
-	if Session("cust_id")<>"" then
-	
-		btnAdd = Request.Form("btnAdd")
-		
-		if btnAdd<>"" then
+	Dim custID 
+	custID = CLng(Request.Form("custID"))
 
-		productID = CInt(Request.Form("productID"))
-		salesQty = CInt(Request.Form("salesQty"))
-		salesDate = CDate(Date)
+		productID = CInt(Request.Form("prodID"))
+		salesQty = CInt(Request.Form("prodQty"))
+		'salesDate = CDate(Date)
 		status= "Pending"
+
+		Response.Write custID
+		Response.Write productID
+		Response.Write salesQty
 
 		Dim systemDate
 		systemDate = CDate(Application("date"))
@@ -30,7 +31,7 @@
 		folderPath = mainPath & yearPath & "-" & monthPath
 
 		rs.Open "SELECT * FROM products WHERE prod_id="&productID, CN2
-
+		
 			isValidQty = true
 			holderQty = CInt(rs("qty"))
 			productBrand = rs("prod_brand")
@@ -38,11 +39,9 @@
 			price = CDbl(rs("price"))
 			origPrice = CDbl(rs("orig_price"))
 			holderCurrQty = holderQty - salesQty
-		
+	
 
-		if Session("cust_id") <> "" then
-			custID = CInt(Session("cust_id"))
-		else
+		if custID = "" then
 			custID = 0
 		end if
 
@@ -59,7 +58,7 @@
 			department = ""
 		end if
 
-		If salesQty>holderQty then
+		if salesQty>holderQty then
 			
 			Response.Write("<script language=""javascript"">")
 			Response.Write("alert(""Error: Insufficient quantity stocks"")")
@@ -73,78 +72,55 @@
 
 		else
 
-		qtySold = CInt(rs("qty_sold")) + salesQty
-		amount = price * salesQty	
-		profit = (price - origPrice) * salesQty
-		uniqueNum = 0
-		
-		rs.close
+			qtySold = CInt(rs("qty_sold")) + salesQty
+			amount = price * salesQty	
+			profit = (price - origPrice) * salesQty
+			uniqueNum = 0
+			
+			rs.close
 
-		Dim ordersHolderFile, ordersHolderPath
+			Dim ordersHolderFile, ordersHolderPath
 
-		ordersHolderFile = "\orders_holder.dbf"
-		ordersHolderPath = folderPath & ordersHolderFile
+			ordersHolderFile = "\orders_holder.dbf"
+			ordersHolderPath = folderPath & ordersHolderFile
 
-		rs.open "SELECT MAX(id) FROM "&ordersHolderPath&"", CN2
-			do until rs.EOF
-			for each x in rs.Fields
-				maxID = x.value
-			next
-			rs.MoveNext
-		loop
-		rs.close
-		maxID= CInt(maxID) + 1
+			rs.open "SELECT MAX(id) FROM "&ordersHolderPath&"", CN2
+				do until rs.EOF
+				for each x in rs.Fields
+					maxID = x.value
+				next
+				rs.MoveNext
+			loop
+			rs.close
+			maxID= CInt(maxID) + 1
 
-		Dim salesOrderFile, salesOrderPath
+			Dim salesOrderFile, salesOrderPath
 
-		salesOrderFile = "\sales_order.dbf"
-		salesOrderPath = folderPath & salesOrderFile
+			salesOrderFile = "\sales_order.dbf"
+			salesOrderPath = folderPath & salesOrderFile
 
-		rs.open "SELECT MAX(transactid) FROM "&salesOrderPath&"", CN2
-			do until rs.EOF
-			for each x in rs.Fields
-				maxTransactID = x.value
-			next
-			rs.MoveNext
-		loop
-		rs.close
-		salesOrderID = CInt(maxTransactID) + 1
+			rs.open "SELECT MAX(transactid) FROM "&salesOrderPath&"", CN2
+				do until rs.EOF
+				for each x in rs.Fields
+					maxTransactID = x.value
+				next
+				rs.MoveNext
+			loop
+			rs.close
+			salesOrderID = CInt(maxTransactID) + 1
 
-		rs.Open "SELECT * FROM "&ordersHolderPath&"", CN2
-		sqlAdd = "INSERT INTO "&ordersHolderPath&""&_ 
-		"(id, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, qty, amount, profit, status, date)"&_
-		"VALUES ("&maxID&", "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&salesQty&", "&amount&", "&profit&", '"&status&"', ctod(["&systemDate&"]))"
-		set objAccess = cnroot.execute(sqlAdd)
-		set objAccess = nothing
-		rs.close
+			rs.Open "SELECT * FROM "&ordersHolderPath&"", CN2
+			sqlAdd = "INSERT INTO "&ordersHolderPath&""&_ 
+			"(id, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, qty, amount, profit, status, date)"&_
+			"VALUES ("&maxID&", "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&salesQty&", "&amount&", "&profit&", '"&status&"', ctod(["&systemDate&"]))"
+			set objAccess = cnroot.execute(sqlAdd)
+			set objAccess = nothing
+			rs.close
 
-		CN2.close
+			CN2.close
 
-		isRedirect = true
-
-			if isRedirect = true then
-				Response.Write("<script language=""javascript"">")
-				Response.Write("window.location.href=""customer_ordering_page.asp""")
-				Response.Write("</script>")
-			end if
 		
 		end if
 
-
-		End If
-	else
-		Response.Write("<script language=""javascript"">")
-		Response.Write("alert('Your session timed out!')")
-		Response.Write("</script>")
-        isActive = false
- 
-            if isValidQty=false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""default.asp"";")
-                Response.Write("</script>")
-            end if
-
-
-	end if
 	
 %>

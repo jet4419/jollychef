@@ -1,6 +1,7 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="aspJSON1.17.asp" -->
-<!--#include file="session_cashier.asp"-->
+
+
 <%
 
 Dim systemDate, isDayEnded

@@ -3,28 +3,28 @@
 
 <%
     
-    if Session("type") <> "" then
+    ' if Session("type") <> "" then
 
-        Response.Redirect("canteen_homepage.asp")
+    '     Response.Redirect("canteen_homepage.asp")
 
-    end if
+    ' end if
 
-    Session.Timeout=60
+    ' Session.Timeout=60
 
-    if Session("cust_id") = "" then
+    ' if Session("cust_id") = "" then
 
-        Response.Write("<script language=""javascript"">")
-		Response.Write("alert('Your session timed out!')")
-		Response.Write("</script>")
-        isActive = false
+    '     Response.Write("<script language=""javascript"">")
+	' 	Response.Write("alert('Your session timed out!')")
+	' 	Response.Write("</script>")
+    '     isActive = false
  
-            if isValidQty=false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""cust_login.asp"";")
-                Response.Write("</script>")
-            end if
+    '         if isValidQty=false then
+    '             Response.Write("<script language=""javascript"">")
+    '             Response.Write("window.location.href=""cust_login.asp"";")
+    '             Response.Write("</script>")
+    '         end if
 
-    end if
+    ' end if
 
 %>
 <!DOCTYPE html>
@@ -56,7 +56,7 @@
         </script>
 
         <style>
-            
+  
             div.tail-select.no-classes {
                 width: 400px !important;
             }
@@ -105,6 +105,7 @@
                 font-size: 2.5rem;
                 color: #ccc;
             }
+            
 
         </style>
     </head>
@@ -176,8 +177,8 @@
 
         <p class="display-4 mb-5 p-0 text-center">Ordering Page <i class="fas fa-store store-icon"></i> </p>
         <%
-            productID = CInt(Request.QueryString("productID"))
-            productQty = CInt(Request.QueryString("prodQty"))
+            ' productID = CInt(Request.QueryString("productID"))
+            ' productQty = CInt(Request.QueryString("prodQty"))
             productsIDs = ""
             ordersIDs = ""
             sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status=""Pending"" GROUP BY prod_id ORDER BY prod_brand, prod_name"
@@ -192,24 +193,10 @@
             set objAccess = nothing
             ids = ltrim(ordersIDs)
             orderIDS = Split(ids, " ")
-            ' for each x in orderIDS
-            '     Response.Write("Orders ID value: " & x)
-            '     Response.Write("<br>")
-            ' next
-            'Response.Write("Length of Array Order IDS: " & Ubound(orderIDS) & "<br>")
-            'Response.Write( "Order ID#: " & orderIDS(0) & "<br>")
-
-            'Response.Write(objAccess("qty"))
-            'Don't know what's for is this code
-            ' rs.open "SELECT COUNT(prod_id) AS recordCount FROM products", CN2
-
-            ' rsCount = CInt(rs("recordCount"))
-            ' rs.close
-            ''
-            'Response.Write("Record Count: " & rsCount & "<br>")%>
+        %>
 
             <!-- ORDER FORM -->
-            <form action="customer_incoming.asp" class="form-group form-inline" method="POST">
+            <form class="form-group form-inline mainForm">
                 <select id="products" class="form-control mr-2" name="productID" style="width:650px; "class="chzn-select" required placeholder="Select Product">
                    
                     <!--<optgroup label="Group 1"> -->
@@ -584,13 +571,13 @@
             <%end if%>
             </select>
                 <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" required>
-                <button name="btnAdd" value="btnAddDetails" type="submit" class="btn btn-success" min="1" max="100" >Add</button>
+                <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-success" min="1" max="100" >Add</button>
             </form>
             <!-- END OF ORDER FORM -->
 
             <%'Response.Write(Session("cust_id"))%>
             <!-- ORDER TABLE --> 
-            <table class="table table-striped table-bordered table-sm"> 
+            <table id="myTable" class="table table-striped table-bordered table-sm"> 
             <caption>List of orders</caption>
                 <thead class="thead-dark">
                     <th>Brand Name</th>
@@ -604,75 +591,16 @@
             
                 <tbody>
                     
-                    <%	
-                        'invoice = CInt(Request.QueryString("invoice_number"))
-                        'productID = CInt(Request.QueryString("product_id"))
-                        'productQty = CInt(Request.QueryString("prodQty"))
-                        Dim totalAmount, totalProfit, hasOrdered
-                        hasOrdered = true
-                        totalAmount = 0.00
-                        totalProfit = 0.00
-                        if Session("cust_id")<>"" then
-                            rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""Pending"" and cust_id="&Session("cust_id"), CN2
-                        else
-                            rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""Pending"" and cust_id=-100", CN2
-                        end if
-                    %>
-                        <%if not rs.EOF then%>
-                            <%do until rs.EOF%>
-                                
-                                <tr>
-                                <td><%=rs("prod_brand")%> </td>
-                                <td><%=rs("prod_name")%> </td>
-                                <td><%="<span class='text-primary' >&#8369; </span>"&rs("price")%> </td>
-                                <td><%=rs("qty")%> </td>
-                                <td><%="<span class='text-primary' >&#8369; </span>"&rs("amount")%> </td>
-                                <!--<td><'%=rs("profit")%> </td>-->
-                                <!--
-                                <td width="90"><a href="customer_cancel_order.asp?id=<'%'=CInt(rs("id"))%>&salesQty=<'%='productQty%>&product_id=<'%='productID%>"><button class="btn btn-mini btn-warning"><i class="icon icon-remove"></i> Cancel </button></a></td>
-                                -->
-                                <td width="90">
-                                    <button onClick="delete_order(<%=CDbl(rs("id"))%>, <%=productQty%>, <%=productID%>)" class="btn btn-sm btn-warning"> Cancel </button>
-                                </td>
-                                </tr>
-                            <%  
-                                totalAmount = totalAmount + CDbl(rs("amount"))
-                                totalProfit = totalProfit + CDbl(rs("profit"))
-                                rs.MoveNext
-
-                            loop
-                            
-                            %>
-                        
-                                <tr>
-                                    <!--<td colspan="3"><h1 class="lead"><strong>Total Profit</h1></strong> <h4>  &#8369; <'%=totalProfit%></h4> </td> -->
-                                    <td colspan="6"><h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="text-primary">&#8369;</span> <%=totalAmount%></h4> </td>
-                                </tr>
-                        <%else
-                            hasOrdered = false
-                          end if
-                        %>        
+                    
                                 
                 </tbody>
             </table>
             <!-- END OF ORDER TABLE -->
-            <%
-                rs.close
-                CN2.close
-            %>
-                <!-- MODAL BUTTONS -->
-                <!--<button type="button" class="btn btn-primary btn-block mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#payCashModal">
-                Pay Cash
-                </button> -->
-                <%if hasOrdered = false then%>
-                    <button type="button" class="btn btn-success btn-block text-white mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#paymentMethodModal" disabled>
-                    Process Order
-                    </button>
-                <%else%>   
-                    <button type="button" class="btn btn-success btn-block text-white mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#paymentMethodModal">
-                    Process Order
-                    </button> 
-                <%end if%>    
+
+                <button type="button" class="btn btnPayment btn-success btn-block text-white mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#paymentMethodModal">
+                Process Order
+                </button> 
+  
                 <!--<button type="button" class="btn btn-danger btn-block btn-sm text-white mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#confirmDayEnd">
                 Day End
                 </button>-->
@@ -690,10 +618,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <input type="number" name="customerID" value="<%=Session("cust_id")%>" hidden>
-                                <input type="number" name="totalProfit" value="<%=totalProfit%>" hidden>
-                                <input type="number" name="totalAmount" value="<%=totalAmount%>" hidden>
-                                <input type="text" name="isClosed" value="yes" hidden>
+                                <input type="number" name="customerID" id="customerID" hidden>
                                 <p>Are you sure to process your order?</p>
                             </div>
                             <div class="modal-footer">
@@ -850,11 +775,109 @@
         deselect: true,    
     });
 
-    function delete_order(transactID , qty, productID, uniqueNum, custID) {
+    const products = document.querySelector('#products');
+    const quantity = document.querySelector('#quantity');
+
+    $('.btnAdd').click(function() {
+
+        if(products.checkValidity() && quantity.checkValidity()) {
+            //your form execution code
+            event.preventDefault();
+
+            var URL = 'customer_incoming.asp';
+            var custID = Number(localStorage.getItem('cust_id'));
+            var prodID = Number(document.querySelector('#products').value);
+            var prodQty = Number(document.querySelector('#quantity').value);;
+            
+            $.ajax({
+                url: URL,
+                type: 'POST',
+                data: {custID: custID, prodID: prodID, prodQty: prodQty},
+                //data: {},
+            })
+            .done(function(data) { 
+                //console.log(custID, prodID, prodQty);
+                location.reload();
+            })
+            .fail(function() {
+                console.log("error");
+            });
+
+        }
+    })
+
+    
+    function getOrders () {
+            
+        var URL = 'customer_get_orders.asp';
+        var custID = Number(localStorage.getItem('cust_id'));
+        var totAmount = 0;
+        var totalAmountStr = "";
+        
+        $.ajax({
+            url: URL,
+            type: 'POST',
+            data: {custID: custID},
+            //data: {},
+        })
+        .done(function(data) {
+            console.log(data)
+            if (data!=="no data") {
+
+                let jsonObject = JSON.parse(data)
+
+                let output = '';
+
+                for (let i in jsonObject) {
+                    output += ` <tr>
+                                    <td> ${jsonObject[i].prodBrand} </td>
+                                    <td> ${jsonObject[i].prodName} </td>
+                                    <td> <span class='text-primary'>&#8369; </span> ${jsonObject[i].price} </td> 
+                                    <td> <span class='text-primary'></span> ${jsonObject[i].qty} </td> 
+                                    <td> <strong class='text-primary'> &#8369; </strong> ${jsonObject[i].amount} </td> 
+                                    <td width="90">
+                                        <button onClick="delete_order(${jsonObject[i].id})" class='btn btn-sm btn-warning'>
+                                            Cancel
+                                        </button>
+                                    </td>
+                                </tr>    
+
+                                
+                            `;
+
+                        totAmount += jsonObject[i].amount;
+                }  
+
+                
+                totalAmountStr = `<tr>
+                                    <td colspan="6"> 
+                                        <h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="text-primary">&#8369;</span> ${totAmount} </h4> 
+                                    </td> 
+                                </tr>    `
+                $('td.dataTables_empty').attr('hidden', 'hidden');
+                $('#myTable tr:last').after(output + totalAmountStr);
+                
+                document.querySelector('#customerID').value = Number(localStorage.getItem('cust_id'));
+
+            } else {
+                console.log("no new data");
+                $('.btnPayment').attr('disabled', "");
+            }
+        })
+        .fail(function() {
+            console.log("error");
+        });
+        
+    }
+
+    setTimeout( () => getOrders(), 100 )
+    
+
+    function delete_order(transactID) {
 
         if(confirm('Are you sure that you want to cancel this order?'))
         {
-            window.location.href='customer_cancel_order.asp?transact_id='+transactID+'&salesQty='+qty+'&product_id='+productID;
+            window.location.href='customer_cancel_order.asp?transact_id='+transactID;
             //window.location.href='delete.asp?delete_id='+id;
         }
 

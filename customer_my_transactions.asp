@@ -330,28 +330,14 @@
             <% rs.open "SELECT * FROM "&transactionsPath&" WHERE duplicate!='yes' and t_type!='OTC' and cust_id="&custID&" and date between CTOD('"&p_start_date&"') and CTOD('"&p_end_date&"') ORDER BY id", CN2 %>
 
                 <div class='date-label-container'>
+                
                     <div>
                         <p class='display-date-container'><strong> Date Range: </strong>
                             <%=displayDate1 & " - "%>
                             <%=displayDate2%>
                         </p>
                     </div>       
-                    <div>
-                        <!--<button class='btn btn-sm btn-primary'>Month End</button> -->
-                        <%if Session("cust_id")="" then%>
-                            <%if ASC(isStoreClosed) = ASC("closed") then%>
-                                <% if ASC(rs("status")) = ASC("completed") then %>
-                                    <div class="tooltip">
-                                    <button class='btn btn-sm btn-danger' onClick="monthEnd(<%=custID%>, <%=creditBal%>, <%=debitBal%>)">Cut Off</button>
-                                    </div>
-                                <%else%>    
-                                    <button class='btn btn-sm btn-danger' onClick="monthEnd(<%=custID%>, <%=creditBal%>, <%=debitBal%>)">Cut Off</button>
-                                <%end if%> 
-                            <%else%>
-                                <button class='btn btn-sm btn-danger' onClick="monthEnd(<%=custID%>, <%=creditBal%>, <%=debitBal%>)"  title="Sales is ongoing" disabled data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>Cut Off</button>
-                            <%end if%>   
-                        <%end if%>                                   
-                    </div>
+                    
                 </div>
             <%
                 Dim balance, totalBalance

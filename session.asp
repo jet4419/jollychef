@@ -22,7 +22,7 @@
 
     if (!localStorage.getItem('cust_id')) {
 
-        alert('Your session timed out!');
+        // alert('Your session timed out!');
         window.location.href='cust_login.asp';
     }
 

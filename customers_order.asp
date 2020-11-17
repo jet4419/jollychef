@@ -2,9 +2,9 @@
 <!--#include file="session_cashier.asp"-->
 <%
 
-    if Session("type") = "" then
-        Response.Redirect("canteen_homepage.asp")
-    end if
+    ' if Session("type") = "" then
+    '     Response.Redirect("canteen_homepage.asp")
+    ' end if
 
 %>
 
@@ -51,9 +51,9 @@
 
     </head>
     <%
-        if Session("type") = "" then
-            Response.Redirect("canteen_login.asp")
-        end if
+        ' if Session("type") = "" then
+        '     Response.Redirect("canteen_login.asp")
+        ' end if
     %>     
 <body>
 
@@ -119,9 +119,10 @@
                     <td class="text-darker"><%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("amount"))%></td> 
                     <td class="text-darker"><%Response.Write(FormatDateTime(rs("date"), 2))%></td>
                     <td class="m-0">
-                        <a href='customer_order_process.asp?unique_num=<%=rs("unique_num")%>&cust_id=<%=rs("cust_id")%>' id="<%=rs("cust_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct">
-                            View
-                        </a>
+                        <button onClick="view_order(<%=rs("unique_num")%>, '<%=rs("cust_id")%>')" class="btn btn-sm btn-outline-dark mx-auto mb-2">
+                        View
+                        </button>
+
                         <button onClick="delete_order(<%=rs("unique_num")%>, '<%=i%>')" class="btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct">
                             Cancel
                         </button>
@@ -202,6 +203,9 @@
 
 <script src="js/main.js"></script> 
 <script>  
+
+const userType = localStorage.getItem('type');
+
  $(document).ready( function () {
     $('#myTable').DataTable({
         scrollY: "38vh",
@@ -225,6 +229,12 @@
 	
 // }
 
+function view_order(unique_num ,custID) {
+
+    window.location.href=`customer_order_process.asp?unique_num=${unique_num}&cust_id=${custID}&userType=${userType}`;
+
+}
+
 function delete_order(unique_num ,order_number) {
 
      if(confirm('Are you sure that you want to cancel Order# ' + order_number + ' ?'))
@@ -247,22 +257,12 @@ function get_post(){
         //data: {},
     })
     .done(function(data) {
-        //here assign the returned data to the html element
-        //document.querySelector("p").innerHTML = data.text;
-        //console.log(data)
-        // document.querySelector("p").innerHTML = data.responseText;
-        // $("p").html("<strong>" + data + "</strong>");
+
         if (data!=="no new data") {
-            //console.log(data.length)
+
             let jsonObject = JSON.parse(data)
-            //console.log(data.responseText)
-            //let jsonObject = JSON.parse(data)
-            //console.log(jsonObject["orders"][0].date)
-            //console.log(JSON.parse(data))
+
             let output = '';
-            //console.log(Object.keys(jsonObject).length)
-            //console.log(jsonObject.size)
-            //console.log(jsonObject.length)
 
             for (let i in jsonObject) {
                 output += ` <tr>
@@ -272,7 +272,7 @@ function get_post(){
                                 <td class='text-darker'> <strong class='text-primary'> &#8369; </strong> ${jsonObject[i].amount} </td> 
                                 <td class='text-darker'> ${jsonObject[i].date} </td> 
                                 <td class='m-0'>
-                                    <a href='customer_order_process.asp?unique_num=${jsonObject[i].uniqueNum}&cust_id=${jsonObject[i].custID}' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
+                                    <a href='customer_order_process.asp?unique_num=${jsonObject[i].uniqueNum}&cust_id=${jsonObject[i].custID}&userType=${userType}' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
                                         View
                                     </a>
                                     <button onClick='delete_order(${jsonObject[i].uniqueNum}, ${jsonObject[i].orderNumber})' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
@@ -287,11 +287,7 @@ function get_post(){
 
             $('td.dataTables_empty').attr('hidden', 'hidden');
             $('#myTable tr:last').after(output);
-            // var table = $("#myTable").DataTable();
-            // table.ajax.reload();
-            //$("tbody").append(output)
-            //$("span.orderID").attr('id', jsonObject["orders"][0].id+=1)
-            // $("tbody").append("<tr>" + data + "</tr>");
+
         } else {
             console.log("no new data");
         }
@@ -300,7 +296,6 @@ function get_post(){
         console.log("error");
     });
 }
-//after that you will need this in order to call the function on periodical intervals:
 
 setInterval(function(){
     get_post()         
