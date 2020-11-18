@@ -112,12 +112,10 @@
    uniqueNum = CLng(Request.QueryString("unique_num"))
    isValidOrder = false
 
-    Dim systemDate, isDayEnded
-    systemDate = CDate(Application("date"))
+    Dim isDayEnded
 
-    Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = Year(systemDate)
     monthPath = Month(systemDate)
 

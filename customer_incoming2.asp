@@ -12,12 +12,8 @@
 		salesDate = CDate(Date)
 		status= Trim("On Process")
 
-		Dim systemDate
-		systemDate = CDate(Application("date"))
+		Dim yearPath, monthPath
 
-		Dim mainPath, yearPath, monthPath
-
-		mainPath = CStr(Application("main_path"))
 		yearPath = CStr(Year(systemDate))
 		monthPath = CStr(Month(systemDate))
 

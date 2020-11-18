@@ -12,12 +12,10 @@
 
     adjustments = Split(myAdjustments,",")
     invoices = Split(myInvoices,",")
-    systemDate = CDate(Application("date"))
     remarks = CStr(Request.Form("remarks"))
 
-   Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = CStr(Year(ref_date))
     monthPath = CStr(Month(ref_date))
 

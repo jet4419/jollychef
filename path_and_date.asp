@@ -1,10 +1,6 @@
 <!--#include file="dbConnect.asp"-->
 <%
 
-    Dim mainPath, systemDate
-
-    mainPath = "C:/test/jollychef"
-
     sqlGetDate = "SELECT MAX(date) AS date FROM system_date" 
     set objAccess = cnroot.execute(sqlGetDate)
 
@@ -16,8 +12,6 @@
     else
         systemDate = CDate(Date)
     end if  
-
-    systemDate = FormatDateTime(systemDate, 2)
 
     sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
         set objAccess = cnroot.execute(sqlQuery)

@@ -11,14 +11,13 @@
     isValidRef = true
     dateTransact = CDate(Request.Form("date"))
     userPayment = "Cash"
-    systemDate = CDate(Application("date"))
     referenceNo = CStr(Request.Form("ref_no"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
 
     totalCashPayment = CDbl(Request.Form("total_payment"))
     
     totalProfit = 0.00
-    email = CStr(Session("email"))
+    email = CStr(Request.Form("email"))
     'Set the user type of the cashier's currently logged in'
     sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
     set objAccess = cnroot.execute(sqlGetInfo)
@@ -54,9 +53,8 @@
 
     if isValidRef = true then
 
-        Dim mainPath, yearPath, monthPath
+        Dim yearPath, monthPath
 
-        mainPath = CStr(Application("main_path"))
         yearPath = CStr(Year(systemDate))
         monthPath = CStr(Month(systemDate))
 

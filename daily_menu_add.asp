@@ -87,12 +87,7 @@
         <% rs.open "SELECT prod_id, prod_brand, prod_name, orig_price, price, category, qty FROM products WHERE products.prod_id "&_
                    "NOT IN (SELECT prod_id FROM daily_meals) ORDER BY prod_id", CN2
         %>
-        <% 'rs.Open "SELECT prod_id, prod_brand, prod_name, orig_price, price, category, qty FROM products WHERE fix_menu='no' ORDER BY prod_id", CN2 %>
-        <%  'dailyMealIDs = ""
-            Dim systemDate
-            systemDate = CDate(Application("date"))
-           
-        %>
+
         <table class="table table-striped table-bordered table-sm" id="myTable">
             <thead class="thead-dark">
                 <th>Product ID</th>

@@ -67,15 +67,10 @@
 
 <%
 
-    Dim systemDate
-
-    systemDate = CDate(Application("date"))
-
     displayDate1 = Day(systemDate) & " " & MonthName(Month(systemDate)) & " " & Year(systemDate)
 
-    Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = CStr(Year(systemDate))
     monthPath = CStr(Month(systemDate))
 

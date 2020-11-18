@@ -1,3 +1,5 @@
+<!--#include file="dbConnect.asp"-->
+
 <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&display=swap" rel="stylesheet">
 <style>
 
@@ -61,9 +63,6 @@
 
             
         </div>
-        <%
-            systemDate = CDate(Application("date"))
-        %>
 
         <div class="user-info">
             

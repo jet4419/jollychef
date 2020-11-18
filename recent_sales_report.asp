@@ -1,4 +1,5 @@
 <!--#include file="dbConnect.asp"-->
+<!--#include file="session_cashier.asp"-->
 
 <!DOCTYPE html>
 <html>
@@ -64,9 +65,9 @@
     </head>
 
     <%
-        if Session("type") = "" then
-            Response.Redirect("canteen_login.asp")
-        end if
+        ' if Session("type") = "" then
+        '     Response.Redirect("canteen_login.asp")
+        ' end if
     %>
 
 <body>
@@ -85,12 +86,12 @@
         <h1 class="h2 text-center mb-4 main-heading"> <strong>Sales Report</strong> </h1>
         <div class="container">
             <%
-                Dim totalAmount, totalProfit, totalCOH, totalCredit, systemDate
+                Dim totalAmount, totalProfit, totalCOH, totalCredit
+
                 totalGross = 0.00
                 totalNet = 0.00
                 totalCOH = 0.00
                 totalCredit = 0.00
-                systemDate = CDate(Application("date"))
             %>
             <% rs.Open "SELECT * FROM sales WHERE date=CTOD('"&systemDate&"') ORDER BY transactid", CN2 %>
             <table class="table table-hover table-bordered table-sm" id="myTable">

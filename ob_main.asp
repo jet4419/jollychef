@@ -73,8 +73,6 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <% 
-    Dim systemDate
-    systemDate = CDate(Application("date"))
 
     'if (Month(systemDate) <> Month(systemDate + 1)) then
 
@@ -94,14 +92,11 @@
     
     <div id="content">
         <div class="container mb-5">
-            <h1 class="h2 text-center mt-3 mb-5 main-heading"> 
-                <strong>Credit Balance</strong>
+            <h1 class="h1 text-center mt-3 mb-5 main-heading" style="font-weight: 400"> 
+                Credit Balance
             </h1>
 
             <%  
-                Dim mainPath
-
-                mainPath = CStr(Application("main_path"))
 
                 Dim monthLength, monthPath, yearPath
 

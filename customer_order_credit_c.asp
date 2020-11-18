@@ -2,8 +2,6 @@
 <!--#include file="session_cashier.asp"-->
 
 <%
-Dim systemDate
-systemDate = CDate(Application("date"))
 
 customerID = CLng(Request.Form("cust_id"))
 uniqueNum = CLng(Request.Form("unique_num"))
@@ -51,9 +49,8 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
 
     if isValidRef = true then    
 
-        Dim mainPath, yearPath, monthPath
+        Dim yearPath, monthPath
 
-        mainPath = CStr(Application("main_path"))
         yearPath = Year(systemDate)
         monthPath = Month(systemDate)
 

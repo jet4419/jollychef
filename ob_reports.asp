@@ -71,9 +71,6 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <% 
-    Dim systemDate
-    systemDate = CDate(Application("date"))
-
     sDay = Day(systemDate)
     sMonth = MonthName(Month(systemDate))
     sYear = Year(systemDate)
@@ -85,7 +82,7 @@
         <div class="container">
             <h1 class="h2 text-center mt-4 mb-5 main-heading d-flex justify-content-between">
                  <button class="btn btn-sm btn-outline-dark float-right date_transact" data-toggle="modal" data-target="#date_transactions" title="Select date of reports" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Select Date</button>
-                <strong>Outstanding Balance as of <%=sMonth & " " & sDay & ", " & sYear %></strong>
+                <span class="h2" style="font-weight: 400">Outstanding Balance as of <%=sMonth & " " & sDay & ", " & sYear %></span>
                 <%if (Month(systemDate) <> Month(systemDate + 1)) then%>
                     <button class="btn btn-outline-dark float-right month-end-label">Month End</button>
                 <%else%>
@@ -94,9 +91,8 @@
             </h1>
 
             <%  
-                Dim mainPath, yearPath, monthPath
-        
-                mainPath = CStr(Application("main_path"))
+                Dim yearPath, monthPath
+
                 yearPath = CStr(Year(systemDate))
                 monthPath = CStr(Month(systemDate))
 

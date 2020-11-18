@@ -73,8 +73,6 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <% 
-    Dim systemDate
-    systemDate = CDate(Application("date"))
 
     'if (Month(systemDate) <> Month(systemDate + 1)) then
 
@@ -110,7 +108,6 @@
                 yearPath = Year(systemDate)
 
                 file = "\ob_test.dbf"
-                mainPath = CStr(Application("main_path"))
                 folderPath = mainPath & yearPath & "-" & monthPath
                 filePath = folderPath & file
 

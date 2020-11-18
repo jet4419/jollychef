@@ -97,6 +97,7 @@ a:focus {
   top: 0;
   right: 25px;
   font-size: 16px;
+  /* font-weight: 600; */
   margin-left: 50px;
 }
 

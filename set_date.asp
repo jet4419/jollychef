@@ -1,3 +1,4 @@
+<!--#include file="checker_programmer.html"-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,13 +21,13 @@
 <body>
 
 <%
-    if Session("type") = "" then
-        Response.Redirect("canteen_homepage.asp")
-    end if
+    ' if Session("type") = "" then
+    '     Response.Redirect("canteen_homepage.asp")
+    ' end if
 
-    if Trim(Session("type")) <> Trim("programmer") then
-        Response.Redirect("canteen_homepage.asp")
-    end if      
+    ' if Trim(Session("type")) <> Trim("programmer") then
+    '     Response.Redirect("canteen_homepage.asp")
+    ' end if      
 %>
 
 <!--#include file="cashier_navbar.asp"-->

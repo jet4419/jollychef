@@ -29,9 +29,8 @@
     <select id="selectRecords" class="form-control" name="date_records" placeholder="Select Date of Records" required>
         <option value="" disabled selected>Select Date of Records</option>
         <%
-            Dim systemDate, yearPath, monthPath
+            Dim yearPath, monthPath
 
-            systemDate = CDate(Application("date"))
             yearPath = CStr(Year(systemDate))
             monthPath = CStr(Month(systemDate))
 
@@ -39,9 +38,8 @@
                 monthPath = "0" & monthPath
             end if
 
-            Dim mainPath, obFile 
+            Dim obFile 
 
-            mainPath = CStr(Application("main_path"))
             folderPath = mainPath & yearPath & "-" & monthPath
             obFile = "\ob_test.dbf"
             obPath = folderPath & obFile

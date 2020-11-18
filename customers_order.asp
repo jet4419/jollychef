@@ -61,12 +61,10 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <%
-    Dim systemDate, isDayEnded
-    systemDate = CDate(Application("date"))
+    Dim isDayEnded
 
-    Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = Year(systemDate)
     monthPath = Month(systemDate)
 
@@ -85,7 +83,7 @@
 
 <div id="main">
 
-    <h1 class="h1 text-center pt-3 mb-4 main-heading"> <strong>Customers Order</strong> </h1>
+    <h1 class="h1 text-center pt-3 mb-4 main-heading" style="font-weight: 400">Customers Order</h1>
     <div id="content">
         <div class="container mb-5">
 

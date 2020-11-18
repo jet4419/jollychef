@@ -3,7 +3,7 @@
 
 <%
     Dim myInvoices, myValues, subTotal, cashPayment, custID, strInvoices 
-    Dim strValues, values, invoices, systemDate, referenceNo, isValidRef
+    Dim strValues, values, invoices, referenceNo, isValidRef
 
     isValidRef = true
     myInvoices = Request.Form("myInvoices")
@@ -12,7 +12,6 @@
     cashPayment = CDbl(Request.Form("cashPayment"))
     custID = CDbl(Request.Form("custID"))
 
-    systemDate = CDate(Application("date"))
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
 
@@ -52,9 +51,8 @@
         set objAccess = nothing
 
 
-        Dim mainPath, yearPath, monthPath
+        Dim yearPath, monthPath
 
-        mainPath = CStr(Application("main_path"))
         yearPath = CStr(Year(systemDate))
         monthPath = CStr(Month(systemDate))
 

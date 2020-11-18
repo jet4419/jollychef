@@ -41,6 +41,10 @@
                 justify-content: space-between;
                 align-items: center;
             }
+
+            .main-title {
+                font-weight: 500;
+            }
         </style>
     </head>
     <%
@@ -68,7 +72,7 @@
             <button type="button" id="btnAddProduct" class="btn btn-outline-dark float-left" data-toggle="modal" data-target="#addProduct"> 
                 <i class="fas fa-plus-circle pr-1"></i> <span> Add Product </span> 
             </button> 
-            <span class="pr-5 main-heading"><strong>Products</strong></span> 
+            <span class="pr-5 main-heading main-title">Products</span> 
             <a href="daily_menu_list.asp" id="btnAddDailyMeal" class="btn btn-outline-dark float-right">
                 Menu List
             </a>

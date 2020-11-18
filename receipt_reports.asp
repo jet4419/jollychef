@@ -40,7 +40,7 @@
                         </span>
                     </div>
                     <%
-                        Dim mainPath, folderPath, yearPath, monthPath, transactDate, invoice
+                        Dim folderPath, yearPath, monthPath, transactDate, invoice
 
                         Dim isValidDate
                         isValidDate = IsDate(Request.QueryString("date"))
@@ -53,7 +53,6 @@
                         Dim isInvoiceNumeric
                         isInvoiceNumeric = IsNumeric(invoice)
 
-                        mainPath = CStr(Application("main_path"))
                         yearPath = CStr(Year(transactDate))
                         monthPath = CStr(Month(transactDate))
 

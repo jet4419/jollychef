@@ -15,12 +15,10 @@
 	custID = CLng(Request.QueryString("cust_id"))
 	userType = CStr(Request.QueryString("userType"))
 
-    Dim systemDate, isDayEnded
-    systemDate = CDate(Application("date"))
+    Dim isDayEnded
 
-    Dim mainPath, yearPath, monthPath
-
-    mainPath = CStr(Application("main_path"))
+    Dim  yearPath, monthPath
+    
     yearPath = Year(systemDate)
     monthPath = Month(systemDate)
 

@@ -13,12 +13,9 @@
 		Response.Write productID
 		Response.Write salesQty
 
-		Dim systemDate
-		systemDate = CDate(Application("date"))
 
-		Dim mainPath, yearPath, monthPath
+		Dim yearPath, monthPath
 
-		mainPath = CStr(Application("main_path"))
 		yearPath = CStr(Year(systemDate))
 		monthPath = CStr(Month(systemDate))
 

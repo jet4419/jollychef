@@ -1,10 +1,9 @@
 <!--#include file="dbConnect.asp"-->
 
 <%
-    Dim data, ids, idsLen, prodID, prodBrand, prodName, prodQty, prodPrice, category, currDate, maxDMid, systemDate
+    Dim data, ids, idsLen, prodID, prodBrand, prodName, prodQty, prodPrice, category, currDate, maxDMid
     data = Request.Form("myTable_length")
-    'Response.Write(data) 
-    'systemDate = CDate(Application("date"))
+
     ids = Split(data, ",")
     idsLen = Ubound(ids)
     

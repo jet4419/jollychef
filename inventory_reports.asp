@@ -1,4 +1,5 @@
 <!--#include file="dbConnect.asp"-->
+<!--#include file="session_cashier.asp"-->
 
 <!DOCTYPE html>
 <html>
@@ -64,12 +65,6 @@
     </head>
 
     <%
-        ' if Session("type") = "" then
-        '     Response.Redirect("canteen_login.asp")
-        ' end if
-
-        Dim systemDate
-        systemDate = CDate(Application("date"))
         systemDate2 = Day(systemDate) & " " & MonthName(Month(systemDate)) & " " & Year(systemDate)
     %>
 
@@ -90,7 +85,7 @@
                 <a href="bootTopSeller.asp" class="btn btn-sm btn-outline-dark">Top Selling Products</a> 
             </h6>
             -->
-            <h1 class="h2 text-center my-3 main-heading"> <strong>Inventory Reports</strong> </h1>
+            <h1 class="h1 text-center my-3 main-heading" style="font-weight: 400">Inventory Reports</h1>
             
             <% rs.Open "SELECT prod_id, prod_brand, prod_name, orig_price, price, qty  FROM products WHERE fix_menu='yes'", CN2 %>
 

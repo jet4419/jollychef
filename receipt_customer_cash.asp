@@ -38,11 +38,8 @@
                         </span>
                     </div>
                     <%
-                        Dim mainPath, yearPath, monthPath, systemDate
-
-                        systemDate = CDate(Application("date"))
-
-                        mainPath = CStr(Application("main_path"))
+                        Dim yearPath, monthPath
+                        
                         yearPath = CStr(Year(systemDate))
                         monthPath = CStr(Month(systemDate))
 

@@ -46,10 +46,8 @@
     <div id="content">
         <div class="container mb-5">
             <%
-                Dim mainPath, systemDate, yearPath, monthPath
+                Dim yearPath, monthPath
 
-                mainPath = CStr(Application("main_path"))
-                systemDate = CDate(Application("date"))
                 yearPath = CStr(Year(systemDate))
                 monthPath = CStr(Month(systemDate))
                 

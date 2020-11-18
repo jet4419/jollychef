@@ -14,7 +14,7 @@
         maxSchedID = CInt(maxSchedID) + 1
     rs.close
 
-    currDateTime = CStr(Application("date") & " " & Time)
+    currDateTime = CStr(systemDate & " " & Time)
     sqlAdd = "INSERT INTO store_schedule (sched_id, date_time, status) VALUES ("&maxSchedID&",'"&currDateTime&"', ""open"")"
     cnroot.execute(sqlAdd)
     CN2.close

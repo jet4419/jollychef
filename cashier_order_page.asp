@@ -126,8 +126,7 @@
 
 <%  sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
     set objAccess = cnroot.execute(sqlQuery)
-    Dim systemDate, maxDailyDate
-    systemDate = CDate(Application("date"))
+    Dim maxDailyDate
 
     if not objAccess.EOF then
 
@@ -186,9 +185,8 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <%
-    Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = Year(systemDate)
     monthPath = Month(systemDate)
 
@@ -208,7 +206,7 @@
 
     <div class="container">
 
-        <p class="display-4 mb-5 p-0 text-center">Ordering Page <i class="fas fa-store store-icon"></i> </p>
+        <p class=" mb-5 pt-3 h1 p-0 text-center" style="font-weight: 400">Ordering Page <i class="fas fa-store store-icon"></i> </p>
         <%
             productID = CInt(Request.QueryString("productID"))
             productQty = CInt(Request.QueryString("prodQty"))

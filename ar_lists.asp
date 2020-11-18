@@ -185,9 +185,8 @@
         Dim fs
         Set fs=Server.CreateObject("Scripting.FileSystemObject")
 
-        Dim systemDate, yearPath, monthPath
+        Dim yearPath, monthPath
 
-        systemDate = CDate(Application("date"))
         yearPath = CStr(Year(systemDate))
         monthPath = CStr(Month(systemDate))
 
@@ -204,9 +203,8 @@
             monthPath = Month(systemDate)
         end if
 
-        Dim mainPath, folderPath
+        Dim folderPath
 
-        mainPath = CStr(Application("main_path"))
         folderPath = mainPath & yearPath & "-" & monthPath
 
 
@@ -299,8 +297,8 @@
         <div class="container pb-3 mb-5">
 
             <div class="users-info mb-1">
-                <h1 class="h3 text-center main-heading my-0"> <strong><span class="order_of">Credits of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
-                <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
+                <h1 class="h3 text-center main-heading my-0" style="font-weight: 400"><span class="order_of">Credits of</span> <span class="cust_name" style="font-weight: 400"><%=custFullName%></span></h1>
+                <h1 class="h5 text-center main-heading my-0" style="font-weight: 400"> <span class="department_lbl"><%=department%></span> </h1>
                 
             </div>
 
@@ -392,14 +390,14 @@
                     
                     <div class="item item-left form-group">
                         <span class="total-text">Sub Total
-                            <span class="text-primary">&#8369;</span>
+                            <span class="text-dark">&#8369;</span>
                         </span>
                         <input class="input-total form-control form-control-sm" type="number" name="total" value="0" step="any" min="0.1" max="0" id="total" required data-readonly/>
                     </div>
 
                     <div class="item item-right form-group">
                         <span class="total-text">Cash
-                            <span class="text-primary">&#8369;</span>
+                            <span class="text-dark">&#8369;</span>
                         </span>
                         <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" required/>
                     </div>

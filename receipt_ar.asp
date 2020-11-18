@@ -39,11 +39,8 @@
                     </div>
                     <%
 
-                        Dim mainPath, yearPath, monthPath, systemDate
+                        Dim yearPath, monthPath
 
-                        systemDate = CDate(Application("date"))
-
-                        mainPath = CStr(Application("main_path"))
                         yearPath = CStr(Year(systemDate))
                         monthPath = CStr(Month(systemDate))
 

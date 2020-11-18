@@ -1,12 +1,10 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="session_cashier.asp"-->
 <%
-    Dim systemDate, isDayEnded
-    systemDate = CDate(Application("date"))
+    Dim isDayEnded
 
-    Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = Year(systemDate)
     monthPath = Month(systemDate)
 

@@ -2,10 +2,8 @@
 <!--#include file="aspJSON1.17.asp" -->
 
 <%
-    Dim mainPath, yearPath, monthPath, systemDate
+    Dim yearPath, monthPath
 
-    systemDate = CDate(Application("date"))
-    mainPath = CStr(Application("main_path"))
     yearPath = Year(systemDate)
     monthPath = Month(systemDate)
 

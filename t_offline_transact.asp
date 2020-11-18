@@ -4,21 +4,21 @@
     
     ' Session.Timeout=1
 
-    if Session("name") = "" then
+    ' if Session("name") = "" then
 
-        Response.Write("<script language=""javascript"">")
-		Response.Write("alert('Your session timed out!')")
-		Response.Write("</script>")
-        isActive = false
+    '     Response.Write("<script language=""javascript"">")
+	' 	Response.Write("alert('Your session timed out!')")
+	' 	Response.Write("</script>")
+    '     isActive = false
  
-            if isValidQty=false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""canteen_login.asp"";")
-                Response.Write("</script>")
-            end if
+    '         if isValidQty=false then
+    '             Response.Write("<script language=""javascript"">")
+    '             Response.Write("window.location.href=""canteen_login.asp"";")
+    '             Response.Write("</script>")
+    '         end if
 
     
-    else
+    ' else
 %>
 <!DOCTYPE html>
 <html>
@@ -94,28 +94,29 @@
     -->
 <%'else%>
 
-<%  sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
-    set objAccess = cnroot.execute(sqlQuery)
-    Dim systemDate, maxDailyDate
-    systemDate = CDate(Application("date"))
+<%  
+    ' sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
+    ' set objAccess = cnroot.execute(sqlQuery)
+    ' Dim systemDate, maxDailyDate
+    ' systemDate = CDate(Application("date"))
 
-    if not objAccess.EOF then
-        schedID = CInt(objAccess("sched_id"))
-        isStoreClosed = Trim(objAccess("status").value)
-        dateClosed = CDate(FormatDateTime(objAccess("date_time"), 2))
-        'currDate = CDate(Date)
-    else
-        isStoreClosed = "open"
-        dateClosed = CDate(Date)
-        'currDate = CDate(Date)
-    end if
+    ' if not objAccess.EOF then
+    '     schedID = CInt(objAccess("sched_id"))
+    '     isStoreClosed = Trim(objAccess("status").value)
+    '     dateClosed = CDate(FormatDateTime(objAccess("date_time"), 2))
+    '     'currDate = CDate(Date)
+    ' else
+    '     isStoreClosed = "open"
+    '     dateClosed = CDate(Date)
+    '     'currDate = CDate(Date)
+    ' end if
 
-    set objAccess = nothing
+    ' set objAccess = nothing
 
-    if dateClosed < systemDate then
-        sqlUpdate = "UPDATE store_schedule SET status='closed' WHERE sched_id="&schedID
-        cnroot.execute(sqlUpdate)
-    end if
+    ' if dateClosed < systemDate then
+    '     sqlUpdate = "UPDATE store_schedule SET status='closed' WHERE sched_id="&schedID
+    '     cnroot.execute(sqlUpdate)
+    ' end if
 
     Dim maxRefNoChar, maxRefNo
     rs.Open "SELECT MAX(ref_no) FROM reference_no;", CN2
@@ -181,8 +182,9 @@
         <form action="t_offline_transact_c.asp" method="POST">
 
             <div class="form-group col-md-4 pl-0">
-                <label for="email" style="font-weight: 500">Reference No.</label>
+                <label for="ref_no" style="font-weight: 500">Reference No.</label>
                 <input type="text" style="color: #f6ab6c; font-weight: 600;" class="form-control form-control" name="ref_no" id="ref_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required>
+                <input type="text" id="email" name="email" value="" hidden required>
             </div>
 
             <div class="form-group col-md-4 pl-0">
@@ -321,4 +323,4 @@
 </body>
 </html>   
 
- <%end if %> 
+ <%'end if %> 

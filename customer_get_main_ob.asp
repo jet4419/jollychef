@@ -2,11 +2,6 @@
 <!--#include file="aspJSON1.17.asp" -->
 
 <%
-
-    Dim mainPath, systemDate
-
-    mainPath = CStr(Application("main_path"))
-    systemDate = CDate(Application("date"))
     
     Dim userID
     userID = CLng(Request.Form("custID"))

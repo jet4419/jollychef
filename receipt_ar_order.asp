@@ -52,7 +52,6 @@
                 Dim isInvoiceNumeric
                 isInvoiceNumeric = IsNumeric(invoice)
 
-                mainPath = CStr(Application("main_path"))
                 yearPath = CStr(Year(transactDate))
                 monthPath = CStr(Month(transactDate))
 

@@ -2,7 +2,7 @@
 
 <%
     Dim myInvoices, myValues, subTotal, cashPayment, custID, strInvoices 
-    Dim strValues, values, invoices, systemDate, referenceNo, paymentMethod
+    Dim strValues, values, invoices, referenceNo, paymentMethod
 
     myInvoices = Request.Form("myInvoices")
     myValues = Request.Form("myValues")
@@ -14,13 +14,11 @@
 
     values = Split(myValues,",")
     invoices = Split(myInvoices,",")
-    systemDate = CDate(Application("date"))
 
     'Start of the update
 
-    Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = CStr(Year(systemDate))
     monthPath = CStr(Month(systemDate))
 

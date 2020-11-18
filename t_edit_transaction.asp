@@ -4,13 +4,8 @@
     Dim collectID, custName, invoice, ref_no, collectDate, cash_paid, ar_paid, editCash, isAR
     collectID = CInt(Request.Form("collectionID"))
 
-    Dim systemDate
+    Dim yearPath, monthPath
 
-    systemDate = CDate(Application("date"))
-
-    Dim mainPath, yearPath, monthPath
-
-    mainPath = CStr(Application("main_path"))
     yearPath = CStr(Year(systemDate))
     monthPath = CStr(Month(systemDate))
 

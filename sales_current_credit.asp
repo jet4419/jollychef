@@ -226,9 +226,6 @@
 <!--#include file="cashier_sidebar.asp"-->
 
     <%
-        Dim systemDate
-
-        systemDate = CDate(Application("date"))
         transactDate = FormatDateTime(systemDate, 2)
 
         Dim collectID, custID, referenceNo
@@ -240,9 +237,8 @@
         referenceNo = Request.QueryString("ref_no")
         ' custName = CStr(Request.Form("cust_name"))
 
-        Dim mainPath, yearPath, monthPath
+        Dim yearPath, monthPath
 
-        mainPath = CStr(Application("main_path"))
         yearPath = CStr(Year(systemDate))
         monthPath = CStr(Month(systemDate))
 

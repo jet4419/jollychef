@@ -5,12 +5,8 @@ customerID = CInt(Request.Form("customerID"))
 
 rs.Open "SELECT * FROM daily_meals", CN2
 
-Dim systemDate
-systemDate = CDate(Application("date"))
+Dim yearPath, monthPath
 
-Dim mainPath, yearPath, monthPath
-
-mainPath = CStr(Application("main_path"))
 yearPath = CStr(Year(systemDate))
 monthPath = CStr(Month(systemDate))
 

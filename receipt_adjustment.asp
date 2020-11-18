@@ -39,7 +39,7 @@
                     </div>
             <%
 
-                Dim mainPath, yearPath, monthPath, transactDate
+                Dim yearPath, monthPath, transactDate
 
                 Dim isValidDate
                 isValidDate = IsDate(Request.QueryString("date"))
@@ -48,7 +48,6 @@
 
                 transactDate = CDate(Request.QueryString("date"))
 
-                mainPath = CStr(Application("main_path"))
                 yearPath = CStr(Year(transactDate))
                 monthPath = CStr(Month(transactDate))
 

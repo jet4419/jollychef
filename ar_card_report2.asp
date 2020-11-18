@@ -235,10 +235,6 @@
 
         yearPath = Year(startDate)
 
-        Dim mainPath
-
-        mainPath = CStr(Application("main_path"))
-
         obFile = "\ob_test.dbf"
         folderPath = mainPath & yearPath & "-" & monthPath
         obPath = folderPath & obFile

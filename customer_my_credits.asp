@@ -180,7 +180,6 @@
     </head>
 
     <%
-        Session.Abandon
 
         ' Session("cust_id") = 12
         ' if Session("cust_id") = "" then
@@ -190,9 +189,8 @@
         Dim fs
         Set fs=Server.CreateObject("Scripting.FileSystemObject")
 
-        Dim systemDate, yearPath, monthPath
+        Dim yearPath, monthPath
 
-        systemDate = CDate(Application("date"))
         yearPath = CStr(Year(systemDate))
         monthPath = CStr(Month(systemDate))
 
@@ -209,9 +207,8 @@
             monthPath = Month(systemDate)
         end if
 
-        Dim mainPath, folderPath
+        Dim folderPath
 
-        mainPath = CStr(Application("main_path"))
         folderPath = mainPath & yearPath & "-" & monthPath
     %>
 
@@ -222,35 +219,6 @@
 <!--#include file="customer_sidebar.asp"-->
 
     <%
-        Dim custFullName, currOB
-
-        currOB = 0.00
-        custID = CLng(Session("cust_id"))
-        
-        sqlGetName = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&custID
-        set objAccess = cnroot.execute(sqlGetName)
-
-        if not objAccess.EOF then
-            
-            custFullName = objAccess("cust_lname").value & " " & objAccess("cust_fname")
-            department = objAccess("department").value
-
-        end if
-
-        set objAccess = nothing
-
-
-        Dim obFile, obFilePath
-
-        obFile = "\ob_test.dbf"
-        obFilePath = folderPath & obFile
-
-        sqlGetOB = "SELECT * FROM "&obFilePath&" WHERE cust_id="&custID&" GROUP BY cust_id"
-        set objAccess = cnroot.execute(sqlGetOB)
-
-        if not objAccess.EOF then
-            currOB = currOB + CDbl(objAccess("balance").value)
-        end if
 
         Dim arFile
 
@@ -298,8 +266,7 @@
                 Dim isArFolderExist
                 isArFolderExist = fs.FolderExists(arFolderPath)
             %>
-
-            <% rs.Open "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and balance > 0 ORDER BY date_owed DESC, balance DESC GROUP BY invoice_no", CN2%>    
+   
                           
             <form id="myForm" method="POST">
  

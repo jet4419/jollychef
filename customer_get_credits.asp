@@ -9,9 +9,8 @@
 
     Set fs=Server.CreateObject("Scripting.FileSystemObject")
 
-    Dim systemDate, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    systemDate = CDate(Application("date"))
     yearPath = CStr(Year(systemDate))
     monthPath = CStr(Month(systemDate))
 
@@ -23,10 +22,8 @@
 
     arFile = "\accounts_receivables.dbf"
 
+    Dim folderPath
 
-    Dim mainPath, folderPath
-
-    mainPath = CStr(Application("main_path"))
     folderPath = mainPath & yearPath & "-" & monthPath
 
     arPath = folderPath & arFile

@@ -39,7 +39,7 @@
 
                         if isDate(Request.QueryString("date")) = true then
 
-                        Dim mainPath, folderPath, yearPath, monthPath, transactDate, invoice
+                        Dim folderPath, yearPath, monthPath, transactDate, invoice
 
                         transactDate = CDate(Request.QueryString("date"))
                         invoice = Request.QueryString("invoice")
@@ -49,7 +49,6 @@
 
                         'Response.Write isInvoiceNumeric & " type: " & TypeName(isInvoiceNumeric) & "<br>"
 
-                        mainPath = CStr(Application("main_path"))
                         yearPath = CStr(Year(transactDate))
                         monthPath = CStr(Month(transactDate))
 

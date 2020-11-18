@@ -65,11 +65,10 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <%
-    Dim startDate, endDate, systemDate
+    Dim startDate, endDate
 
     startDate = Request.Form("startDate")
     endDate = Request.Form("endDate")
-    systemDate = CDate(Application("date"))
 
     ' testDate1 = CDate(FormatDateTime(startDate, 2))
     ' testDate2= CDate(FormatDateTime(endDate, 2))
@@ -141,7 +140,7 @@
     
     <div id="content">
 		<div class="container mb-5">
-            <div class="mt-3 mb-4 d-flex justify-content-between">
+            <div class="mt-3 mb-2 d-flex justify-content-between">
                 <form action="sales_report.asp" method="POST" id="allData" class="">
                     
                     <label>Start Date</label>
@@ -155,13 +154,14 @@
                 <p><a href="sales_report_detailed.asp" class="btn btn-sm btn-outline-dark">Detailed Sales Report</a></p>
             </div>
 
-            <h1 class="h2 text-center mb-2 main-heading"> <strong>Sales Report</strong> </h1>
+            <h1 class="h1 text-center mb-4 main-heading" style="font-weight: 400"> Sales Report </h1>
 
             <%
  
                 Response.Write("<p><strong> Date Range: </strong>")
                 Response.Write(displayDate1 & " - ")
                 Response.Write(displayDate2)
+                Response.Write("</p>")
                 
             %>
 
@@ -190,9 +190,7 @@
                 Dim fs
                 Set fs = Server.CreateObject("Scripting.FileSystemObject")
 
-                Dim mainPath, monthPath, yearPath
-
-                mainPath = CStr(Application("main_path"))
+                Dim monthPath, yearPath
 
                 Dim salesFile, folderPath, salesPath
                 salesFile = "\sales.dbf"

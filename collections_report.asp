@@ -66,9 +66,7 @@
 
     <%
 
-    Dim startDate, endDate, systemDate
-
-    systemDate = CDate(Application("date"))
+    Dim startDate, endDate
 
     startDate = Request.Form("startDate")
     endDate = Request.Form("endDate")
@@ -107,7 +105,7 @@
     <div id="content">
 
     <div class="container">
-        <div class="mt-3 mb-4 d-flex justify-content-between">
+        <div class="mt-3 mb-2 d-flex justify-content-between">
             <form action="collections_report.asp" method="POST" id="allData" class="">
                 
                 <label>Start Date</label>
@@ -121,13 +119,14 @@
             <p></p>
         </div>
 
-        <h1 class="h2 text-center mb-3 main-heading"> <strong>Collections Report</strong> </h1>
+        <h1 class="h1 text-center mb-4 main-heading" style="font-weight: 400">Collections Report</h1>
 
         <%
  
             Response.Write("<p><strong> Date Range: </strong>")
             Response.Write(displayDate1 & " - ")
             Response.Write(displayDate2)
+            Response.Write "</p>"
                 
         %>
 
@@ -160,7 +159,6 @@
 
                 yearPath = Year(DateAdd("m",i,queryDate1))
 
-                mainPath = CStr(Application("main_path"))
                 collectionsFile = "\collections.dbf"
                 folderPath = mainPath & yearPath & "-" & monthPath
                 collectionsPath = folderPath & collectionsFile

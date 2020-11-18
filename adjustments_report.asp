@@ -77,9 +77,7 @@
 
     <%
 
-    Dim startDate, endDate, systemDate
-
-    systemDate = CDate(Application("date"))
+    Dim endDate
 
     startDate = Request.Form("startDate")
     endDate = Request.Form("endDate")
@@ -122,7 +120,7 @@
 
     <div class="container">
 
-        <div class="mt-3 mb-4 d-flex justify-content-between">
+        <div class="mt-3 mb-2 d-flex justify-content-between">
             <form action="adjustments_report.asp" method="POST" id="allData" class="">
                 
                 <label>Start Date</label>
@@ -136,13 +134,14 @@
             <p></p>
         </div>
 
-        <h1 class="h2 text-center mb-4 main-heading"> <strong>Adjustments Report</strong> </h1>
+        <h1 class="h2 text-center mb-4 main-heading" style="font-weight: 400">Adjustments Report </h1>
 
         <%
  
             Response.Write("<p><strong> Date Range: </strong>")
             Response.Write(displayDate1 & " - ")
             Response.Write(displayDate2)
+            Response.Write "</p>"
                 
         %>
 
@@ -162,8 +161,6 @@
         <%
             Dim fs
             set fs=Server.CreateObject("Scripting.FileSystemObject")
-
-            mainPath = CStr(Application("main_path"))
 
             for i=0 to monthsDiff
 

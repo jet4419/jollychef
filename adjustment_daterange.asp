@@ -80,9 +80,8 @@
 
             yearPath = Year(startDate)
 
-            Dim mainPath, transactionsFile, folderPath, transactionsPath
+            Dim transactionsFile, folderPath, transactionsPath
 
-            mainPath = CStr(Application("main_path"))
             ' arFile = "\accounts_receivables.dbf"
             ' folderPath = mainPath & yearPath & "-" & monthPath
             ' arPath =  folderPath & arFile

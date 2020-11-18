@@ -229,12 +229,16 @@
 <!--#include file="cashier_sidebar.asp"-->
 
     <%
-        Dim custID, ref_no, custName, department, systemDate
+        Dim custID, ref_no, custName, department
         custID = CLng(Request.Form("cust_id"))
+
+        if Request.Form("cust_id") = "" then
+            Response.Redirect("canteen_homepage.asp")
+        end if
+
         invoice = CDbl(Request.Form("arInvoice"))
         custName = CStr(Request.Form("cust_name"))
         department = CStr(Request.Form("department"))
-        systemDate = CDate(Application("date"))
         transactDate = FormatDateTime(systemDate, 2)
 
         Dim maxRefNoChar, maxRefNo
@@ -296,9 +300,8 @@
                 '         "INNER JOIN "&arPath&" ON Collections.ref_no = Accounts_Receivables.ref_no "&_
                 '         "WHERE Collections.ref_no = '"&ref_no&"' GROUP BY Accounts_Receivables.invoice_no", CN2        
 
-                Dim mainPath, yearPath, monthPath
+                Dim yearPath, monthPath
 
-                mainPath = CStr(Application("main_path"))
                 yearPath = CStr(Year(systemDate))
                 monthPath = CStr(Month(systemDate))
 

@@ -118,29 +118,26 @@
     -->
 <%'else%>
 
-<%  sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
-    set objAccess = cnroot.execute(sqlQuery)
-    Dim systemDate, maxDailyDate
-    systemDate = CDate(Application("date"))
-    'currDate = CDate(Date)
+ <% ' sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
+'     set objAccess = cnroot.execute(sqlQuery)
 
-    if not objAccess.EOF then
-        schedID = CInt(objAccess("sched_id"))
-        isStoreClosed = CStr(objAccess("status"))
-        dateClosed = CDate(FormatDateTime(objAccess("date_time"), 2))
-        'currDate = CDate(Date)
-    else
-        isStoreClosed = "open"
-        dateClosed = CDate(Date)
-        'currDate = CDate(Date)
-    end if
+'     if not objAccess.EOF then
+'         schedID = CInt(objAccess("sched_id"))
+'         isStoreClosed = CStr(objAccess("status"))
+'         dateClosed = CDate(FormatDateTime(objAccess("date_time"), 2))
+'         'currDate = CDate(Date)
+'     else
+'         isStoreClosed = "open"
+'         dateClosed = CDate(Date)
+'         'currDate = CDate(Date)
+'     end if
 
-    set objAccess = nothing
+'     set objAccess = nothing
 
-    if dateClosed < systemDate then
-        sqlUpdate = "UPDATE store_schedule SET status='closed' WHERE sched_id="&schedID
-        cnroot.execute(sqlUpdate)
-    end if
+'     if dateClosed < systemDate then
+'         sqlUpdate = "UPDATE store_schedule SET status='closed' WHERE sched_id="&schedID
+'         cnroot.execute(sqlUpdate)
+'     end if
 %>
 
 <%if systemDate >= dateClosed then%>
@@ -151,9 +148,8 @@
 <!--#include file="customer_sidebar.asp"-->
 
 <%
-    Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = Year(systemDate)
     monthPath = Month(systemDate)
 
@@ -175,7 +171,7 @@
 
     <div class="container">
 
-        <p class="display-4 mb-5 p-0 text-center">Ordering Page <i class="fas fa-store store-icon"></i> </p>
+        <p class="h1 mb-5 p-3 text-center" style="font-weight: 400">Ordering Page <i class="fas fa-store store-icon"></i> </p>
         <%
             ' productID = CInt(Request.QueryString("productID"))
             ' productQty = CInt(Request.QueryString("prodQty"))
@@ -649,18 +645,16 @@
     <%else%>   
         <body class="closed">     
         <%if currDate = dateClosed then%>
+            <a href="default.asp"> 
+                <i class="fas fa-home home-link"></i> 
+            </a>
             <p class='center cursive'>Sorry :( , We're CLOSED</p>
-        <%else
-            if Session("cust_id") <> "" then%>
-                <a href="default.asp"> 
-                    <i class="fas fa-home home-link"></i> 
-                </a>
-                
-                <p class='center cursive'>Sorry :( , We're CLOSED</p>
-
-            <%else%>
-                <p class='center cursive'>Sorry :( , We're CLOSED</p>
-            <%end if%>
+        <%else%>
+            <a href="default.asp"> 
+                <i class="fas fa-home home-link"></i> 
+            </a>
+            
+            <p class='center cursive'>Sorry :( , We're CLOSED</p>
         <%end if%>
         
         </body>

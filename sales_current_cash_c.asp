@@ -15,13 +15,8 @@
     '                       "WHERE id="&collectID  
     ' cnroot.execute(sqlUpdateCollection)
 
-    Dim systemDate
+    Dim yearPath, monthPath
 
-    systemDate = CDate(Application("date"))
-
-    Dim mainPath, yearPath, monthPath
-
-    mainPath = CStr(Application("main_path"))
     yearPath = CStr(Year(systemDate))
     monthPath = CStr(Month(systemDate))
 

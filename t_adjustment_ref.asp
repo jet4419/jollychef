@@ -211,9 +211,9 @@
     </head>
 
     <%
-        if Session("type") = "" then
-            Response.Redirect("canteen_login.asp")
-        end if
+        ' if Session("type") = "" then
+        '     Response.Redirect("canteen_login.asp")
+        ' end if
     %>
 
 <body>
@@ -237,9 +237,8 @@
         ref_no = CStr(ref_no_and_date(0))
         ref_date = CDate(ref_no_and_date(1))
 
-        Dim mainPath, yearPath, monthPath
+        Dim yearPath, monthPath
 
-        mainPath = CStr(Application("main_path"))
         yearPath = CStr(Year(ref_date))
         monthPath = CStr(Month(ref_date))
 

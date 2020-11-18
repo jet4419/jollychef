@@ -15,7 +15,7 @@
     receivable = CDbl(Request.Form("receivable"))
     balance = CDbl(Request.Form("balance"))
     dateOwed = CDate(Request.Form("dateOwed"))
-    systemDate = CDate(Application("date"))
+    'systemDate = CDate(Application("date"))
 
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & "AD" & referenceNo)
@@ -40,9 +40,8 @@
 
     if isValidRef = true then
 
-        Dim mainPath, yearPath, monthPath, arYearPath, arMonthPath
+        Dim yearPath, monthPath, arYearPath, arMonthPath
 
-        mainPath = CStr(Application("main_path"))
         yearPath = CStr(Year(systemDate))
         monthPath = CStr(Month(systemDate))
         arYearPath = CStr(Year(dateOwed))

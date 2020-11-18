@@ -70,10 +70,9 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <%
-    Dim systemDate, startDate, endDate, dates, dateSplit
+    Dim startDate, endDate, dates, dateSplit
 
     dates = Request.Form("date_records")
-    systemDate = CDate(Application("date"))
     Response.Write dates
 
     if dates = "" then
@@ -144,15 +143,11 @@
 
             <h1 class="h2 text-center mt-4 mb-5 main-heading d-flex justify-content-between">
                 <button class="btn btn-sm btn-outline-dark date_transact" data-toggle="modal" data-target="#date_transactions" title="Select date of reports" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Select Date</button>
-                <strong class="text-center">Outstanding Balance of <%=displayDate2%></strong>
+                <span class="h2 text-center" style="font-weight: 500">Outstanding Balance of <%=displayDate2%></span>
                 <button class="btn-month-end">End</button>
             </h1>
 
             <%  
-
-                Dim mainPath
-
-                mainPath = CStr(Application("main_path"))
 
                 Dim monthLength, monthPath, yearPath
 

@@ -1,4 +1,5 @@
 
+
 <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&display=swap" rel="stylesheet">
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
@@ -55,9 +56,6 @@
 
 </style>
 
-<%
-    systemDate = CDate(Application("date"))
-%>
 
 <nav class="navigation d-flex justify-content-between">
 

@@ -2,12 +2,10 @@
 <!--#include file="session_cashier.asp"-->
 <%
 
-    Dim systemDate, isDayEnded
-    systemDate = CDate(Application("date"))
+    Dim isDayEnded
 
-    Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = Year(systemDate)
     monthPath = Month(systemDate)
 
@@ -316,7 +314,7 @@
 
                     sqlDateUpdate = "UPDATE system_date SET date = date + 1"
                     cnroot.execute(sqlDateUpdate)
-                    Application("date") = CDate(Application("date")) + 1
+                    systemDate = systemDate + 1
                     'Response.Write("Day end")    
 
                     Dim maxSchedID, systemDateTime
@@ -330,7 +328,7 @@
                         maxSchedID = CInt(maxSchedID) + 1
                     rs.close
 
-                    systemDateTime = CStr(Application("date") & " " & Time)
+                    systemDateTime = CStr(systemDate & " " & Time)
                 
                     sqlAdd = "INSERT INTO store_schedule (sched_id, date_time, status) VALUES ("&maxSchedID&",'"&systemDateTime&"', ""closed"")"
                     cnroot.execute(sqlAdd)

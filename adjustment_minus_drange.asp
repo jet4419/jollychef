@@ -72,9 +72,8 @@
 
                 yearPath = Year(startDate)
 
-                Dim mainPath, transactionsFile, folderPath, transactionsPath
+                Dim transactionsFile, folderPath, transactionsPath
 
-                mainPath = CStr(Application("main_path"))
                 transactionsFile = "\transactions.dbf"
                 folderPath = mainPath & yearPath & "-" & monthPath
                 transactionsPath =  folderPath & transactionsFile

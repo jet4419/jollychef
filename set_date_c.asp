@@ -6,9 +6,6 @@
     btnSetDate = Request.Form("btnSetDate")
 
     if btnSetDate <> "" then 
-        
-        Dim mainPath 
-        mainPath = CStr(Application("main_path"))
 
         settingDate = CDate(Request.Form("date"))
         storeScheduleTime = CStr(settingDate)

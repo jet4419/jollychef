@@ -2,12 +2,10 @@
 
 <%
 
-    Dim isClosed, currDate, systemDate, isDayEnded
-    systemDate = CDate(Application("date"))
+    Dim isClosed, currDate, isDayEnded
 
-    Dim mainPath, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    mainPath = CStr(Application("main_path"))
     yearPath = Year(systemDate)
     monthPath = Month(systemDate)
 
@@ -59,7 +57,7 @@
 
             sqlDateUpdate = "UPDATE system_date SET date = date + 1"
             cnroot.execute(sqlDateUpdate)
-            Application("date") = CDate(Application("date")) + 1
+            systemDate = systemDate + 1
             'Response.Write("Day end")    
 
             Dim maxSchedID

@@ -10,7 +10,7 @@ userEmail = CStr(Request.Form("userEmail"))
 '     Response.Redirect("canteen_login.asp")
 
 'else
-    Dim totalProfit, totalAmount, customerCash, userPayment, email, cashierName, referenceNo, systemDate
+    Dim totalProfit, totalAmount, customerCash, userPayment, email, cashierName, referenceNo
     Dim custID, custName, custDepartment, isValidRef
     isValidRef = true
 
@@ -36,7 +36,6 @@ userEmail = CStr(Request.Form("userEmail"))
     customerCash = CDbl(Request.Form("customerMoney"))
     'userType = "Cashier"
     userPayment = "Cash"
-    systemDate = CDate(Application("date"))
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
     'currDate = CDate(Date)
@@ -77,9 +76,8 @@ userEmail = CStr(Request.Form("userEmail"))
 
     if isValidRef = true then
 
-        Dim mainPath, yearPath, monthPath
+        Dim yearPath, monthPath
 
-        mainPath = CStr(Application("main_path"))
         yearPath = Year(systemDate)
         monthPath = Month(systemDate)
 

@@ -13,7 +13,10 @@
    '    Response.Write "Not working"
    ' end if
 'v_DpathRoot = "\\cluster\salesdata"
-v_DpathRoot = CStr(Application("main_path"))
+
+mainPath = "C:\jollychef\"
+
+v_DpathRoot = mainPath
 
 
 session("rootPath") = v_DpathRoot
@@ -36,5 +39,40 @@ dcnCnnStr2 = "Driver=Microsoft Visual Foxpro Driver; " & _
    "SourceDB=" & br
 CN2.Open dcnCnnStr2
 set rs=Server.CreateObject("ADODB.recordset")
+
+   sqlGetDate = "SELECT MAX(date) AS date FROM system_date" 
+   set objAccess = cnroot.execute(sqlGetDate)
+
+   if not objAccess.EOF then
+      systemDate = CDate(objAccess("date").value)
+   else
+      systemDate = CDate(Date)
+   end if  
+
+   systemDate = CDate(FormatDateTime(systemDate,2))
+   ' Application("test_global_asa") = "Global Asa is running"
+
+   sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
+   set objAccess = cnroot.execute(sqlQuery)
+
+      currDate = systemDate
+
+      if not objAccess.EOF then
+            schedID = CInt(objAccess("sched_id"))
+            isStoreClosed = CStr(objAccess("status"))
+            dateClosed = CDate(FormatDateTime(objAccess("date_time"), 2))
+            'currDate = CDate(Date)
+      else
+            isStoreClosed = "open"
+            dateClosed = CDate(Date)
+            'currDate = CDate(Date)
+      end if
+
+   set objAccess = nothing
+
+   if dateClosed < currDate then
+      sqlUpdate = "UPDATE store_schedule SET status='closed' WHERE sched_id="&schedID
+      cnroot.execute(sqlUpdate)
+   end if
 
 %>

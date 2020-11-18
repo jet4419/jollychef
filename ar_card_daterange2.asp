@@ -60,12 +60,10 @@
     <select id="selectRecords" class="form-control" name="date_records" placeholder="Select Date of Records" required>
         <option value="" disabled selected>Select Date of Records</option>
         <%
-            Dim systemDate, isDayEnded
-            systemDate = CDate(Application("date"))
+            Dim isDayEnded
 
-            Dim mainPath, yearPath, monthPath
+            Dim yearPath, monthPath
 
-            mainPath = CStr(Application("main_path"))
             yearPath = Year(systemDate)
             monthPath = Month(systemDate)
 

@@ -9,9 +9,8 @@
 
     Set fs=Server.CreateObject("Scripting.FileSystemObject")
 
-    Dim systemDate, yearPath, monthPath
+    Dim yearPath, monthPath
 
-    systemDate = CDate(Application("date"))
     yearPath = CStr(Year(systemDate))
     monthPath = CStr(Month(systemDate))
 
@@ -28,9 +27,8 @@
         monthPath = Month(systemDate)
     end if
 
-    Dim mainPath, folderPath
+    Dim folderPath
 
-    mainPath = CStr(Application("main_path"))
     folderPath = mainPath & yearPath & "-" & monthPath
 
     Dim obFile, obFilePath

@@ -12,10 +12,8 @@
 
 	id = CDbl(Request.QueryString("transact_id"))
 	
-	Dim mainPath, systemDate, yearPath, monthPath
+	Dim yearPath, monthPath
 
-	mainPath = CStr(Application("main_path"))
-	systemDate = CDate(Application("date"))
 	yearPath = CStr(Year(systemDate))
 	monthPath = CStr(Month(systemDate))
 	

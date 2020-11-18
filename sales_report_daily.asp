@@ -95,8 +95,6 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <%
-    Dim systemDate
-    systemDate = CDate(Application("date"))
     displayDate = Day(systemDate) & " " & MonthName(Month(systemDate)) & " " & Year(systemDate)
 
 %>
@@ -123,7 +121,7 @@
                     <a href="sales_current_edit.asp">
                         <button class="btn btn-sm btn-outline-dark btn-edit-transaction py-2">Edit Transaction</button>
                     </a>    
-                    <strong>Daily Sales Reports</strong>
+                    <span class="h1" style="font-weight: 400">Daily Sales Reports</span>
                     <button class="btn-day-end">Day End</button>
                 </h1>
             <%else%>
@@ -131,7 +129,7 @@
                     <a href="sales_current_edit.asp">
                         <button class="btn btn-sm btn-outline-dark btn-edit-transaction py-2">Edit Transaction</button>
                     </a>    
-                    <strong>Daily Sales Reports</strong>
+                    <span class="h1" style="font-weight: 400">Daily Sales Reports</span>
                     <button class="btn-day-end">Day End</button>
                 </h1>
             <%end if%>
@@ -202,8 +200,6 @@
 
                 yearPath = Year(systemDate)
 
-
-                mainPath = CStr(Application("main_path"))
                 salesFile = "\sales.dbf"
                 folderPath = mainPath & yearPath & "-" & monthPath
                 salesPath = folderPath & salesFile

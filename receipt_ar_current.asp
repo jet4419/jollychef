@@ -41,12 +41,10 @@
                     </div>
                     <%
 
-                        Dim mainPath, yearPath, monthPath, transactDate, systemDate
+                        Dim yearPath, monthPath, transactDate
 
-                        systemDate = CDate(Application("date"))
                         transactDate = FormatDateTime(systemDate, 2)
 
-                        mainPath = CStr(Application("main_path"))
                         yearPath = CStr(Year(transactDate))
                         monthPath = CStr(Month(transactDate))
 

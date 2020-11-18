@@ -176,11 +176,10 @@
         Dim department
         department = Request.Form("department")
 
-        Dim startDate, endDate, systemDate
+        Dim startDate, endDate
 
         startDate = Request.Form("startDate")
         endDate = Request.Form("endDate")
-        systemDate = CDate(Application("date"))
 
         if startDate="" then
             
@@ -247,9 +246,7 @@
             Dim fs
             Set fs = Server.CreateObject("Scripting.FileSystemObject")
 
-            Dim mainPath, monthPath, yearPath
-
-            mainPath = CStr(Application("main_path"))
+            Dim monthPath, yearPath
 
             Dim transactionsFile, folderPath, transactionsPath
             transactionsFile = "\transactions.dbf"

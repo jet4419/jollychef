@@ -183,9 +183,8 @@
         endDate = CDate(dateSplit(1))
         displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)
 
-        Dim mainPath, monthPath, yearPath
+        Dim monthPath, yearPath
 
-        mainPath = CStr(Application("main_path"))
         monthPath = Month(startDate)
         yearPath = Year(startDate)
 
