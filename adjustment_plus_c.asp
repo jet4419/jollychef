@@ -1,5 +1,5 @@
 <!--#include file="dbConnect.asp"-->
-<!--#include file="session_cashier.asp"-->
+
 <%
 
     ' if Session("type") = "" then

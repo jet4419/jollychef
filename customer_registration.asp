@@ -1,3 +1,5 @@
+<!--#include file="session_cashier.asp"-->
+<!--#include file="checker_admin_prog.html"-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,9 +33,9 @@
 <body>
 
 <%
-    if Session("type") = "" then
-        Response.Redirect("canteen_login.asp")
-    end if
+    ' if Session("type") = "" then
+    '     Response.Redirect("canteen_login.asp")
+    ' end if
 %>
 
 <!--#include file="cashier_navbar.asp"-->
@@ -42,13 +44,13 @@
 
 
 <%
-    if Trim(CStr(Session("type"))) <> Trim(CStr("admin")) then
+    ' if Trim(CStr(Session("type"))) <> Trim(CStr("admin")) then
 
-        if Trim(CStr(Session("type"))) <> Trim(CStr("programmer")) then
-            Response.Redirect("canteen_homepage.asp")
-        end if   
+    '     if Trim(CStr(Session("type"))) <> Trim(CStr("programmer")) then
+    '         Response.Redirect("canteen_homepage.asp")
+    '     end if   
          
-    end if        
+    ' end if        
 %>
 
 <div id="main">

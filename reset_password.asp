@@ -1,3 +1,5 @@
+<!--#include file="session.asp"-->
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,13 +26,13 @@
    
 <body>
 
-<!--#include file="cashier_navbar.asp"-->
-<!--#include file="cashier_sidebar.asp"-->
+<!--#include file="customer_navbar.asp"-->
+<!--#include file="customer_sidebar.asp"-->
 
 <%
-    if Trim(Session("type")) <> Trim("programmer")  then
-        Response.Redirect("canteen_homepage.asp")
-    end if        
+    ' if Trim(Session("type")) <> Trim("programmer")  then
+    '     Response.Redirect("canteen_homepage.asp")
+    ' end if        
 %>
 
 <div id="main">
@@ -40,7 +42,7 @@
             <h3 class="text-center py-3">Reset Password </h3>
             <form class="myForm">
                 <div class="form-group">
-                    <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" readonly required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
                 <div class="form-group">
@@ -62,7 +64,7 @@
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
+        <form action="cust_login_auth.asp" method="POST">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Customer Login</h5>
@@ -94,7 +96,7 @@
 <!-- Logout -->
 <div id="logout" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
+        <form action="cust_logout.asp">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Logout</h5>
@@ -116,6 +118,9 @@
 <!-- End of Logout -->
 
 <script>
+
+const email = localStorage.getItem('email');
+document.getElementById('email').value = email;
     
     $('.btn-main').click(function(){
 
@@ -123,7 +128,7 @@
             //your form execution code
         event.preventDefault();
 
-        let email = $("#email").val();
+        //let email = $("#email").val();
         let password1 = $("#password1").val();
         let password2 = $("#password2").val();
         let userType = $("#user-type").val();

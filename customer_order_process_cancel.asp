@@ -2,7 +2,7 @@
 <!--#include file="session_cashier.asp"-->
 
 <%
-    if Request.QueryString("transact_id") = "" or Request.QueryString("unique_num") = "" or Request.QueryString("cust_id") = "" then
+    if Request.QueryString("transact_id") = "" or Request.QueryString("unique_num") = "" or Request.QueryString("cust_id") = "" or Request.QueryString("userType") = "" then
         Response.Redirect("customer_order_process.asp")
     end if
 
@@ -13,6 +13,7 @@
 	transactID = CInt(Request.QueryString("transact_id"))
 	uniqueNum = CLng(Request.QueryString("unique_num"))
 	custID = CLng(Request.QueryString("cust_id"))
+	userType = CStr(Request.QueryString("userType"))
 
     Dim systemDate, isDayEnded
     systemDate = CDate(Application("date"))
@@ -78,7 +79,7 @@
         if isProcessed = true then
   
             Response.Write("<script language=""javascript"">")
-			Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&""";")
+			Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&userType&" "";")
             Response.Write("</script>")
         end if
         

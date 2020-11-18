@@ -89,6 +89,7 @@
                             localStorage.setItem('fname', jsonObject[i].fname);
                             localStorage.setItem('lname', jsonObject[i].lname);
                             localStorage.setItem('email', jsonObject[i].email); 
+                            localStorage.setItem('department', jsonObject[i].department); 
                         }
 
                             // console.log(localStorage.getItem('cust_id'));

@@ -31,9 +31,9 @@ Dim i, orderNumber
 i = 0
 orderNumber = 0
 
-if not rs.EOF then 
+Set oJSON = New aspJSON
 
-    Set oJSON = New aspJSON
+if not rs.EOF then 
 
     With oJSON.data
 
@@ -68,7 +68,7 @@ if not rs.EOF then
 
 else    
 
-    Response.Write("no data")
+    Response.Write(oJSON.JSONoutput())
 
 end if
 

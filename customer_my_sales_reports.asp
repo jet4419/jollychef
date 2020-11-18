@@ -326,8 +326,7 @@
                         <td colspan="2">
                             <h3 class="lead">
                                 <strong class="text-darker font-weight-normal">
-                                    <span class="text-primary">  &#8369; </span>
-                                    <span class="total-value"><%=totalCashPaid%></span>
+                                    <span class="total-darker"><strong><%=totalCashPaid%></strong></span>
                                 </strong>    
                             </h3>
                         </td>

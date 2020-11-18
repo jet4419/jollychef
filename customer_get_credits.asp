@@ -37,9 +37,9 @@
     Dim i
     i = 0
 
-    if not rs.EOF then
+    Set oJSON = New aspJSON
 
-        Set oJSON = New aspJSON
+    if not rs.EOF then
 
         With oJSON.data
 
@@ -66,8 +66,9 @@
 
         Response.Write(oJSON.JSONoutput())
 
-    else        
-        Response.Write "no data " 
+    else    
+         Set oJSON = New aspJSON    
+        Response.Write(oJSON.JSONoutput())
     end if
 
 %>

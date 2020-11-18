@@ -11,7 +11,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="css/customer_style.css">
         <!--<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">-->
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
@@ -260,7 +260,7 @@
 
         <%'if custID<>0  then%>
 
-<div id="main" class="mt-4 pt-4">
+<div id="main">
 
     <!--
     <h1 class="h1 text-center my-4 main-heading"> <strong><'%=custFullName&"'s"%> Receivable Lists</strong> </h1>
@@ -438,9 +438,16 @@
 <script src="js/main.js"></script> 
 <script>  
     const tr = document.querySelector('.tfoot');
+    const custID = Number(localStorage.getItem('cust_id'));
+    const custName = localStorage.getItem('fname') + ' ' + localStorage.getItem('lname');
+    const department = localStorage.getItem('department');
+
+    document.querySelector('.cust_name').textContent = custName;
+    document.querySelector('.department_lbl').textContent = department;
+
     $(document).ready( function () {
 
-    var custID = Number(localStorage.getItem('cust_id'));
+    
     var custOB = 0;
     var obStr = '';
    
@@ -461,33 +468,34 @@
             'data': {'custID': custID},
             "dataSrc": function (json) {
             var return_data = new Array();
-            
-                for(var i=0;i< json.length; i++){
 
-                    return_data.push({
-                        'date': `<span class='text-darker'>${json[i].date} </span>` ,
-                        'invoice'  : `<a target='_blank' href='ob_invoice_records.asp?invoice=${json[i].invoice}&date=${json[i].date}'> ${json[i].invoice} </a> `,
-                        'receivable' :`<span class='text-primary'>&#8369; </span> ${json[i].receivable}` ,
-                        'balance' : `<span class='text-primary'>&#8369; </span> ${json[i].balance}`
-                    });
+                if(json.length !== 0) {
                     
-                    custOB += json[i].balance;
-                    console.log(custOB);
+                    for(var i=0;i< json.length; i++){
 
-                    
+                        return_data.push({
+                            'date': `<span class='text-darker'>${json[i].date} </span>` ,
+                            'invoice'  : `<a target='_blank' href='ob_invoice_records.asp?invoice=${json[i].invoice}&date=${json[i].date}'> ${json[i].invoice} </a> `,
+                            'receivable' :`<span class='text-primary'>&#8369; </span> ${json[i].receivable}` ,
+                            'balance' : `<span class='text-primary'>&#8369; </span> ${json[i].balance}`
+                        });
+                        
+                        custOB += json[i].balance;
+                        
+                    }
+
+                    const td1 = document.createElement('td');
+                    td1.setAttribute('colspan', '3');
+                    td1.innerHTML = '<strong>Total Balance<strong>'
+                    const td2 = document.createElement('td');
+                    td2.setAttribute('colspan', '1');
+                    td2.innerHTML = `<strong> ${custOB} </strong>`;
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+
                 }
         
-                const td1 = document.createElement('td');
-                td1.setAttribute('colspan', '3');
-                td1.innerHTML = '<strong>Total Balance<strong>'
-                const td2 = document.createElement('td');
-                td2.setAttribute('colspan', '1');
-                td2.innerHTML = `<strong> <span class='text-primary'> &#8369; </span> ${custOB} </strong>`;
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-
-                document.querySelector('.cust_name').textContent = json[0].name;
-                document.querySelector('.department_lbl').textContent = json[0].department;
+                
 
                 // time()
                 return return_data;

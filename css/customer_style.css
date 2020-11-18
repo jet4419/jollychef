@@ -1,12 +1,10 @@
 body {
-  height: 100vh;
+  min-height: 100vh;
   font-family: 'Montserrat', sans-serif;
   /* letter-spacing: 1px; */
   /* color: #fff; */
-  display: grid;
-  grid-template-columns: 50px 230px 1fr;
-  grid-template-rows: 50px 1fr auto;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 body.customer-default-page {
@@ -198,11 +196,10 @@ a:focus {
 }
 
 #main {
-  grid-row: 2;
-  grid-column: 2 / -1;
   padding: 16px;
-  /* margin-left: 50px;
-  margin-top: 50px; */
+  height: 100vh;
+  margin-left: 50px;
+  margin-top: 50px;
   transition: all 0.5s;
 
   /* height: calc(100vh - 50px); */
@@ -211,10 +208,6 @@ a:focus {
 	align-items: center; */
   position: relative;
   padding-bottom: 50px;
-}
-
-#main.default {
-  grid-row: 2;
 }
 
 .main--main-page {
@@ -340,12 +333,11 @@ a:focus {
 }
 
 .footer {
-  grid-row: 3;
-  grid-column: 2 / -1;
   color: #fff;
   background-color: #252f3a;
   font-size: 16px;
   padding: 25px 0 20px 0;
+  margin-top: auto;
   transition: all 0.5s;
 
   display: flex;

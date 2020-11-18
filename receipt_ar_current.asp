@@ -15,13 +15,13 @@
 <body>
 
     <main class="receipt">
-        <!--
+        
         <p>
-            <a href="t_ob_main.asp">
+            <a href="sales_current_edit.asp">
                 <i class="fas fa-times exit-icon"></i>
             </a>
         </p>
-        -->
+        
         <div class="receipt--container">
             <div class="receipt__header">
                 <h1 class="receipt__header--text">AR Payment Receipt</h1>

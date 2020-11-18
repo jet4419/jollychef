@@ -176,6 +176,8 @@ $(document).ready( function () {
             'data': {'custID': custID},
             "dataSrc": function (json) {
             var return_data = new Array();
+
+            if (json.length !== 0) {
             
                 for(var i=0;i< json.length; i++){
 
@@ -195,6 +197,8 @@ $(document).ready( function () {
                     // console.log(custOB);
                     
                 }
+
+            }
         
                 // const td1 = document.createElement('td');
                 // td1.setAttribute('colspan', '3');

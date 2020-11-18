@@ -216,7 +216,7 @@
            <% else %> 
              <option value="" disabled selected>Select a product</option>
             <% 
-            Response.Write(systemDate)
+            'Response.Write(systemDate)
             rs.Open "SELECT * FROM daily_meals ORDER BY prod_brand, prod_name", CN2
 
             sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status=""Pending"" GROUP BY prod_id ORDER BY prod_brand, prod_name"

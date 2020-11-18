@@ -1,5 +1,5 @@
 <!--#include file="dbConnect.asp"-->
-<!--#include file="canteen_checker.asp"-->
+<!--#include file="session_cashier.asp"-->
 <!DOCTYPE html>
 <html>
     <head>

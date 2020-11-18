@@ -1,3 +1,4 @@
+<!--#include file="session_cashier.asp"-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,9 +28,9 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 <%
-    if Trim(Session("type")) <> Trim("programmer") then
-        Response.Redirect("canteen_homepage.asp")
-    end if        
+    ' if Trim(Session("type")) <> Trim("programmer") then
+    '     Response.Redirect("canteen_homepage.asp")
+    ' end if        
 %>
 
 <div id="main">
@@ -39,7 +40,7 @@
             <h3 class="text-center py-3">Admins Reset Password </h3>
             <form>
                 <div class="form-group">
-                    <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" readonly required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
                 <div class="form-group">
@@ -113,6 +114,9 @@
 <!-- End of Logout -->
 
 <script>
+
+const email = localStorage.getItem('email');
+document.getElementById('email').value = email;
     
     $('.btn-main').click(function(){
 
@@ -120,7 +124,7 @@
             //your form execution code
         event.preventDefault();
 
-        let email = $("#email").val();
+        //let email = $("#email").val();
         let password1 = $("#password1").val();
         let password2 = $("#password2").val();
         let userType = $("#user-type").val();
@@ -142,7 +146,7 @@
                         email: email, password1: password1, password2: password2
                 },
                 success: function(data) {
-                    console.log(data, password1, password2)
+                    //console.log(data, password1, password2)
                     if (data==='invalid email') {
                         emailWarning = "Can't find your account"
                         emailWarningContainer.innerHTML = emailWarning;

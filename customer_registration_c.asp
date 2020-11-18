@@ -1,13 +1,13 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="sha256.asp"-->
 <%
-    if Trim(CStr(Session("type"))) <> Trim(CStr("admin")) then
+    ' if Trim(CStr(Session("type"))) <> Trim(CStr("admin")) then
 
-        if Trim(CStr(Session("type"))) <> Trim(CStr("programmer")) then
-            Response.Redirect("canteen_homepage.asp")
-        end if   
+    '     if Trim(CStr(Session("type"))) <> Trim(CStr("programmer")) then
+    '         Response.Redirect("canteen_homepage.asp")
+    '     end if   
          
-    end if    
+    ' end if    
 %>
 
 <%

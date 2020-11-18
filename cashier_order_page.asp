@@ -4,21 +4,21 @@
     
     ' Session.Timeout=1
 
-    if Session("name") = "" then
+    ' if Session("name") = "" then
 
-        Response.Write("<script language=""javascript"">")
-		Response.Write("alert('Your session timed out!')")
-		Response.Write("</script>")
-        isActive = false
+    '     Response.Write("<script language=""javascript"">")
+	' 	Response.Write("alert('Your session timed out!')")
+	' 	Response.Write("</script>")
+    '     isActive = false
  
-            if isValidQty=false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""canteen_login.asp"";")
-                Response.Write("</script>")
-            end if
+    '         if isValidQty=false then
+    '             Response.Write("<script language=""javascript"">")
+    '             Response.Write("window.location.href=""canteen_login.asp"";")
+    '             Response.Write("</script>")
+    '         end if
 
     
-    else
+    ' else
 %>
 <!DOCTYPE html>
 <html>
@@ -102,6 +102,15 @@
             .keys-container {
                 display: flex;
                 justify-content: center;
+            }
+
+            body {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .footer {
+                margin-top: auto;
             }
 
         </style>
@@ -703,6 +712,7 @@
                                                 <span class="input-group-text bg-primary text-light">&#8369;</span>
                                             </div>
                                             <!--<input type="hidden" name="invoiceNumber" value="<'%=invoice%>"> -->
+                                            <input type="text" id="userEmail" name="userEmail" value="" hidden>
                                             <input type="number" name="totalProfit" value="<%=totalProfit%>" hidden>
                                             <input type="number" name="totalAmount" value="<%=totalAmount%>" hidden>
                                             <input type="number" name="customerMoney" class="form-control" aria-label="Amount (to the nearest dollar)" min="<%=totalAmount%>" required>
@@ -867,12 +877,15 @@
 
 <script>
 
+const userEmail = localStorage.getItem('email');
+document.querySelector('#userEmail').value = userEmail;
+
     tail.select("#products", {
         search: true,
         deselect: true,    
     });
 
-    function delete_order(transactID , qty, productID, uniqueNum, custID) {
+    function delete_order(transactID , qty, productID, uniqueNum) {
 
         if(confirm('Are you sure that you want to cancel this order?'))
         {
@@ -887,4 +900,4 @@
 </body>
 </html>   
 
- <%end if %> 
+ <%'end if %> 

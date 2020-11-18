@@ -1,8 +1,10 @@
 <!--#include file="dbConnect.asp"-->
 
 <%
+    Dim userType
+    userType = CStr(Request.Form("userType"))
 
-    if Session("type") = "" then
+    if userType = "" then
         Response.Redirect("canteen_login.asp")
     end if
 

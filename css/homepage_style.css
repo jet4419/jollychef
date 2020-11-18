@@ -1,5 +1,8 @@
 body {
   font-family: 'Montserrat', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   /* letter-spacing: 1px; */
   /* color: #fff; */
 }
@@ -184,7 +187,8 @@ a.main-menus--items.customers-icon {
   margin-left: 50px;
   margin-top: 50px;
   transition: margin-left 0.5s;
-  height: calc(100vh - 50px);
+  height: 100vh;
+  /* height: calc(100vh - 50px); */
   /* display: flex;
 	justify-content: center;
 	align-items: center; */
@@ -354,6 +358,8 @@ a.main-menus--items.customers-icon {
   background-color: #252f3a;
   font-size: 16px;
   padding: 25px 0 20px 0;
+  margin-top: auto;
+  transition: margin-left 0.5s;
 
   display: flex;
   flex-direction: column;

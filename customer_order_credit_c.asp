@@ -14,6 +14,10 @@ customerCash = 0
 transact_type = "Buy"
 isValidRef = true
 
+Dim userType, userEmail
+userType = CStr(Request.Form("userType"))
+userEmail = CStr(Request.Form("userEmail"))
+
 
 sqlCustomerInfo = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&customerID
 set objAccess = cnroot.execute(sqlCustomerInfo)
@@ -37,7 +41,7 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
 
             if isValidRef = false then
                 Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&customerID&""";")
+                Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&customerID&"&userType="&userType&" "";")
                 Response.Write("</script>")
             end if
 
@@ -122,7 +126,7 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
                                 ' Response.Redirect("bootSales.asp")
                                     Response.Write("<script language=""javascript"">")
                                     'Response.Write("window.location.href=""a_sales.asp"";")
-                                    Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&customerID&""";")
+                                    Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&customerID&"&userType="&userType&" "";")
                                     Response.Write("</script>")
                                 end If
                             
@@ -158,7 +162,7 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
                 ' end if
 
 
-                email = CStr(Session("email"))
+                email = userEmail
                 'Set the user type of the cashier's currently logged in'
                 sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
                 set objAccess = cnroot.execute(sqlGetInfo)

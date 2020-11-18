@@ -172,24 +172,29 @@
                 background: #ef1641;
             }
 
-            .btn-adjustment-plus {
+            /* .btn-adjustment-plus { */
                 /* background: #fca652; */
-                background: #23bf47;
-            }
+                /* background: #23bf47;
+            } */
 
-            .btn-adjustment-minus {
+            /* .btn-adjustment-minus { */
                 /* background: #de4463; */
-                background: #ef1641;
-            }
+                /* background: #ef1641;
+            } */
+
+            /* body {
+                display: flex;
+                flex-direction: column;
+            } */
 
         </style>
 
     </head>
 
     <%
-        if Session("type") = "" then
-            Response.Redirect("canteen_login.asp")
-        end if
+        ' if Session("type") = "" then
+        '     Response.Redirect("canteen_login.asp")
+        ' end if
     %>
 
 <body>
@@ -360,11 +365,11 @@
 
                 <div class="users-info--divider">
                     <span class="p-0 m-0 d-block">
-                        <strong>Adjustments</strong>
-                        <button class="btn btn-success btn-sm btn-adjustment btn-adjustment-plus" id="<%=rs("cust_id")%>" title="Adjustment plus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_plus">
+                        <strong class='text-danger'>Adjustments</strong>
+                        <button class="btn btn-dark btn-sm btn-adjustment btn-adjustment-plus" id="<%=rs("cust_id")%>" title="Adjustment plus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_plus">
                             <i class="fas fa-plus"></i>
                         </button>
-                        <button class="btn btn-sm btn-adjustment btn-adjustment-minus" id="<%=rs("cust_id")%>" title="Adjustment minus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_minus">
+                        <button class="btn btn-dark btn-sm btn-adjustment btn-adjustment-minus" id="<%=rs("cust_id")%>" title="Adjustment minus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_minus">
                             <i class="fas fa-minus"></i>
                         </button>
                     </span>
@@ -483,8 +488,7 @@
                         <td>
                             <h3 class="lead">
                                 <strong class="text-darker font-weight-normal">
-                                    <span class="text-primary">  &#8369; </span>
-                                    <span class="total-value"><%=totalDebit%></span>
+                                    <span class="total-value"><strong><%=totalDebit%></strong></span>
                                 </strong>    
                             </h3>
                         </td>
@@ -492,8 +496,7 @@
                         <td>
                             <h3 class="lead">
                                 <strong class="text-darker font-weight-normal">
-                                    <span class="text-primary">  &#8369; </span>
-                                    <span class="total-value"><%=totalCredit%></span>
+                                    <span class="total-value"><strong><%=totalCredit%></strong></span>
                                 </strong>    
                             </h3>
                         </td>
@@ -501,8 +504,7 @@
                         <td>
                             <h3 class="lead">
                                 <strong class="text-darker font-weight-normal">
-                                    <span class="text-primary">  &#8369; </span>
-                                    <span class="total-value"><%=currCredit%></span>
+                                    <span class="total-value"><strong><%=currCredit%></strong></span>
                                 </strong>
                             </h3>
                         </td>
@@ -558,7 +560,7 @@
                 <div class="modal-content">
                     <form action="adjustment_plus.asp" method="POST" id="allData3">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Adjustment Plus <i class="fas fa-plus ad-plus-icon"></i> </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Adjustment Plus <i class="text-white bg-dark fas fa-plus ad-plus-icon"></i> </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -585,7 +587,7 @@
                 <div class="modal-content">
                     <form action="adjustment_minus.asp" method="POST" id="allData4">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Adjustment Minus <i class="fas fa-minus ad-minus-icon"></i></h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Adjustment Minus <i class="text-white bg-dark fas fa-minus ad-minus-icon"></i></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

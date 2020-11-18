@@ -1,13 +1,14 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="session_cashier.asp"-->
 <%
-	if Session("name")<>"" then
+	'if Session("name")<>"" then
 		btnAdd = Request.Form("btnAdd")
 		
 		if btnAdd<>"" then
 		'invoiceNumber = Request.Form("invoiceNumber")
 		productID = CInt(Request.Form("productID"))
 		salesQty = CInt(Request.Form("salesQty"))
+		userType = CStr(Request.Form("userType"))
 		salesDate = CDate(Date)
 		status= Trim("On Process")
 
@@ -70,7 +71,7 @@
 			isValidQty = false
 			if isValidQty=false then
 				Response.Write("<script language=""javascript"">")
-				Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&""";")
+				Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&userType&" "";")
 				Response.Write("</script>")
 			end if
 
@@ -122,7 +123,7 @@
 
 			if isRedirect = true then
 				Response.Write("<script language=""javascript"">")
-				Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&""";")
+				Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&userType&" "";")
 				Response.Write("</script>")
 			end if
 		
@@ -131,19 +132,19 @@
 
 		end if
 
-	else
-		Response.Write("<script language=""javascript"">")
-		Response.Write("alert('Your session timed out!')")
-		Response.Write("</script>")
-        isActive = false
+	' else
+	' 	Response.Write("<script language=""javascript"">")
+	' 	Response.Write("alert('Your session timed out!')")
+	' 	Response.Write("</script>")
+    '     isActive = false
  
-            if isValidQty=false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""canteen_login.asp"";")
-                Response.Write("</script>")
-            end if
+    '         if isValidQty=false then
+    '             Response.Write("<script language=""javascript"">")
+    '             Response.Write("window.location.href=""canteen_login.asp"";")
+    '             Response.Write("</script>")
+    '         end if
 
 
-	end if
+	' end if
 	
 %>

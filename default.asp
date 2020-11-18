@@ -157,6 +157,7 @@
                             localStorage.setItem('fname', jsonObject[i].fname);
                             localStorage.setItem('lname', jsonObject[i].lname);
                             localStorage.setItem('email', jsonObject[i].email); 
+                            localStorage.setItem('department', jsonObject[i].department); 
                         }
 
                         alert("Logged in successfully!");

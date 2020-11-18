@@ -160,9 +160,9 @@
     </head>
 
     <%
-        if Session("type") = "" then
-            Response.Redirect("canteen_login.asp")
-        end if
+        ' if Session("type") = "" then
+        '     Response.Redirect("canteen_login.asp")
+        ' end if
     %>
 
 <body>
@@ -440,8 +440,7 @@
                         <td>
                             <h3 class="lead">
                                 <strong class="text-darker font-weight-normal">
-                                    <span class="text-primary">  &#8369; </span>
-                                    <span class="total-value"><%=totalDebit%></span>
+                                    <span class="total-darker"><strong><%=totalDebit%></strong></span>
                                 </strong>    
                             </h3>
                         </td>
@@ -449,8 +448,7 @@
                         <td>
                             <h3 class="lead">
                                 <strong class="text-darker font-weight-normal">
-                                    <span class="text-primary">  &#8369; </span>
-                                    <span class="total-value"><%=totalCredit%></span>
+                                    <span class="total-darker"><strong><%=totalCredit%></strong></span>
                                 </strong>    
                             </h3>
                         </td>
@@ -458,8 +456,7 @@
                         <td>
                             <h3 class="lead">
                                 <strong class="text-darker font-weight-normal">
-                                    <span class="text-primary">  &#8369; </span>
-                                    <span class="total-value"><%=currCredit%></span>
+                                    <span class="total-darker"><strong><%=currCredit%></strong></span>
                                 </strong>
                             </h3>
                         </td>

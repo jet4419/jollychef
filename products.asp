@@ -115,7 +115,7 @@
                     </td>  
 
                     <td>
-                        <button type="button" id="<%=rs("prod_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct" style="max-width: 50px;" data-toggle="modal" data-target="#deleteProductModal" disabled>
+                        <button type="button" id="<%=rs("prod_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct" style="max-width: 50px;" data-toggle="modal" data-target="#deleteProductModal" disabled >
                             <i class="fas fa-trash-alt"></i>
                         </button>
                         <button type="button" id="<%=rs("prod_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 updateProduct" style="max-width: 50px;" data-toggle="modal" data-target="#editProduct">
@@ -206,7 +206,11 @@
                                         <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu2" value="no">
                                         <label class="form-check-label" for="isFixMenu2">No</label>
                                     </div>
+
+                                    <input type="text" name="userType" id="userType" value="" hidden>
+
                                 </div> 
+                                    
                                    
                         
                         </div>
@@ -335,6 +339,10 @@
 
 <script src="js/main.js"></script>   
 <script>  
+
+const userType = localStorage.getItem('type');
+document.querySelector('#userType').value = userType;
+
  $(document).ready( function () {
     $('#myTable').DataTable({
         scrollY: "45vh",

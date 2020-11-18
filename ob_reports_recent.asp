@@ -1,4 +1,5 @@
 <!--#include file="dbConnect.asp"-->
+<!--#include file="session_cashier.asp"-->
 
 <!DOCTYPE html>
 <html>
@@ -59,9 +60,9 @@
     </head>
 
     <%
-        if Session("type") = "" then
-            Response.Redirect("canteen_login.asp")
-        end if
+        ' if Session("type") = "" then
+        '     Response.Redirect("canteen_login.asp")
+        ' end if
     %>
 <body>
 

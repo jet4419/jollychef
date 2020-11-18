@@ -1,7 +1,7 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="session_cashier.asp"-->
 <%
-	if Session("name")<>"" then
+	'if Session("name")<>"" then
 		btnAdd = Request.Form("btnAdd")
 		
 		if btnAdd<>"" then
@@ -134,19 +134,19 @@
 
 
 		End If
-	else
-		Response.Write("<script language=""javascript"">")
-		Response.Write("alert('Your session timed out!')")
-		Response.Write("</script>")
-        isActive = false
+	' else
+	' 	Response.Write("<script language=""javascript"">")
+	' 	Response.Write("alert('Your session timed out!')")
+	' 	Response.Write("</script>")
+    '     isActive = false
  
-            if isValidQty=false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""canteen_login.asp"";")
-                Response.Write("</script>")
-            end if
+    '         if isValidQty=false then
+    '             Response.Write("<script language=""javascript"">")
+    '             Response.Write("window.location.href=""canteen_login.asp"";")
+    '             Response.Write("</script>")
+    '         end if
 
 
-	end if
+	' end if
 	
 %>

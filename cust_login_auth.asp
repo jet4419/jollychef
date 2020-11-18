@@ -50,6 +50,7 @@
                     .Add "fname", rs("cust_fname")
                     .Add "lname", rs("cust_lname")
                     .Add "email", rs("email")
+                    .Add "department", rs("department").value
 
                 End With      
 

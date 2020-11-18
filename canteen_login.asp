@@ -94,7 +94,7 @@ xhr.onload = () => {
                 data: {email: email, password: password},
                 success: function(data) {
                     
-                    console.log(data)
+                    //console.log(data)
                     if (data==='invalid email') {
                         warningText = "Invalid Email"
                         document.querySelector(".wrong-password-text").innerHTML = warningText;

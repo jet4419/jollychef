@@ -1,6 +1,6 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="sha256.asp"-->
-<!--#include file="session_cashier.asp"-->
+<!--#include file="checker_admin_prog.html"-->
 <!DOCTYPE html>
 <html lang="en">
 <head>

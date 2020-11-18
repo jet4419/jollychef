@@ -3,7 +3,10 @@
 
 <%
 
-if Session("type") = "" then
+Dim userType
+userType = CStr(Request.Form("userType"))
+
+if userType = "" then
     Response.Redirect("canteen_login.asp")
 
 else
@@ -33,7 +36,7 @@ else
 
     'currDate = CDate(Date)
 
-    email = CStr(Session("email"))
+    email = CStr(Request.Form("userEmail"))
     'Set the user type of the cashier's currently logged in'
     sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
     set objAccess = cnroot.execute(sqlGetInfo)
@@ -59,7 +62,7 @@ else
 
             if isValidRef = false then
                 Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&""";")
+                Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&userType&" "";")
                 Response.Write("</script>")
             end if
 
@@ -128,7 +131,7 @@ else
 
                 if isValidT = false then
                     Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&""";")
+                    Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&userType&" "";")
                     Response.Write("</script>")
                 end if
 
@@ -157,7 +160,7 @@ else
                                     If isProcessed = false then
                                     ' Response.Redirect("bootSales.asp")
                                         Response.Write("<script language=""javascript"">")
-                                        Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&""";")
+                                        Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&userType&" "";")
                                         Response.Write("</script>")
                                     end If
                                 

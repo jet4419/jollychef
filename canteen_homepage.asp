@@ -96,6 +96,12 @@
     
 </main>
 
+<!-- FOOTER -->
+
+<!--#include file="footer.asp"-->
+
+<!-- End of FOOTER -->
+
 <script>
     
     $('.btn-main').click(function(){

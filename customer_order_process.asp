@@ -298,6 +298,7 @@
             <form action="customer_incoming2.asp" class="form-group form-inline" method="POST">
                 <input type="number" name="cust_id" id="cust_id" value="<%=custID%>" hidden>
                 <input type="number" name="unique_num" id="unique_num" value="<%=uniqueNum%>" hidden>
+                <input type="text" name="userType" id="userType" value="<%=userType%>" hidden>
                 <select id="products" class="form-control mr-2" name="productID" style="width:650px; "class="chzn-select" required placeholder="Select Product">
                    
                     <!--<optgroup label="Group 1"> -->
@@ -788,6 +789,8 @@
                                 <form action="customer_pay2.asp" method="POST">
                                     <input type="number" name="custID" id="custID" value="<%=custID%>" hidden>
                                     <input type="number" name="uniqueNum" id="uniqueNum" value="<%=uniqueNum%>" hidden>
+                                    <input type="text" name="userType" class="userType" value="<%=userType%>" hidden>
+                                     <input type="text" name="userEmail" class="userEmail" value="" hidden>
                                     <div class="form-group mb-3">    
                                         <label class="ml-1" style="font-weight: 500"> Reference No. </label>
                                         <input type="text" style="color: #f6ab6c; font-weight: 600;" pattern="[0-9]{9}" class="form-control" name="referenceNo" id="referenceNo" value="<%=maxRefNo%>" min="1" required>
@@ -836,6 +839,8 @@
                                 <input type="number" name="totalProfit" value="<%=totalProfit%>" hidden>
                                 <input type="number" name="totalAmount" value="<%=totalAmount%>" hidden>
                                 <input type="text" name="customerType" value="<%=customerType%>" hidden>
+                                <input type="text" name="userType" class="userType" value="<%=userType%>" hidden>
+                                <input type="text" name="userEmail" class="userEmail" value="" hidden>
                                 <input type="text" name="isClosed" value="yes" hidden>
                                 <!--
                                 <p>Are you sure to process your order?</p>
@@ -980,6 +985,10 @@
 
 <script>
 
+    const cashierType = localStorage.getItem('type');
+    const cashierEmail = localStorage.getItem('email');
+    document.querySelector('.userEmail').value = cashierEmail;
+
     tail.select("#select1", {
         search: true,
         deselect: true,
@@ -995,7 +1004,7 @@
 
         if(confirm('Are you sure that you want to cancel this order?'))
         {
-            window.location.href='customer_order_process_cancel.asp?transact_id='+transactID+'&unique_num='+uniqueNum+'&cust_id='+custID;
+            window.location.href=`customer_order_process_cancel.asp?transact_id=${transactID}&unique_num=${uniqueNum}&cust_id=${custID}&userType=${cashierType}`;
             //window.location.href='delete.asp?delete_id='+id;
         }
 

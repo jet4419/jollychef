@@ -3,10 +3,13 @@
 
 <%
 
-if Session("type") = "" then
-    Response.Redirect("canteen_login.asp")
+Dim userEmail
+userEmail = CStr(Request.Form("userEmail"))
 
-else
+' if Session("type") = "" then
+'     Response.Redirect("canteen_login.asp")
+
+'else
     Dim totalProfit, totalAmount, customerCash, userPayment, email, cashierName, referenceNo, systemDate
     Dim custID, custName, custDepartment, isValidRef
     isValidRef = true
@@ -38,7 +41,7 @@ else
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
     'currDate = CDate(Date)
 
-    email = CStr(Session("email"))
+    email = userEmail
     'Set the user type of the cashier's currently logged in'
     sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
     set objAccess = cnroot.execute(sqlGetInfo)
@@ -343,5 +346,5 @@ else
 
     end if
 
-end if    
+'end if    
 %>

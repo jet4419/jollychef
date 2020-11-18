@@ -1,16 +1,16 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="sha256.asp"-->
-<!--#include file="session_cashier.asp"-->
+
 <%
     Dim isValidEmail, isValidPassword
 
-    if Session("name")="" then
-        Response.Redirect("canteen_homepage.asp")
-    end if
+    ' if Session("name")="" then
+    '     Response.Redirect("canteen_homepage.asp")
+    ' end if
 
-    if ASC(Session("type")) <> ASC("programmer") then 
-        Response.Redirect("canteen_homepage.asp")    
-    end if
+    ' if ASC(Session("type")) <> ASC("programmer") then 
+    '     Response.Redirect("canteen_homepage.asp")    
+    ' end if
 
     firstName = Trim(Request.Form("firstname"))
     firstName = Ucase(Left(firstName, 1)) & Mid(firstName, 2)
