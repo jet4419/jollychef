@@ -166,6 +166,34 @@
                 margin-bottom: 10px !important;
             }
 
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+            }
+
+             /* Chrome, Safari, Edge, Opera */
+            input::-webkit-outer-spin-button,
+
+            input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+
+            }
+
+            /* Firefox */
+            input[type=number] {
+            -moz-appearance: textfield;
+
+            }
+
+            #loading-image {
+                background: url('./img/loading.jpg') center center/cover;
+                /* display: none; */
+                height: 200px;
+                width: 200px; 
+            }
+
         </style>
         <!--
         <script type="text/javascript" >
@@ -219,7 +247,7 @@
                 next
                 rs.MoveNext
             loop
-            Response.Write maxRefNoChar
+            'Response.Write maxRefNoChar
             if maxRefNoChar <> "" then
                 maxRefNo = Mid(maxRefNoChar, 6) + 1
             else
@@ -260,9 +288,10 @@
 
         if not objAccess.EOF then
             
-            custFullName = objAccess("cust_lname").value & " " & objAccess("cust_fname")
-            department = objAccess("department").value
-
+            custFullName = Trim(objAccess("cust_lname").value) & " " & Trim(objAccess("cust_fname"))
+            department = Trim(objAccess("department").value)
+        else
+            Response.Redirect("ob_main.asp")
         end if
 
         set objAccess = nothing
@@ -288,7 +317,7 @@
 
         <%if custID<>0  then%>
 
-<div id="main" class="mt-4 pt-4 mb-5">
+<div id="main" class=" mb-5">
 
     <!--
     <h1 class="h1 text-center my-4 main-heading"> <strong><'%=custFullName&"'s"%> Receivable Lists</strong> </h1>
@@ -297,8 +326,8 @@
         <div class="container pb-3 mb-5">
 
             <div class="users-info mb-1">
-                <h1 class="h3 text-center main-heading my-0" style="font-weight: 400"><span class="order_of">Credits of</span> <span class="cust_name" style="font-weight: 400"><%=custFullName%></span></h1>
-                <h1 class="h5 text-center main-heading my-0" style="font-weight: 400"> <span class="department_lbl"><%=department%></span> </h1>
+                <h1 class="h3 text-center main-heading my-0" style="font-weight: 400"><span class="order_of">Credits of</span> <span id="custName" class="cust_name" style="font-weight: 600"><%=custFullName%></span></h1>
+                <h1 class="h5 text-center main-heading my-0" style="font-weight: 600"> <span id="custDepartment" class="department_lbl"><%=department%></span> </h1>
                 
             </div>
 
@@ -374,7 +403,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="3"> <strong> Total Balance </strong> </td>
-                            <td colspan="2"> <strong> <span class="text-primary">&#8369;</span> <%=currOB%> </strong> </td>
+                            <td colspan="2"> <strong> <%=currOB%> </strong> </td>
                         </tr>
                     </tfoot>
                 </table>
@@ -412,8 +441,14 @@
             </div>
             </form>
 
+            
+
         </div>    
     </div>
+
+    <!-- PROGRESS BAR WHEN Processing the payment
+    <div id="loading-image"> </div>
+    -->
 
     <%else%>
 
@@ -512,6 +547,12 @@
 
 <script src="js/main.js"></script> 
 <script>  
+
+/* Progress Bar
+const loadingImg = document.getElementById('loading-image');
+loadingImg.classList.add('hidden');
+*/
+
 $(document).ready( function () {
     $('#myTable').DataTable({
         scrollY: "36vh",
@@ -596,6 +637,10 @@ $(document).ready( function () {
             var subTotal = document.getElementById("total").value
             var cashPayment = document.getElementById("cash_payment").value
             var referenceNo = document.getElementById("reference_no").value
+
+            var custName = document.getElementById('custName').textContent;
+            var custDepartment = document.getElementById('custDepartment').textContent;
+
             myValue.forEach(function(item) {
                 if (item.value.trim().length !== 0) {
                     //console.log(item.id + " " + item.value)
@@ -603,17 +648,25 @@ $(document).ready( function () {
                     myValues = myValues + item.value + ","
                 }
             });
+
+           /* Progress Bar 
+           loadingImg.classList.remove('hidden');
+           */
             
             $.ajax({
                 url: "ar_payment_c.asp",
                 type: "POST",
                 data: {
                        myInvoices: myInvoices, myValues: myValues, subTotal: subTotal, 
-                       custID: custID, cashPayment: cashPayment, referenceNo: referenceNo
+                       custID: custID, cashPayment: cashPayment, referenceNo: referenceNo,
+                       custName: custName, custDepartment: custDepartment
                       },
                 success: function(data) {
                     //alert(data)
 
+                /* Progress Bar
+                loadingImg.classList.add('hidden')
+                */
                     if (data=='false') {
                         
                         alert('Error: Reference already exist!');

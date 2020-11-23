@@ -269,7 +269,7 @@
         <!-- Cannot be adjust if it is OTC-Customer. custID=0 means OTC-Customer -->
         <%if custID<>0  then%>
 
-<div id="main" class="mt-5 pt-5">
+<div id="main">
 
     <!--
     <h1 class="h1 text-center my-4 main-heading"> <strong><'%=custFullName&"'s"%> Receivable Lists</strong> </h1>

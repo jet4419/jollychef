@@ -9,7 +9,7 @@
 <style>
 
     button.btn-end-date {
-        font-weight: 700;
+        font-weight: 600;
     }
 
     .nav {

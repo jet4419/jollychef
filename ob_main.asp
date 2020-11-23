@@ -158,18 +158,18 @@
   
                     <%if ASC(isStoreClosed) = ASC("closed") then %>
                         <td>
-                        <button onClick="payDebt(<%=rs("cust_id")%>)" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
+                        <button onClick="payDebt(<%=rs("cust_id")%>)" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
                             Pay Credit
                         </button>
                     <%elseif systemDate < dateClosed then%>    
                         <td>
-                        <button onClick="payDebt(<%=rs("cust_id")%>)"  class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
+                        <button onClick="payDebt(<%=rs("cust_id")%>)"  class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
                             Pay Credit
                         </button>
                     <%else%>
                         <%if CDbl(creditBal) <= 0 then%>
                         <td>
-                            <button onClick="payDebt(<%=rs("cust_id")%>)" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
+                            <button onClick="payDebt(<%=rs("cust_id")%>)" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
                                 Pay Credit
                             </button>
                         </td>

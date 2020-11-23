@@ -48,7 +48,7 @@
 
             if not rs.EOF then
                 currentSdate = CDate(rs("first_date"))
-                currentEdate = CDate(Application("date"))
+                currentEdate = systemDate
                 'department = CStr(rs("department"))
                 displaySdate = Day(currentSdate) & " " & MonthName(Month(currentSdate)) & " " & Year(currentSdate)
                 displayEdate = Day(currentEdate) & " " & MonthName(Month(currentEdate)) & " " & Year(currentEdate) %>

@@ -2,21 +2,12 @@
 
 
 <%
-    Dim myInvoices, myValues, subTotal, cashPayment, custID, strInvoices 
-    Dim strValues, values, invoices, referenceNo, isValidRef
-
-    isValidRef = true
-    myInvoices = Request.Form("myInvoices")
-    myValues = Request.Form("myValues")
-    subTotal = CDbl(Request.Form("subTotal"))
-    cashPayment = CDbl(Request.Form("cashPayment"))
-    custID = CDbl(Request.Form("custID"))
+    Dim isValidRef, referenceNo
 
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
 
-    values = Split(myValues,",")
-    invoices = Split(myInvoices,",")
+    isValidRef = true
 
     sqlCheckRef = "SELECT ref_no FROM reference_no WHERE ref_no='"&referenceNo&"'"
     set objAccess = cnroot.execute(sqlCheckRef)
@@ -28,28 +19,25 @@
 
         end if
 
-    set objAccess = nothing
-
-
     if isValidRef = true then
 
         'Customer's info'
         Dim custName, custDepartment, paymentMethod
         paymentMethod = "ar"
 
+        Dim myInvoices, myValues, subTotal, cashPayment, custID, strInvoices 
+        Dim strValues, values, invoices
 
-        sqlCustInfo = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&custID
-        set objAccess = cnroot.execute(sqlCustInfo)
+        myInvoices = Request.Form("myInvoices")
+        myValues = Request.Form("myValues")
+        subTotal = CDbl(Request.Form("subTotal"))
+        cashPayment = CDbl(Request.Form("cashPayment"))
+        custID = CDbl(Request.Form("custID"))
+        custName = CStr(Request.Form("custName"))
+        custDepartment = CStr(Request.Form("custDepartment"))
 
-        if not objAccess.EOF then
-
-            custName = Trim(objAccess("cust_lname").value) & " " & Trim(objAccess("cust_fname").value)
-            custDepartment = objAccess("department").value
-
-        end if
-
-        set objAccess = nothing
-
+        values = Split(myValues,",")
+        invoices = Split(myInvoices,",")
 
         Dim yearPath, monthPath
 
@@ -60,50 +48,47 @@
             monthPath = "0" & monthPath
         end if
 
-        Dim salesFile, salesOrderFile, collectionsFile, transactionsFile
+        Dim collectionsFile, transactionsFile
 
         transactionsFile = "\transactions.dbf"
         obFile = "\ob_test.dbf"
-        salesFile = "\sales.dbf"
         collectionsFile = "\collections.dbf"
         arFile = "\accounts_receivables.dbf"
         
 
-        Dim salesPath, salesOrderPath, collectionsPath, transactionsPath
+        Dim collectionsPath, transactionsPath
 
         transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
         obPath = mainPath & yearPath & "-" & monthPath & obFile
-        salesPath = mainPath & yearPath & "-" & monthPath & salesFile 
         collectionsPath = mainPath & yearPath & "-" & monthPath & collectionsFile
         arPath = mainPath & yearPath & "-" & monthPath & arFile
     
-        Dim maxID, transact_type, credit, currDate, invoice, status
-            transact_type = "Pay"
-            credit = 0.00
-            invoice = 0
-            status = ""
-            maxID = 0
+        Dim maxID, maxOBtestID, transact_type, credit, currDate, invoice, status
 
-            rs.Open "SELECT MAX(id) AS id FROM "&transactionsPath&";", CN2
-                do until rs.EOF
-                    for each x in rs.Fields
-                        maxID = x.value
-                    next
-                    rs.MoveNext
-                loop
-                maxID = CDbl(maxID) + 1
+        transact_type = "Pay"
+        credit = 0.00
+        invoice = 0
+        status = ""
+        maxID = 0
+        maxOBtestID = 0
 
-            rs.close 
+            getMaxTransactID = "SELECT MAX(id) AS id FROM "&transactionsPath&";"
+            set objAccess = cnroot.execute(getMaxTransactID)
 
-            rs.Open "SELECT MAX(id) FROM "&obPath&";", CN2
-            do until rs.EOF
-                for each x in rs.Fields
-                    maxOBtestID = x.value
-                next
-                rs.MoveNext
-            loop
-            maxOBtestID = CDbl(maxOBtestID) + 1
-            rs.close
+            if not objAccess.EOF then
+                maxID = CDbl(objAccess("id"))
+            end if
+
+            maxID = maxID + 1
+
+            getMaxObID = "SELECT MAX(id) AS id FROM "&obPath&";"
+            set objAccess = cnroot.execute(getMaxObID)
+
+            if not objAccess.EOF then
+                maxOBtestID = CDbl(objAccess("id"))
+            end if
+
+            maxOBtestID = maxOBtestID + 1
 
         Dim currOB
         currOB = 0.00
@@ -113,7 +98,6 @@
         if not objAccess.EOF then
             currOB = CDbl(objAccess("balance").value)
         end if
-        set objAccess = nothing
 
         Dim newOB, cust_type, newBal
         newOB = currOB - subTotal
@@ -126,40 +110,44 @@
 
         sqlAdd2 = "INSERT INTO "&obPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate) "&_
         "VALUES ("&maxObTestID&", '"&referenceNo&"', "&custID&", '"&custName&"', '"&custDepartment&"', '"&transact_type&"', '"&cust_type&"', "&cashPayment&" , "&newOB&", ctod(["&systemDate&"]), '"&status&"', '"&isDuplicate&"')"
-        set objAccess = cnroot.execute(sqlAdd2)
-        set objAccess = nothing   
+        set objAccess = cnroot.execute(sqlAdd2) 
 
-        ' Dim maxArId
-        ' rs.Open "SELECT MAX(ar_id) FROM "&arPath&";", CN2
-        '     do until rs.EOF
-        '         for each x in rs.Fields
-        '             maxArId = x.value
-        '         next
-        '         rs.MoveNext
-        '     loop
-        '     maxArId = CDbl(maxArId) + 1
-        ' rs.close
-        
         Dim maxCollectID
-        rs.Open "SELECT MAX(id) FROM "&collectionsPath&";", CN2
-            do until rs.EOF
-                for each x in rs.Fields
+        maxCollectID = 0
 
-                    maxCollectID = x.value
+        getMaxCollectID = "SELECT MAX(id) AS id FROM "&collectionsPath&";"
+        set objAccess = cnroot.execute(getMaxCollectID)
 
-                next
-                rs.MoveNext
-            loop
-            maxCollectID = CDbl(maxCollectID) + 1
-            
+        if not objAccess.EOF then
+            maxCollectID = CDbl(objAccess("id"))
+        end if
 
-        rs.close  
+        maxCollectID = maxCollectID + 1
         
+        ' sqlUpdate2 = "UPDATE "&arPath&" "&_
+        ' " SET balance = "&_
+        ' "iif(invoice_no=39, 1, iif(invoice_no=15, 2, iif(invoice_no=26, 3, "&_
+        ' "iif(invoice_no=38, 4, iif(invoice_no=20, 5, iif(invoice_no=24, 6, "&_
+        ' "iif(invoice_no=17, 7, iif(invoice_no=18, 8, iif(invoice_no=25, 9, "&_
+        ' "iif(invoice_no=19, 25, balance)))))))))) "&_
+        ' "WHERE invoice_no IN (39,15,26,38,20,24,17,18,25,19)"
+
+        Dim updateStr, iifs, endingIf, parens, counter
+        updateStr = "UPDATE "&arPath&" SET balance = "
+        iifs = ""
+        endingIf = "balance"
+        parens = ""
+        counter = 0
+
+        ' Dim collectionInsert, collectionValues, transactionsInsert, transactionsValues
+
+        ' collectionInsert = "INSERT INTO "&collectionsPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, tot_amount, cash, balance, p_method, duplicate) VALUES "
+
+        ' transactionsInsert = "INSERT INTO "&transactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate) VALUES " 
 
         for i=0 to Ubound(invoices) - 1
 
-            ' sqlUpdate = "UPDATE "&arPath&" SET balance=balance-"&values(i)&" WHERE invoice_no="&invoices(i)
-            ' cnroot.execute(sqlUpdate)
+            counter = counter + 1
 
             sqlGetAr = "SELECT balance, date_owed, duplicate FROM "&arPath&" WHERE invoice_no = "&invoices(i)&" GROUP BY invoice_no"
             set objAccess = cnroot.execute(sqlGetAr)
@@ -171,30 +159,51 @@
                 duplicate = Trim(CStr(objAccess("duplicate")))
     
             end if
+
+
+
+            ' if contDate1 <> contDate2
+            ' contDate2 = contDate1
             
-            set objAccess = nothing
 
             balance = balance - values(i)
             
+            iifs = iifs & "iif(invoice_no = "&invoices(i)&", "&balance&", "
+            parens = parens & ")"
 
-            sqlUpdate = "UPDATE "&arPath&" SET balance = balance-"&values(i)&" WHERE invoice_no="&invoices(i)
-            cnroot.execute(sqlUpdate)
+            
 
-            if duplicate = "yes" then
+            if counter = 10 then
 
-                arYear = Year(arDate)
-                arMonth = Month(arDate)
+                updateStr = updateStr & iifs & endingIf & parens
+                cnroot.execute(updateStr)
+                counter = 0
+                updateStr = "UPDATE "&arPath&" SET balance = "
+                iifs = ""
+                parens = ""
 
-                if Len(arMonth) = 1 then
-                    arMonth = "0" & arMonth
-                end if
+            end if
 
-                arOrigPath = mainPath & arYear & "-" & arMonth & arFile
+            ' sqlUpdate = "UPDATE "&arPath&" SET balance = balance-"&values(i)&" WHERE invoice_no="&invoices(i)
+            ' cnroot.execute(sqlUpdate)
 
-                sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance-"&values(i)&" WHERE invoice_no="&invoices(i)
-                cnroot.execute(sqlArUpdate)
+            ' if duplicate = "yes" then
 
-            end if 
+            '     arYear = Year(arDate)
+            '     arMonth = Month(arDate)
+
+            '     if Len(arMonth) = 1 then
+            '         arMonth = "0" & arMonth
+            '     end if
+
+            '     arOrigPath = mainPath & arYear & "-" & arMonth & arFile
+
+            '     sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance-"&values(i)&" WHERE invoice_no="&invoices(i)
+            '     cnroot.execute(sqlArUpdate)
+
+            ' end if 
+
+            ' collectionValues = collectionValues & " " & "("&maxCollectID&", "&custID&", '"&custName&"', '"&custDepartment&"', "&invoices(i)&", '"&referenceNo&"', ctod(["&systemDate&"]), "&values(i)&", "&values(i)&", "&balance&", '"&paymentMethod&"', '"&isDuplicate&"'),"
 
             sqlCollectAdd = "INSERT INTO "&collectionsPath&""&_ 
             "(id, cust_id, cust_name, department, invoice, ref_no, date, tot_amount, cash, balance, p_method, duplicate)"&_
@@ -204,6 +213,8 @@
             maxCollectID = maxCollectID + 1
 
             'Balance per paid invoices
+
+            ' transactionsValues = transactionsValues & " " & "("&maxID&" , '"&referenceNo&"', '"&transact_type&"', "&custID&" , "&invoices(i)&", "&values(i)&", " &credit&", ctod(["&systemDate&"]), '"&status&"', '"&isDuplicate&"'),"
         
             sqlAdd2 = "INSERT INTO "&transactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate)"&_
             "VALUES ("&maxID&" , '"&referenceNo&"', '"&transact_type&"', "&custID&" , "&invoices(i)&", "&values(i)&", " &credit&", ctod(["&systemDate&"]), '"&status&"', '"&isDuplicate&"')"
@@ -213,22 +224,40 @@
 
         next
 
-        Dim maxRefId 
+        'Response.Write updateStr & "<br>"
 
-        rs.Open "SELECT MAX(id) AS id FROM reference_no;", CN2
-            do until rs.EOF
-                for each x in rs.Fields
-                    maxRefId = x.value
-                next
-                rs.MoveNext
-            loop
-            maxRefId = CDbl(maxRefId) + 1
-        rs.close
+        updateStr = updateStr & iifs & endingIf & parens
+        cnroot.execute(updateStr)
+
+        ' collectionValues = left(collectionValues,len(collectionValues)-1)
+        ' Response.Write collectionInsert & collectionValues & "<br>"
+        ' collectionInsert = collectionInsert & collectionValues
+        ' cnroot.execute(collectionInsert)    
+
+        ' transactionsValues = left(transactionsValues,len(transactionsValues)-1)
+        ' Response.Write transactionsInsert & transactionsValues & "<br>"
+        ' transactionsInsert = transactionsInsert & transactionsValues
+        ' cnroot.execute(transactionsInsert)
+
+        Dim maxRefId 
+        maxRefId = 0
+
+        getMaxRefID = "SELECT MAX(id) AS id FROM reference_no;"
+        set objAccess = cnroot.execute(getMaxRefID)
+
+        if not objAccess.EOF then
+            maxRefId = CDbl(objAccess("id"))
+        end if
+
+        maxRefId = maxRefId + 1
+
 
         sqlRefAdd = "INSERT INTO reference_no (id, ref_no) "&_
                     "VALUES ("&maxRefId&", '"&referenceNo&"')"
-        cnroot.execute(sqlRefAdd)            
+        cnroot.execute(sqlRefAdd) 
 
+
+        set objAccess = nothing
         CN2.close
         
         Response.Write(referenceNo)

@@ -92,8 +92,8 @@
     
     <div id="content">
         <div class="container mb-5">
-            <h1 class="h2 text-center mt-3 mb-5 main-heading"> 
-                <strong>Select Adjustment</strong>
+            <h1 class="h1 text-center mt-3 mb-5 main-heading" style="font-weight: 400"> 
+                Select Adjustment
             </h1>
 
             <%  

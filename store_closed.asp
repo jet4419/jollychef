@@ -57,7 +57,7 @@
 
             sqlDateUpdate = "UPDATE system_date SET date = date + 1"
             cnroot.execute(sqlDateUpdate)
-            systemDate = systemDate + 1
+            'systemDate = systemDate + 1
             'Response.Write("Day end")    
 
             Dim maxSchedID
