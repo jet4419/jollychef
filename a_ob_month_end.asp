@@ -180,20 +180,6 @@
                             set fs = nothing
                             Response.Write "Files successfully copied!"
 
-                            'Get all the records that have a remaining balance'
-                            rs.open "SELECT * FROM "&arPath&" WHERE balance > 0 ", CN2
-
-                            do until rs.EOF 
-
-                            sqlArAdd = "INSERT INTO "&newArPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
-                            "VALUES ("&rs("ar_id")&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("cust_dept")&"', '"&rs("ref_no")&"', "&rs("invoice_no")&", "&rs("receivable")&", "&rs("balance")&", ctod(["&rs("date_owed")&"]), 'yes')"
-                            cnroot.execute(sqlArAdd)
-
-                            rs.movenext
-                            loop
-
-                            rs.close
-
                             'Getting the AR TBL Max record
                             rs.open "SELECT TOP 1 ar_id, date_owed FROM "&arPath&" ORDER BY ar_id DESC", CN2
                             

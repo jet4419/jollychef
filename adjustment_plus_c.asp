@@ -123,44 +123,47 @@
         sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance + "&adjustmentValue&" WHERE invoice_no="&invoice
         cnroot.execute(sqlArUpdate)
 
-        if arOrigPath <> arPath then
+        'This checking is to prevent double update when the arOrigPath 
+        'is the same with arPath (currentPath) 
 
-        sqlGetAr = "SELECT * FROM "&arPath&" WHERE invoice_no = "&invoice
-        set objAccess = cnroot.execute(sqlGetAr)
+        ' if arOrigPath <> arPath then
 
-            if not objAccess.EOF then
+        '     sqlGetAr = "SELECT * FROM "&arPath&" WHERE invoice_no = "&invoice
+        '     set objAccess = cnroot.execute(sqlGetAr)
 
-                ' rs.open "SELECT balance FROM "&arPath&" WHERE invoice_no="&invoice, CN2
-                ' newArBal = adjustmentValue + CDbl(rs("balance"))
-                ' rs.close
+        '     if not objAccess.EOF then
 
-                ' sqlUpdate = "UPDATE "&arPath&" SET balance = "&newArBal&" WHERE invoice_no="&invoice&" AND ref_no='"&referenceNo&"'"
-                ' cnroot.execute(sqlUpdate)
-                sqlUpdate = "UPDATE "&arPath&" SET balance = balance + "&adjustmentValue&" WHERE invoice_no="&invoice
-                cnroot.execute(sqlUpdate)
+        '         ' rs.open "SELECT balance FROM "&arPath&" WHERE invoice_no="&invoice, CN2
+        '         ' newArBal = adjustmentValue + CDbl(rs("balance"))
+        '         ' rs.close
 
-            else
+        '         ' sqlUpdate = "UPDATE "&arPath&" SET balance = "&newArBal&" WHERE invoice_no="&invoice&" AND ref_no='"&referenceNo&"'"
+        '         ' cnroot.execute(sqlUpdate)
+        '         sqlUpdate = "UPDATE "&arPath&" SET balance = balance + "&adjustmentValue&" WHERE invoice_no="&invoice
+        '         cnroot.execute(sqlUpdate)
+
+        '     else
                 
-                rs.open "SELECT * FROM "&arOrigPath&" WHERE invoice_no = "&invoice, CN2
+        '         rs.open "SELECT * FROM "&arOrigPath&" WHERE invoice_no = "&invoice, CN2
 
-                do until rs.EOF
+        '         do until rs.EOF
                     
-                    addArDuplicate = "INSERT INTO "&arPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
-                    "VALUES ("&maxArId&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("cust_dept")&"', '"&rs("ref_no")&"', "&rs("invoice_no")&" , "&rs("receivable")&", "&rs("balance")&", ctod(["&rs("date_owed")&"]), '"&isDuplicate&"')"
-                    cnroot.execute(addArDuplicate)
+        '             addArDuplicate = "INSERT INTO "&arPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
+        '             "VALUES ("&maxArId&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("cust_dept")&"', '"&rs("ref_no")&"', "&rs("invoice_no")&" , "&rs("receivable")&", "&rs("balance")&", ctod(["&rs("date_owed")&"]), '"&isDuplicate&"')"
+        '             cnroot.execute(addArDuplicate)
 
-                rs.movenext
-                loop
+        '         rs.movenext
+        '         loop
                 
-                rs.close
+        '         rs.close
     
-            end if
+        '     end if
 
-        set objAccess = nothing    
+        '     set objAccess = nothing    
 
-        maxArId = maxArId + 1
+        '     maxArId = maxArId + 1
 
-        end if
+        ' end if
         ' sqlAddAr = "INSERT INTO "&arPath&" "&_
         ' "(ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, status) "&_
         ' "VALUES ("&maxArId&", "&custID&", '"&custName&"', '"&department&"', '"&referenceNo&"', "&invoice&", "&receivable&", "&balance&", ctod(["&systemDate&"]), '"&arStatus&"')"

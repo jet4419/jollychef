@@ -120,38 +120,38 @@
         sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance - "&adjustmentValue&" WHERE invoice_no="&invoice
         cnroot.execute(sqlArUpdate)
 
-        if arOrigPath <> arPath then
+        ' if arOrigPath <> arPath then
 
-        sqlGetAr = "SELECT * FROM "&arPath&" WHERE invoice_no = "&invoice
-        set objAccess = cnroot.execute(sqlGetAr)
+        '     sqlGetAr = "SELECT * FROM "&arPath&" WHERE invoice_no = "&invoice
+        '     set objAccess = cnroot.execute(sqlGetAr)
 
-        if not objAccess.EOF then
+        '     if not objAccess.EOF then
 
-            sqlUpdate = "UPDATE "&arPath&" SET balance = balance - "&adjustmentValue&" WHERE invoice_no="&invoice
-            cnroot.execute(sqlUpdate)
+        '         sqlUpdate = "UPDATE "&arPath&" SET balance = balance - "&adjustmentValue&" WHERE invoice_no="&invoice
+        '         cnroot.execute(sqlUpdate)
 
-            else
+        '     else
                 
-                rs.open "SELECT * FROM "&arOrigPath&" WHERE invoice_no = "&invoice, CN2
+        '         rs.open "SELECT * FROM "&arOrigPath&" WHERE invoice_no = "&invoice, CN2
 
-                do until rs.EOF
+        '         do until rs.EOF
                     
-                    addArDuplicate = "INSERT INTO "&arPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
-                    "VALUES ("&maxArId&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("cust_dept")&"', '"&rs("ref_no")&"', "&rs("invoice_no")&" , "&rs("receivable")&", "&rs("balance")&", ctod(["&rs("date_owed")&"]), '"&isDuplicate&"')"
-                    cnroot.execute(addArDuplicate)
+        '             addArDuplicate = "INSERT INTO "&arPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
+        '             "VALUES ("&maxArId&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("cust_dept")&"', '"&rs("ref_no")&"', "&rs("invoice_no")&" , "&rs("receivable")&", "&rs("balance")&", ctod(["&rs("date_owed")&"]), '"&isDuplicate&"')"
+        '             cnroot.execute(addArDuplicate)
 
-                rs.movenext
-                loop
+        '         rs.movenext
+        '         loop
                 
-                rs.close
+        '         rs.close
     
-            end if
+        '     end if
 
-        set objAccess = nothing    
+        '     set objAccess = nothing    
 
-        maxArId = maxArId + 1
+        '     maxArId = maxArId + 1
 
-        end if
+        ' end if
 
         sqlAdd2 = "INSERT INTO "&transactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate)"&_
         "VALUES ("&maxID&" ,'"&referenceNo&"', '"&transact_type&"', "&custID&" , "&invoice&", "&adjustmentValue&", " &credit&", ctod(["&systemDate&"]), '"&status&"', '')"

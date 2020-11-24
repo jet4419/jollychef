@@ -158,24 +158,24 @@
   
                     <%if ASC(isStoreClosed) = ASC("closed") then %>
                         <td>
-                        <button onClick="payDebt(<%=rs("cust_id")%>)" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
+                        <button class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
                             Pay Credit
                         </button>
                     <%elseif systemDate < dateClosed then%>    
                         <td>
-                        <button onClick="payDebt(<%=rs("cust_id")%>)"  class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
+                        <button class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
                             Pay Credit
                         </button>
                     <%else%>
                         <%if CDbl(creditBal) <= 0 then%>
                         <td>
-                            <button onClick="payDebt(<%=rs("cust_id")%>)" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
+                            <button class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
                                 Pay Credit
                             </button>
                         </td>
                         <%else%>
                         <td>
-                            <button onClick="payDebt(<%=rs("cust_id")%>)" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt">
+                            <button id="<%=rs("cust_id")%>" data-toggle="modal" data-target="#date_credit" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt">
                                 Pay Credit
                             </button>
                         </td>
@@ -209,9 +209,9 @@
         <div class="modal fade" id="pay_debt_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
-                    <form action="a_ob_paydebt2.asp" class="form-group mb-3" id="payDebtForm" method="POST">
+                    <form action="ar_lists.asp" class="form-group mb-3" id="payDebtForm" method="POST">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Pay Debt </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Pay Current Credit </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -230,6 +230,8 @@
             </div>
         </div> 
       <!-- END OF Pay Debt -->    
+
+   
 
     <!-- Date Range of Transactions -->
             <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -337,14 +339,14 @@ let j = 0
 
         
     // Pay Debt
-        $(document).on("click", ".btnPayDebt", function(event) {
+    $(document).on("click", ".btnPayDebt", function(event) {
 
             event.preventDefault();
 
             let custID = $(this).attr("id");
             $.ajax({
 
-            url: "a_ob_paydebt.asp",
+            url: "ar_list_datepicker.asp",
             type: "POST",
             data: {custID: custID},
             success: function(data) {
@@ -380,11 +382,11 @@ let j = 0
 
 });
 
-function payDebt(id) {
+// function payDebt(id) {
 
-    window.location.href='ar_lists.asp?cust_id='+id;
+//     window.location.href='ar_lists.asp?cust_id='+id;
 
-}
+// }
     
 </script>
 

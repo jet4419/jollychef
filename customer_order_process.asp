@@ -710,7 +710,7 @@
                                 <td><%=rs("prod_name")%> </td>
                                 <td> <span class="text-primary">&#8369;</span><%=rs("price")%> </td>
                                 <td><%=rs("qty")%> </td>
-                                <td> <span class="text-primary">&#8369;</span><%=rs("profit")%> </td>
+                                <td> <span class="text-primary">&#8369;</span><%=rs("amount")%> </td>
                             <%if userType = "admin" then%>    
                                 <!--
                                     <td width="90"><a href="a_order_process_cancel.asp?transact_id=<'%=CLng(rs("id"))%>&salesQty=<'%=productQty%>&product_id=<'%=productID%>&unique_num=<'%=uniqueNum%>&cust_id=<'%=custID%>"><button class="btn btn-sm btn-warning"> Cancel </button></a></td>

@@ -270,48 +270,36 @@
 <!--#include file="cashier_sidebar.asp"-->
 
     <%
-        if Request.QueryString("cust_id") = "" then
+        if Request.Form("cust_id") = "" then
             Response.Redirect("ob_main.asp")
         end if
 
-        if IsNumeric(Request.QueryString("cust_id")) = false then
+        if IsNumeric(Request.Form("cust_id")) = false then
             Response.Redirect("ob_main.asp")
         end if
 
-        Dim custFullName, currOB
+        'Dim currOB
         
-        currOB = 0.00
-        custID = CLng(Request.QueryString("cust_id"))
+        'currOB = 0.00
+
+        Dim custFullName
         
-        sqlGetName = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&custID
-        set objAccess = cnroot.execute(sqlGetName)
+        custID = CLng(Request.Form("cust_id"))
+        custFullName = CStr(Request.Form("cust_name"))
+        department = CStr(Request.Form("department"))
+        creditDate = CStr(Request.Form("date_records"))
 
-        if not objAccess.EOF then
-            
-            custFullName = Trim(objAccess("cust_lname").value) & " " & Trim(objAccess("cust_fname"))
-            department = Trim(objAccess("department").value)
-        else
-            Response.Redirect("ob_main.asp")
-        end if
+        ' Dim obFile, obFilePath
 
-        set objAccess = nothing
+        ' obFile = "\ob_test.dbf"
+        ' obFilePath = folderPath & obFile
 
+        ' sqlGetOB = "SELECT * FROM "&obFilePath&" WHERE cust_id="&custID&" GROUP BY cust_id"
+        ' set objAccess = cnroot.execute(sqlGetOB)
 
-        Dim obFile, obFilePath
-
-        obFile = "\ob_test.dbf"
-        obFilePath = folderPath & obFile
-
-        sqlGetOB = "SELECT * FROM "&obFilePath&" WHERE cust_id="&custID&" GROUP BY cust_id"
-        set objAccess = cnroot.execute(sqlGetOB)
-
-        if not objAccess.EOF then
-            currOB = currOB + CDbl(objAccess("balance").value)
-        end if
-
-        Dim arFile
-
-        arFile = "\accounts_receivables.dbf"
+        ' if not objAccess.EOF then
+        '     currOB = currOB + CDbl(objAccess("balance").value)
+        ' end if
 
     %>
 
@@ -323,13 +311,14 @@
     <h1 class="h1 text-center my-4 main-heading"> <strong><'%=custFullName&"'s"%> Receivable Lists</strong> </h1>
     -->
     <div id="content">
-        <div class="container pb-3 mb-5">
+        <div class="container pb-3 mb-2">
 
             <div class="users-info mb-1">
                 <h1 class="h3 text-center main-heading my-0" style="font-weight: 400"><span class="order_of">Credits of</span> <span id="custName" class="cust_name" style="font-weight: 600"><%=custFullName%></span></h1>
                 <h1 class="h5 text-center main-heading my-0" style="font-weight: 600"> <span id="custDepartment" class="department_lbl"><%=department%></span> </h1>
                 
             </div>
+            <button id="<%=custID%>" class="btn btn-sm btn-dark btnPayDebt mt-2" data-toggle="modal" data-target="#date_credit">Select Credit Date</button>
 
             <%  'sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
             '     set objAccess = cnroot.execute(sqlQuery)
@@ -342,14 +331,10 @@
 
             '    set objAccess = nothing
 
-                Dim arFolderPath, arMonthPath, arYearPath
+                Dim arFile, arFolderPath
 
-                folderPath = mainPath & yearPath & "-" & monthPath
-        
-                arFolderPath = folderPath
-                arMonthPath = monthPath
-                arYearPath = yearPath
-
+                arFile = "\accounts_receivables.dbf"
+                arFolderPath = mainPath & creditDate
                 arPath = arFolderPath & arFile
 
                 Dim isArFolderExist
@@ -360,7 +345,7 @@
                           
             <form id="myForm" method="POST">
  
-            <div class="table-responsive-sm mt-4">
+            <div class="table-responsive-sm mt-2">
                 <table class="table table-bordered table-sm" id="myTable">
                     <thead class="thead-dark">
                         <th>Date</th>
@@ -384,7 +369,7 @@
                         <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>'><%Response.Write(rs("invoice_no"))%></a></td>
                         <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("receivable"))%></td>
                         <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
- 
+                        <% totalBalance = totalBalance + CDbl(rs("balance").value) %>
                         <td>
                         <div class="input-group input-group-sm py-1">
                             <div class="input-group-prepend">
@@ -403,7 +388,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="3"> <strong> Total Balance </strong> </td>
-                            <td colspan="2"> <strong> <%=currOB%> </strong> </td>
+                            <td colspan="2"> <strong> <%=totalBalance%> </strong> </td>
                         </tr>
                     </tfoot>
                 </table>
@@ -435,7 +420,8 @@
 
                 <div class="d-flex justify-content-center">
                     <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
-                    <button type="submit" class="btn btn-danger btn-sm" id="myBtn">Submit Payment</button>
+                    <input type="hidden" name="credit_date" id="credit_date" value="<%=creditDate%>">
+                    <button type="submit" class="btn btn-dark btn-sm" id="myBtn">Submit Payment</button>
                 </div>
 
             </div>
@@ -463,6 +449,32 @@
 <!--#include file="footer.asp"-->
 
 <!-- End of FOOTER -->
+
+    <!-- Pay Debt -->
+        <div class="modal fade" id="pay_debt_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <form action="ar_lists.asp" class="form-group mb-3" id="payDebtForm" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Pay Current Credit </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="payDebtBody">
+                        <!-- Modal Body (Contents) -->
+                        
+                    
+                    </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary bg-dark" data-dismiss="modal">Close</button>
+                                <button type="submit" id="payDebtCash" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>  
+                </div>
+            </div>
+        </div> 
+      <!-- END OF Pay Debt -->    
 
     <!-- Date Range of Transactions -->
         <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -555,7 +567,7 @@ loadingImg.classList.add('hidden');
 
 $(document).ready( function () {
     $('#myTable').DataTable({
-        scrollY: "36vh",
+        scrollY: "35vh",
         scroller: true,
         "paging": false,
         scrollCollapse: true,
@@ -606,6 +618,24 @@ $(document).ready( function () {
 
     }
 
+    // Pay Debt
+    $(document).on("click", ".btnPayDebt", function(event) {
+
+            event.preventDefault();
+
+            let custID = $(this).attr("id");
+            $.ajax({
+
+            url: "ar_list_datepicker.asp",
+            type: "POST",
+            data: {custID: custID},
+            success: function(data) {
+                $("#payDebtBody").html(data);
+                $("#pay_debt_modal").modal("show");
+            }
+        })    
+    }) // End of Pay Debt    
+
     
     // Payment
 
@@ -637,6 +667,7 @@ $(document).ready( function () {
             var subTotal = document.getElementById("total").value
             var cashPayment = document.getElementById("cash_payment").value
             var referenceNo = document.getElementById("reference_no").value
+            var creditDate = document.getElementById("credit_date").value
 
             var custName = document.getElementById('custName').textContent;
             var custDepartment = document.getElementById('custDepartment').textContent;
@@ -658,8 +689,8 @@ $(document).ready( function () {
                 type: "POST",
                 data: {
                        myInvoices: myInvoices, myValues: myValues, subTotal: subTotal, 
-                       custID: custID, cashPayment: cashPayment, referenceNo: referenceNo,
-                       custName: custName, custDepartment: custDepartment
+                       custID: custID, cashPayment: cashPayment, referenceNo: referenceNo, custName: custName, custDepartment: custDepartment,
+                       creditDate: creditDate
                       },
                 success: function(data) {
                     //alert(data)

@@ -35,6 +35,7 @@
         custID = CDbl(Request.Form("custID"))
         custName = CStr(Request.Form("custName"))
         custDepartment = CStr(Request.Form("custDepartment"))
+        creditDate = CStr(Request.Form("creditDate"))
 
         values = Split(myValues,",")
         invoices = Split(myInvoices,",")
@@ -61,7 +62,7 @@
         transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
         obPath = mainPath & yearPath & "-" & monthPath & obFile
         collectionsPath = mainPath & yearPath & "-" & monthPath & collectionsFile
-        arPath = mainPath & yearPath & "-" & monthPath & arFile
+        arPath = mainPath & creditDate & arFile
     
         Dim maxID, maxOBtestID, transact_type, credit, currDate, invoice, status
 
@@ -139,12 +140,6 @@
         parens = ""
         counter = 0
 
-        ' Dim collectionInsert, collectionValues, transactionsInsert, transactionsValues
-
-        ' collectionInsert = "INSERT INTO "&collectionsPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, tot_amount, cash, balance, p_method, duplicate) VALUES "
-
-        ' transactionsInsert = "INSERT INTO "&transactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate) VALUES " 
-
         for i=0 to Ubound(invoices) - 1
 
             counter = counter + 1
@@ -160,18 +155,11 @@
     
             end if
 
-
-
-            ' if contDate1 <> contDate2
-            ' contDate2 = contDate1
-            
-
             balance = balance - values(i)
             
             iifs = iifs & "iif(invoice_no = "&invoices(i)&", "&balance&", "
             parens = parens & ")"
-
-            
+    
 
             if counter = 10 then
 
@@ -184,27 +172,6 @@
 
             end if
 
-            ' sqlUpdate = "UPDATE "&arPath&" SET balance = balance-"&values(i)&" WHERE invoice_no="&invoices(i)
-            ' cnroot.execute(sqlUpdate)
-
-            ' if duplicate = "yes" then
-
-            '     arYear = Year(arDate)
-            '     arMonth = Month(arDate)
-
-            '     if Len(arMonth) = 1 then
-            '         arMonth = "0" & arMonth
-            '     end if
-
-            '     arOrigPath = mainPath & arYear & "-" & arMonth & arFile
-
-            '     sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance-"&values(i)&" WHERE invoice_no="&invoices(i)
-            '     cnroot.execute(sqlArUpdate)
-
-            ' end if 
-
-            ' collectionValues = collectionValues & " " & "("&maxCollectID&", "&custID&", '"&custName&"', '"&custDepartment&"', "&invoices(i)&", '"&referenceNo&"', ctod(["&systemDate&"]), "&values(i)&", "&values(i)&", "&balance&", '"&paymentMethod&"', '"&isDuplicate&"'),"
-
             sqlCollectAdd = "INSERT INTO "&collectionsPath&""&_ 
             "(id, cust_id, cust_name, department, invoice, ref_no, date, tot_amount, cash, balance, p_method, duplicate)"&_
             "VALUES ("&maxCollectID&", "&custID&", '"&custName&"', '"&custDepartment&"', "&invoices(i)&", '"&referenceNo&"', ctod(["&systemDate&"]), "&values(i)&", "&values(i)&", "&balance&", '"&paymentMethod&"', '"&isDuplicate&"')"
@@ -212,10 +179,6 @@
 
             maxCollectID = maxCollectID + 1
 
-            'Balance per paid invoices
-
-            ' transactionsValues = transactionsValues & " " & "("&maxID&" , '"&referenceNo&"', '"&transact_type&"', "&custID&" , "&invoices(i)&", "&values(i)&", " &credit&", ctod(["&systemDate&"]), '"&status&"', '"&isDuplicate&"'),"
-        
             sqlAdd2 = "INSERT INTO "&transactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate)"&_
             "VALUES ("&maxID&" , '"&referenceNo&"', '"&transact_type&"', "&custID&" , "&invoices(i)&", "&values(i)&", " &credit&", ctod(["&systemDate&"]), '"&status&"', '"&isDuplicate&"')"
             cnroot.execute(sqlAdd2)
@@ -224,20 +187,8 @@
 
         next
 
-        'Response.Write updateStr & "<br>"
-
         updateStr = updateStr & iifs & endingIf & parens
         cnroot.execute(updateStr)
-
-        ' collectionValues = left(collectionValues,len(collectionValues)-1)
-        ' Response.Write collectionInsert & collectionValues & "<br>"
-        ' collectionInsert = collectionInsert & collectionValues
-        ' cnroot.execute(collectionInsert)    
-
-        ' transactionsValues = left(transactionsValues,len(transactionsValues)-1)
-        ' Response.Write transactionsInsert & transactionsValues & "<br>"
-        ' transactionsInsert = transactionsInsert & transactionsValues
-        ' cnroot.execute(transactionsInsert)
 
         Dim maxRefId 
         maxRefId = 0
