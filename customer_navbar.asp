@@ -18,7 +18,8 @@
 
     .brand-name {
         color: #fff;
-        font-family: 'Merienda', 'Brush Script MT', cursive;
+        
+        font-family: 'Merienda', "Lucida Sans Unicode", "Lucida Grande", sans-serif
     }
 
     .brand-name a {

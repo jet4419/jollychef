@@ -64,20 +64,22 @@
 
             .users-info {
                 font-family: 'Kulim Park', sans-serif;
-                border: 1px solid #aaa;
+                /* border: 1px solid #aaa; */
                 padding: 5px;
                 border-radius: 10px;
             }
 
             .cust_name {
-                color: #438a5e;
+                color: #463535;
             }
 
             .department_lbl {
-                color: #b49c73;
+                color: #7d7d7d;
             }
 
             .order_of {
+                font-size: 33px;
+                font-weight: 400;
                 color: #333;
             }
 
@@ -748,7 +750,7 @@
                 </button> -->
                 <%if hasOrdered = true then%>
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-success btn-inline text-white mx-2 mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#payCashModal">
+                    <button type="button" class="btn btn-primary btn-inline text-white mx-2 mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#payCashModal">
                     Pay In Cash
                     </button>
 
@@ -798,7 +800,7 @@
                                         <label class="ml-1" style="font-weight: 500"> Cash Payment </label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text bg-success text-light">&#8369;</span>
+                                                <span class="input-group-text bg-primary text-light">&#8369;</span>
                                             </div>
                                             <!--<input type="hidden" name="invoiceNumber" value="<'%=invoice%>"> -->
                                             <input type="number" name="totalProfit" value="<%=totalProfit%>" hidden>
@@ -812,7 +814,7 @@
                             </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-dark" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-success">Proceed</button>
+                                        <button type="submit" class="btn btn-primary">Proceed</button>
                                     </div>
                                 </form>  
                         </div>
@@ -834,6 +836,8 @@
                             <div class="modal-body">
                                 <input type="number" name="unique_num" value="<%=uniqueNum%>" hidden>
                                 <input type="number" name="cust_id" value="<%=custID%>" hidden>
+                                <input type="text" name="cust_name" value="<%=custFullName%>" hidden>
+                                <input type="text" name="cust_dept" value="<%=department%>" hidden>
                                 <input type="number" name="totalProfit" value="<%=totalProfit%>" hidden>
                                 <input type="number" name="totalAmount" value="<%=totalAmount%>" hidden>
                                 <input type="text" name="customerType" value="<%=customerType%>" hidden>
@@ -850,7 +854,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success">Proceed</button>
+                                <button type="submit" class="btn btn-primary">Proceed</button>
                             </div>
                             </div>
                         </form>

@@ -3,27 +3,11 @@
 
 <%
 
-customerID = CLng(Request.Form("cust_id"))
-uniqueNum = CLng(Request.Form("unique_num"))
-customerType = CStr(Request.Form("customerType"))
+Dim arReferenceNo, isValidRef
+
 arReferenceNo = CStr(Request.Form("arReferenceNo"))
 arReferenceNo = Trim(CStr(Year(systemDate)) & "-" & "AR" & arReferenceNo)
-customerCash = 0
-transact_type = "Buy"
 isValidRef = true
-
-Dim userType, userEmail
-userType = CStr(Request.Form("userType"))
-userEmail = CStr(Request.Form("userEmail"))
-
-
-sqlCustomerInfo = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&customerID
-set objAccess = cnroot.execute(sqlCustomerInfo)
-
-if not objAccess.EOF then
-    custName = Trim(objAccess("cust_lname").value) & " " & Trim(objAccess("cust_fname").value)
-    customerDepartment = Trim(CStr(objAccess("department")))
-end if
 
 sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&"'"
     set objAccess = cnroot.execute(sqlCheckRef)
@@ -48,6 +32,19 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
     'Response.Write(isValidRef)
 
     if isValidRef = true then    
+
+        Dim customerID, custName, customerDepartment, uniqueNum, customerType, transact_type
+
+        customerID = CLng(Request.Form("cust_id"))
+        custName = CStr(Request.Form("cust_name"))
+        customerDepartment = CStr(Request.Form("cust_dept"))
+        uniqueNum = CLng(Request.Form("unique_num"))
+        customerType = CStr(Request.Form("customerType"))
+        transact_type = "Buy"
+
+        Dim userType, userEmail
+        userType = CStr(Request.Form("userType"))
+        userEmail = CStr(Request.Form("userEmail"))
 
         Dim yearPath, monthPath
 

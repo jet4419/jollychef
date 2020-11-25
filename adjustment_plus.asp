@@ -57,27 +57,23 @@
 
             .users-info {
                 font-family: 'Kulim Park', sans-serif;
-                border: 1px solid #aaa;
-                padding: 5px;
+                padding: 23px 5px 5px 5px;
+                margin-bottom: 45px;
                 border-radius: 10px;
             }
 
             .cust_name {
-                color: #438a5e;
+                color: #463535;
+                font-size: 32px;
             }
 
             .department_lbl {
-                color: #b49c73;
+                color: #7d7d7d;
             }
 
             .order_of {
+                font-weight: 400;
                 color: #333;
-            }
-
-            .user-info-label, .user-info-balance {
-                color: #074684;
-                font-weight: 500;
-                font-size: .85rem;
             }
 
             .no-records {
@@ -137,7 +133,7 @@
             } */
 
             .total-text {
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: 500;
             }
 
@@ -277,8 +273,8 @@
     <div id="content">
         <div class="container mb-5">
 
-            <div class="users-info mb-5">
-                <h1 class="h3 text-center main-heading my-0"> <strong><span class="order_of">(+) Adjustment for</span> <span class="cust_name"><%=custName%></span></strong> </h1>
+            <div class="users-info">
+                <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">(+) Adjustment for</span> <span class="cust_name"><%=custName%></span></strong> </h1>
                 <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
             </div>  
 
@@ -423,7 +419,6 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
                                 </div>
-                                <!--<input id="reference_no" value = "<'%=rs("ref_no").value%>" hidden>-->
                                 <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
                                 <input id="balance" value = "<%=rs("balance").value%>" hidden>
                                 <input id="date_owed" value="<%=rs("date_owed").value%>" hidden>
@@ -435,36 +430,17 @@
                     </tr>
                     <%rs.MoveNext%>
                     <%loop%>
-                    
-                    <!--
-                    <tfoot>
-                        <tr>
-                            <td> Total : <input type="number" name="total" id="total"/> </td>
-                            <td> </td>
-                        </tr>
-                    </tfoot>
-                    -->
+
                     <%rs.close%>
                     <%CN2.close%>
 
                 </table>
-                <!--
-                <div class="total-payment-container mt-3">
 
-                    <div class="item item-right form-group">
-                        <span class="total-text">Total Adjustment
-                            <span class="text-primary">&#8369;</span>
-                        </span>
-                        <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" max="0" name="total_adjustment" step="any"  id="total_adjustment" step="any" required data-readonly/>
-                    </div>
-
-                </div>
-                -->
-                    <div class="total-payment-container my-3">
+                    <div class="total-payment-container mt-5">
 
                         <div class="item item-left form-group ">
                             <label class="d-block total-text text-center">Reference No</label>
-                            <input class="form-control form-control-sm" style="color: #e43f5a; font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
+                            <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
                         </div>
                         
                         <div class="item item-left form-group">
@@ -482,9 +458,9 @@
                     </div>
                     
 
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center mt-3">
                         <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
-                        <button type="submit" class="btn btn-danger" id="myBtn">Submit Adjustment</button>
+                        <button type="submit" class="btn btn-dark" id="myBtn">Submit Adjustment</button>
                     </div>
             </div>
             </form>

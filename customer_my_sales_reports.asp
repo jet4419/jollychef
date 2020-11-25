@@ -58,8 +58,7 @@
 
             .users-info {
                 font-family: 'Kulim Park', sans-serif;
-                border: 1px solid #aaa;
-                padding: 5px;
+                padding: 23px 5px 5px 5px;
                 border-radius: 10px;
             }
 
@@ -131,19 +130,21 @@
             }
 
             .order_of {
+                font-weight: 400;
                 color: #333;
             }
 
             .cust_name {
-                color: #438a5e;
+                color: #463535;
             }
 
             .department_lbl {
-                color: #b49c73;
+                color: #7d7d7d;
             }
 
-            .total-value {
-                font-weight: 500
+            .total-value, .total-text {
+                font-size: 18px;
+                font-weight: 500;
             }
 
         </style>
@@ -319,10 +320,10 @@
 
                 <tfoot>
                     <tr>
-                        <td colspan="3"><h3 class="lead"><strong class="text-darker font-weight-bold">Total</strong></h3></td>
+                        <td colspan="3"><h3 class="lead"><strong class="text-darker total-text">Total</strong></h3></td>
                         <td colspan="2">
                             <h3 class="lead">
-                                <strong class="text-darker font-weight-normal">
+                                <strong class="text-darker total-value">
                                     <span class="total-darker"><strong><%=totalCashPaid%></strong></span>
                                 </strong>    
                             </h3>

@@ -61,8 +61,7 @@
 
             .users-info {
                 font-family: 'Kulim Park', sans-serif;
-                border: 1px solid #aaa;
-                padding: 5px;
+                padding: 23px 5px 5px 5px;
                 border-radius: 10px;
             }
 
@@ -72,16 +71,22 @@
                 /* border-radius: 10px; */
             }
 
+            .order_of {
+                font-weight: 400;
+                color: #333;
+            }
+
             .cust_name {
-                color: #438a5e;
+                color: #463535;
             }
 
             .department_lbl {
-                color: #b49c73;
+                color: #7d7d7d;
             }
 
-            .order_of {
-                color: #333;
+            .total-value, .total-text {
+                font-size: 18px;
+                font-weight: 500;
             }
 
             .user-info-label, .user-info-balance {
@@ -237,7 +242,7 @@
         <div class="container pb-3 mb-5">
 
             <div class="users-info mb-5">
-                <h1 class="h3 text-center main-heading my-0"> <strong><span class="order_of">Credits of</span> <span class="cust_name"></span></strong> </h1>
+                <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">Credits of</span> <span class="cust_name"></span></strong> </h1>
                 <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong></strong></span> </h1>
                 
             </div>

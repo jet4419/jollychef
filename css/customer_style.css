@@ -145,7 +145,8 @@ input[type='number'] {
   text-align: center;
   /* color: #f2aa4cff; */
   color: #ffaf46;
-  font-family: 'Great Vibes', 'Brush Script MT', cursive, Helvetica, sans-serif;
+  font-family: Merienda, Garamond, cursive, Helvetica, sans-serif;
+  /* font-family: 'Great Vibes', Garamond, cursive, Helvetica, sans-serif; */
   /* font-family: 'Tenali Ramakrishna', sans-serif; */
   /* font-family: 'Tenali Ramakrishna', sans-serif; */
 }
@@ -229,7 +230,7 @@ input[type='number'] {
   padding: 16px;
   min-height: 100vh;
   margin-left: 50px;
-  margin-top: 50px;
+  padding-top: 100px;
   transition: all 0.5s;
 
   /* height: calc(100vh - 50px); */

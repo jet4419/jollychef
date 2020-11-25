@@ -220,7 +220,7 @@
                         </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-sm btn-success" id="save">Save changes</button>
+                                    <button type="submit" class="btn btn-sm btn-primary" id="save">Save changes</button>
                                 </div>
                             </form>  
                     </div>
@@ -246,7 +246,7 @@
                     </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-sm btn-secondary bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" id="saveEditProduct" class="btn btn-sm btn-success">Save changes</button>
+                                <button type="submit" id="saveEditProduct" class="btn btn-sm btn-primary">Save changes</button>
                             </div>
                         </form>  
                 </div>

@@ -211,7 +211,7 @@ a.main-menus--items.customers-icon {
 #main {
   padding: 16px;
   margin-left: 50px;
-  margin-top: 50px;
+  padding-top: 60px;
   transition: margin-left 0.5s;
   min-height: 100vh;
   /* height: calc(100vh - 50px); */
@@ -222,7 +222,7 @@ a.main-menus--items.customers-icon {
 }
 
 .main--main-page {
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('../img/home-bg.jpg') no-repeat center/ cover;
 }
 
@@ -238,7 +238,8 @@ a.main-menus--items.customers-icon {
   text-align: center;
   /* color: #f2aa4cff; */
   color: #ffaf46;
-  font-family: 'Great Vibes', 'Brush Script MT', cursive, Helvetica, sans-serif;
+  font-family: Merienda, Garamond, cursive, Helvetica, sans-serif;
+  /* font-family: 'Great Vibes', Garamond, cursive, Helvetica, sans-serif; */
   /* font-family: 'Tenali Ramakrishna', sans-serif; */
   /* font-family: 'Tenali Ramakrishna', sans-serif; */
 }

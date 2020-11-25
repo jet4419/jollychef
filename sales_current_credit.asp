@@ -55,8 +55,8 @@
 
             .users-info {
                 font-family: 'Kulim Park', sans-serif;
-                border: 1px solid #aaa;
-                padding: 5px;
+                padding: 23px 5px 5px 5px;
+                margin-bottom: 45px;
                 border-radius: 10px;
             }
 
@@ -67,14 +67,16 @@
             }
 
             .cust_name {
-                color: #438a5e;
+                color: #463535;
+                font-size: 32px;
             }
 
             .department_lbl {
-                color: #b49c73;
+                color: #7d7d7d;
             }
 
             .order_of {
+                font-weight: 400;
                 color: #333;
             }
 
@@ -138,7 +140,7 @@
             } */
 
             .total-text {
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: 500;
             }
 
@@ -467,11 +469,11 @@
 
                 
 
-                <div class="total-payment-container">
+                <div class="total-payment-container mt-4">
 
                     <div class="form-group">
                         <label class="total-text">Reference No</label>
-                        <input class="form-control form-control-sm ref-bg" type="text" style="color: #e43f5a; font-weight: 600;" id="reference_no" name="reference_no" min="1" value="<%=referenceNo%>" readonly/>
+                        <input class="form-control form-control-sm ref-bg" type="text" style="font-weight: 600;" id="reference_no" name="reference_no" min="1" value="<%=referenceNo%>" readonly/>
                     </div>
 
                     <div class="form-group">
@@ -490,10 +492,10 @@
 
                 </div>
 
-                <div class="d-flex justify-content-center mb-5">
+                <div class="d-flex justify-content-center mb-3">
                     <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
                     <input type="hidden" name="transact_date" id="transact_date" value="<%=transactDate%>">
-                    <button type="submit" class="btn btn-danger btn-sm" id="myBtn">Submit Payment</button>
+                    <button type="submit" class="btn btn-dark btn-sm" id="myBtn">Submit Payment</button>
                 </div>
 
             </form>
@@ -601,7 +603,7 @@
 <script>  
 $(document).ready( function () {
     $('#myTable').DataTable({
-        scrollY: "36vh",
+        scrollY: "29vh",
         scroller: true,
         "paging": false,
         scrollCollapse: true,

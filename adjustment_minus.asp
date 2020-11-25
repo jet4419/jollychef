@@ -40,12 +40,6 @@
         <script src="bootstraptable/buttons/js/buttons.print.min.js"></script>
 
         <style>
-            /* .dt-buttons {
-                position: absolute;
-                bottom: 10px;
-                left: 40%;
-                text-align: center;
-            }    */
 
             .dt-buttons {
                 position: absolute;
@@ -57,8 +51,8 @@
 
             .users-info {
                 font-family: 'Kulim Park', sans-serif;
-                border: 1px solid #aaa;
-                padding: 5px;
+                padding: 23px 5px 5px 5px;
+                margin-bottom: 45px;
                 border-radius: 10px;
             }
 
@@ -69,14 +63,16 @@
             }
 
             .cust_name {
-                color: #438a5e;
+                color: #463535;
+                font-size: 32px;
             }
 
             .department_lbl {
-                color: #b49c73;
+                color: #7d7d7d;
             }
 
             .order_of {
+                font-weight: 400;
                 color: #333;
             }
 
@@ -98,10 +94,6 @@
                 margin-top: .5rem;
                 padding: 0;
             }
-
-            /* td {
-                font-size: 1.1rem;
-            } */
 
             .date-label-container {
                 margin-top: 1rem;
@@ -135,15 +127,8 @@
                 font-family: 'Kulim Park', sans-serif;
             }
 
-            /* .input-total { */
-                /* background: #fff; */
-                /* border-color: #fff; */
-                /* outline: none; */
-                /* background: none;
-            } */
-
             .total-text {
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: 500;
             }
 
@@ -170,14 +155,8 @@
                 text-decoration: none;
             }
 
-            /* .cash-input {
-                width: 175px;
-            } */
-
             .total-payment-container {
-                /* display: flex;
-                justify-content: space-between;
-                flex-wrap: wrap; */
+
                 display: flex;
                 justify-content: space-evenly;
                 align-items: center;
@@ -187,18 +166,6 @@
             .item {
                 width: 250px !important;
             }
-
-            /* .total-payment-container > div {
-                flex: 0 50%;
-            }
-             */
-            /* .item-left {
-                padding-right: 150px;
-            }
-
-            .item-right {
-                padding-left: 150px;
-            } */
 
             .remarks-container {
                 display: flex;
@@ -273,32 +240,15 @@
 
 <div id="main">
 
-    <!--
-    <h1 class="h1 text-center my-4 main-heading"> <strong><'%=custFullName&"'s"%> Receivable Lists</strong> </h1>
-    -->
     <div id="content">
         <div class="container mb-5">
 
             <div class="users-info mb-5">
-                <h1 class="h3 text-center main-heading my-0"> <strong><span class="order_of">(-) Adjustment for</span> <span class="cust_name"><%=custName%></span></strong> </h1>
+                <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">(-) Adjustment for</span> <span class="cust_name"><%=custName%></span></strong> </h1>
                 <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
             </div>  
 
-            <% 'rs.Open "SELECT date, ref_no, invoice, debit FROM transactions WHERE ref_no="&ref_no&" and t_type='Pay' and cust_id="&custID, CN2
-            '    rs.Open "SELECT Transactions.date, Transactions.ref_no, Transactions.invoice, Accounts_Receivables.receivable, Accounts_Receivables.balance, Transactions.debit "&_
-            '            "FROM Transactions "&_
-            '            "INNER JOIN Accounts_Receivables ON Transactions.invoice = Accounts_Receivables.invoice_no "&_
-            '            "WHERE Transactions.ref_no='"&ref_no&"' and Transactions.t_type='Pay' and Transactions.cust_id="&custID, CN2
-
-                ' rs.open "SELECT Collections.date, Collections.ref_no, Collections.invoice, Accounts_Receivables.receivable, Accounts_Receivables.balance, Collections.cash "&_
-                '         "FROM "&collectionsPath&" "&_
-                '         "INNER JOIN "&arPath&" ON Collections.ref_no = Accounts_Receivables.ref_no "&_
-                '         "WHERE Accounts_Receivables.ref_no = '"&ref_no&"' GROUP BY Collections.invoice", CN2    
-                    
-                ' rs.open "SELECT Collections.date, Collections.ref_no, Collections.invoice, Accounts_Receivables.receivable, Accounts_Receivables.balance, Collections.cash "&_
-                '         "FROM "&collectionsPath&" "&_
-                '         "INNER JOIN "&arPath&" ON Collections.ref_no = Accounts_Receivables.ref_no "&_
-                '         "WHERE Collections.ref_no = '"&ref_no&"' GROUP BY Accounts_Receivables.invoice_no", CN2        
+            <%       
 
                 Dim yearPath, monthPath
 
@@ -434,7 +384,6 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
                                 </div>
-                                <!--<input id="reference_no" value = "<'%=rs("ref_no").value%>" hidden>-->
                                 <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
                                 <input id="balance" value = "<%=rs("balance").value%>" hidden>
                                 <input id="date_owed" value="<%=rs("date_owed").value%>" hidden>
@@ -446,36 +395,17 @@
                     </tr>
                     <%rs.MoveNext%>
                     <%loop%>
-                    
-                    <!--
-                    <tfoot>
-                        <tr>
-                            <td> Total : <input type="number" name="total" id="total"/> </td>
-                            <td> </td>
-                        </tr>
-                    </tfoot>
-                    -->
+   
                     <%rs.close%>
                     <%CN2.close%>
 
                 </table>
-                <!--
-                <div class="total-payment-container mt-3">
 
-                    <div class="item item-right form-group">
-                        <span class="total-text">Total Adjustment
-                            (<span class="text-primary">&#8369;</span>)
-                        </span>
-                        <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" max="0" name="total_adjustment" step="any"  id="total_adjustment" step="any" required data-readonly/>
-                    </div>
-
-                </div>
-                -->
-                    <div class="total-payment-container my-3">
+                    <div class="total-payment-container mt-5">
 
                         <div class="item item-left form-group ">
                             <label class="d-block total-text text-center">Reference No</label>
-                            <input class="form-control form-control-sm" style="color: #e43f5a; font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
+                            <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
                         </div>
                         
                         <div class="item item-left form-group">
@@ -491,17 +421,10 @@
                         </div>
 
                     </div>
-                    <!--
-                    <div class="remarks-container form-group">
-                        <div>
-                            <label class="d-block total-text text-center">Remarks</label>
-                            <input class="item form-control form-control-sm" type="text" name="remarks" id="remarks" pattern="[a-zA-Z0-9 ' . - : ,]+" required>
-                        </div>
-                    </div>
-                    -->
+
                     <div class="d-flex justify-content-center">
                         <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
-                        <button type="submit" class="btn btn-danger btn-sm" id="myBtn">Submit Adjustment</button>
+                        <button type="submit" class="btn btn-dark" id="myBtn">Submit Adjustment</button>
                     </div>
             </div>
             </form>

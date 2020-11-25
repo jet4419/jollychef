@@ -47,6 +47,10 @@
                 text-align: center;
             }    */
 
+            #main {
+                margin-top: 15px;
+            }
+
             .dt-buttons {
                 position: absolute;
                 top: -10px;
@@ -56,10 +60,19 @@
             }   
 
             .users-info {
+                /* margin-top: 500px; */
+                margin-bottom: 20px;
                 font-family: 'Kulim Park', sans-serif;
-                border: 1px solid #aaa;
+                /* border: 1px solid #aaa; */
+                position: relative;
                 padding: 5px;
                 border-radius: 10px;
+            }
+
+            .btnDateCredit {
+                /* position: absolute;
+                left: 0;
+                top: 0; */
             }
 
             .total-payment-container {
@@ -69,21 +82,16 @@
             }
 
             .cust_name {
-                color: #438a5e;
+                color: #463535;
+                font-size: 30px;
             }
 
             .department_lbl {
-                color: #b49c73;
+                color: #7d7d7d;
             }
 
             .order_of {
                 color: #333;
-            }
-
-            .user-info-label, .user-info-balance {
-                color: #074684;
-                font-weight: 500;
-                font-size: .85rem;
             }
 
             .no-records {
@@ -125,18 +133,12 @@
                 width: 80px;
             }
 
-            .user-info-balance {
-                white-space: nowrap;
-                display: inline-block;
-                width: 150px;
-            }
-
             .main-heading {
                 font-family: 'Kulim Park', sans-serif;
             }
 
             .total-text {
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: 500;
             }
 
@@ -278,9 +280,6 @@
             Response.Redirect("ob_main.asp")
         end if
 
-        'Dim currOB
-        
-        'currOB = 0.00
 
         Dim custFullName
         
@@ -289,17 +288,6 @@
         department = CStr(Request.Form("department"))
         creditDate = CStr(Request.Form("date_records"))
 
-        ' Dim obFile, obFilePath
-
-        ' obFile = "\ob_test.dbf"
-        ' obFilePath = folderPath & obFile
-
-        ' sqlGetOB = "SELECT * FROM "&obFilePath&" WHERE cust_id="&custID&" GROUP BY cust_id"
-        ' set objAccess = cnroot.execute(sqlGetOB)
-
-        ' if not objAccess.EOF then
-        '     currOB = currOB + CDbl(objAccess("balance").value)
-        ' end if
 
     %>
 
@@ -307,19 +295,16 @@
 
 <div id="main" class=" mb-5">
 
-    <!--
-    <h1 class="h1 text-center my-4 main-heading"> <strong><'%=custFullName&"'s"%> Receivable Lists</strong> </h1>
-    -->
     <div id="content">
         <div class="container pb-3 mb-2">
 
-            <div class="users-info mb-1">
-                <h1 class="h3 text-center main-heading my-0" style="font-weight: 400"><span class="order_of">Credits of</span> <span id="custName" class="cust_name" style="font-weight: 600"><%=custFullName%></span></h1>
+            <div class="users-info">
+                <h1 class="h2 text-center main-heading my-0" style="font-weight: 500"><span class="order_of">Credits of</span> <span id="custName" class="cust_name" style="font-weight: 600"><%=custFullName%></span></h1>
                 <h1 class="h5 text-center main-heading my-0" style="font-weight: 600"> <span id="custDepartment" class="department_lbl"><%=department%></span> </h1>
                 
             </div>
-            <button id="<%=custID%>" class="btn btn-sm btn-dark btnPayDebt mt-2" data-toggle="modal" data-target="#date_credit">Select Credit Date</button>
-
+            
+            <button id="<%=custID%>" class="btn btn-sm btn-dark btnDateCredit" data-toggle="modal" data-target="#date_credit">Select Credit Date</button>
             <%  'sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
             '     set objAccess = cnroot.execute(sqlQuery)
             '     if not objAccess.EOF then
@@ -395,11 +380,11 @@
 
                 
 
-                <div class="total-payment-container">
+                <div class="total-payment-container mt-3">
 
                     <div class="item item-left form-group ">
                         <span class="total-text">Reference No</span>
-                        <input class="form-control form-control-sm" style="color: #e43f5a; font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
+                        <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
                     </div>
                     
                     <div class="item item-left form-group">
@@ -421,7 +406,7 @@
                 <div class="d-flex justify-content-center">
                     <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
                     <input type="hidden" name="credit_date" id="credit_date" value="<%=creditDate%>">
-                    <button type="submit" class="btn btn-dark btn-sm" id="myBtn">Submit Payment</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="myBtn">Submit Payment</button>
                 </div>
 
             </div>
@@ -567,7 +552,7 @@ loadingImg.classList.add('hidden');
 
 $(document).ready( function () {
     $('#myTable').DataTable({
-        scrollY: "35vh",
+        scrollY: "28vh",
         scroller: true,
         "paging": false,
         scrollCollapse: true,

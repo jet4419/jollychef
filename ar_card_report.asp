@@ -57,8 +57,7 @@
 
             .users-info {
                 font-family: 'Kulim Park', sans-serif;
-                border: 1px solid #aaa;
-                padding: 5px;
+                padding: 23px 5px 5px 5px;
                 border-radius: 10px;
             }
 
@@ -66,6 +65,7 @@
                 color: #074684;
                 font-weight: 500;
                 font-size: .85rem;
+                
             }
 
             .no-records {
@@ -77,7 +77,7 @@
             }
 
             p.display-date-container {
-                margin-top: .5rem;
+                /* margin-top: .5rem; */
                 padding: 0;
             }
 
@@ -139,19 +139,21 @@
             }
 
             .order_of {
+                font-weight: 400;
                 color: #333;
             }
 
             .cust_name {
-                color: #438a5e;
+                color: #463535;
             }
 
             .department_lbl {
-                color: #b49c73;
+                color: #7d7d7d;
             }
 
-            .total-value {
-                font-weight: 500
+            .total-value, .total-text {
+                font-size: 18px;
+                font-weight: 500;
             }
 
 
@@ -308,7 +310,7 @@
     <!-- End of Dates Container -->
     <div id="content">
         <div class="container mb-5">
-            <div class="users-info mb-3">
+            <div class="users-info mb-2">
                 <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">Receivable Card of</span> <span class="cust_name"><%=custName%></span></strong> </h1>
                 <h1 class="h4 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
             </div>
@@ -329,7 +331,7 @@
                 <div class="users-info--divider">
 
                     <span class="p-0 m-0 d-block">
-                        <button type="button" class="btn btn-dark btn-sm mb-1 d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Other Date Reports</button>
+                        <button type="button" class="btn btn-dark btn-sm d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Date Reports</button>
                     </span>
                 </div>
                 
@@ -432,27 +434,27 @@
                 <%rs.close%>
                 <tfoot>
                     <tr>
-                        <td colspan="3"><h3 class="lead"><strong class="text-darker font-weight-bold">Total</strong></h3></td>
+                        <td colspan="3"><h3 class="lead"><strong class="text-darker total-text">Total</strong></h3></td>
                         <td>
                             <h3 class="lead">
-                                <strong class="text-darker font-weight-normal">
-                                    <span class="total-darker" style="font-weight: 600"><%=totalDebit%></span>
+                                <strong class="text-darker total-value">
+                                    <span class="total-darker"><%=totalDebit%></span>
                                 </strong>    
                             </h3>
                         </td>
 
                         <td>
                             <h3 class="lead">
-                                <strong class="text-darker font-weight-normal">
-                                    <span class="total-darker" style="font-weight: 600"><%=totalCredit%></span>
+                                <strong class="text-darker total-value">
+                                    <span class="total-darker"><%=totalCredit%></span>
                                 </strong>    
                             </h3>
                         </td>
 
                         <td>
                             <h3 class="lead">
-                                <strong class="text-darker font-weight-normal">
-                                    <span class="total-darker" style="font-weight: 600"><%=currCredit%></span>
+                                <strong class="text-darker total-value">
+                                    <span class="total-darker"><%=currCredit%></span>
                                 </strong>
                             </h3>
                         </td>
@@ -486,7 +488,7 @@
                     </div>    
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success btn-sm mb-1" id="generateReport2">Generate Report</button>
+                                <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
                             </div>        
                     </form>
                         
@@ -615,7 +617,7 @@
 <script>  
 $(document).ready( function () {
     $('#myTable').DataTable({
-        scrollY: "36vh",
+        scrollY: "32vh",
         scroller: true,
         "paging": false,
         "order": [],
