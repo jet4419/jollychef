@@ -110,35 +110,6 @@
         </style>
     </head>
 <body>
-<%  'if Session("store")="closed" then%>
-    <!--    <script>
-            document.body.classList.add('closed')    
-            document.body.innerHTML = "<a href='store_open.asp'><span class='unlock'>X</span></a><p class='center cursive'>Sorry, We're CLOSED</p>"
-        </script> 
-    -->
-<%'else%>
-
- <% ' sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
-'     set objAccess = cnroot.execute(sqlQuery)
-
-'     if not objAccess.EOF then
-'         schedID = CInt(objAccess("sched_id"))
-'         isStoreClosed = CStr(objAccess("status"))
-'         dateClosed = CDate(FormatDateTime(objAccess("date_time"), 2))
-'         'currDate = CDate(Date)
-'     else
-'         isStoreClosed = "open"
-'         dateClosed = CDate(Date)
-'         'currDate = CDate(Date)
-'     end if
-
-'     set objAccess = nothing
-
-'     if dateClosed < systemDate then
-'         sqlUpdate = "UPDATE store_schedule SET status='closed' WHERE sched_id="&schedID
-'         cnroot.execute(sqlUpdate)
-'     end if
-%>
 
 <%if systemDate >= dateClosed then%>
 

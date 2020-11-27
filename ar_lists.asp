@@ -304,7 +304,7 @@
                 
             </div>
             
-            <button id="<%=custID%>" class="btn btn-sm btn-dark btnDateCredit" data-toggle="modal" data-target="#date_credit">Select Credit Date</button>
+            <button id="<%=custID%>" class="btn btn-sm btn-dark btnDateCredit" >Select Credit Date</button>
             <%  'sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
             '     set objAccess = cnroot.execute(sqlQuery)
             '     if not objAccess.EOF then
@@ -604,7 +604,7 @@ $(document).ready( function () {
     }
 
     // Pay Debt
-    $(document).on("click", ".btnPayDebt", function(event) {
+    $(document).on("click", ".btnDateCredit", function(event) {
 
             event.preventDefault();
 

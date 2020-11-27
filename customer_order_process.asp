@@ -64,7 +64,6 @@
 
             .users-info {
                 font-family: 'Kulim Park', sans-serif;
-                /* border: 1px solid #aaa; */
                 padding: 5px;
                 border-radius: 10px;
             }
@@ -245,8 +244,8 @@
            set objAccess = cnroot.execute(sqlGetInfo)
            if not objAccess.EOF then
 
-                custFname = CStr(objAccess("cust_fname"))
-                custLname = CStr(objAccess("cust_lname"))
+                custFname = Trim(CStr(objAccess("cust_fname")))
+                custLname = Trim(CStr(objAccess("cust_lname")))
                 custFullName = custLname & " " & custFname
                 department = CStr(objAccess("department"))
 
@@ -791,6 +790,9 @@
                                     <input type="number" name="uniqueNum" id="uniqueNum" value="<%=uniqueNum%>" hidden>
                                     <input type="text" name="userType" class="userType" value="<%=userType%>" hidden>
                                      <input type="text" name="userEmail" class="userEmail" value="" hidden>
+                                     <input type="text" name="cashierName" class="cashierName" value="" hidden>
+                                     <input type="text" name="cust_name" value="<%=custFullName%>" hidden>
+                                    <input type="text" name="cust_dept" value="<%=department%>" hidden>
                                     <div class="form-group mb-3">    
                                         <label class="ml-1" style="font-weight: 500"> Reference No. </label>
                                         <input type="text" style="color: #f6ab6c; font-weight: 600;" pattern="[0-9]{9}" class="form-control" name="referenceNo" id="referenceNo" value="<%=maxRefNo%>" min="1" required>
@@ -989,7 +991,9 @@
 
     const cashierType = localStorage.getItem('type');
     const cashierEmail = localStorage.getItem('email');
+    const cashierName = localStorage.getItem('fullname');
     document.querySelector('.userEmail').value = cashierEmail;
+    document.querySelector('.cashierName').value = cashierName;
 
     tail.select("#select1", {
         search: true,

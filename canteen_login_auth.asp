@@ -42,10 +42,10 @@
                 .Add 0, oJSON.Collection()
                 With .item(0)
 
-                    .Add "name", rs("first_name").value
-                    .Add "fullname", rs("first_name").value & " " & rs("last_name").value
-                    .Add "email", rs("email").value
-                    .Add "type", rs("user_type").value
+                    .Add "name", Trim(rs("first_name").value)
+                    .Add "fullname", Trim(rs("first_name").value) & " " & Trim(rs("last_name").value)
+                    .Add "email", Trim(rs("email").value)
+                    .Add "type", Trim(rs("user_type").value)
 
                 End With     
 

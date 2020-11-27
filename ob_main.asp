@@ -175,7 +175,7 @@
                         </td>
                         <%else%>
                         <td>
-                            <button id="<%=rs("cust_id")%>" data-toggle="modal" data-target="#date_credit" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt">
+                            <button id="<%=rs("cust_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt" data-toggle="modal" data-target="#pay_debt_modal"  >
                                 Pay Credit
                             </button>
                         </td>

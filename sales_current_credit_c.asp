@@ -11,6 +11,7 @@
     custID = CLng(Request.Form("custID"))
     referenceNo = Request.Form("referenceNo")
     paymentMethod = CStr(Request.Form("paymentMethod"))
+    arPath = CStr(Request.Form("arPath"))
 
     values = Split(myValues,",")
     invoices = Split(myInvoices,",")
@@ -32,7 +33,7 @@
     obFile = "\ob_test.dbf"
     salesFile = "\sales.dbf"
     collectionsFile = "\collections.dbf"
-    arFile = "\accounts_receivables.dbf"
+    'arFile = "\accounts_receivables.dbf"
     
 
     Dim salesPath, salesOrderPath, collectionsPath, transactionsPath
@@ -41,7 +42,7 @@
     obPath = mainPath & yearPath & "-" & monthPath & obFile
     salesPath = mainPath & yearPath & "-" & monthPath & salesFile 
     collectionsPath = mainPath & yearPath & "-" & monthPath & collectionsFile
-    arPath = mainPath & yearPath & "-" & monthPath & arFile
+    'arPath = mainPath & yearPath & "-" & monthPath & arFile
 
     Dim newBal, invoiceNewPayment
     newBal = 0.00
@@ -85,33 +86,33 @@
         cnroot.execute(sqlTransactUpdate)    
 
         'Getting the Ar record to be able to update the original AR record.'
-        sqlGetAr = "SELECT date_owed, duplicate FROM "&arPath&" WHERE invoice_no = "&invoices(i)&" GROUP BY invoice_no"
-        set objAccess = cnroot.execute(sqlGetAr)
+        ' sqlGetAr = "SELECT date_owed, duplicate FROM "&arPath&" WHERE invoice_no = "&invoices(i)&" GROUP BY invoice_no"
+        ' set objAccess = cnroot.execute(sqlGetAr)
 
-        if not objAccess.EOF then
+        ' if not objAccess.EOF then
 
-            arDate = CDate(objAccess("date_owed"))
-            duplicate = Trim(CStr(objAccess("duplicate")))
+        '     arDate = CDate(objAccess("date_owed"))
+        '     duplicate = Trim(CStr(objAccess("duplicate")))
  
-        end if
+        ' end if
         
-        set objAccess = nothing    
+        ' set objAccess = nothing    
 
-        if duplicate = "yes" then
+        ' if duplicate = "yes" then
 
-            arYear = Year(arDate)
-            arMonth = Month(arDate)
+        '     arYear = Year(arDate)
+        '     arMonth = Month(arDate)
 
-            if Len(arMonth) = 1 then
-                arMonth = "0" & arMonth
-            end if
+        '     if Len(arMonth) = 1 then
+        '         arMonth = "0" & arMonth
+        '     end if
 
-            arOrigPath = mainPath & arYear & "-" & arMonth & arFile
+        '     arOrigPath = mainPath & arYear & "-" & arMonth & arFile
 
-            sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance - ("&invoiceNewPayment&") WHERE invoice_no="&invoices(i)
-            cnroot.execute(sqlArUpdate)
+        '     sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance - ("&invoiceNewPayment&") WHERE invoice_no="&invoices(i)
+        '     cnroot.execute(sqlArUpdate)
 
-        end if                       
+        ' end if                       
 
         sqlArUpdate = "UPDATE "&arPath&" SET balance = balance - ("&invoiceNewPayment&") WHERE invoice_no="&invoices(i)
         cnroot.execute(sqlArUpdate)

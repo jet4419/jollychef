@@ -47,10 +47,10 @@
                 With .item(0)
 
                     .Add "cust_id", rs("cust_id")
-                    .Add "fname", rs("cust_fname")
-                    .Add "lname", rs("cust_lname")
-                    .Add "email", rs("email")
-                    .Add "department", rs("department").value
+                    .Add "fname", Trim(rs("cust_fname"))
+                    .Add "lname", Trim(rs("cust_lname"))
+                    .Add "email", Trim(rs("email"))
+                    .Add "department", Trim(rs("department").value)
 
                 End With      
 

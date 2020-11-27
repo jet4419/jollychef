@@ -18,8 +18,7 @@
 
     .brand-name {
         color: #fff;
-        
-        font-family: 'Merienda', "Lucida Sans Unicode", "Lucida Grande", sans-serif
+        font-family: 'Merienda', "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     }
 
     .brand-name a {
@@ -36,6 +35,14 @@
         color: #fff;
         font-family: Helvetica;
         padding-top: 5px;
+    }
+
+    .user-profile-pic {
+        color: #fff;   
+    }
+
+    i.fas.fa-user {
+        background-color: #000;
     }
 
     /* .dataTables_paginate paging_simple_numbers {

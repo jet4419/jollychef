@@ -15,15 +15,17 @@ else
     isValidRef = true
 
     custID = CLng(Request.Form("custID"))
+    custName = CStr(Request.Form("cust_name"))
+    custDepartment = CStr(Request.Form("cust_dept"))
     uniqueNum = CLng(Request.Form("uniqueNum"))
 
-    sqlCustomerInfo = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&custID
-    set objAccess = cnroot.execute(sqlCustomerInfo)
+    ' sqlCustomerInfo = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&custID
+    ' set objAccess = cnroot.execute(sqlCustomerInfo)
 
-    if not objAccess.EOF then
-        custName = Trim(objAccess("cust_lname").value) & " " & Trim(objAccess("cust_fname").value)
-        custDepartment = Trim(objAccess("department").value)
-    end if
+    ' if not objAccess.EOF then
+    '     custName = Trim(objAccess("cust_lname").value) & " " & Trim(objAccess("cust_fname").value)
+    '     custDepartment = Trim(objAccess("department").value)
+    ' end if
 
     totalProfit = CDbl(Request.Form("totalProfit"))
     totalAmount = CDbl(Request.Form("totalAmount"))
@@ -36,17 +38,19 @@ else
     'currDate = CDate(Date)
 
     email = CStr(Request.Form("userEmail"))
+    cashierName = CStr(Request.Form("cashierName"))
+
     'Set the user type of the cashier's currently logged in'
-    sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
-    set objAccess = cnroot.execute(sqlGetInfo)
+    ' sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
+    ' set objAccess = cnroot.execute(sqlGetInfo)
 
-    if not objAccess.EOF then
+    ' if not objAccess.EOF then
 
-        cashierName = Trim(objAccess("first_name")) & " " & Trim(objAccess("last_name"))
+    '     cashierName = Trim(objAccess("first_name")) & " " & Trim(objAccess("last_name"))
 
-    end if
+    ' end if
 
-    set objAccess = nothing
+    ' set objAccess = nothing
     
 
     sqlCheckRef = "SELECT ref_no FROM reference_no WHERE ref_no='"&referenceNo&"'"

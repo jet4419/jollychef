@@ -62,20 +62,21 @@
 
             .users-info {
                 font-family: 'Kulim Park', sans-serif;
-                border: 1px solid #aaa;
                 padding: 5px;
                 border-radius: 10px;
             }
 
             .cust_name {
-                color: #438a5e;
+                color: #463535;
             }
 
             .department_lbl {
-                color: #b49c73;
+                color: #7d7d7d;
             }
 
             .order_of {
+                font-size: 33px;
+                font-weight: 400;
                 color: #333;
             }
 

@@ -58,8 +58,8 @@
     <div class="container mb-5 pt-5">
 
         <div class="container border container-rounded" style="max-width: 500px; background: #eee;">
-            <h3 class="text-center pt-3 m-0">Employees </h3>
-            <h3 class="text-center pt-1 pb-3">Registration </h3>
+            <h3 class="h3 text-center pt-3 m-0">Employees </h3>
+            <h3 class="h3 text-center pt-1 pb-3">Registration </h3>
             
             <form>
 

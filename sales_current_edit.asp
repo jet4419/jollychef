@@ -138,7 +138,8 @@
                 <% if Trim(rs("p_method").value) <> Trim("cash") then %>
                 <td class="text-darker">
                     <a class="text-info" target="_blank" href='ob_invoice_records.asp?invoice=<%=rs("invoice")%>&date=<%=FormatDateTime(d, 2)%>'>
-                        <%=rs("invoice")%> 
+                        <%=rs("invoice")%>
+                        <%arInvoice = CDbl(rs("invoice").value)%> 
                     </a>
                 </td>
                 <% else %>
@@ -163,7 +164,7 @@
                 </td>
                 <% end if %>
 
-                <% referenceNo = rs("ref_no").value %>
+                <% referenceNo = Trim(CStr(rs("ref_no").value)) %>
 
                 <td class="text-darker">
                     <%Response.Write(FormatDateTime(d,2))%>
@@ -197,7 +198,7 @@
                     -->
                     <% if d = systemDate then %>
                         <% if Trim(rs("p_method").value) <> Trim("cash") then %>
-                            <button class="btn btn-sm btn-warning mx-auto mb-2" onClick="edit_transact(<%=collectID%>,'<%=custID%>','<%=referenceNo%>')">
+                            <button class="btn btn-sm btn-warning mx-auto mb-2" onClick="edit_transact(<%=arInvoice%>, <%=collectID%>,<%=custID%>,'<%=referenceNo%>')">
                                 <i class="fas fa-edit text-white"></i>
                             </button>
                         <% else %>
@@ -354,11 +355,11 @@
 
 }); 
 
-function edit_transact(collectID, custID, referenceNo) {
+function edit_transact(arInvoice, collectID, custID, referenceNo) {
     let isEdit = confirm("Are you sure to update this Reference No: "+referenceNo);
 	
     if (isEdit) {
-        window.location.href='sales_current_credit.asp?collectID='+collectID+"&custID="+custID+"&ref_no="+referenceNo;
+        window.location.href='sales_current_credit.asp?collectID='+collectID+'&custID='+custID+'&ref_no='+referenceNo+'&ar_invoice='+arInvoice;
     }
 		
 	

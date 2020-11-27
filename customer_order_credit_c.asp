@@ -45,6 +45,7 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
         Dim userType, userEmail
         userType = CStr(Request.Form("userType"))
         userEmail = CStr(Request.Form("userEmail"))
+        cashierName = CStr(Request.Form("cashierName"))
 
         Dim yearPath, monthPath
 
@@ -66,6 +67,7 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
         Dim totalProfit, totalAmount, isOrderExist
         isOrderExist = true
 
+        'Getting the total profit and amount'
         sqlGetSum = "SELECT DISTINCT unique_num, SUM(qty) AS qty, SUM(amount) AS amount, SUM(profit) AS profit FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" GROUP BY unique_num"
         set objAccess  = cnroot.execute(sqlGetSum)
 
@@ -158,16 +160,16 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
 
                 email = userEmail
                 'Set the user type of the cashier's currently logged in'
-                sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
-                set objAccess = cnroot.execute(sqlGetInfo)
+                ' sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
+                ' set objAccess = cnroot.execute(sqlGetInfo)
 
-                if not objAccess.EOF then
+                ' if not objAccess.EOF then
 
-                    cashierName = Trim(objAccess("first_name")) & " " & Trim(objAccess("last_name"))
+                '     cashierName = Trim(objAccess("first_name")) & " " & Trim(objAccess("last_name"))
 
-                end if
+                ' end if
 
-                set objAccess = nothing
+                ' set objAccess = nothing
 
                 Dim payment
                 payment = "Credit"
@@ -192,61 +194,52 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
 
                 'ORDERS REPORT'
                 Dim maxInvoice
+                maxInvoice = 0
                 rs.Open "SELECT MAX(invoice_no) AS invoice FROM "&salesPath&";", CN2
-                    do until rs.EOF
-                        for each x in rs.Fields
-                            maxInvoice = x.value
-                        next
-                    rs.MoveNext
-                    loop
+                    if not rs.EOF then
+                        maxInvoice = CLng(rs("invoice").value)
+                    end if
                 rs.close
-                maxInvoice = CLng(maxInvoice) + 1
+                maxInvoice = maxInvoice + 1
                 'END OF ORDERS REPORT'
 
                 'SALES'
                 Dim maxTransactID
+                maxTransactID = 0
                 rs.open "SELECT MAX(transactid) AS transactid FROM "&salesPath&"", CN2
-                    do until rs.EOF
-                        for each x in rs.Fields
-                            maxTransactID = x.value
-                        next
-                    rs.MoveNext
-                    loop
+                    if not rs.EOF then
+                        maxTransactID = CLng(rs("transactid").value)
+                    end if
                 rs.close
                 maxTransactID= CLng(maxTransactID) + 1
 
                 Dim maxID  
+                maxID = 0
                 rs.Open "SELECT MAX(id) AS id FROM "&transactionsPath&";", CN2
-                    do until rs.EOF
-                        for each x in rs.Fields
-                            maxID = x.value
-                        next
-                        rs.MoveNext
-                    loop
+                    if not rs.EOF then
+                        maxID = CLng(rs("id").value)
+                    end if
                     maxID = CLng(maxID) + 1
                 rs.close
 
                 Dim isDuplicate
                 isDuplicate = ""
 
-
-                    sqlAdd = "INSERT INTO "&salesPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, cashier, date, cash_paid, amount, profit, payment, duplicate)"&_ 
+                sqlAdd = "INSERT INTO "&salesPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, cashier, date, cash_paid, amount, profit, payment, duplicate)"&_ 
                 "VALUES ("&maxTransactID&", '"&arReferenceNo&"' ,"&maxInvoice&", "&customerID&", '"&custName&"', '"&cashierName&"', ctod(["&systemDate&"]), "&customerCash&", "&totalAmount&", "&totalProfit&", '"&payment&"', '"&isDuplicate&"')"
 
                 set objAccess = cnroot.execute(sqlAdd)
                 set objAccess = nothing 
 
                 'END OF SALES'
-
+                Dim maxOHid
+                maxOHid = 0
                 rs.open "SELECT MAX(transactid) AS transactid FROM "&salesOrderPath&"", CN2
-                    do until rs.EOF
-                        for each x in rs.Fields
-                            maxOHid = x.value
-                        next
-                    rs.MoveNext
-                    loop
+                    if not rs.EOF then
+                        maxOHid = CLng(rs("transactid").value)
+                    end if
                 rs.close
-                maxOHid = CLng(maxOHid) 
+                'maxOHid = CLng(maxOHid) 
 
                 'GETTING THE On Process ORDERS FROM ORDERS_HOLDER and SENDING IT TO SALES_ORDER'
                 salesDate = CDate(Date)
@@ -269,15 +262,12 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
                 'END OF GETTING THE PENDING ORDERS FROM ORDERS_HOLDER and SENDING IT TO SALES_ORDER'
 
                 Dim maxObTestID, cust_type
-
+                maxObTestID = 0
                 'arReferenceNo = 0
-                rs.Open "SELECT MAX(id) FROM "&obPath&";", CN2
-                    do until rs.EOF
-                        for each x in rs.Fields
-                            maxObTestID = x.value
-                        next
-                        rs.MoveNext
-                    loop
+                rs.Open "SELECT MAX(id) AS id FROM "&obPath&";", CN2
+                    if not rs.EOF then
+                        maxObTestID = CLng(rs("id").value)
+                    end if
                     maxObTestID = CLng(maxObTestID) + 1
                 rs.close
 
@@ -289,10 +279,10 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
                 rs.open "SELECT MAX(id), balance FROM "&obPath&" WHERE cust_id="&customerID, CN2
 
                 if not rs.EOF then
-                    currOB = rs("balance").value
+                    currOB = CDbl(rs("balance").value)
                 end if
 
-                currOB = CDbl(currOB) + totalAmount
+                currOB = currOB + totalAmount
 
                 sqlAdd = "INSERT INTO "&obPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate)"&_
                 "VALUES ("&maxObTestID&", '"&arReferenceNo&"', "&customerID&", '"&custName&"', '"&customerDepartment&"', '"&transact_type&"', '"&customerType&"', "&cashPaid&", "&currOB&", ctod(["&systemDate&"]), '"&status&"', '"&isDuplicate&"')"
@@ -301,16 +291,15 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
 
                 rs.close
 
-                rs.Open "SELECT MAX(ar_id) FROM "&arPath&";", CN2
+                Dim arMaxValue
+                arMaxValue = 0
+                rs.Open "SELECT MAX(ar_id) AS id FROM "&arPath&";", CN2
 
-                do until rs.EOF
-                    for each x in rs.Fields
-                        arMaxValue = x.value
-                    next
-                    rs.MoveNext
-                loop
+                if not rs.EOF then
+                    arMaxValue = CLng(rs("id").value)
+                end if
 
-                arMaxValue= CLng(arMaxValue) + 1
+                arMaxValue= arMaxValue + 1
 
                 sqlAdd = "INSERT INTO "&arPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate)"&_ 
                 "VALUES ("&arMaxValue&","&customerID&", '"&custName&"', '"&customerDepartment&"', '"&arReferenceNo&"', "&maxInvoice&", "&totalReceivable&", "&balance&" ,ctod(["&systemDate&"]), '"&isDuplicate&"')"
@@ -333,15 +322,13 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
                 ' cnroot.execute(sqlUpdateRef)
 
                 Dim maxArRefId 
+                maxArRefId = 0
 
                 rs.Open "SELECT MAX(id) AS id FROM ar_reference_no;", CN2
-                    do until rs.EOF
-                        for each x in rs.Fields
-                            maxArRefId = x.value
-                        next
-                        rs.MoveNext
-                    loop
-                    maxArRefId = CDbl(maxArRefId) + 1
+                    if not rs.EOF then
+                        maxArRefId = CDbl(rs("id").value)
+                    end if
+                    maxArRefId = maxArRefId + 1
                 rs.close
 
                 sqlRefAdd = "INSERT INTO ar_reference_no (id, ref_no) "&_

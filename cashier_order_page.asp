@@ -206,7 +206,7 @@
 
     <div class="container mb-5">
 
-        <p class=" mb-5 pt-3 h1 p-0 text-center" style="font-weight: 400">Ordering Page <i class="fas fa-store store-icon"></i> </p>
+        <p class=" mb-5 pt-5 h1 p-0 text-center" style="font-weight: 400">Ordering Page <i class="fas fa-store store-icon"></i> </p>
         <%
             productID = CInt(Request.QueryString("productID"))
             productQty = CInt(Request.QueryString("prodQty"))

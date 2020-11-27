@@ -54,6 +54,10 @@
         display: none;
     }
 
+    .user-profile-pic {
+        color: #fff;
+    }
+
 </style>
 
 
@@ -93,39 +97,7 @@
             <span class='btn-cutoff'>
              <%Response.Write(cutoff)%>
             </span>
-            <%
-                ' if Session("name")<>"" then
-                '     Response.Write("<button class='btn btn-sm btn-success' data-toggle='modal' data-target='#login' hidden>Login</button>")
 
-                '     if ASC(Session("type")) <> ASC("admin") then
-
-                '         if ASC(Session("type")) = ASC("programmer") then
-                            
-                '             Response.Write("<div class='navbar-date'> <i class='fas fa-calendar-check'></i>"&FormatDateTime(systemDate, 1)&"</div>")
-                '             Response.Write(cutoff)
-                '             Response.Write("<div class='user-profile-pic'><i class='fas fa-user'></i></div><p class='navbar--user-info'>"&Session("name")&" - Programmer <button class='user-logout-btn btn btn-sm' data-toggle='modal' data-target='#logout'><i class='fas fa-sign-out-alt'></i></button></p> ")
-
-                '         else
-                '             'Response.Write("<div class='mr-5'><button class='btn btn-sm btn-danger'>Day End</button></div>")
-                '             Response.Write("<div class='navbar-date'> <i class='fas fa-calendar-check'></i>"&FormatDateTime(systemDate, 1)&"</div>")
-                '             Response.Write(cutoff)
-                '             Response.Write("<div class='user-profile-pic'><i class='fas fa-user'></i></div><p class='navbar--user-info'>"&Session("name")&" - Cashier <button class='user-logout-btn btn btn-sm' data-toggle='modal' data-target='#logout'><i class='fas fa-sign-out-alt'></i></button></p> ")
-
-                '         end if
-
-                '     else
-                '         'Response.Write("<div class='mr-5'><button class='btn btn-sm btn-danger'>Day End</button></div>")
-                '         Response.Write("<div class='navbar-date'> <i class='fas fa-calendar-check'></i>"&FormatDateTime(systemDate, 1)&"</div>")
-                '         Response.Write(cutoff)
-                '         Response.Write("<div class='user-profile-pic'><i class='fas fa-user'></i></div><p class='navbar--user-info'>"&Session("name")&" - Admin <button class='user-logout-btn btn btn-sm' data-toggle='modal' data-target='#logout'><i class='fas fa-sign-out-alt'></i></button></p> ")
-                '         ' Response.Write(" <a href='logout.asp' class='user-logout'>Logout</a>")
-                '     end if
-                ' else
-                '     Response.Write("<div class='navbar-date'> <i class='fas fa-calendar-check'></i>"&FormatDateTime(systemDate, 1)&"</div>")
-                '     Response.Write("<button class='btn btn-sm btn-success' data-toggle='modal' data-target='#login'>Login</button>")
-                ' end if                    
-            %>
-       
         </div>
 
         

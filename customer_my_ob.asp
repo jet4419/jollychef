@@ -65,7 +65,7 @@
 <!--#include file="customer_sidebar.asp"-->
 
 <div id="main">    
-    <h1 class="h1 text-center mt-3 mb-4 main-heading"> <strong>Outstanding Balance</strong> </h1>
+    <h1 class="h1 text-center mt-3 mb-4 main-heading" style="font-weight: 400"> Outstanding Balance</h1>
     <div id="content">
         <div class="container mb-5">
 

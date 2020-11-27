@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="bootstraptable/datatables/css/twitter-bootstrap.css"/>
         <link rel="stylesheet" type="text/css" href="bootstraptable/datatables/css/dataTables.bootstrap4.min.css"/>
-        <link rel="stylesheet" type="text/css" href="Datatables/buttons/css/buttons.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="bootstraptable/buttons/css/buttons.dataTables.min.css"/>
         
         <script src="./jquery/jquery_uncompressed.js"></script>
         <!-- Bootstrap JS -->
@@ -30,12 +30,12 @@
         <script src="bootstraptable/jszip/jszip.min.js"></script>
         <script src="bootstraptable/pdfmake/pdfmake.min.js"></script>
         <script src="bootstraptable/pdfmake/vfs_fonts.js"></script>
-        <script src="Datatables/buttons/js/dataTables.buttons.min.js"></script>
-        <script src="Datatables/buttons/js/buttons.bootstrap4.min.js"></script>
-        <script src="Datatables/buttons/js/buttons.foundation.min.js"></script>
-        <script src="Datatables/buttons/js/buttons.flash.min.js"></script>
-        <script src="Datatables/buttons/js/buttons.html5.min.js"></script>
-        <script src="Datatables/buttons/js/buttons.print.min.js"></script>
+        <script src="bootstraptable/buttons/js/dataTables.buttons.min.js"></script>
+        <script src="bootstraptable/buttons/js/buttons.bootstrap4.min.js"></script>
+        <script src="bootstraptable/buttons/js/buttons.foundation.min.js"></script>
+        <script src="bootstraptable/buttons/js/buttons.flash.min.js"></script>
+        <script src="bootstraptable/buttons/js/buttons.html5.min.js"></script>
+        <script src="bootstraptable/buttons/js/buttons.print.min.js"></script>
 
         <style>
             /* .dt-buttons {
@@ -236,8 +236,8 @@
         ' custID = CInt(Request.QueryString("cust_id"))
         collectID = Request.QueryString("collectID")
         custID = Request.QueryString("custID")
-        referenceNo = Request.QueryString("ref_no")
-        ' custName = CStr(Request.Form("cust_name"))
+        referenceNo = Trim(CStr(Request.QueryString("ref_no")))
+        arInvoice = CDbl(Request.QueryString("ar_invoice"))
 
         Dim yearPath, monthPath
 
@@ -272,16 +272,11 @@
 
         end if
 
-        ' Response.Write("<br>")
-        ' Response.Write(recordDate)
-        ' Response.Write("<br>")
-        ' Response.Write(systemDate)
 
-        'If the record date is not equal to the system date. No editing should be allowed.'
+        'If the record date is not equal to the system date. No editing should be allowed. It makes sense because this is a daily report'
+       
         if recordDate <> systemDate then
-
-            Response.Redirect("t_collections_report.asp")
-
+            Response.Redirect("sales_current_edit.asp")
         end if
 
         'Getting the information about the customer'
@@ -312,15 +307,53 @@
 
         <%if custID<>0  then%>
 
+        <%
+            Dim arMonth, arYear
+            arMonth = monthPath
+            arYear = yearPath
+            isInvoiceFound = false
+
+           getArPath = "SELECT invoice_no FROM "&arPath&" WHERE invoice_no="&arInvoice
+           set objAccess = cnroot.execute(getArPath)
+           
+           if not objAccess.EOF then
+              isInvoiceFound = true
+
+           else
+    
+                do until isInvoiceFound = true
+
+                    arMonth = arMonth - 1
+
+                    if arMonth = 0 then
+                        arMonth = 12
+                        arYear = arYear - 1
+                    end if
+                    
+                    if Len(arMonth) = 1 then
+                        arMonth = "0" & arMonth
+                    end if
+
+                    arPath = mainPath & arYear & "-" & arMonth & arFile
+                    getArPath = "SELECT invoice_no FROM "&arPath&" WHERE invoice_no="&arInvoice
+                    set objAccess = cnroot.execute(getArPath)
+
+                    if not objAccess.EOF then
+                        isInvoiceFound = true
+                    end if
+
+                loop
+
+            end if
+
+        %>
+
 <div id="main">
 
-    <!--
-    <h1 class="h1 text-center my-4 main-heading"> <strong><'%=custFullName&"'s"%> Receivable Lists</strong> </h1>
-    -->
     <div id="content">
         <div class="container mb-5 pb-3">
 
-            <div class="users-info mb-3">
+            <div class="users-info mt-4 mb-5">
                 <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">Edit Payment of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
                 <h1 class="h4 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
                 <!--
@@ -344,7 +377,6 @@
 
             <% 
                 
-
                 Dim paymentMethod
                 sqlGetPaidMethod = "SELECT p_method FROM "&collectionsPath&" WHERE ref_no='"&referenceNo&"'"
                 set objAccess = cnroot.execute(sqlGetPaidMethod)
@@ -354,32 +386,12 @@
                 end if
 
                 rs.open "SELECT Collections.ref_no, Collections.invoice, Accounts_Receivables.receivable, "&_
-                        "Accounts_Receivables.balance, Collections.cash, OB_Test.cash_paid, Collections.Date "&_
+                        "Accounts_Receivables.balance, Accounts_Receivables.date_owed, Collections.cash, OB_Test.cash_paid, Collections.Date "&_
                         "FROM "&collectionsPath&" "&_
                         "INNER JOIN "&obPath&" ON Collections.ref_no = Ob_Test.ref_no "&_
                         "INNER JOIN "&arPath&" On Collections.invoice = Accounts_Receivables.invoice_no "&_
                         "WHERE Collections.ref_no='"&referenceNo&"'", CN2 
-
-                ' rs.open "SELECT Transactions.ref_no, Transactions.invoice, Accounts_Receivables.receivable, "&_
-                '         "Accounts_Receivables.balance, Transactions.Debit, OB_Test.cash_paid, Transactions.Date "&_
-                '         "FROM "&transactionsPath&" "&_
-                '         "INNER JOIN "&obPath&" ON Transactions.ref_no = Ob_Test.ref_no "&_
-                '         "INNER JOIN "&arPath&" On Transactions.ref_no = Accounts_Receivables.ref_no "&_
-                '         "WHERE Transactions.ref_no='"&referenceNo&"' GROUP BY Accounts_Receivables.invoice_no", CN2 
-
             %>  
-                <!--
-                <div class='date-label-container'>
-                    <div>
-                        <p class='display-date-container'><strong> Date: </strong>
-                            <'%='FormatDateTime(recordDate, 2)%>
-                        </p>
-                    </div>       
-                    <div>
-                               
-                    </div>
-                </div>
-                -->
                           
             <form id="myForm" class="my-4" method="POST">
                 <!-- Payment Method -->
@@ -408,10 +420,7 @@
 
                         Dim myInteger
                         Dim formatedInteger
-
-                        'myInteger = 456789
-                        'formatedInteger = Right(String(NUMBER_DIGITS, "0") & ref_no, NUMBER_DIGITS)
-                        'reference = formatedInteger
+                        Dim dateOwed
 
                     %>
 
@@ -425,43 +434,26 @@
                         <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=transactDate%>'><%Response.Write(rs("invoice"))%></a></td>
                         <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("receivable"))%></td>
                         <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
+                        <% dateOwed = CDate(rs("date_owed")) %>
                         <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("cash"))%></td>
                         <% totalRecentPayment = totalRecentPayment + CDbl(rs("cash").value) 
                            maxInputVal = CDbl(rs("balance").value) + CDbl(rs("cash").value)
                            minInputVal = (CDbl(rs("receivable").value) - CDbl(rs("cash").value)) * -1
                         %>
-                        <%' totalBalance = totalBalance + CDbl(rs("balance").value) %>
-                        <!--
-                        <td>
-                        <button type="button" id="<'%=invoice%>" class="btn btn-info btn-block mx-auto mb-2 btnCollect" style="max-width: 50px;" data-toggle="modal" data-target="#collect_money">
-                            <i class="fa fa-credit-card" aria-hidden="true"></i>
-                        </button>
-                        
-                        <a rel="facebox" title="Click to edit the product" href="bootEditProduct.asp?id=<'%'=id%>"><button class="btn btn-warning"><i class="icon-edit"></i> </button> </a>
-                        <button class="btn btn-warning" title="Click to edit the product" id=<-%=id%> formaction="editproduct.asp?id=<-%=id%>" onClick="update_data(<-%=id%>,'<-%=x.value%>')"><i class="icon-edit"></i> </button>
-                        </td>
-                        -->
+
                         <td>
                         <div class="input-group input-group-sm py-1">
                             <div class="input-group-prepend">
                                 <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
                             </div>
-                            <input onblur="findTotal()" value="<%=rs("cash")%>" type="number" id="<%=invoice%>" name="new_payment" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="<%=minInputVal%>" max="<%=maxInputVal%>" required>
+                            <input onblur="findTotal()" value="<%=rs("cash")%>" type="number" id="<%=invoice%>" name="new_payment" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0" max="<%=maxInputVal%>" required>
                         </div>
                         </td>
 
                     </tr>
                     <%rs.MoveNext%>
                     <%loop%>
-                    
-                    <!--
-                    <tfoot>
-                        <tr>
-                            <td> Total : <input type="number" name="total" id="total"/> </td>
-                            <td> </td>
-                        </tr>
-                    </tfoot>
-                    -->
+
                     <%rs.close%>
                     <%CN2.close%>
 
@@ -480,15 +472,18 @@
                         <span class="total-text">Sub Total
                             <span class="text-primary">&#8369;</span>
                         </span>
-                        <input class="input-total form-control form-control-sm" type="number" name="total" value="<%=totalRecentPayment%>" step="any" min="<%=totalRecentPayment%>" max="<%=totalRecentPayment%>" id="total" required data-readonly/>
+                        <input class="input-total form-control form-control-sm" type="number" name="total" value="<%=totalRecentPayment%>" step="any" min="0" max="<%=totalRecentPayment%>" id="total" required data-readonly/>
                     </div>
 
                     <div class="form-group">
                         <span class="total-text">Cash
                             <span class="text-primary">&#8369;</span>
                         </span>
-                        <input class="input-total cash-input form-control form-control-sm" type="number" value="<%=recentCashPaid%>" name="cash_payment" step="any"  id="cash_payment" min="<%=totalRecentPayment%>" step="any" required/>
+                        <input class="input-total cash-input form-control form-control-sm" type="number" value="<%=recentCashPaid%>" name="cash_payment" step="any"  id="cash_payment" min="0" step="any" required/>
                     </div>
+
+                    <!-- Getting the arPath to update the AR tbl -->
+                    <input type="text" id="ar_path" name="ar_path" value="<%=arPath%>" hidden> 
 
                 </div>
 
@@ -642,25 +637,12 @@ $(document).ready( function () {
 
     function monthEnd(nId, nCreditBal, nDebitBal) {
 
-        //alert("Are you sure to cutoff?")
         if(confirm('Are you sure to cutoff on this date?'))
         {
             window.location.href='a_ob_month_end.asp?cust_id='+nId+'&credit_bal='+nCreditBal+'&debit_bal='+nDebitBal;
-            //window.location.href='delete.asp?delete_id='+id;
         }
 
     }
-
-    
-    // Payment
-
-    // var $myForm = $('#myForm');
-
-    // if(! $myForm[0].checkValidity()) {
-    // // If the form is invalid, submit it. The form won't actually submit;
-    // // this will just cause the browser to display the native HTML5 error messages.
-    // $myForm.find(':submit').click();
-    // }
 
      $("#total").keydown(function(e){
         e.preventDefault();
@@ -684,9 +666,9 @@ $(document).ready( function () {
             var referenceNo = document.getElementById("reference_no").value
             var paymentMethod = document.getElementById("paymentMethod").value
             var transactDate = document.getElementById("transact_date").value
+            var arPath = document.getElementById("ar_path").value
             myValue.forEach(function(item) {
                 if (item.value.trim().length !== 0) {
-                    //console.log(item.id + " " + item.value)
                     myInvoices = myInvoices + item.id  + ","
                     myValues = myValues + item.value + ","
                 }
@@ -698,21 +680,14 @@ $(document).ready( function () {
                 data: {
                        myInvoices: myInvoices, myValues: myValues, subTotal: subTotal, 
                        custID: custID, cashPayment: cashPayment, referenceNo: referenceNo,
-                       paymentMethod: paymentMethod, date: transactDate
+                       paymentMethod: paymentMethod, date: transactDate, arPath: arPath
                       },
                 success: function(data) {
-                    //alert(data)
                     alert("Payment Transfer Successfully!");
-                    //location.reload();
-                    //alert(data)
                     location.replace("receipt_ar_current.asp?ref_no="+data);
-                    //window.location.href= "editAR.asp?#";
                 }
             });
 
-            // console.log(myStrings)
-            // $("post")
-            // window.location.href= "t_receivables.asp?myStrings="+myStrings
         }
     });
 
