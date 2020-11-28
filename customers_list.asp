@@ -66,9 +66,11 @@
 
 <div id="main">
 
-    <h1 class="h1 text-center pt-3 mb-4 main-heading" style="font-weight: 400"> Royce Customers List </h1>
+    <div class="main-heading--container mb-5">
+    <h1 class="h1 text-center pt-5 mb-4 main-heading" style="font-weight: 400"> Royce Customers List </h1>
+    </div>
     <div id="content">
-    <div class="container mb-5">
+    <div class="container pt-3 mb-5">
 
         <% rs.Open "SELECT cust_id, cust_lname, cust_fname, department, address, contact_no FROM customers WHERE cust_type!='out' ORDER BY cust_lname", CN2 %>
 

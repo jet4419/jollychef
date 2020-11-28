@@ -91,10 +91,11 @@
 <div id="main">    
     
     <div id="content">
-        <div class="container mb-5">
-            <h1 class="h1 text-center mt-3 mb-5 main-heading" style="font-weight: 400"> 
+        <h1 class="h1 text-center mt-5 mb-5 main-heading" style="font-weight: 400"> 
                 Select Adjustment
-            </h1>
+        </h1>
+        <div class="container mb-5 pt-3">
+            
 
             <%  
 

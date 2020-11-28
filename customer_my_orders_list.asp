@@ -68,6 +68,7 @@
 
             .cust_name {
                 color: #463535;
+                /* font-size: 36px; */
             }
 
             .department_lbl {
@@ -123,12 +124,15 @@
            end if
         %>
 <div id="main">
-    <div class="container p-3">
+
+    <div class="users-info mt-5 mb-5">
+        <h1 class="h1 text-center main-heading my-0"> <strong><span class="order_of">Order of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
+        <h1 class="h3 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
+    </div>
+
+    <div class="container mt-4 p-3">
         
-        <div class="users-info mb-5">
-            <h1 class="h1 text-center main-heading my-0"> <strong><span class="order_of">Order of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
-            <h1 class="h3 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
-        </div>
+        
 
         <%  
             Dim yearPath, monthPath

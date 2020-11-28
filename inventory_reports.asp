@@ -78,14 +78,14 @@
     
 
         
-        <div class="container">
+        <div class="container pt-4">
 
             <!--
             <h6 class="h5">Other Report: 
                 <a href="bootTopSeller.asp" class="btn btn-sm btn-outline-dark">Top Selling Products</a> 
             </h6>
             -->
-            <h1 class="h1 text-center my-3 main-heading" style="font-weight: 400">Inventory Reports</h1>
+            <h1 class="h1 text-center my-3 main-heading mb-5" style="font-weight: 400">Inventory Reports</h1>
             
             <% rs.Open "SELECT prod_id, prod_brand, prod_name, orig_price, price, qty  FROM products WHERE fix_menu='yes'", CN2 %>
 

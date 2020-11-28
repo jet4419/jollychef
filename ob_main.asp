@@ -92,7 +92,7 @@
     
     <div id="content">
         <div class="container mb-5">
-            <h1 class="h1 text-center mt-3 mb-5 main-heading" style="font-weight: 400"> 
+            <h1 class="h1 text-center mt-5 mb-5 main-heading" style="font-weight: 400"> 
                 Credit Balance
             </h1>
 
@@ -114,12 +114,7 @@
                 obFile = "\ob_test.dbf"
                 folderPath = mainPath & yearPath & "-" & monthPath
                 obPath = folderPath & obFile
-                'Response.Write filePath 
-                'Response.Write obPath
-                ' rs.open "SELECT OB_TEST.id, OB_TEST.ref_no, OB_TEST.cust_id, OB_TEST.balance, CUSTOMERS.cust_fname, CUSTOMERS.cust_lname, CUSTOMERS.department "&_
-                ' "FROM "&obPath&" "&_
-                ' "INNER JOIN CUSTOMERS ON OB_TEST.cust_id = CUSTOMERS.cust_id "&_
-                ' "WHERE CUSTOMERS.cust_type='in' and id IN ( SELECT MAX(OB_TEST.id) FROM ob_test GROUP BY OB_TEST.cust_id) ORDER BY CUSTOMERS.cust_lname, CUSTOMERS.cust_fname", CN2
+
                 rs.open "SELECT id, ref_no, cust_id, balance, cust_name, department "&_
                         "FROM "&obPath&" "&_
                         "GROUP BY cust_id ORDER BY cust_name", CN2

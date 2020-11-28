@@ -68,7 +68,7 @@
     <div id="content">
     <div class="container mb-5">
 
-        <h1 class="main-heading--container h1 text-center mt-2 mb-4 pt-3"> 
+        <h1 class="main-heading--container h1 text-center mt-4 mb-4 pt-3"> 
             <button type="button" id="btnAddProduct" class="btn btn-outline-dark float-left" data-toggle="modal" data-target="#addProduct"> 
                 <i class="fas fa-plus-circle pr-1"></i> <span> Add Product </span> 
             </button> 

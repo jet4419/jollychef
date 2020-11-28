@@ -92,7 +92,7 @@
     
     <div id="content">
     <div class="container mb-5">
-        <h1 class="h2 text-center mb-4 main-heading pt-4"> <strong>Edit Current Day Collection</strong> </h1>
+        <h1 class="h2 text-center mt-4 mb-5 main-heading pt-4">Edit Current Day Collection</h1>
         <% rs.Open "SELECT * FROM "&collectionsPath&" WHERE duplicate!='yes' and date=CTOD('"&systemDate&"') ORDER BY id", CN2 %>
 
         <%
