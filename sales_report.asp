@@ -139,7 +139,7 @@
     </div> -->
     
     <div id="content">
-		<div class="container mb-5">
+		<div class="container mt-5 mb-5">
             <div class="mt-3 mb-2 d-flex justify-content-between">
                 <form action="sales_report.asp" method="POST" id="allData" class="">
                     

@@ -103,13 +103,13 @@
 
 %>
 
-<div id="main">
+<div id="main" class="mb-5">
 
-    <div id="content">
+    <div id="content" class="mb-5">
 
-    <div class="container">
+    <div class="container mb-5">
 
-        <div class="mt-3 mb-2 d-flex justify-content-between">
+        <div class="mt-4 mb-2 d-flex justify-content-between">
             <form action="sales_report_detailed.asp" method="POST" id="allData" class="">
                 
                 <label>Start Date</label>
@@ -134,7 +134,7 @@
                 
         %>
 
-        <table class="table table-hover table-bordered table-sm" id="myTable">
+        <table class="table table-hover table-bordered table-sm mb-5" id="myTable">
             <thead class="thead-dark">
                 <th>Reference No</th>
                 <th>Invoice No</th>

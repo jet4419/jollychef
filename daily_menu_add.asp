@@ -60,9 +60,9 @@
         <a class="btn btn-success btn-sm text-white" href="javascript:Clickheretoprint()"> Print </a>
     </div> -->
 <div id="main">
-    <form id="myForm"  method="POST">
+
     <div class="container pt-3">
-        <h1 class="text-center mb-4 title-flex"> 
+        <h1 class="text-center mb-4 mt-4 title-flex"> 
             
             <p>
                 <a href="daily_menu_list.asp" class="btn btn-outline-dark"> Menu List </a>
@@ -76,6 +76,9 @@
         </h1>
         
     </div>    
+
+    <form id="myForm"  method="POST">
+    
     <div id="content">
     <div class="container mb-5">
 
