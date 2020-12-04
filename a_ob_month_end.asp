@@ -203,8 +203,8 @@
                             ' "VALUES ("&rs("id")&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', "&rs("invoice")&", '"&rs("ref_no")&"', ctod(["&rs("date")&"]), '"&rs("a_type")&"', "&rs("amount")&", '"&rs("remarks")&"', 'yes')"
                             ' cnroot.execute(addMaxAdjustment)
 
-                            addMaxAdjustment = "INSERT INTO "&newAdjustmentPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, a_type, amount, remarks, duplicate) "&_
-                            "VALUES ("&rs("id")&", 0, '', '', 0, '', ctod(["&rs("date")&"]), '', 0, '', 'yes')"
+                            addMaxAdjustment = "INSERT INTO "&newAdjustmentPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, a_type, amount, balance, remarks, duplicate) "&_
+                            "VALUES ("&rs("id")&", 0, '', '', 0, '', ctod(["&rs("date")&"]), '', 0, 0, '', 'yes')"
                             cnroot.execute(addMaxAdjustment)
 
                             rs.movenext

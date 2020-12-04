@@ -70,7 +70,7 @@
     <h1 class="h1 text-center pt-5 mb-4 main-heading" style="font-weight: 400"> Royce Customers List </h1>
     </div>
     <div id="content">
-    <div class="container pt-3 mb-5">
+    <div class="container pt-1 mb-5">
 
         <% rs.Open "SELECT cust_id, cust_lname, cust_fname, department, address, contact_no FROM customers WHERE cust_type!='out' ORDER BY cust_lname", CN2 %>
 
@@ -105,59 +105,7 @@
 
 <!-- End of FOOTER -->
 
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- End of Login -->
-
-<!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>  
-<!-- End of Logout -->
+<!--#include file="cashier_login_logout.asp"-->
 
 <script src="js/main.js"></script>   
 <script>  

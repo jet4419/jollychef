@@ -15,7 +15,6 @@
     receivable = CDbl(Request.Form("receivable"))
     balance = CDbl(Request.Form("balance"))
     dateOwed = CDate(Request.Form("dateOwed"))
-    'systemDate = CDate(Application("date"))
 
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & "AD" & referenceNo)
@@ -68,8 +67,6 @@
         transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
         adjustmentPath = mainPath & yearPath & "-" & monthPath & adjustmentFile
 
-
-    'Response.Write arPath
         Dim maxArId
         rs.Open "SELECT MAX(ar_id) FROM "&arPath&";", CN2
             do until rs.EOF
@@ -119,39 +116,6 @@
 
         sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance - "&adjustmentValue&" WHERE invoice_no="&invoice
         cnroot.execute(sqlArUpdate)
-
-        ' if arOrigPath <> arPath then
-
-        '     sqlGetAr = "SELECT * FROM "&arPath&" WHERE invoice_no = "&invoice
-        '     set objAccess = cnroot.execute(sqlGetAr)
-
-        '     if not objAccess.EOF then
-
-        '         sqlUpdate = "UPDATE "&arPath&" SET balance = balance - "&adjustmentValue&" WHERE invoice_no="&invoice
-        '         cnroot.execute(sqlUpdate)
-
-        '     else
-                
-        '         rs.open "SELECT * FROM "&arOrigPath&" WHERE invoice_no = "&invoice, CN2
-
-        '         do until rs.EOF
-                    
-        '             addArDuplicate = "INSERT INTO "&arPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
-        '             "VALUES ("&maxArId&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("cust_dept")&"', '"&rs("ref_no")&"', "&rs("invoice_no")&" , "&rs("receivable")&", "&rs("balance")&", ctod(["&rs("date_owed")&"]), '"&isDuplicate&"')"
-        '             cnroot.execute(addArDuplicate)
-
-        '         rs.movenext
-        '         loop
-                
-        '         rs.close
-    
-        '     end if
-
-        '     set objAccess = nothing    
-
-        '     maxArId = maxArId + 1
-
-        ' end if
 
         sqlAdd2 = "INSERT INTO "&transactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate)"&_
         "VALUES ("&maxID&" ,'"&referenceNo&"', '"&transact_type&"', "&custID&" , "&invoice&", "&adjustmentValue&", " &credit&", ctod(["&systemDate&"]), '"&status&"', '')"
@@ -219,6 +183,7 @@
                     "VALUES ("&maxAdRefId&", '"&referenceNo&"')"
         cnroot.execute(sqlRefAdd)   
 
+        'To send the referenceNo to the Adjustment receipt'
         Response.Write(referenceNo)
 
     end if

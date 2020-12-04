@@ -23,30 +23,30 @@
     Dim uniqueNum
     uniqueNum = CInt(Request.QueryString("unique_num"))
 
-    Dim prodIDs, qtys
-    rs.open "SELECT prod_id, prod_name, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE unique_num ="&uniqueNum&" GROUP BY prod_id", CN2
+    ' Dim prodIDs, qtys
+    ' rs.open "SELECT prod_id, prod_name, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE unique_num ="&uniqueNum&" GROUP BY prod_id", CN2
     
-    do until rs.EOF
+    ' do until rs.EOF
 
-        prodIDs = prodIDs & rs("prod_id").value & ","
-        qtys = qtys & rs("qty").value & ","
+    '     prodIDs = prodIDs & rs("prod_id").value & ","
+    '     qtys = qtys & rs("qty").value & ","
 
-    rs.movenext
-    loop
+    ' rs.movenext
+    ' loop
 
-    rs.close
+    ' rs.close
 
-    'Response.Write(prodIDs & "<br>" & qtys & "<br>")
-    prodIDs = Split(prodIDs, ",")
-    qtys = Split(qtys, ",")
-    'Response.Write(prodIDs(0) & "<br>" & qtys(0) & "<br>")
+    ' 'Response.Write(prodIDs & "<br>" & qtys & "<br>")
+    ' prodIDs = Split(prodIDs, ",")
+    ' qtys = Split(qtys, ",")
+    ' 'Response.Write(prodIDs(0) & "<br>" & qtys(0) & "<br>")
 
-    for i=0 to Ubound(prodIDs) - 1
+    ' for i=0 to Ubound(prodIDs) - 1
 
-        sqlUpdate = "UPDATE daily_meals SET qty = qty + " &qtys(i)& " WHERE prod_id="&prodIDs(i) 
-        cnroot.execute(sqlUpdate)
+    '     sqlUpdate = "UPDATE daily_meals SET qty = qty + " &qtys(i)& " WHERE prod_id="&prodIDs(i) 
+    '     cnroot.execute(sqlUpdate)
 
-    next
+    ' next
 	
 	rs.open "SELECT * FROM "&ordersHolderPath&"", CN2
 	sqlDelete = "DELETE FROM "&ordersHolderPath&" WHERE unique_num="&uniqueNum

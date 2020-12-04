@@ -46,7 +46,7 @@
    ' CN2.close
    
 %>    
-        <!--<input type="number" class="form-control" name="arID" id="arID" value="<'%=arID%>" placeholder="ID" readonly> -->
+
     <div class="form-group">         
         <input type="text" name="department" id="department" value="<%=department%>" hidden>
         <label class="ml-1" style="font-weight: 500"> Customer Name </label>
@@ -88,12 +88,6 @@
 
                     invoice = CStr(rs("invoice"))
                     
-                    ' id = CLng(rs("id"))
-                    ' ref_no = CStr(rs("ref_no"))
-                    ' refDate = CDate(rs("date"))
-                    ' refDate = FormatDateTime(refDate,2)
-
-                    
             %>
                     <option value="<%=invoice%>"> <%="Invoice No: "&invoice%> </option>
                 <% rs.movenext%>  
@@ -102,7 +96,7 @@
             <% else %>
                     <option disabled> No Available Adjustments</option>
             <% end if             
-                rs.close
+               rs.close
             %>
 
             

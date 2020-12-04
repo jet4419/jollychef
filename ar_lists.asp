@@ -288,12 +288,11 @@
         department = CStr(Request.Form("department"))
         creditDate = CStr(Request.Form("date_records"))
 
-
     %>
 
-        <%if custID<>0  then%>
-
 <div id="main" class=" mb-5">
+
+    <%if custID<>0  then%>
 
     <div id="content">
         <div class="container pb-3 mb-2">
@@ -330,89 +329,87 @@
                           
             <form id="myForm" method="POST">
  
-            <div class="table-responsive-sm mt-2">
-                <table class="table table-bordered table-sm" id="myTable">
-                    <thead class="thead-dark">
-                        <th>Date</th>
-                        <th>Invoice</th>
-                        <th>Amount Credit</th>
-                        <th>Balance</th>
-                        <th>Payment</th>
-                
-                    </thead>
-
-                    <% Dim totalBalance 
-                    totalBalance = 0.00 
-                    %>
-                    <%do until rs.EOF%>
-                    <tr>
-                        <%invoice = rs("invoice_no").value%>
-                        <% d = CDate(rs("date_owed"))
-                           d = FormatDateTime(d, 2)
-                        %>
-                        <td class="text-darker"><%Response.Write(d)%></td>
-                        <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>'><%Response.Write(rs("invoice_no"))%></a></td>
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("receivable"))%></td>
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
-                        <% totalBalance = totalBalance + CDbl(rs("balance").value) %>
-                        <td>
-                        <div class="input-group input-group-sm py-1">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
-                            </div>
-                            <input onblur="findTotal()" type="number" id="<%=invoice%>" name="sub_total" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=rs("balance")%>">
-                        </div>
-                        </td>
-
-                    </tr>
-                    <%rs.MoveNext%>
-                    <%loop%>
-
-                    <%rs.close%>
-                    <%CN2.close%>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3"> <strong> Total Balance </strong> </td>
-                            <td colspan="2"> <strong> <%=totalBalance%> </strong> </td>
-                        </tr>
-                    </tfoot>
-                </table>
-
-                
-
-                <div class="total-payment-container mt-3">
-
-                    <div class="item item-left form-group ">
-                        <span class="total-text">Reference No</span>
-                        <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
-                    </div>
+                <div class="table-responsive-sm mt-2">
+                    <table class="table table-bordered table-sm" id="myTable">
+                        <thead class="thead-dark">
+                            <th>Date</th>
+                            <th>Invoice</th>
+                            <th>Amount Credit</th>
+                            <th>Balance</th>
+                            <th>Payment</th>
                     
-                    <div class="item item-left form-group">
-                        <span class="total-text">Sub Total
-                            <span class="text-dark">&#8369;</span>
-                        </span>
-                        <input class="input-total form-control form-control-sm" type="number" name="total" value="0" step="any" min="0.1" max="0" id="total" required data-readonly/>
+                        </thead>
+
+                        <% Dim totalBalance 
+                        totalBalance = 0.00 
+                        %>
+                        <%do until rs.EOF%>
+                        <tr>
+                            <%invoice = rs("invoice_no").value%>
+                            <% d = CDate(rs("date_owed"))
+                            d = FormatDateTime(d, 2)
+                            %>
+                            <td class="text-darker"><%Response.Write(d)%></td>
+                            <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>'><%Response.Write(rs("invoice_no"))%></a></td>
+                            <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("receivable"))%></td>
+                            <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
+                            <% totalBalance = totalBalance + CDbl(rs("balance").value) %>
+                            <td>
+                            <div class="input-group input-group-sm py-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
+                                </div>
+                                <input onblur="findTotal()" type="number" id="<%=invoice%>" name="sub_total" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=rs("balance")%>">
+                            </div>
+                            </td>
+
+                        </tr>
+                        <%rs.MoveNext%>
+                        <%loop%>
+
+                        <%rs.close%>
+                        <%CN2.close%>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"> <strong> Total Balance </strong> </td>
+                                <td colspan="2"> <strong> <%=totalBalance%> </strong> </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    
+                    <div class="total-payment-container mt-3">
+
+                        <div class="item item-left form-group ">
+                            <span class="total-text">Reference No</span>
+                            <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
+                        </div>
+                        
+                        <div class="item item-left form-group">
+                            <span class="total-text">Sub Total
+                                <span class="text-dark">&#8369;</span>
+                            </span>
+                            <input class="input-total form-control form-control-sm" type="number" name="total" value="0" step="any" min="0.1" max="0" id="total" required data-readonly/>
+                        </div>
+
+                        <div class="item item-right form-group">
+                            <span class="total-text">Cash
+                                <span class="text-dark">&#8369;</span>
+                            </span>
+                            <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" required/>
+                        </div>
+
                     </div>
 
-                    <div class="item item-right form-group">
-                        <span class="total-text">Cash
-                            <span class="text-dark">&#8369;</span>
-                        </span>
-                        <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" required/>
+                    <div class="d-flex justify-content-center">
+                        <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
+                        <input type="hidden" name="credit_date" id="credit_date" value="<%=creditDate%>">
+                        <button type="submit" class="btn btn-primary btn-sm" id="myBtn">Submit Payment</button>
                     </div>
 
                 </div>
 
-                <div class="d-flex justify-content-center">
-                    <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
-                    <input type="hidden" name="credit_date" id="credit_date" value="<%=creditDate%>">
-                    <button type="submit" class="btn btn-primary btn-sm" id="myBtn">Submit Payment</button>
-                </div>
-
-            </div>
             </form>
-
-            
 
         </div>    
     </div>
@@ -435,112 +432,65 @@
 
 <!-- End of FOOTER -->
 
-    <!-- Pay Debt -->
-        <div class="modal fade" id="pay_debt_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <form action="ar_lists.asp" class="form-group mb-3" id="payDebtForm" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Pay Current Credit </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="payDebtBody">
-                        <!-- Modal Body (Contents) -->
-                        
-                    
-                    </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" id="payDebtCash" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>  
+<!-- Pay Debt -->
+<div class="modal fade" id="pay_debt_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <form action="ar_lists.asp" class="form-group mb-3" id="payDebtForm" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pay Current Credit </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-        </div> 
-      <!-- END OF Pay Debt -->    
+                <div class="modal-body" id="payDebtBody">
+                    <!-- Modal Body (Contents) -->
+                
+                </div>
 
-    <!-- Date Range of Transactions -->
-        <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form action="a_ob_records.asp" method="POST" id="allData2">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Date Range of Transaction <i class="far fa-calendar-check"></i></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="daterange_modal_body">
-                        <!-- Modal Body (Contents) -->
-                        
-                            
-                    </div>    
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
-                            </div>        
-                    </form>
-                        
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary bg-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" id="payDebtCash" class="btn btn-primary">Save changes</button>
                 </div>
-            </div>
+
+            </form>  
         </div>
-    <!-- End of Date Range of Transactions -->
+    </div>
+</div> 
+<!-- END OF Pay Debt -->    
 
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
+<!-- Date Range of Transactions -->
+<div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+        <div class="modal-content">
+            <form action="a_ob_records.asp" method="POST" id="allData2">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Date Range of Transaction <i class="far fa-calendar-check"></i></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
-            </div>
-        </form>
+
+                <div class="modal-body" id="daterange_modal_body">
+                    <!-- Modal Body (Contents) -->
+                    
+                        
+                </div>    
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
+                </div>
+
+            </form>
+                
+        </div>
     </div>
 </div>
-<!-- End of Login -->
+<!-- End of Date Range of Transactions -->
 
-<!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>  
-<!-- End of Logout -->
+<!--#include file="cashier_login_logout.asp"-->
 
 <script src="js/main.js"></script> 
 <script>  

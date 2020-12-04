@@ -91,11 +91,12 @@
 <div id="main">    
     
     <div id="content">
+
         <h1 class="h1 text-center mt-5 mb-5 main-heading" style="font-weight: 400"> 
                 Select Adjustment
         </h1>
+
         <div class="container mb-5 pt-3">
-            
 
             <%  
 
@@ -157,86 +158,40 @@
 <!-- End of FOOTER -->
 
 
-    <!-- Date Range of Transactions -->
-            <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form action="ar_card_report2.asp" method="POST" id="allData2" class="">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Date Range of Transaction </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" id="daterange_modal_body">
-                            <!-- Modal Body (Contents) -->
-                            
-                                
-                        </div>    
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
-                                </div>        
-                        </form>
-                            
-                    </div>
-                </div>
-            </div>
-        <!-- End of Date Range of Transactions -->
+<!-- Date Range of Transactions -->
+<div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+        <div class="modal-content">
+
+            <form action="ar_card_report2.asp" method="POST" id="allData2" class="">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Date Range of Transaction </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
-            </div>
-        </form>
+
+                <div class="modal-body" id="daterange_modal_body">
+                <!-- Modal Body (Contents) -->
+                
+                    
+                </div>  
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
+                </div> 
+
+            </form>
+                
+        </div>
     </div>
 </div>
-<!-- End of Login -->
+<!-- End of Date Range of Transactions -->
 
-<!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>  
-<!-- End of Logout -->
+<!--#include file="cashier_login_logout.asp"-->
 
 <script src="js/main.js"></script>  
 <script src="tail.select-full.min.js"></script>
@@ -279,21 +234,6 @@ let j = 0
         })    
     }) // End of Date Transactions Generator  
 
-    // Date Bookings Generator
-    //     $(document).on("click", ".date_bookings", function() {
-    //         let custID = $(this).attr("id");
-    //         $.ajax({
-
-    //         url: "ob_daterange.asp",
-    //         type: "POST",
-    //         data: {custID: custID},
-    //         success: function(data) {
-    //             $("#bookings_modal_body").html(data);
-    //             $("#date_bookings").modal("show");
-    //         }
-    //     })    
-    // }) // End of Date Bookings Generator  
-
     tail.select("#selectRecords", {
         search: true,
         deselect: true,
@@ -301,17 +241,6 @@ let j = 0
     });
 
 });
-
-// function monthEnd() {
-
-//     //alert("Are you sure to cutoff?")
-//     if(confirm('Are you sure to month end on this date?'))
-//     {
-//         window.location.href='a_ob_month_end.asp';
-//         //window.location.href='delete.asp?delete_id='+id;
-//     }
-
-// }
 
 function payDebt(id) {
 

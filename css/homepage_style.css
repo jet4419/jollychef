@@ -67,7 +67,7 @@ input[type='number'] {
   top: 0;
   left: 0;
   background: #438a5e;
-  transition: 0.5s;
+  transition: all 0.5s;
   overflow: hidden;
   padding-top: 35px;
 
@@ -212,7 +212,7 @@ a.main-menus--items.customers-icon {
   padding: 16px;
   margin-left: 50px;
   padding-top: 60px;
-  transition: margin-left 0.5s;
+  transition: all 0.5s;
   min-height: 100vh;
   /* height: calc(100vh - 50px); */
   /* display: flex;

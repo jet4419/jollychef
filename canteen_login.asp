@@ -27,40 +27,37 @@
 
 %>
 
-    <main class="login">
+<main class="login">
 
-        
-            <div class="login__header">
-                <h2 class="login__header--text">Sign In</h2>
+    
+    <div class="login__header">
+        <h2 class="login__header--text">Sign In</h2>
+    </div>
+
+    <div class="login__body">
+        <form class="form-body">
+
+            <div class="label-input-groups">
+                <label class="form-label" name="email" for="email">Email</label>
+                <input class="form-inputs" type="email" name="email" id="email" required>
             </div>
 
-            <div class="login__body">
-                <form class="form-body">
-
-                    <div class="label-input-groups">
-                        <label class="form-label" name="email" for="email">Email</label>
-                        <input class="form-inputs" type="email" name="email" id="email" required>
-                    </div>
-
-                    <div class="label-input-groups">
-                        <label class="form-label" for="password">Password</label>   
-                        <input class="form-inputs" name="password" type="password" name="password" id="loginPassword" required>
-                        <span class="wrong-password-text" style="display: inline-block; padding-top: 10px; color: red; font-size: 11px; text-align: center;"></span>
-                        <!-- Sorry, your password was incorrect. Please double-check your password. -->
-                    </div>
-                    
-                    
-
-                    <button type="submit" class="btn-main btn-login-form" name="btn-login" value="login">Login</button>   
-                </form>
+            <div class="label-input-groups">
+                <label class="form-label" for="password">Password</label>   
+                <input class="form-inputs" name="password" type="password" name="password" id="loginPassword" required>
+                <span class="wrong-password-text" style="display: inline-block; padding-top: 10px; color: red; font-size: 11px; text-align: center;"></span>
+                <!-- Sorry, your password was incorrect. Please double-check your password. -->
             </div>
+            
+            <button type="submit" class="btn-main btn-login-form" name="btn-login" value="login">Login</button>   
+        </form>
+    </div>
 
-            <div class="login__footer">
-                Looking to <a href="#" class="login__footer--link">create an account?</a>
-            </div>
-        </div>
-        
-    </main>
+    <div class="login__footer">
+        Looking to <a href="#" class="login__footer--link">create an account?</a>
+    </div>
+    
+</main>
 
 <!--<script>
 

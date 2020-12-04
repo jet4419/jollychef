@@ -16,7 +16,7 @@
     receivable = CDbl(Request.Form("receivable"))
     balance = CDbl(Request.Form("balance"))
     dateOwed = CDate(Request.Form("dateOwed"))
-    'Response.Write dateOwed
+
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & "AD" & referenceNo)
 
@@ -55,10 +55,6 @@
             arMonthPath = "0" & arMonthPath
         end if
 
-        ' Dim transactionsFile
-
-        ' transactionsFile = "\transactions.dbf"
-
         Dim arFile, transactionsFile, adjustmentFile
 
         arFile = "\accounts_receivables.dbf"
@@ -72,7 +68,6 @@
         transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
         adjustmentPath = mainPath & yearPath & "-" & monthPath & adjustmentFile
 
-        'Response.Write arPath
         Dim maxArId
         rs.Open "SELECT MAX(ar_id) FROM "&arPath&";", CN2
             do until rs.EOF
@@ -87,7 +82,6 @@
         Dim maxID, transact_type, credit
         transact_type = "A-plus"
         debit = 0.00
-        'currDate = CDate(Date)
         status = ""
 
         maxID = 0
@@ -122,52 +116,6 @@
 
         sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance + "&adjustmentValue&" WHERE invoice_no="&invoice
         cnroot.execute(sqlArUpdate)
-
-        'This checking is to prevent double update when the arOrigPath 
-        'is the same with arPath (currentPath) 
-
-        ' if arOrigPath <> arPath then
-
-        '     sqlGetAr = "SELECT * FROM "&arPath&" WHERE invoice_no = "&invoice
-        '     set objAccess = cnroot.execute(sqlGetAr)
-
-        '     if not objAccess.EOF then
-
-        '         ' rs.open "SELECT balance FROM "&arPath&" WHERE invoice_no="&invoice, CN2
-        '         ' newArBal = adjustmentValue + CDbl(rs("balance"))
-        '         ' rs.close
-
-        '         ' sqlUpdate = "UPDATE "&arPath&" SET balance = "&newArBal&" WHERE invoice_no="&invoice&" AND ref_no='"&referenceNo&"'"
-        '         ' cnroot.execute(sqlUpdate)
-        '         sqlUpdate = "UPDATE "&arPath&" SET balance = balance + "&adjustmentValue&" WHERE invoice_no="&invoice
-        '         cnroot.execute(sqlUpdate)
-
-        '     else
-                
-        '         rs.open "SELECT * FROM "&arOrigPath&" WHERE invoice_no = "&invoice, CN2
-
-        '         do until rs.EOF
-                    
-        '             addArDuplicate = "INSERT INTO "&arPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
-        '             "VALUES ("&maxArId&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("cust_dept")&"', '"&rs("ref_no")&"', "&rs("invoice_no")&" , "&rs("receivable")&", "&rs("balance")&", ctod(["&rs("date_owed")&"]), '"&isDuplicate&"')"
-        '             cnroot.execute(addArDuplicate)
-
-        '         rs.movenext
-        '         loop
-                
-        '         rs.close
-    
-        '     end if
-
-        '     set objAccess = nothing    
-
-        '     maxArId = maxArId + 1
-
-        ' end if
-        ' sqlAddAr = "INSERT INTO "&arPath&" "&_
-        ' "(ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, status) "&_
-        ' "VALUES ("&maxArId&", "&custID&", '"&custName&"', '"&department&"', '"&referenceNo&"', "&invoice&", "&receivable&", "&balance&", ctod(["&systemDate&"]), '"&arStatus&"')"
-        ' cnroot.execute(sqlAddAr)
 
         sqlAdd2 = "INSERT INTO "&transactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate)"&_
         "VALUES ("&maxID&" ,'"&referenceNo&"', '"&transact_type&"', "&custID&" , "&invoice&", "&debit&", " &adjustmentValue&", ctod(["&systemDate&"]), '"&status&"', '')"
@@ -236,6 +184,7 @@
                     "VALUES ("&maxAdRefId&", '"&referenceNo&"')"
         cnroot.execute(sqlRefAdd)   
 
+        'To send the referenceNo to the Adjustment receipt'
         Response.Write(referenceNo)
     end if
 %>

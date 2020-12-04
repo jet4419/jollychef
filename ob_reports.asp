@@ -172,7 +172,7 @@
                     </div>    
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success btn-sm mb-1" id="generateReport2">Generate Report</button>
+                            <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
                         </div>        
                     </form>
                         
@@ -182,59 +182,7 @@
     <!-- End of Date Range of Transactions -->
   
 
-    <!-- Login -->
-    <div id="login" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <form action="login_authentication.asp" method="POST">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Customer Login</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center">
-                        <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- End of Login -->
-
-    <!-- Logout -->
-    <div id="logout" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <form action="canteen_logout.asp">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Logout</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure to logout?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Yes</button>
-                        <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>  
-    <!-- End of Logout -->
+    <!--#include file="cashier_login_logout.asp"-->
 
 <script src="js/main.js"></script>  
 <script src="tail.select-full.min.js"></script>
@@ -285,16 +233,6 @@ let j = 0
         })    
     }) // End of Date Transactions Generator  
 
-// function monthEnd() {
-
-//     //alert("Are you sure to cutoff?")
-//     if(confirm('Are you sure to month end on this date?'))
-//     {
-//         window.location.href='a_ob_month_end.asp';
-//         //window.location.href='delete.asp?delete_id='+id;
-//     }
-
-// }
     
 </script>
 

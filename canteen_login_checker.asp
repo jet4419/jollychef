@@ -10,6 +10,4 @@
         window.location.href='default.asp';
     }
 
-
-
 </script>

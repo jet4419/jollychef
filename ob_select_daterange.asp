@@ -44,7 +44,7 @@
             obFile = "\ob_test.dbf"
             obPath = folderPath & obFile
 
-            rs.Open "SELECT MIN(date) AS first_date FROM "&obPath&" WHERE balance!=0", CN2
+            rs.Open "SELECT MIN(date) AS first_date FROM "&obPath&" WHERE balance!=0 and duplicate!='yes' ", CN2
 
             if not rs.EOF then
                 currentSdate = CDate(rs("first_date"))

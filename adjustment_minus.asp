@@ -236,9 +236,9 @@
 
     %>
 
-        <%if custID<>0  then%>
-
 <div id="main">
+
+    <%if custID<>0  then%>
 
     <div id="content">
         <div class="container mb-5">
@@ -259,9 +259,6 @@
                     monthPath = "0" & monthPath
                 end if
 
-                ' Dim transactionsFile
-
-                ' transactionsFile = "\transactions.dbf"
 
                 Dim arFile
 
@@ -339,67 +336,67 @@
                 <input type="text" name="cust_name" id="cust_name" value="<%=custName%>" hidden>
                 <input type="text" name="department" id="department" value="<%=department%>" hidden>
 
-            <div class="table-responsive-sm">
+                <div class="table-responsive-sm">
 
-                <table class="table table-bordered table-sm" id="myTable">
+                    <table class="table table-bordered table-sm" id="myTable">
 
-                     <thead class="thead-dark">
-                        <th>Date</th>
-                        <th>Reference No</th>
-                        <th>Invoice</th>
-                        <th>Amount Credit</th>
-                        <th>Balance</th>
-                        <th>Adjustment</th>
-                    </thead>
+                        <thead class="thead-dark">
+                            <th>Date</th>
+                            <th>Reference No</th>
+                            <th>Invoice</th>
+                            <th>Amount Credit</th>
+                            <th>Balance</th>
+                            <th>Adjustment</th>
+                        </thead>
 
-                    <% Dim totalCashPaid
-                       totalCashPaid = 0.00 
-                    %>
-                    <%do until rs.EOF%>
-                    <tr>
-                        <%invoice = rs("invoice_no").value%>
-                        <% refDate = CDate(rs("date_owed"))%>
-                        <td class="text-darker">
-                            <%=(FormatDateTime(refDate,2))%>
-                        </td>
+                        <% Dim totalCashPaid
+                        totalCashPaid = 0.00 
+                        %>
+                        <%do until rs.EOF%>
+                        <tr>
+                            <%invoice = rs("invoice_no").value%>
+                            <% refDate = CDate(rs("date_owed"))%>
+                            <td class="text-darker">
+                                <%=(FormatDateTime(refDate,2))%>
+                            </td>
 
-                        <td class="text-darker">
-                            <%=(rs("ref_no"))%>
-                        </td>
+                            <td class="text-darker">
+                                <%=(rs("ref_no"))%>
+                            </td>
 
-                        <td class="text-darker">
-                            <a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=refDate%>'><%=(rs("invoice_no"))%></a>
-                        </td>
+                            <td class="text-darker">
+                                <a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=refDate%>'><%=(rs("invoice_no"))%></a>
+                            </td>
 
-                        <td class="text-darker">
-                            <span class="text-primary">&#8369;</span><%=(rs("receivable"))%>
-                        </td>
+                            <td class="text-darker">
+                                <span class="text-primary">&#8369;</span><%=(rs("receivable"))%>
+                            </td>
 
-                        <td class="text-darker">
-                            <span class="text-primary">&#8369;</span><%=(rs("balance"))%>
-                        </td>
+                            <td class="text-darker">
+                                <span class="text-primary">&#8369;</span><%=(rs("balance"))%>
+                            </td>
 
-                        <td>
-                            <div class="input-group input-group-sm py-1">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
+                            <td>
+                                <div class="input-group input-group-sm py-1">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
+                                    </div>
+                                    <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
+                                    <input id="balance" value = "<%=rs("balance").value%>" hidden>
+                                    <input id="date_owed" value="<%=rs("date_owed").value%>" hidden>
+                                    <input id="transact_date" value="<%=transactDate%>" hidden>
+                                    <input onblur="findTotal()" type="number" id="<%=invoice%>" name="adjustment_value" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=rs("balance")%>">
                                 </div>
-                                <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
-                                <input id="balance" value = "<%=rs("balance").value%>" hidden>
-                                <input id="date_owed" value="<%=rs("date_owed").value%>" hidden>
-                                <input id="transact_date" value="<%=transactDate%>" hidden>
-                                <input onblur="findTotal()" type="number" id="<%=invoice%>" name="adjustment_value" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=rs("balance")%>">
-                            </div>
-                        </td>
+                            </td>
 
-                    </tr>
-                    <%rs.MoveNext%>
-                    <%loop%>
-   
-                    <%rs.close%>
-                    <%CN2.close%>
+                        </tr>
+                        <%rs.MoveNext%>
+                        <%loop%>
+    
+                        <%rs.close%>
+                        <%CN2.close%>
 
-                </table>
+                    </table>
 
                     <div class="total-payment-container mt-5">
 
@@ -426,7 +423,7 @@
                         <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
                         <button type="submit" class="btn btn-dark" id="myBtn">Submit Adjustment</button>
                     </div>
-            </div>
+                </div>
             </form>
 
         </div>    
@@ -446,11 +443,12 @@
 
 <!-- End of FOOTER -->
 
-    <!-- Date Range of Transactions -->
-        <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form action="a_ob_records.asp" method="POST" id="allData2">
+<!-- Date Range of Transactions -->
+    <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <form action="a_ob_records.asp" method="POST" id="allData2">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Date Range of Transaction <i class="far fa-calendar-check"></i></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -462,95 +460,44 @@
                         
                             
                     </div>    
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
-                            </div>        
-                    </form>
-                        
-                </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
+                        </div>        
+                </form>
+                    
             </div>
         </div>
-    <!-- End of Date Range of Transactions -->
-
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
-            </div>
-        </form>
     </div>
-</div>
-<!-- End of Login -->
+<!-- End of Date Range of Transactions -->
 
-<!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>  
-<!-- End of Logout -->
+<!--#include file="cashier_login_logout.asp"-->
 
 <script src="js/main.js"></script> 
 <script>  
-$(document).ready( function () {
-    $('#myTable').DataTable({
-        scrollY: "36vh",
-        scroller: true,
-        "paging": false,
-        scrollCollapse: true,
-        dom: "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-             "<'row'<'col-sm-12'tr>>",
-        buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
-        ]
-    });
-}); 
+
+    $(document).ready( function () {
+        $('#myTable').DataTable({
+            scrollY: "36vh",
+            scroller: true,
+            "paging": false,
+            scrollCollapse: true,
+            dom: "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                "<'row'<'col-sm-12'tr>>",
+            buttons: [
+                { extend: 'copy', className: 'btn btn-sm btn-success' },
+                { extend: 'excel', className: 'btn btn-sm btn-success' },
+                { extend: 'pdf', className: 'btn btn-sm btn-success' },
+                { extend: 'print', className: 'btn btn-sm btn-success' }
+            ]
+        });
+    }); 
 
     // Date Generator
-        $(document).on("click", ".date_transact", function() {
-            $.fn.dataTable.ext.classes.sPageButton = 'button primary_button';
-            let custID = $(this).attr("id");
-            $.ajax({
+    $(document).on("click", ".date_transact", function() {
+        $.fn.dataTable.ext.classes.sPageButton = 'button primary_button';
+        let custID = $(this).attr("id");
+        $.ajax({
 
             url: "a_ob_daterange.asp",
             type: "POST",
@@ -563,7 +510,6 @@ $(document).ready( function () {
     }) // End of Date Generator  
 
 
-
     tail.select("#selectRecords", {
         search: true,
         deselect: true,
@@ -572,29 +518,12 @@ $(document).ready( function () {
 
     function monthEnd(nId, nCreditBal, nDebitBal) {
 
-        //alert("Are you sure to cutoff?")
         if(confirm('Are you sure to cutoff on this date?'))
         {
             window.location.href='a_ob_month_end.asp?cust_id='+nId+'&credit_bal='+nCreditBal+'&debit_bal='+nDebitBal;
-            //window.location.href='delete.asp?delete_id='+id;
         }
 
     }
-
-    
-    // Payment
-
-    // var $myForm = $('#myForm');
-
-    // if(! $myForm[0].checkValidity()) {
-    // // If the form is invalid, submit it. The form won't actually submit;
-    // // this will just cause the browser to display the native HTML5 error messages.
-    // $myForm.find(':submit').click();
-    // }
-
-    //  $("#total").keydown(function(e){
-    //     e.preventDefault();
-    // });
 
     $(document).on("click", "#myBtn", function(event) {
 
@@ -617,21 +546,6 @@ $(document).ready( function () {
             var referenceNo = $("#reference_no").val()
             var remarks = $("#remarks").val()
             var transactDate = $("#transact_date").val()
-
-            // var custID = document.getElementById("cust_id").value
-            // var custName = document.getElementById("cust_name").value
-            // var department = document.getElementById("department").value
-            // var totalAdjustment = document.getElementById("total_adjustment").value
-            // var remarks = document.getElementById("remarks").value
-            // //var cashPayment = document.getElementById("cash_payment").value
-            // var referenceNo = document.getElementById("reference_no").value
-            // adjustmentValue.forEach(function(item) {
-            //     if (item.value.trim().length !== 0) {
-            //         //console.log(item.id + " " + item.value)
-            //         myInvoices = myInvoices + item.id  + ","
-            //         myAdjustments = myAdjustments + item.value + ","
-            //     }
-            // });
             
             $.ajax({
                 url: "adjustment_minus_c.asp",
@@ -657,37 +571,23 @@ $(document).ready( function () {
                         location.replace("receipt_adjustment.asp?ref_no="+data+"&date="+transactDate);
                     }
 
-                    // alert("Adjustment Submitted Successfully!");
-                    // //location.reload();
-                    // //alert(data)
-                    // location.replace("t_ob_adjustments.asp");
-                    //location.reload();
-
-                    //window.location.href= "editAR.asp?#";
-
                 }
             });
 
-            // console.log(myStrings)
-            // $("post")
-            // window.location.href= "t_receivables.asp?myStrings="+myStrings
         }
     });
 
-     function findTotal(){
+    function findTotal(){
         var adjustmentInput = document.getElementsByName('adjustment_value');
         var total = 0;
-        // for(var i=0;i<arr.length;i++){
-        //     if(parseFloat(arr[i].value))
-        //         total += parseFloat(arr[i].value);
-        // }
+
         total = parseFloat(adjustmentInput[0].value)
         total = total.toFixed(2)
 
         document.querySelector('input#total_adjustment').value = total;
         document.querySelector('input#total_adjustment').min = total;
         document.querySelector('input#total_adjustment').max = total;
-        //document.querySelector('input#cash_payment').min = total;
+
     }
 </script>
 

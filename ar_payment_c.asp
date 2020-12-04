@@ -66,12 +66,12 @@
     
         Dim maxID, maxOBtestID, transact_type, credit, currDate, invoice, status
 
-        transact_type = "Pay"
-        credit = 0.00
-        invoice = 0
-        status = ""
-        maxID = 0
-        maxOBtestID = 0
+            transact_type = "Pay"
+            credit = 0.00
+            invoice = 0
+            status = ""
+            maxID = 0
+            maxOBtestID = 0
 
             getMaxTransactID = "SELECT MAX(id) AS id FROM "&transactionsPath&";"
             set objAccess = cnroot.execute(getMaxTransactID)
@@ -93,6 +93,7 @@
 
         Dim currOB
         currOB = 0.00
+
         sqlGetOB = "SELECT balance FROM "&obPath&" WHERE cust_id="&custID&" GROUP BY cust_id"
         set objAccess = cnroot.execute(sqlGetOB)
 
@@ -124,14 +125,6 @@
         end if
 
         maxCollectID = maxCollectID + 1
-        
-        ' sqlUpdate2 = "UPDATE "&arPath&" "&_
-        ' " SET balance = "&_
-        ' "iif(invoice_no=39, 1, iif(invoice_no=15, 2, iif(invoice_no=26, 3, "&_
-        ' "iif(invoice_no=38, 4, iif(invoice_no=20, 5, iif(invoice_no=24, 6, "&_
-        ' "iif(invoice_no=17, 7, iif(invoice_no=18, 8, iif(invoice_no=25, 9, "&_
-        ' "iif(invoice_no=19, 25, balance)))))))))) "&_
-        ' "WHERE invoice_no IN (39,15,26,38,20,24,17,18,25,19)"
 
         Dim updateStr, iifs, endingIf, parens, counter
         updateStr = "UPDATE "&arPath&" SET balance = "
@@ -201,7 +194,6 @@
         end if
 
         maxRefId = maxRefId + 1
-
 
         sqlRefAdd = "INSERT INTO reference_no (id, ref_no) "&_
                     "VALUES ("&maxRefId&", '"&referenceNo&"')"

@@ -31,13 +31,14 @@
             prodName = objAccess("prod_name")
             prodQty = objAccess("qty")
             prodPrice = objAccess("price")
+            origPrice = objAccess("orig_price")
             category = objAccess("category")
             'status = "available"
             set objAccess = nothing
             'Response.Write(objAccess("prod_name") & "<br>")
             'Response.Write(objAccess("price") & "<br>")
-            sqlAdd = "INSERT INTO daily_meals (dm_id, prod_id, prod_brand, prod_name, qty, prod_price, category)"&_
-            "VALUES ("&maxDMid&", "&prodID&", '"&prodBrand&"', '"&prodName&"', "&prodQty&", "&prodPrice&", '"&category&"')"
+            sqlAdd = "INSERT INTO daily_meals (dm_id, prod_id, prod_brand, prod_name, qty, prod_price, orig_price, category)"&_
+            "VALUES ("&maxDMid&", "&prodID&", '"&prodBrand&"', '"&prodName&"', "&prodQty&", "&prodPrice&", "&origPrice&", '"&category&"')"
             cnroot.execute(sqlAdd)
             
             maxDMid = maxDMid + 1

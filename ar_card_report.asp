@@ -196,18 +196,18 @@
 
         Dim monthLength, monthPath, yearPath
 
-        monthLength = Month(startDate)
-        if Len(monthLength) = 1 then
-            monthPath = "0" & CStr(Month(startDate))
-        else
-            monthPath = Month(startDate)
-        end if
+            monthLength = Month(startDate)
+            if Len(monthLength) = 1 then
+                monthPath = "0" & CStr(Month(startDate))
+            else
+                monthPath = Month(startDate)
+            end if
 
-        yearPath = Year(startDate)
+            yearPath = Year(startDate)
 
-        obFile = "\ob_test.dbf"
-        folderPath = mainPath & yearPath & "-" & monthPath
-        obPath = folderPath & obFile
+            obFile = "\ob_test.dbf"
+            folderPath = mainPath & yearPath & "-" & monthPath
+            obPath = folderPath & obFile
 
         Dim ebID, endingCredit, endingDebit, creditBal, debitBal
         endingCredit = 0.00
@@ -271,7 +271,7 @@
                 
             end if
 
-        rs.MoveNext
+            rs.MoveNext
         loop
             
         rs.close
@@ -281,9 +281,6 @@
         p_start_date = startDate
         p_end_date = endDate
 
-
-        ' sqlGetOB = "SELECT MAX(balance) AS balance FROM "&obPath&" WHERE cust_id="&custID&" and date between CTOD('"&p_start_date&"') and CTOD('"&p_end_date&"')"
-        ' set objAccess = cnroot.execute(sqlGetOB)
         sqlGetOB = "SELECT TOP 1 id, balance FROM "&obPath&" WHERE cust_id="&custID&" and duplicate!='yes' and date between CTOD('"&p_start_date&"') and CTOD('"&p_end_date&"') ORDER BY id DESC"
         set objAccess = cnroot.execute(sqlGetOB)
 
@@ -314,7 +311,6 @@
                 <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">Receivable Card of</span> <span class="cust_name"><%=custName%></span></strong> </h1>
                 <h1 class="h4 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
             </div>
-            <% 'rs.open "SELECT MAX(Ob_Test.id), Customers.cust_id, Customers.cust_fname, Customers.cust_lname, Customers.department, OB_Test.balance FROM ob_test INNER JOIN Customers On Ob_Test.cust_id = Customers.cust_id WHERE OB_Test.cust_type='in'", CN2 %>
 
            <% 
               Dim transactionsFile, transactionsPath
@@ -333,6 +329,7 @@
                     <span class="p-0 m-0 d-block">
                         <button type="button" class="btn btn-dark btn-sm d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Date Reports</button>
                     </span>
+
                 </div>
                 
             <%end if%>
@@ -352,260 +349,217 @@
                 </div>
 
             <div class="table-responsive-sm">
-            <table class="table table-hover table-bordered table-sm" id="myTable">
-                <thead class="thead-dark">
-                    <th>Reference No.</th>
-                    <th>Transaction Type</th>
-                    <th>Invoice</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th>Balance</th>
-                    <th>Date</th>
-                    <!--
-                    <th>Debit Balance</th>
-                    -->
-                </thead>
 
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><strong>Beginning Balance</strong></td>
-                    <td><strong><span class="text-primary">&#8369;</span><%=endingCredit%></strong></td>
-                    <td></td>
-                </tr>
-                <% 
-                    Dim totalCredit, totalDebit, balance
-                    balance = endingCredit
-                    totalCredit = 0.00
-                    totalDebit = 0.00
-                %>
-                
-                <%do until rs.EOF%>
+                <table class="table table-hover table-bordered table-sm" id="myTable">
+                    <thead class="thead-dark">
+                        <th>Reference No.</th>
+                        <th>Transaction Type</th>
+                        <th>Invoice</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
+                        <th>Date</th>
+                    </thead>
 
-                <%transactDate = FormatDateTime(rs("date"), 2)%>
-                <tr>
-                    <%if Trim(CStr(rs("t_type").value)) = "A-plus" or Trim(CStr(rs("t_type").value)) = "A-minus" then%>
-                        <td>
-                            <a class="link-or" target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
-                        </td>
-                    <%else%>
-                        <td>
-                            <a class="link-or" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
-                        </td>
-                    <%end if%>    
-                    <td class="text-info"><%=rs("t_type")%></td>
-                    <!--
-                    <td class="text-primary"><%'=custName%></td>  
-                    -->
-                    <% if CInt(rs("invoice")) <= 0 then%>
-                        <td class="text-darker"><%="none"%></td> 
-                    <% else %>    
-                        <td>
-                            <a class="link-or" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=transactDate%>''><%=rs("invoice")%></a>
-                        </td> 
-                    <% end if %>    
-                    <% if CDbl(rs("debit")) <= 0 then %>
-                        <td class="text-darker"><%=" "%></td>
-                    <% else %>
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("debit")%></td>
-                        <% totalDebit = CDbl(totalDebit) + CDbl(rs("debit").value) 
-                           balance = balance - CDbl(rs("debit").value)
-                        %>
-                    <% end if %>    
-                    <% if CDbl(rs("credit")) <= 0 then %>
-                        <td class="text-darker"><%=" "%></td>
-                    <% else %>    
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("credit")%></td>
-                        <% totalCredit = CDbl(totalCredit) + CDbl(rs("credit").value) 
-                           balance = balance + CDbl(rs("credit").value)
-                        %>
-                    <% end if %>    
-                    <td class="text-darker"><span class="text-primary">&#8369;</span><%=balance%></td>
-                    <% d = CDate(rs("date"))%>
-                    <td class="text-darker"><%Response.Write(FormatDateTime(d,2))%></td>
-                    <!--
-                    <td class="text-darker"><span class="text-primary">&#8369;</span><%'Response.Write(rs("debit_bal"))%></td>
-                    -->
-                </tr>
-                <%rs.MoveNext%>
-                <%loop%>
-                <%rs.close%>
-                <tfoot>
                     <tr>
-                        <td colspan="3"><h3 class="lead"><strong class="text-darker total-text">Total</strong></h3></td>
-                        <td>
-                            <h3 class="lead">
-                                <strong class="text-darker total-value">
-                                    <span class="total-darker"><%=totalDebit%></span>
-                                </strong>    
-                            </h3>
-                        </td>
-
-                        <td>
-                            <h3 class="lead">
-                                <strong class="text-darker total-value">
-                                    <span class="total-darker"><%=totalCredit%></span>
-                                </strong>    
-                            </h3>
-                        </td>
-
-                        <td>
-                            <h3 class="lead">
-                                <strong class="text-darker total-value">
-                                    <span class="total-darker"><%=currCredit%></span>
-                                </strong>
-                            </h3>
-                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>Beginning Balance</strong></td>
+                        <td><strong><span class="text-primary">&#8369;</span><%=endingCredit%></strong></td>
                         <td></td>
                     </tr>
-                </tfoot>
+                    <% 
+                        Dim totalCredit, totalDebit, balance
+                        balance = endingCredit
+                        totalCredit = 0.00
+                        totalDebit = 0.00
+                    %>
+                    
+                    <%do until rs.EOF%>
 
-            </table>
+                        <%transactDate = FormatDateTime(rs("date"), 2)%>
+                        <tr>
+                            <%if Trim(CStr(rs("t_type").value)) = "A-plus" or Trim(CStr(rs("t_type").value)) = "A-minus" then%>
+                                <td>
+                                    <a class="link-or" target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
+                                </td>
+                            <%else%>
+                                <td>
+                                    <a class="link-or" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
+                                </td>
+                            <%end if%>    
+                            <td class="text-info"><%=rs("t_type")%></td>
+
+                            <% if CInt(rs("invoice")) <= 0 then%>
+                                <td class="text-darker"><%="none"%></td> 
+                            <% else %>    
+                                <td>
+                                    <a class="link-or" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=transactDate%>''><%=rs("invoice")%></a>
+                                </td> 
+                            <% end if %>    
+                            <% if CDbl(rs("debit")) <= 0 then %>
+                                <td class="text-darker"><%=" "%></td>
+                            <% else %>
+                                <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("debit")%></td>
+                                <% totalDebit = CDbl(totalDebit) + CDbl(rs("debit").value) 
+                                balance = balance - CDbl(rs("debit").value)
+                                %>
+                            <% end if %>    
+                            <% if CDbl(rs("credit")) <= 0 then %>
+                                <td class="text-darker"><%=" "%></td>
+                            <% else %>    
+                                <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("credit")%></td>
+                                <% totalCredit = CDbl(totalCredit) + CDbl(rs("credit").value) 
+                                balance = balance + CDbl(rs("credit").value)
+                                %>
+                            <% end if %>    
+                            <td class="text-darker"><span class="text-primary">&#8369;</span><%=balance%></td>
+                            <% d = CDate(rs("date"))%>
+                            <td class="text-darker"><%Response.Write(FormatDateTime(d,2))%></td>
+
+                        </tr>
+                        <%rs.MoveNext%>
+                    <%loop%>
+                    <%rs.close%>
+
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"><h3 class="lead"><strong class="text-darker total-text">Total</strong></h3></td>
+                            <td>
+                                <h3 class="lead">
+                                    <strong class="text-darker total-value">
+                                        <span class="total-darker"><%=totalDebit%></span>
+                                    </strong>    
+                                </h3>
+                            </td>
+
+                            <td>
+                                <h3 class="lead">
+                                    <strong class="text-darker total-value">
+                                        <span class="total-darker"><%=totalCredit%></span>
+                                    </strong>    
+                                </h3>
+                            </td>
+
+                            <td>
+                                <h3 class="lead">
+                                    <strong class="text-darker total-value">
+                                        <span class="total-darker"><%=currCredit%></span>
+                                    </strong>
+                                </h3>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+
+                </table>
 
             </div>
    
         </div>    
     </div>
-
 </div>
-    <!-- Date Range of Transactions -->
-        <div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form action="ar_card_report.asp" method="POST" id="allData2">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Date Range of Transaction <i class="far fa-calendar-check"></i></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="daterange_modal_body">
-                        <!-- Modal Body (Contents) -->
-                        
-                            
-                    </div>    
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
-                            </div>        
-                    </form>
-                        
-                </div>
-            </div>
-        </div>
-    <!-- End of Date Range of Transactions -->
 
-    <!-- Adjustment Plus -->
-        <div class="modal fade" id="adjustment_plus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form action="t_adjustment_ref.asp" method="POST" id="allData3">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Adjustment Plus <i class="fas fa-plus text-success"></i> </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="adjustment_plus_body">
-                        <!-- Modal Body (Contents) -->
-                        
-                            
-                    </div>    
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport3">Proceed</button>
-                            </div>        
-                    </form>
-                        
-                </div>
-            </div>
-        </div>
-    <!-- End of Adjustment Plus -->
+<!-- Date Range of Transactions -->
+<div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
 
-    <!-- Adjustment Minus -->
-        <div class="modal fade" id="adjustment_minus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form action="t_adjustment_minus_ref.asp" method="POST" id="allData4">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Adjustment Minus <i class="fas fa-minus text-danger"></i></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="adjustment_minus_body">
-                        <!-- Modal Body (Contents) -->
-                        
-                            
-                    </div>    
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport4">Proceed</button>
-                            </div>        
-                    </form>
-                        
+            <form action="ar_card_report.asp" method="POST" id="allData2">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Date Range of Transaction <i class="far fa-calendar-check"></i></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
+
+                <div class="modal-body" id="daterange_modal_body">
+                    <!-- Modal Body (Contents) -->
+                    
+                        
+                </div>    
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
+                </div>   
+
+            </form>
+                
         </div>
-    <!-- End of Adjustment Minus -->
+    </div>
+</div>
+<!-- End of Date Range of Transactions -->
+
+<!-- Adjustment Plus -->
+<div class="modal fade" id="adjustment_plus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <form action="t_adjustment_ref.asp" method="POST" id="allData3">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Adjustment Plus <i class="fas fa-plus text-success"></i> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="adjustment_plus_body">
+                    <!-- Modal Body (Contents) -->
+                    
+                        
+                </div>   
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport3">Proceed</button>
+                </div>    
+
+            </form>
+                
+        </div>
+    </div>
+</div>
+<!-- End of Adjustment Plus -->
+
+<!-- Adjustment Minus -->
+<div class="modal fade" id="adjustment_minus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <form action="t_adjustment_minus_ref.asp" method="POST" id="allData4">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Adjustment Minus <i class="fas fa-minus text-danger"></i></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="adjustment_minus_body">
+                    <!-- Modal Body (Contents) -->
+                    
+                        
+                </div>  
+                  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport4">Proceed</button>
+                </div> 
+
+            </form>
+                
+        </div>
+    </div>
+</div>
+<!-- End of Adjustment Minus -->
     
 
-
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Customer Login</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- End of Login -->
-
-<!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Logout</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure to logout?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Yes</button>
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>  
-<!-- End of Logout -->
+<!--#include file="cashier_login_logout.asp"-->
 
 <!-- FOOTER -->
 

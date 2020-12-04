@@ -1,4 +1,5 @@
 <!--#include file="session_cashier.asp"-->
+<!--#include file="dbConnect.asp"-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,10 +35,10 @@
 %>
 
 <div id="main">
-    <div class="container pt-4">
+    <div class="container pt-5">
 
         <div class="container border rounded" style="max-width: 500px;">
-            <h3 class="text-center py-3">Admins Reset Password </h3>
+            <h3 class="text-center py-3">Reset Password </h3>
             <form>
                 <div class="form-group">
                     <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" readonly required>
@@ -51,7 +52,7 @@
                 </div>
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
         
-                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-primary btn-block mb-2">
+                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-dark btn-block mb-2">
                 
             </form>
         </div>
@@ -59,59 +60,7 @@
     </div>
 </div>
 
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- End of Login -->
-
-<!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- End of Logout -->
+<!--#include file="cashier_login_logout.asp"-->
 
 <script>
 
@@ -140,7 +89,7 @@ document.getElementById('email').value = email;
         //console.log(arID)
             $.ajax({
 
-                url: "reset_password_upper_c.asp",
+                url: "reset_pass_staff_c.asp",
                 type: "POST",
                 data: {
                         email: email, password1: password1, password2: password2

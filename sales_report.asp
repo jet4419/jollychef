@@ -70,18 +70,6 @@
     startDate = Request.Form("startDate")
     endDate = Request.Form("endDate")
 
-    ' testDate1 = CDate(FormatDateTime(startDate, 2))
-    ' testDate2= CDate(FormatDateTime(endDate, 2))
-
-    ' monthsDiff = DateDiff("m",testDate1,testDate2) 
-    ' Response.Write("Months Difference: " & monthsDiff & "<br />")
-    ' Response.Write(testDate1 & " plus " & monthsDiff & " = " & testDate1 + monthsDiff & "  <br />")
-    'response.write("New Date: " & DateAdd("m",1,testDate1) & "<br />")
-
-    'Dim yearPath
-    ' month1 = Month(date1)
-    ' month2 = Month(date2)
-
     if startDate="" then
         
         queryDate1 = CDate(FormatDateTime(systemDate, 2))
@@ -116,27 +104,8 @@
 
     monthsDiff = DateDiff("m",queryDate1,queryDate2) 
 
-    ' if Len(month1) = 1 then
-    '     monthPath1 = "0" & month1
-    ' end if
-
-    ' if Len(month2) = 1 then
-    '     monthPath2 = "0" & month2
-    ' end if
-
-    'Response.Write("New Date: " & DateAdd("m",1,queryDate1) & "<br />")
-    
-    'Response.Write "Months Difference: " & monthsDiff & "<br>"
-    'Response.Write monthPath1 & "<br>"
-    'Response.Write monthPath2 & "<br>"
-
 %>
 <div id="main">
-
-
-<!--<div class=" d-flex justify-content-end mr-5">
-        <a class="btn btn-success btn-sm text-white" href="javascript:Clickheretoprint()"> Print </a>
-    </div> -->
     
     <div id="content">
 		<div class="container mt-5 mb-5">
@@ -275,18 +244,6 @@
                     
                 next%>                     
 
-                <!--                   
-                <tfoot>
-                    <tr>
-                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Gross Amount</h3></strong> <h5>  <span class="text-primary">  &#8369; </span> <'%='totalGross%></h5></td>
-                -->        
-                        <!--<td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Net Amount</h3></strong> <h5><span class="text-primary">  &#8369; </span> <'%='totalNet%></h5></td>-->
-                <!--    <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Cash</h3></strong> <h5>  <span class="text-primary">  &#8369; </span> <'%='totalCOH%></h5></td>
-                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Credit</h3></strong> <h5><span class="text-primary">  &#8369; </span> <'%='totalCredit%></h5></td>
-                    </tr>
-                </tfoot>
-                -->
-
 			</table>
 
 		</div>    
@@ -299,81 +256,11 @@
 
 <!-- End of FOOTER -->
 
+<!--#include file="cashier_login_logout.asp"--> 
 
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="cust_login_auth.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- End of Login -->
-
-<!-- Logout -->
-        <div id="logout" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <form action="cust_logout.asp">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Logout</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure to logout?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Yes</button>
-                        <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-                    </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    <!-- End of Logout -->      
-
-</div>
 
 <script src="js/main.js"></script>
-<!--
-<script language="javascript">
-    function Clickheretoprint()
-    { 
-    var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
-        disp_setting+="scrollbars=yes,width=700, height=400, left=100, top=25"; 
-    var content_vlue = document.getElementById("content").innerHTML; 
-    
-    var docprint=window.open("","",disp_setting); 
-    docprint.document.open(); 
-    docprint.document.write('</head><body onLoad="self.print()" style="width: 700px; font-size:11px; font-family:arial; font-weight:normal;">');          
-    docprint.document.write(content_vlue); 
-    docprint.document.close(); 
-    docprint.focus(); 
-    }
-</script>    
--->
+
 <script>  
  $(document).ready( function () {
     // $('#myTable').DataTable({

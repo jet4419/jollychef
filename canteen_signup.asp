@@ -47,22 +47,19 @@
 </head>
 <body>
 
-
-
     <main class="signup">
       
-            <div class="signup__header">
-                <h2 class="signup__header--text">Sign Up</h2>
-            </div>
+        <div class="signup__header">
+            <h2 class="signup__header--text">Sign Up</h2>
+        </div>
 
-            <div class="signup__body bg-white p-4 border rounded">
-                <form>
-
-                    <div class="form-group d-flex justify-space-evenly">
+        <div class="signup__body bg-white p-4 border rounded">
+            <form>
+                <div class="form-group d-flex justify-space-evenly">
                     <input type="text" name="fname" id="firstname" class="form-control form-control-sm " placeholder="First Name" required>
                     <input type="text" name="lname" id="lastname" class="form-control form-control-sm ml-3" placeholder="Last Name" required>
                 </div>
-                
+            
                 <div class="form-group">
                     <input type="email" name="email" id="email" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
                     <span class="email-warning" style="color: red"></span>
@@ -87,9 +84,7 @@
                 <div class="text-center">
                     <button type="submit" class="btn-main btn btn-success" name="btn-signup" value="signup">Register</button>   
                 </div>    
-                </form>
-            </div>
-
+            </form>
         </div>
         
     </main>

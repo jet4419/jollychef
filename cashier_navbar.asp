@@ -63,21 +63,21 @@
 
 <nav class="navigation d-flex justify-content-between">
 
-        <div class="menu-1">
+    <div class="menu-1">
 
-            <input type="checkbox" class="checkbox" id="btn-collapsible-bar" hidden>
-            <label for="btn-collapsible-bar" hidden>
-                <div class="menu-icon-bar" id="burger-btn">
-                    <div class="line line-1"></div>
-                    <div class="line line-2"></div>
-                    <div class="line line-3"></div> 
-                </div>
-            </label>  
-            <div class="brand-name">
-                <a href="canteen_homepage.asp"><span class="jollychef-text">JollyChef</span> Inc.</a>
+        <input type="checkbox" class="checkbox" id="btn-collapsible-bar" hidden>
+        <label for="btn-collapsible-bar" hidden>
+            <div class="menu-icon-bar" id="burger-btn">
+                <div class="line line-1"></div>
+                <div class="line line-2"></div>
+                <div class="line line-3"></div> 
             </div>
-            
+        </label>  
+        <div class="brand-name">
+            <a href="canteen_homepage.asp"><span class="jollychef-text">JollyChef</span> Inc.</a>
         </div>
+        
+    </div>
         <%
             Dim cutoff
             
@@ -89,44 +89,43 @@
             end if
         %>
 
-        <div class="user-info">
+    <div class="user-info">
 
-            <div class='navbar-date'> 
-                <i class='fas fa-calendar-check'></i><%=FormatDateTime(systemDate, 1)%>
-            </div>
-            <span class='btn-cutoff'>
-             <%Response.Write(cutoff)%>
-            </span>
-
+        <div class='navbar-date'> 
+            <i class='fas fa-calendar-check'></i><%=FormatDateTime(systemDate, 1)%>
         </div>
+        <span class='btn-cutoff'>
+            <%Response.Write(cutoff)%>
+        </span>
 
-        
+    </div>
+
 </nav>
 
 <!-- Confirm Day End -->
-        <div id="confirmDayEnd" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <form action="store_closed.asp" method="POST">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirmation</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" name="isClosed" value="yes" hidden>
-                        <p>Are you sure to end this day?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Yes</button>
-                        <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-                    </div>
-                    </div>
-                </form>
+<div id="confirmDayEnd" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form action="store_closed.asp" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" name="isClosed" value="yes" hidden>
+                    <p>Are you sure to end this day?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
+                </div>
             </div>
-        </div>
-    <!-- End of Confirm Day End -->
+        </form>
+    </div>
+</div>
+<!-- End of Confirm Day End -->
 
 <script>
 

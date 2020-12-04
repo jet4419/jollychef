@@ -8,7 +8,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Adjustment Plus</title>
         <link rel="stylesheet" href="css/homepage_style.css">
-        <!--<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">-->
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -40,12 +39,6 @@
         <script src="bootstraptable/buttons/js/buttons.print.min.js"></script>
 
         <style>
-            /* .dt-buttons {
-                position: absolute;
-                bottom: 10px;
-                left: 40%;
-                text-align: center;
-            }    */
 
             .dt-buttons {
                 position: absolute;
@@ -89,10 +82,6 @@
                 padding: 0;
             }
 
-            /* td {
-                font-size: 1.1rem;
-            } */
-
             .date-label-container {
                 margin-top: 1rem;
                 width: 100%;
@@ -125,13 +114,6 @@
                 font-family: 'Kulim Park', sans-serif;
             }
 
-            /* .input-total { */
-                /* background: #fff; */
-                /* border-color: #fff; */
-                /* outline: none; */
-                /* background: none;
-            } */
-
             .total-text {
                 font-size: 16px;
                 font-weight: 500;
@@ -160,15 +142,7 @@
                 text-decoration: none;
             }
 
-            /* .cash-input {
-                width: 175px;
-            } */
-
             .total-payment-container {
-                /* display: flex;
-                justify-content: space-evenly;
-                flex-wrap: wrap; */
-                /* padding: 0 200px; */
                 display: flex;
                 justify-content: space-evenly;
                 align-items: center;
@@ -182,28 +156,11 @@
             .remarks-container {
                 display: flex;
                 justify-content: center;
-                /* align-items: center; */
             }
 
-            /* .total-payment-container > div {
-                flex: 0 50%;
-            } */
-            
-            /* .item-left {
-                padding-right: 150px;
-            }
-
-            .item-right {
-                padding-left: 150px;
-            } */
 
         </style>
-        <!--<script type="text/javascript" >
-        function preventBack(){window.history.forward();}
-            setTimeout("preventBack()", 0);
-            window.onunload=function(){null};
-        </script>
-        -->
+
     </head>
 
     <%
@@ -247,7 +204,7 @@
                 next
                 rs.MoveNext
             loop
-            Response.Write maxRefNoChar
+            ' Response.Write maxRefNoChar
             if maxRefNoChar <> "" then
                 maxRefNo = Mid(maxRefNoChar, 8) + 1
             else
@@ -262,14 +219,12 @@
         formattedInteger = Right(String(NUMBER_DIGITS, "0") & maxRefNo, NUMBER_DIGITS)
         maxRefNo = formattedInteger
     %>
-        <!-- Cannot be adjust if it is OTC-Customer. custID=0 means OTC-Customer -->
-        <%if custID<>0  then%>
+    <!-- Cannot be adjust if it is OTC-Customer. custID=0 means OTC-Customer -->
 
 <div id="main">
 
-    <!--
-    <h1 class="h1 text-center my-4 main-heading"> <strong><'%=custFullName&"'s"%> Receivable Lists</strong> </h1>
-    -->
+    <%if custID<>0  then%>
+
     <div id="content">
         <div class="container mb-5">
 
@@ -367,102 +322,102 @@
                 <input type="text" name="cust_name" id="cust_name" value="<%=custName%>" hidden>
                 <input type="text" name="department" id="department" value="<%=department%>" hidden>
 
-            <div class="table-responsive-sm">
+                <div class="table-responsive-sm">
 
-                <table class="table table-bordered table-sm" id="myTable">
+                    <table class="table table-bordered table-sm" id="myTable">
 
-                    <thead class="thead-dark">
-                        <th>Date</th>
-                        <th>Reference No</th>
-                        <th>Invoice</th>
-                        <th>Amount Credit</th>
-                        <th>Balance</th>
-                        <th>Adjustment</th>
-                    </thead>
+                        <thead class="thead-dark">
+                            <th>Date</th>
+                            <th>Reference No</th>
+                            <th>Invoice</th>
+                            <th>Amount Credit</th>
+                            <th>Balance</th>
+                            <th>Adjustment</th>
+                        </thead>
 
-                    <% Dim totalCashPaid
-                       totalCashPaid = 0.00 
-                    %>
-                    <%do until rs.EOF%>
-                    <tr>
-                        <%invoice = rs("invoice_no").value%>
-                        <% refDate = CDate(rs("date_owed"))%>
-                        <td class="text-darker">
-                            <%=(FormatDateTime(refDate,2))%>
-                        </td>
-
-                        <td class="text-darker">
-                            <%=(rs("ref_no"))%>
-                        </td>
-
-                        <td class="text-darker">
-                            <a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=refDate%>'><%=(rs("invoice_no"))%></a>
-                        </td>
-
-                        <td class="text-darker">
-                            <span class="text-primary">&#8369;</span><%=(rs("receivable"))%>
-                        </td>
-
-                        <td class="text-darker">
-                            <span class="text-primary">&#8369;</span><%=(rs("balance"))%>
-                        </td>
-
-                        <%
-                            Dim maxAdjustment
-                            maxAdjustment = CDbl(rs("receivable")) - CDbl(rs("balance"))
-                            maxAdjustment = Round(maxAdjustment, 2)
-                            'Response.Write maxAdjustment
+                        <% Dim totalCashPaid
+                        totalCashPaid = 0.00 
                         %>
+                        <%do until rs.EOF%>
+                        <tr>
+                            <%invoice = rs("invoice_no").value%>
+                            <% refDate = CDate(rs("date_owed"))%>
+                            <td class="text-darker">
+                                <%=(FormatDateTime(refDate,2))%>
+                            </td>
 
-                        <td>
-                            <div class="input-group input-group-sm py-1">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
+                            <td class="text-darker">
+                                <%=(rs("ref_no"))%>
+                            </td>
+
+                            <td class="text-darker">
+                                <a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=refDate%>'><%=(rs("invoice_no"))%></a>
+                            </td>
+
+                            <td class="text-darker">
+                                <span class="text-primary">&#8369;</span><%=(rs("receivable"))%>
+                            </td>
+
+                            <td class="text-darker">
+                                <span class="text-primary">&#8369;</span><%=(rs("balance"))%>
+                            </td>
+
+                            <%
+                                Dim maxAdjustment
+                                maxAdjustment = CDbl(rs("receivable")) - CDbl(rs("balance"))
+                                maxAdjustment = Round(maxAdjustment, 2)
+                                'Response.Write maxAdjustment
+                            %>
+
+                            <td>
+                                <div class="input-group input-group-sm py-1">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
+                                    </div>
+                                    <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
+                                    <input id="balance" value = "<%=rs("balance").value%>" hidden>
+                                    <input id="date_owed" value="<%=rs("date_owed").value%>" hidden>
+                                    <input id="transact_date" value="<%=transactDate%>" hidden>
+                                    <input onblur="findTotal()" type="number" id="<%=invoice%>" name="adjustment_value" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=(maxAdjustment)%>">
                                 </div>
-                                <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
-                                <input id="balance" value = "<%=rs("balance").value%>" hidden>
-                                <input id="date_owed" value="<%=rs("date_owed").value%>" hidden>
-                                <input id="transact_date" value="<%=transactDate%>" hidden>
-                                <input onblur="findTotal()" type="number" id="<%=invoice%>" name="adjustment_value" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=(maxAdjustment)%>">
+                            </td>
+
+                        </tr>
+                        <%rs.MoveNext%>
+                        <%loop%>
+
+                        <%rs.close%>
+                        <%CN2.close%>
+
+                    </table>
+
+                        <div class="total-payment-container mt-5">
+
+                            <div class="item item-left form-group ">
+                                <label class="d-block total-text text-center">Reference No</label>
+                                <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
                             </div>
-                        </td>
+                            
+                            <div class="item item-left form-group">
+                                <label class="d-block total-text text-center">Total Adjustment
+                                    <span class="text-primary">&#8369;</span>
+                                </label>
+                                <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" max="0" name="total_adjustment" step="any"  id="total_adjustment" step="any" required data-readonly/>
+                            </div>
 
-                    </tr>
-                    <%rs.MoveNext%>
-                    <%loop%>
+                            <div class="item item-right form-group">
+                                <label class="d-block total-text text-center">Remarks</label>
+                                <input class="item form-control form-control-sm" type="text" name="remarks" id="remarks" pattern="[a-zA-Z0-9 ' . - : ,]+" required>
+                            </div>
 
-                    <%rs.close%>
-                    <%CN2.close%>
-
-                </table>
-
-                    <div class="total-payment-container mt-5">
-
-                        <div class="item item-left form-group ">
-                            <label class="d-block total-text text-center">Reference No</label>
-                            <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
                         </div>
                         
-                        <div class="item item-left form-group">
-                            <label class="d-block total-text text-center">Total Adjustment
-                                <span class="text-primary">&#8369;</span>
-                            </label>
-                            <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" max="0" name="total_adjustment" step="any"  id="total_adjustment" step="any" required data-readonly/>
+
+                        <div class="d-flex justify-content-center mt-3">
+                            <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
+                            <button type="submit" class="btn btn-dark" id="myBtn">Submit Adjustment</button>
                         </div>
-
-                        <div class="item item-right form-group">
-                            <label class="d-block total-text text-center">Remarks</label>
-                            <input class="item form-control form-control-sm" type="text" name="remarks" id="remarks" pattern="[a-zA-Z0-9 ' . - : ,]+" required>
-                        </div>
-
-                    </div>
-                    
-
-                    <div class="d-flex justify-content-center mt-3">
-                        <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
-                        <button type="submit" class="btn btn-dark" id="myBtn">Submit Adjustment</button>
-                    </div>
-            </div>
+                </div>
             </form>
 
         </div>    
@@ -482,59 +437,7 @@
 
 <!-- End of FOOTER -->
 
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="login_authentication.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                  </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- End of Login -->
-
-<!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="canteen_logout.asp">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>  
-<!-- End of Logout -->
+<!--#include file="cashier_login_logout.asp"-->
 
 <script src="js/main.js"></script> 
 <script>  
@@ -554,20 +457,6 @@ $(document).ready( function () {
         ]
     });
 }); 
-    
-    // Payment
-
-    // var $myForm = $('#myForm');
-
-    // if(! $myForm[0].checkValidity()) {
-    // // If the form is invalid, submit it. The form won't actually submit;
-    // // this will just cause the browser to display the native HTML5 error messages.
-    // $myForm.find(':submit').click();
-    // }
-
-    //  $("#total").keydown(function(e){
-    //     e.preventDefault();
-    // });
 
     $(document).on("click", "#myBtn", function(event) {
 
@@ -577,12 +466,9 @@ $(document).ready( function () {
 
             event.preventDefault();
 
-           // var myValue = document.querySelectorAll('input[name="sub_adjustment_total"]');
             var adjustmentValue = $('input[name="adjustment_value"]').val();
             var invoice = $('input[name="adjustment_value"]').attr('id')
-            // var myStrings = ""
-            // var myInvoices = ""
-            // var myAdjustments = ""
+
             var custID = $("#cust_id").val()
             var custName = $("#cust_name").val()
             var department = $("#department").val()
@@ -593,15 +479,6 @@ $(document).ready( function () {
             var referenceNo = $("#reference_no").val()
             var remarks = $("#remarks").val()
             var transactDate = $("#transact_date").val()
-            //var cashPayment = document.getElementById("cash_payment").value
-            // var referenceNo = document.getElementById("reference_no").value
-            // myValue.forEach(function(item) {
-            //     if (item.value.trim().length !== 0) {
-            //         //console.log(item.id + " " + item.value)
-            //         myInvoices = myInvoices + item.id  + ","
-            //         myAdjustments = myAdjustments + item.value + ","
-            //     }
-            // });
             
             $.ajax({
                 url: "adjustment_plus_c.asp",
@@ -626,37 +503,25 @@ $(document).ready( function () {
                         location.replace("receipt_adjustment.asp?ref_no="+data+"&date="+transactDate);
                     }
 
-                    // alert("Adjustment Submitted Successfully!");
-                    // //location.reload();
-                    // //alert(data)
-                    // location.replace("t_ob_adjustments.asp");
-                    //location.reload();
-
-                    //window.location.href= "editAR.asp?#";
                 }
             });
 
-            // console.log(myStrings)
-            // $("post")
-            // window.location.href= "t_receivables.asp?myStrings="+myStrings
         }
     });
 
      function findTotal(){
-        // var total = document.getElementsByName('sub_adjustment_total')[0].value;
+
         var adjustmentInput = document.getElementsByName('adjustment_value');
         var total = 0;
-        // for(var i=0;i<arr.length;i++){
-        //     if(parseFloat(arr[i].value))
-                // total += parseFloat(arr[i].value);
-        //}
+
         total = parseFloat(adjustmentInput[0].value)
         total = total.toFixed(2)
         document.querySelector('input#total_adjustment').value = total;
         document.querySelector('input#total_adjustment').min = total;
         document.querySelector('input#total_adjustment').max = total;
-        //document.querySelector('input#cash_payment').min = total;
+
     }
+    
 </script>
 
 

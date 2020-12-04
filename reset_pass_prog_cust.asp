@@ -1,5 +1,5 @@
-<!--#include file="session.asp"-->
-
+<!--#include file="session_prog.asp"-->
+<!--#include file="dbConnect.asp"-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +18,6 @@
         <!-- Bootstrap JS -->
         <script src="./bootstrap/js/bootstrap.min.js"></script>  
 
-
         <style>
             .warning-border { border-color: red !important; }
         </style>
@@ -26,23 +25,23 @@
    
 <body>
 
-<!--#include file="customer_navbar.asp"-->
-<!--#include file="customer_sidebar.asp"-->
+<!--#include file="cashier_navbar.asp"-->
+<!--#include file="cashier_sidebar.asp"-->
 
 <%
-    ' if Trim(Session("type")) <> Trim("programmer")  then
+    ' if Trim(Session("type")) <> Trim("programmer") then
     '     Response.Redirect("canteen_homepage.asp")
     ' end if        
 %>
 
 <div id="main">
-    <div class="container pt-4">
+    <div class="container pt-5">
 
         <div class="container border rounded" style="max-width: 500px;">
-            <h3 class="text-center py-3">Reset Password </h3>
-            <form class="myForm">
+            <h3 class="text-center py-3">Customer Reset Password </h3>
+            <form>
                 <div class="form-group">
-                    <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" readonly required>
+                    <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
                 <div class="form-group">
@@ -53,7 +52,7 @@
                 </div>
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
         
-                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-primary btn-block mb-2">
+                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-dark btn-block mb-2">
                 
             </form>
         </div>
@@ -61,66 +60,12 @@
     </div>
 </div>
 
-<!-- Login -->
-<div id="login" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="cust_login_auth.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customer Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                    <span class="email-warning" style="color: red"></span>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                </div>
-                <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="submit" class="btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- End of Login -->
-
-<!-- Logout -->
-<div id="logout" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="cust_logout.asp">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Logout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to logout?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- End of Logout -->
+<!--#include file="cashier_login_logout.asp"-->
 
 <script>
 
-const email = localStorage.getItem('email');
-document.getElementById('email').value = email;
+// const email = localStorage.getItem('email');
+// document.getElementById('email').value = email;
     
     $('.btn-main').click(function(){
 
@@ -129,9 +74,9 @@ document.getElementById('email').value = email;
         event.preventDefault();
 
         //let email = $("#email").val();
+        let email = $("#email").val();
         let password1 = $("#password1").val();
         let password2 = $("#password2").val();
-        let userType = $("#user-type").val();
 
         let emailWarning = "";
         let passwordWarning = "";
@@ -150,7 +95,7 @@ document.getElementById('email').value = email;
                         email: email, password1: password1, password2: password2
                 },
                 success: function(data) {
-                    // console.log(data, password1, password2)
+                    //console.log(data, password1, password2)
                     if (data==='invalid email') {
                         emailWarning = "Can't find your account"
                         emailWarningContainer.innerHTML = emailWarning;

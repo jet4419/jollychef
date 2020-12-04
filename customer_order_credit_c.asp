@@ -9,6 +9,20 @@ arReferenceNo = CStr(Request.Form("arReferenceNo"))
 arReferenceNo = Trim(CStr(Year(systemDate)) & "-" & "AR" & arReferenceNo)
 isValidRef = true
 
+Dim customerID, custName, customerDepartment, uniqueNum, customerType, transact_type
+
+customerID = CLng(Request.Form("cust_id"))
+custName = CStr(Request.Form("cust_name"))
+customerDepartment = CStr(Request.Form("cust_dept"))
+uniqueNum = CLng(Request.Form("unique_num"))
+customerType = CStr(Request.Form("customerType"))
+transact_type = "Buy"
+
+Dim userType, userEmail
+userType = CStr(Request.Form("userType"))
+userEmail = CStr(Request.Form("userEmail"))
+cashierName = CStr(Request.Form("cashierName"))
+
 sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&"'"
     set objAccess = cnroot.execute(sqlCheckRef)
 
@@ -32,20 +46,6 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
     'Response.Write(isValidRef)
 
     if isValidRef = true then    
-
-        Dim customerID, custName, customerDepartment, uniqueNum, customerType, transact_type
-
-        customerID = CLng(Request.Form("cust_id"))
-        custName = CStr(Request.Form("cust_name"))
-        customerDepartment = CStr(Request.Form("cust_dept"))
-        uniqueNum = CLng(Request.Form("unique_num"))
-        customerType = CStr(Request.Form("customerType"))
-        transact_type = "Buy"
-
-        Dim userType, userEmail
-        userType = CStr(Request.Form("userType"))
-        userEmail = CStr(Request.Form("userEmail"))
-        cashierName = CStr(Request.Form("cashierName"))
 
         Dim yearPath, monthPath
 

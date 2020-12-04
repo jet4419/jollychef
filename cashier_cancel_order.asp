@@ -2,17 +2,15 @@
 <!--#include file="session_cashier.asp"-->
 
 <%
-	if Request.QueryString("transact_id") = "" or Request.QueryString("salesQty") = "" or Request.QueryString("product_id") = "" then
+	if Request.QueryString("transact_id") = "" then
         Response.Redirect("cashier_order_page.asp")
     end if
 
-    if IsNumeric(Request.QueryString("transact_id")) = false or IsNumeric(Request.QueryString("salesQty")) = false  or IsNumeric(Request.QueryString("product_id")) = false then
+    if IsNumeric(Request.QueryString("transact_id")) = false then
         Response.Redirect("cashier_order_page.asp")
     end if
 
 	transactID = CInt(Request.QueryString("transact_id"))
-	salesQty = CInt(Request.QueryString("salesQty"))
-	productID = CInt(Request.QueryString("product_id"))
 
 	Dim yearPath, monthPath
 

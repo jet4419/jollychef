@@ -2,11 +2,11 @@
 <!--#include file="session_cashier.asp"-->
 
 <%
-    if Request.QueryString("transact_id") = "" or Request.QueryString("unique_num") = "" or Request.QueryString("cust_id") = "" or Request.QueryString("userType") = "" then
+    if Request.QueryString("transact_id") = "" then
         Response.Redirect("customer_order_process.asp")
     end if
 
-    if IsNumeric(Request.QueryString("transact_id")) = false or IsNumeric(Request.QueryString("unique_num")) = false  or IsNumeric(Request.QueryString("cust_id")) = false then
+    if IsNumeric(Request.QueryString("transact_id")) = false then
         Response.Redirect("customer_order_process.asp")
     end if
 
@@ -35,29 +35,29 @@
     ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
 
-	Dim prodIDs, qtys
-    rs.open "SELECT prod_id, prod_name, qty FROM "&ordersHolderPath&" WHERE id="&transactID, CN2
+	' Dim prodIDs, qtys
+    ' rs.open "SELECT prod_id, prod_name, qty FROM "&ordersHolderPath&" WHERE id="&transactID, CN2
     
-    do until rs.EOF
+    ' do until rs.EOF
 
-        prodIDs = prodIDs & rs("prod_id").value & ","
-        qtys = qtys & rs("qty").value & ","
+    '     prodIDs = prodIDs & rs("prod_id").value & ","
+    '     qtys = qtys & rs("qty").value & ","
 
-    rs.movenext
-    loop
+    ' rs.movenext
+    ' loop
 
-    rs.close
+    ' rs.close
 
-    prodIDs = Split(prodIDs, ",")
-    qtys = Split(qtys, ",")
+    ' prodIDs = Split(prodIDs, ",")
+    ' qtys = Split(qtys, ",")
 
 
-    for i=0 to Ubound(prodIDs) - 1
+    ' for i=0 to Ubound(prodIDs) - 1
 
-        sqlUpdate = "UPDATE daily_meals SET qty = qty + " &qtys(i)& " WHERE prod_id="&prodIDs(i) 
-        cnroot.execute(sqlUpdate)
+    '     sqlUpdate = "UPDATE daily_meals SET qty = qty + " &qtys(i)& " WHERE prod_id="&prodIDs(i) 
+    '     cnroot.execute(sqlUpdate)
 
-    next
+    ' next
 
 	rs.open "SELECT * FROM "&ordersHolderPath&"", CN2
 	sqlDelete = "DELETE FROM "&ordersHolderPath&" WHERE id="&transactID
