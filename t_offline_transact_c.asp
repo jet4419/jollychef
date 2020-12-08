@@ -17,7 +17,7 @@
     totalCashPayment = CDbl(Request.Form("total_payment"))
     
     totalProfit = 0.00
-    email = CStr(Request.Form("email"))
+    email = CStr(Request.Form("cashierEmail"))
     'Set the user type of the cashier's currently logged in'
     sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
     set objAccess = cnroot.execute(sqlGetInfo)

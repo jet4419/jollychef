@@ -366,8 +366,8 @@
                             totalProfit = 0.00
                     
                             rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum, CN2
-
                         %>
+                        
                             <%if not rs.EOF then
                                 hasOrdered = true%>
                                 <%do until rs.EOF%>
@@ -378,7 +378,7 @@
                                         <td> <span class="text-primary">&#8369;</span><%=rs("price")%> </td>
                                         <td><%=rs("qty")%> </td>
                                         <td> <span class="text-primary">&#8369;</span><%=rs("amount")%> </td>
-                                        <%if userType = "admin" then%>    
+                                        <%if userType = "admin" or userType = "programmer" then%>    
                                             <td width="90">
                                                 <button onClick="delete_order(<%=CLng(rs("id"))%>, <%=uniqueNum%>, <%=custID%>)" class="btn btn-sm btn-warning"> Cancel </button>
                                             </td>
@@ -562,29 +562,6 @@ end if%>
 
 <!--#include file="cashier_login_logout.asp"-->
 
-<!-- Confirm Day End -->
-<div id="confirmOpenStore" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form action="a_store_open.asp" method="POST">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to open the store?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Yes</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
-<!-- End of Confirm Day End -->
 
 <script src="js/main.js"></script> 
 <script src="./jquery/jquery_uncompressed.js"></script>
@@ -599,12 +576,6 @@ end if%>
     const cashierName = localStorage.getItem('fullname');
     document.querySelector('.userEmail').value = cashierEmail;
     document.querySelector('.cashierName').value = cashierName;
-
-    tail.select("#select1", {
-        search: true,
-        deselect: true,
-        descriptions: true
-    });
 
     tail.select("#products", {
         search: true,
