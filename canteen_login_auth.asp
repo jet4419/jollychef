@@ -42,6 +42,7 @@
                 .Add 0, oJSON.Collection()
                 With .item(0)
 
+                    .Add "id", Session.SessionID
                     .Add "name", Trim(rs("first_name").value)
                     .Add "fullname", Trim(rs("first_name").value) & " " & Trim(rs("last_name").value)
                     .Add "email", Trim(rs("email").value)

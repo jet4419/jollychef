@@ -39,9 +39,9 @@
 
         <div class="container border rounded" style="max-width: 500px;">
             <h3 class="text-center py-3">Customer Reset Password </h3>
-            <form>
+            <form id="form-reset-pass">
                 <div class="form-group">
-                    <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <input type="email" id="custEmail" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
                 <div class="form-group">
@@ -64,38 +64,36 @@
 
 <script>
 
-// const email = localStorage.getItem('email');
-// document.getElementById('email').value = email;
+const formResetPass = document.getElementById('form-reset-pass');
     
-    $('.btn-main').click(function(){
-
-        if($("form")[1].checkValidity()) {
-            //your form execution code
+    $('.btn-main').click(function(e){
+        
         event.preventDefault();
 
-        //let email = $("#email").val();
-        let email = $("#email").val();
-        let password1 = $("#password1").val();
-        let password2 = $("#password2").val();
+        if(formResetPass.checkValidity()) {
 
-        let emailWarning = "";
-        let passwordWarning = "";
-        const emailInput = document.querySelector("#email");
-        const passwordInput1 = document.querySelector("#password1");
-        const passwordInput2 = document.querySelector("#password2");
-        const emailWarningContainer = document.querySelector(".email-warning");
-        const passwordWarningContainer = document.querySelector(".password-warning");
+            let email = $("#custEmail").val();
+            let password1 = $("#password1").val();
+            let password2 = $("#password2").val();
 
-        //console.log(arID)
+            let emailWarning = "";
+            let passwordWarning = "";
+            const emailInput = document.querySelector("#email");
+            const passwordInput1 = document.querySelector("#password1");
+            const passwordInput2 = document.querySelector("#password2");
+            const emailWarningContainer = document.querySelector(".email-warning");
+            const passwordWarningContainer = document.querySelector(".password-warning");
+
+
             $.ajax({
 
-                url: "reset_password_c.asp",
+                url: "reset_pass_c.asp",
                 type: "POST",
                 data: {
                         email: email, password1: password1, password2: password2
                 },
                 success: function(data) {
-                    //console.log(data, password1, password2)
+
                     if (data==='invalid email') {
                         emailWarning = "Can't find your account"
                         emailWarningContainer.innerHTML = emailWarning;

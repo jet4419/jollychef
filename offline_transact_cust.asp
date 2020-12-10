@@ -34,8 +34,8 @@
             }
 
             .transact-container {
-                border: 1.5px solid #ccc;
-                border-radius: 5px;
+                /* border: 1.5px solid #ccc;
+                border-radius: 5px; */
                 padding: 1.5rem;
                 /* width: auto; */
 
@@ -158,8 +158,6 @@
 
     <div class="container mt-5 d-flex justify-content-center flex-column">
 
-        
-        
         <section class="transact-container"> 
 
             <p class="h2 mb-5 p-0 text-center">Offline Transactions <i class="fas fa-store store-icon"></i></i></p>
@@ -210,12 +208,6 @@
                     </div>
 
                 </div>
-                <!--
-                <div class="form-group">    
-                    <label>Date</label>
-                    <input class="form-control form-control-sm d-inline" name="date" value="<'%=fullDate%>" id="date" type="date" required> 
-                </div>
-                -->
 
                 <div class="btn-footer text-center mt-5">
                     <button class="btn btn-dark btnSubmit w-100"> Submit </button>
@@ -268,13 +260,13 @@
     const cashierName = localStorage.getItem('fullname');
     const myForm = document.getElementById('myForm');
 
-    $('.btnSubmit').click( function(e) {
+    $('.btnSubmit').click( function() {
         
-        e.preventDefault();
+        // e.preventDefault();
         
         if(myForm.checkValidity()) {
             
-            var URL = 't_offline_credit_cust_c.asp';
+            var URL = 'offline_credit_cust_c.asp';
 
             const custID = document.getElementById('customers').value;
             const arReferenceNo = document.getElementById('ref_no').value;

@@ -43,7 +43,7 @@
 
             if isValidRef = false then
                 Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""t_offline_transact.asp"";")
+                Response.Write("window.location.href=""offline_transact.asp"";")
                 Response.Write("</script>")
             end if
 
@@ -164,7 +164,7 @@
 
         if isCompleted = true then
             Response.Write("<script language=""javascript"">")
-            Response.Write("window.location.href=""t_offline_transact.asp"";")
+            Response.Write("window.location.href=""offline_transact.asp"";")
             Response.Write("</script>")
         end if
 

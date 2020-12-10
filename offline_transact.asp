@@ -61,6 +61,15 @@
                 text-align: center;
             }
 
+            .transact-container {
+                padding: 1.5rem;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;  
+            }
+
             .cursive {
                 font-family: 'Sedgwick Ave', cursive;
                 font-size: 8rem;
@@ -177,37 +186,43 @@
 
     <div class="container mt-5">
 
-        <p class="display-4 mb-5 p-0 text-center">Offline Transactions <i class="fas fa-store store-icon"></i></i></p>
+        <section class="transact-container">
+
+            <p class="h2  mb-5 text-center">Offline Transactions <i class="fas fa-store store-icon"></i></i></p>
         
-        <form action="t_offline_transact_c.asp" method="POST">
+            <form action="offline_transact_c.asp" method="POST">
 
-            <div class="form-group col-md-4 pl-0">
-                <label for="ref_no" style="font-weight: 500">Reference No.</label>
-                <input type="text" style="color: #f6ab6c; font-weight: 600;" class="form-control form-control" name="ref_no" id="ref_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required>
-                <input type="text" id="email" name="email" value="" hidden required>
-            </div>
+                <div class="form-group">
+                    <label for="ref_no" style="font-weight: 500">Reference No.</label>
+                    <input type="text" style="color: #495057; font-weight: 600;" class="form-control" name="ref_no" id="ref_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required>
+                    <input type="text" id="email" name="email" value="" hidden required>
+                </div>
 
-            <div class="form-group col-md-4 pl-0">
+                <div class="form-group">
 
-                <label class="ml-1" style="font-weight: 500">Total Cash Payment </label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text bg-primary text-light">&#8369;</span>
+                    <label class="ml-1" style="font-weight: 500">Total Cash Payment </label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-primary text-light">&#8369;</span>
+                        </div>
+                        <input type="number" name="total_payment" class="form-control" aria-label="Amount (to the nearest dollar)" min="0.1" step="any" required>
+
                     </div>
-                    <input type="number" name="total_payment" class="form-control w-25" aria-label="Amount (to the nearest dollar)" min="0.1" step="any" required>
 
                 </div>
 
-            </div>
+                <div class="form-group">    
+                    <label>Date</label>
+                    <input class="form-control d-inline" name="date" value="<%=fullDate%>" id="date" type="date" required> 
+                </div>
 
-            <div class="form-group pl-0">    
-                <label>Date</label>
-                <input class="form-control form-control-sm d-inline col-2" name="date" value="<%=fullDate%>" id="date" type="date" required> 
-            </div>
+                <div class="btn-footer text-center mt-5">
+                    <button class="btn btn-dark w-100"> Submit </button>
+                </div>
 
-            <button class="btn btn-danger"> Submit </button>
-
-        </form>
+            </form>
+        
+        </section>
 
     </div>
 </div>   

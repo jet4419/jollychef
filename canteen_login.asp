@@ -106,7 +106,9 @@ xhr.onload = () => {
                         const jsonObject = JSON.parse(data)
 
                         for (let i in jsonObject) {
-
+                            
+                            localStorage.setItem('id', jsonObject[i].id);
+                            localStorage.setItem('name', jsonObject[i].name);
                             localStorage.setItem('name', jsonObject[i].name);
                             localStorage.setItem('fullname', jsonObject[i].fullname);
                             localStorage.setItem('email', jsonObject[i].email);

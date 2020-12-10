@@ -91,7 +91,7 @@
                 do until fs.FolderExists(arFolderPath) = false or _ 
                         fs.FileExists(arPath) = false
                 
-                    getCreditMonth = "SELECT CMONTH(date_owed) AS m_string, Year(date_owed) AS y_str, MONTH(date_owed) AS m_number FROM "&arPath&" WHERE balance > 0 DISTINCT GROUP BY date_owed"
+                    getCreditMonth = "SELECT CMONTH(date_owed) AS m_string, Year(date_owed) AS y_str, MONTH(date_owed) AS m_number FROM "&arPath&" WHERE cust_id="&custID&" and balance > 0 DISTINCT GROUP BY date_owed"
 
                     set objAccess = cnroot.execute(getCreditMonth)
                     

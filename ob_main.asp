@@ -117,7 +117,7 @@
 
                 rs.open "SELECT id, ref_no, cust_id, balance, cust_name, department "&_
                         "FROM "&obPath&" "&_
-                        "GROUP BY cust_id ORDER BY cust_name", CN2
+                        "GROUP BY cust_id ORDER BY cust_name, department", CN2
 
                
             %>

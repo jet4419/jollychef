@@ -91,7 +91,9 @@
     
 <script>
     
-    $('.btn-main').click(function(){
+    $('.btn-main').click(function(e){
+
+        event.preventDefault();
 
         if($("form")[0].checkValidity()) {
             //your form execution code

@@ -63,6 +63,24 @@
     end if
     'objAccess.MoveNext
 
+    ' Response.Write "<br>"
+    ' response.write(Server.MapPath("\clsUpload/clsUpload.asp") & "<br>")
+
+    ' 'Cookies'
+
+    ' ' y
+    ' Response.Write "<br> FirstName: " & Request.Cookies("firstname")
+    ' ' Response.Cookies("firstname") = ""
+
+    ' ' if Request.Cookies("firstname") = "" then
+    ' '     Response.Write "<br> empty cookie"
+    ' ' end if
+
+    ' Response.Write "<br>" & Request.Cookies("firstname")
+
+    Response.Write Session.SessionID
+
+
     
 
 %>

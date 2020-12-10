@@ -113,9 +113,12 @@
 
 <script>
     
-    $('.btn-main').click(function(){
+    $('.btn-main').click(function(e){
+        
+        event.preventDefault();
 
-        if($("form")[0].checkValidity()) {
+        console.log($("form"))
+        if($("form")[1].checkValidity()) {
             //your form execution code
         event.preventDefault();
 
@@ -144,7 +147,7 @@
                        password2:password2, address: address, contact_no: contact_no, department: department
                 },
                 success: function(data) {
-                    console.log(data, password1, password2)
+                    // console.log(data, password1, password2)
                     if (data==='invalid email') {
                         emailWarning = "Email already exist"
                         emailWarningContainer.innerHTML = emailWarning;
