@@ -79,7 +79,7 @@
     ' Response.Write "<br>" & Request.Cookies("firstname")
 
     Response.Write Session.SessionID
-
+    Response.Write "Authenticator branch"
 
     
 
