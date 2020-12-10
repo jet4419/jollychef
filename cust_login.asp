@@ -23,7 +23,7 @@
             </div>
 
             <div class="login__body">
-                <form class="form-body">
+                <form id="login-form" class="form-body">
 
                     <div class="label-input-groups">
                         <label class="form-label" name="email" for="email">Email</label>
@@ -49,15 +49,26 @@
     </main>
 
 <script>
+
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    const loginForm = document.getElementById('login-form');
     
-    $('.btn-main').click(function(){
+    $('.btn-main').click(function(e){
 
-        if($("form")[0].checkValidity()) {
+        e.preventDefault();
+
+        if(loginForm.checkValidity()) {
             //your form execution code
-        event.preventDefault();
-
-        let email = $("#email").val();
-        let password = $("#loginPassword").val();
+        
+        const tokenID = uuidv4();
+        const email = $("#email").val();
+        const password = $("#loginPassword").val();
         let warningText = "";
 
         //console.log(arID)
@@ -65,7 +76,7 @@
 
                 url: "cust_login_auth.asp",
                 type: "POST",
-                data: {email: email, password: password},
+                data: {email: email, password: password, tokenID: tokenID},
                 success: function(data) {
                     // console.log(data);
                     if (data==='invalid email') {
@@ -90,6 +101,7 @@
                             localStorage.setItem('lname', jsonObject[i].lname);
                             localStorage.setItem('email', jsonObject[i].email); 
                             localStorage.setItem('department', jsonObject[i].department); 
+                            localStorage.setItem('tokenid', jsonObject[i].tokenid);
                         }
 
                             // console.log(localStorage.getItem('cust_id'));

@@ -3,10 +3,11 @@
 <!--#include file="sha256.asp"-->
 
 <%
-    Dim userEmail, userPassword, loginOutput, isValidEmail
+    Dim userEmail, userPassword, tokenID, isValidEmail
 
     userEmail = Trim(Request.Form("email"))
     userPassword = Trim(Request.Form("password"))
+    tokenID = CStr(Trim(Request.Form("tokenID")))
     'Encryption of Password
     salt = "2435uhu34hi34"
     userPassword = sha256(userPassword&salt)
@@ -35,6 +36,9 @@
 
         if not rs.EOF  then 
 
+            setLoginStatus = "UPDATE customers SET token_id='"&tokenID&"', log_status='active' WHERE email='"&userEmail&"'"
+            cnroot.execute(setLoginStatus)
+
             Set oJSON = New aspJSON
 
             With oJSON.data
@@ -51,6 +55,7 @@
                     .Add "lname", Trim(rs("cust_lname"))
                     .Add "email", Trim(rs("email"))
                     .Add "department", Trim(rs("department").value)
+                    .Add "tokenid", tokenID
 
                 End With      
 

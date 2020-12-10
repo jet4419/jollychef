@@ -73,7 +73,7 @@ const formResetPass = document.getElementById('form-reset-pass');
     
     $('.btn-main').click(function(e){
 
-        event.preventDefault();
+        e.preventDefault();
 
         if(formResetPass.checkValidity()) {
 

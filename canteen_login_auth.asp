@@ -2,10 +2,11 @@
 <!--#include file="aspJSON1.17.asp"-->
 <!--#include file="sha256.asp"-->
 <%
-    Dim userEmail, userPassword, loginOutput, isValidEmail
+    Dim userEmail, userPassword, tokenID, isValidEmail
 
     userEmail = Trim(Request.Form("email"))
     userPassword = Trim(Request.Form("password"))
+    tokenID = CStr(Trim(Request.Form("tokenID")))
 
     'Decryption of Password
     salt = "2435uhu34hi34"
@@ -31,6 +32,9 @@
         
         if not rs.EOF  then
 
+            setLoginStatus = "UPDATE users SET token_id='"&tokenID&"', log_status='active' WHERE email='"&userEmail&"'"
+            cnroot.execute(setLoginStatus)
+
             isLoggedIn = true
 
             Set oJSON = New aspJSON
@@ -42,11 +46,12 @@
                 .Add 0, oJSON.Collection()
                 With .item(0)
 
-                    .Add "id", Session.SessionID
+                    .Add "id", Trim(rs("id").value)
                     .Add "name", Trim(rs("first_name").value)
                     .Add "fullname", Trim(rs("first_name").value) & " " & Trim(rs("last_name").value)
                     .Add "email", Trim(rs("email").value)
                     .Add "type", Trim(rs("user_type").value)
+                    .Add "tokenid", tokenID
 
                 End With     
 

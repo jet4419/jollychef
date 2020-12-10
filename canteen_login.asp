@@ -35,7 +35,7 @@
     </div>
 
     <div class="login__body">
-        <form class="form-body">
+        <form id="login-form" class="form-body">
 
             <div class="label-input-groups">
                 <label class="form-label" name="email" for="email">Email</label>
@@ -72,15 +72,26 @@ xhr.onload = () => {
 
 </script> -->
 <script>
-    
-    $('.btn-main').click(function(){
 
-        if($("form")[0].checkValidity()) {
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    const loginForm = document.getElementById('login-form');
+
+    $('.btn-main').click(function(e){
+
+        e.preventDefault();
+
+        if(loginForm.checkValidity()) {
             //your form execution code
-        event.preventDefault();
 
-        let email = $("#email").val();
-        let password = $("#loginPassword").val();
+        const tokenID = uuidv4();
+        const email = $("#email").val();
+        const password = $("#loginPassword").val();
         let warningText = "";
 
         //console.log(arID)
@@ -88,7 +99,7 @@ xhr.onload = () => {
 
                 url: "canteen_login_auth.asp",
                 type: "POST",
-                data: {email: email, password: password},
+                data: {email: email, password: password, tokenID: tokenID},
                 success: function(data) {
                     
                     //console.log(data)
@@ -109,10 +120,10 @@ xhr.onload = () => {
                             
                             localStorage.setItem('id', jsonObject[i].id);
                             localStorage.setItem('name', jsonObject[i].name);
-                            localStorage.setItem('name', jsonObject[i].name);
                             localStorage.setItem('fullname', jsonObject[i].fullname);
                             localStorage.setItem('email', jsonObject[i].email);
                             localStorage.setItem('type', jsonObject[i].type); 
+                            localStorage.setItem('tokenid', jsonObject[i].tokenid); 
                         }
 
                         alert("Logged in successfully!");
