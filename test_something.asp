@@ -80,7 +80,7 @@
 
     Response.Write Session.SessionID
 
-
+    Response.Write "test_branch is finally merged"
     
 
 %>
