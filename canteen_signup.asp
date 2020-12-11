@@ -54,14 +54,14 @@
         </div>
 
         <div class="signup__body bg-white p-4 border rounded">
-            <form>
+            <form id="staff-reg-form">
                 <div class="form-group d-flex justify-space-evenly">
                     <input type="text" name="fname" id="firstname" class="form-control form-control-sm " placeholder="First Name" required>
                     <input type="text" name="lname" id="lastname" class="form-control form-control-sm ml-3" placeholder="Last Name" required>
                 </div>
             
                 <div class="form-group">
-                    <input type="email" name="email" id="email" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <input type="email" name="email" id="staffEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
 
@@ -91,30 +91,29 @@
     
 <script>
     
+    const staffRegForm = document.getElementById('staff-reg-form');
+
     $('.btn-main').click(function(e){
 
-        event.preventDefault();
+        e.preventDefault();
 
-        if($("form")[0].checkValidity()) {
-            //your form execution code
-        event.preventDefault();
+        if(staffRegForm.checkValidity()) {
 
-        let firstname = $("#firstname").val();
-        let lastname = $("#lastname").val();
-        let email = $("#email").val();
-        let password1 = $("#password1").val();
-        let password2 = $("#password2").val();
-        let userType = $("#user-type").val();
+            let firstname = $("#firstname").val();
+            let lastname = $("#lastname").val();
+            let email = $("#staffEmail").val();
+            let password1 = $("#password1").val();
+            let password2 = $("#password2").val();
+            let userType = $("#user-type").val();
 
-        let emailWarning = "";
-        let passwordWarning = "";
-        const emailInput = document.querySelector("#email");
-        const passwordInput1 = document.querySelector("#password1");
-        const passwordInput2 = document.querySelector("#password2");
-        const emailWarningContainer = document.querySelector(".email-warning");
-        const passwordWarningContainer = document.querySelector(".password-warning");
+            let emailWarning = "";
+            let passwordWarning = "";
+            const emailInput = document.querySelector("#email");
+            const passwordInput1 = document.querySelector("#password1");
+            const passwordInput2 = document.querySelector("#password2");
+            const emailWarningContainer = document.querySelector(".email-warning");
+            const passwordWarningContainer = document.querySelector(".password-warning");
 
-        //console.log(arID)
             $.ajax({
 
                 url: "canteen_signup_c.asp",

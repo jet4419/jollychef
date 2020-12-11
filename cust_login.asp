@@ -66,12 +66,12 @@
         if(loginForm.checkValidity()) {
             //your form execution code
         
-        const tokenID = uuidv4();
-        const email = $("#email").val();
-        const password = $("#loginPassword").val();
-        let warningText = "";
+            const tokenID = uuidv4();
+            const email = $("#email").val();
+            const password = $("#loginPassword").val();
+            let warningText = "";
 
-        //console.log(arID)
+        
             $.ajax({
 
                 url: "cust_login_auth.asp",

@@ -1,4 +1,4 @@
-<!--#include file="session_prog.asp"-->
+<!--#include file="checker_programmer.html"-->
 <!--#include file="dbConnect.asp"-->
 <!DOCTYPE html>
 <html>
@@ -72,10 +72,10 @@ const formResetPass = document.getElementById('form-reset-pass');
 
         if(formResetPass.checkValidity()) {
 
-            let email = $("#staffEmail").val();
-            let password1 = $("#password1").val();
-            let password2 = $("#password2").val();
-            let userType = $("#user-type").val();
+            const staffEmail = $("#staffEmail").val();
+            const password1 = $("#password1").val();
+            const password2 = $("#password2").val();
+            const userType = $("#user-type").val();
 
             let emailWarning = "";
             let passwordWarning = "";
@@ -91,7 +91,7 @@ const formResetPass = document.getElementById('form-reset-pass');
                 url: "reset_pass_staff_c.asp",
                 type: "POST",
                 data: {
-                        email: email, password1: password1, password2: password2
+                        email: staffEmail, password1: password1, password2: password2
                 },
 
                 success: function(data) {

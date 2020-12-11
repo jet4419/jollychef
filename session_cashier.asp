@@ -19,12 +19,12 @@
 <script src="./jquery/jquery_uncompressed.js"></script>
 <script>
 
-    const userID = localStorage.getItem('id')
-    const name = localStorage.getItem('name')
-    const fullname = localStorage.getItem('fullname')
-    const email = localStorage.getItem('email')
-    const type = localStorage.getItem('type')
-    const tokenID = localStorage.getItem('tokenid')
+    const userID = localStorage.getItem('id');
+    const name = localStorage.getItem('name');
+    const fullname = localStorage.getItem('fullname');
+    const email = localStorage.getItem('email');
+    const type = localStorage.getItem('type');
+    const tokenID = localStorage.getItem('tokenid');
 
     if (!tokenID) {
         

@@ -52,10 +52,6 @@
             <button type="submit" class="btn-main btn-login-form" name="btn-login" value="login">Login</button>   
         </form>
     </div>
-
-    <div class="login__footer">
-        Looking to <a href="#" class="login__footer--link">create an account?</a>
-    </div>
     
 </main>
 

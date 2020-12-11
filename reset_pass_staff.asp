@@ -64,8 +64,8 @@
 
 <script>
 
-const email = localStorage.getItem('email');
-document.getElementById('staffEmail').value = email;
+const staffEmail = localStorage.getItem('email');
+document.getElementById('staffEmail').value = staffEmail;
 
 const formResetPass = document.getElementById('form-reset-pass');
     
@@ -92,7 +92,7 @@ const formResetPass = document.getElementById('form-reset-pass');
                 url: "reset_pass_staff_c.asp",
                 type: "POST",
                 data: {
-                        email: email, password1: password1, password2: password2
+                        email: staffEmail, password1: password1, password2: password2
                 },
                 success: function(data) {
 

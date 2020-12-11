@@ -21,7 +21,7 @@
         userType = CStr(Trim(Request.Form("type")))
         tokenID = CStr(Trim(Request.Form("tokenID")))
 
-        getStaffInfo = "SELECT id, first_name, last_name, email, user_type, token_id, log_status FROM users WHERE token_id='"&tokenID&"' AND id="&userID&" AND first_name='"&name&"' AND email='"&email&"' AND user_type='"&userType&"' AND log_status='active' "
+        getStaffInfo = "SELECT id, first_name, last_name, email, user_type, token_id, log_status FROM users WHERE token_id='"&tokenID&"' AND id="&userID&" AND first_name='"&name&"' AND email='"&email&"' AND user_type='programmer' AND log_status='active' "
         set objAccess = cnroot.execute(getStaffInfo)
 
         if not objAccess.EOF then

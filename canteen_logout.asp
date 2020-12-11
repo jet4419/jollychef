@@ -18,6 +18,7 @@
                 window.location.href='canteen_login.asp';
             } else {
                 alert('Error on logging out');
+                localStorage.clear();
             }
 
         }

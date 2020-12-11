@@ -70,7 +70,7 @@
                 </div>
     
                 <div class="form-group">
-                    <input type="email" id="email" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <input type="email" id="custEmail" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
 
@@ -124,7 +124,7 @@
 
         let firstname = $("#firstname").val();
         let lastname = $("#lastname").val();
-        let email = $("#email").val();
+        let email = $("#custEmail").val();
         let password1 = $("#password1").val();
         let password2 = $("#password2").val();
         let address = $("#address").val();
