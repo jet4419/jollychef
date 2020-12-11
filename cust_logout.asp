@@ -1,22 +1,30 @@
-<%
-
-    ' Session.Abandon
-    ' Response.Write("<script language=""javascript"">")
-    ' Response.Write("alert('You successfully logged out')")
-    ' Response.Write("</script>")
-    ' loggedOut = true
-    ' if loggedOut = true then
-    '     Response.Write("<script language=""javascript"">")
-    '     Response.Write("window.location.href=""cust_login.asp"";")
-    '     Response.Write("</script>")
-    ' end if
-
-%>
-
+<script src="./jquery/jquery_uncompressed.js"></script>
 <script>
 
-    localStorage.clear();
-    alert('You successfully logged out');
-    window.location.href='cust_login.asp';
+    const tokenID = localStorage.getItem('tokenid')
+
+    $.ajax({
+
+        url: "logout_customer.asp",
+        type: "POST",
+        data: {tokenID: tokenID},
+        success: function(data) {
+            
+            //console.log(data)
+            if (data==='logout success') {
+                localStorage.clear();
+                alert('You successfully logged out');
+                window.location.href='cust_login.asp';
+            } else {
+                alert('Error on logging out');
+                localStorage.clear();
+            }
+
+        }
+    })
+
+    // localStorage.clear();
+    // alert('You successfully logged out');
+    // window.location.href='cust_login.asp';
 
 </script>

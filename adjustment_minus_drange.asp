@@ -1,5 +1,5 @@
 <!--#include file="dbConnect.asp"-->
-<!--#include file="session_cashier.asp"-->
+
 <!DOCTYPE html>
 <html>
 
@@ -20,8 +20,7 @@
             }
 
         </style>
-        <link rel="stylesheet" href="select2/css/select2.min.css">
-        <script src="select2/js/select2.min.js"></script>
+        
     </head>
 
 <body>    

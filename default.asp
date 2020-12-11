@@ -66,23 +66,32 @@
 <!--<script src="js/script.js"></script> -->
 
 <script>
+
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
     
-    $('.btn-main').click(function(){
+    const loginForm = document.getElementById('login-form');
 
-        if($("form")[0].checkValidity()) {
+    $('.btn-main').click(function(e){
+
+        e.preventDefault();
+
+        if(loginForm.checkValidity()) {
             //your form execution code
-        event.preventDefault();
+            const tokenID = uuidv4();
+            let email = $("#email").val();
+            let password = $("#loginPassword").val();
+            let warningText = "";
 
-        let email = $("#email").val();
-        let password = $("#loginPassword").val();
-        let warningText = "";
-
-        //console.log(arID)
             $.ajax({
 
                 url: "cust_login_auth.asp",
                 type: "POST",
-                data: {email: email, password: password},
+                data: {email: email, password: password, tokenID: tokenID},
                 success: function(data) {
                     
                     if (data==='invalid email') {
@@ -106,6 +115,7 @@
                             localStorage.setItem('lname', jsonObject[i].lname);
                             localStorage.setItem('email', jsonObject[i].email); 
                             localStorage.setItem('department', jsonObject[i].department); 
+                            localStorage.setItem('tokenid', jsonObject[i].tokenid);
                         }
 
                         alert("Logged in successfully!");

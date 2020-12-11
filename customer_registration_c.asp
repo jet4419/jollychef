@@ -93,8 +93,8 @@
                 maxValue= CInt(maxValue) + 1
                 custID = maxValue
                 ' query
-                sqlAdd = "INSERT INTO customers (cust_id, cust_fname, cust_lname, address, contact_no, email, password, department, cust_type)"&_ 
-                "VALUES ("&custID&",'"&custFirstName&"', '"&custLastName&"', '"&custAddress&"', '"&custNumber&"', '"&custEmail&"', '"&userPassword&"', '"&custDepartment&"', '"&customerType&"')"
+                sqlAdd = "INSERT INTO customers (cust_id, cust_fname, cust_lname, address, contact_no, email, password, department, cust_type, token_id, log_status)"&_ 
+                "VALUES ("&custID&",'"&custFirstName&"', '"&custLastName&"', '"&custAddress&"', '"&custNumber&"', '"&custEmail&"', '"&userPassword&"', '"&custDepartment&"', '"&customerType&"', '', '')"
                 set objAccess = cnroot.execute(sqlAdd)
                 set objAccess = nothing
                 rs.close

@@ -80,8 +80,8 @@
         salt = "2435uhu34hi34"
         userPassword = sha256(userPassword&salt)
         ' query
-        sqlAdd = "INSERT INTO users (id, first_name, last_name, email, password, user_type)"&_ 
-        "VALUES ("&id&", '"&firstName&"', '"&lastName&"','"&userEmail&"', '"&userPassword&"', '"&userType&"')"
+        sqlAdd = "INSERT INTO users (id, first_name, last_name, email, password, user_type, token_id, log_status)"&_ 
+        "VALUES ("&id&", '"&firstName&"', '"&lastName&"','"&userEmail&"', '"&userPassword&"', '"&userType&"', '', '')"
         set objAccess = cnroot.execute(sqlAdd)
         set objAccess = nothing
         rs.close

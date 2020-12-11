@@ -79,8 +79,8 @@
     ' Response.Write "<br>" & Request.Cookies("firstname")
 
     Response.Write Session.SessionID
+    Response.Write "Authenticator branch"
 
-    Response.Write "test_branch is finally merged"
     
 
 %>

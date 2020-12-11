@@ -16,13 +16,38 @@
     ' end if
 
 %>    
-
+<script src="./jquery/jquery_uncompressed.js"></script>
 <script>
 
-    if (!localStorage.getItem('name')) {
+    const userID = localStorage.getItem('id');
+    const name = localStorage.getItem('name');
+    const fullname = localStorage.getItem('fullname');
+    const email = localStorage.getItem('email');
+    const type = localStorage.getItem('type');
+    const tokenID = localStorage.getItem('tokenid');
+
+    if (!tokenID) {
         
         window.location.href='canteen_login.asp';
+
+    } else {
+        
+        $.ajax({
+
+            url: "auth_staff.asp",
+            type: "POST",
+            data: {userID: userID, name: name, fullname: fullname, email: email, type: type, tokenID: tokenID},
+            success: function(data) {
+                
+                if (data==='access denied') {
+                    localStorage.clear();
+                    window.location.href='canteen_login.asp';
+                } 
+
+            }
+        })
     }
 
+    
 
 </script>

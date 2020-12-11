@@ -1,7 +1,7 @@
 <!-- Login -->
 <div id="login" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <form action="cust_login_auth.asp" method="POST">
+        <form id="login-form">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Customer Login</h5>
@@ -17,7 +17,7 @@
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" name="password" id="loginPassword" placeholder="Password" required>
-                        <span class="wrong-password-text" style=" padding-top: 10px; color: red; font-size: 11px; text-align: center;"></span>
+                        <p class="wrong-password-text" style="padding-top: 10px; color: red; font-size: 11px; text-align: center;"></p>
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
