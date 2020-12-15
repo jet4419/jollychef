@@ -228,7 +228,7 @@
     <div id="content">
         <div class="container mb-5">
 
-            <div class="users-info">
+            <div class="users-info mt-4">
                 <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">(+) Adjustment for</span> <span class="cust_name"><%=custName%></span></strong> </h1>
                 <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
             </div>  

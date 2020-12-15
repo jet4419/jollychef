@@ -210,7 +210,7 @@
 
             <div class="container mb-5">
 
-                <p class=" mb-5 pt-5 h1 p-0 text-center" style="font-weight: 400">Ordering Page <i class="fas fa-store store-icon"></i> 
+                <p class=" mb-5 pb-3 pt-5 h1 p-0 text-center" style="font-weight: 400">Ordering Page <i class="fas fa-store store-icon"></i> 
                 </p>
 
                 <!-- ORDER FORM -->

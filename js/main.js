@@ -1,14 +1,21 @@
-var mini = true;
+let mini = true;
+let mySidebar = document.getElementById('mySidebar');
+
+mySidebar.addEventListener('mouseover', toggleSidebar);
+mySidebar.addEventListener('mouseout', toggleSidebar);
+
+
 
     function toggleSidebar() {
         if (mini) {
             //console.log("opening sidebar");
             document.getElementById("mySidebar").style.width = "280px";
             document.getElementById("main").style.marginLeft = "280px";
-
+                
             if (document.querySelector(".footer"))
                 document.querySelector(".footer").style.marginLeft = "280px";
-            this.mini = false;
+
+            mini = false;
         } else {
             //console.log("closing sidebar");
             document.getElementById("mySidebar").style.width = "50px";
@@ -17,6 +24,6 @@ var mini = true;
             if (document.querySelector(".footer"))
                 document.querySelector(".footer").style.marginLeft = "0";
             // document.querySelector(".checkbox").checked = false;
-            this.mini = true;
+            mini = true;
         }
     }

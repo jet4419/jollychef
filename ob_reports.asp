@@ -80,9 +80,9 @@
     
     <div id="content">
         <div class="container">
-            <h1 class="h2 text-center mt-4 mb-5 main-heading d-flex justify-content-between">
+            <h1 class="h2 text-center mt-5 mb-5 main-heading d-flex justify-content-between">
                  <button class="btn btn-sm btn-outline-dark float-right date_transact" data-toggle="modal" data-target="#date_transactions" title="Select date of reports" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Select Date</button>
-                <span class="h2" style="font-weight: 400">Outstanding Balance as of <%=sMonth & " " & sDay & ", " & sYear %></span>
+                <span class="h2" style="font-weight: 400">OB as of <%=sMonth & " " & sDay & ", " & sYear %></span>
                 <%if (Month(systemDate) <> Month(systemDate + 1)) then%>
                     <button class="btn btn-outline-dark float-right month-end-label">Month End</button>
                 <%else%>
@@ -192,7 +192,7 @@ let j = 0
     $('#myTable').DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         //scrollY: 430,
-        scrollY: "40vh",
+        scrollY: "28vh",
         scroller: true,
         scrollCollapse: true,
         "order": [],

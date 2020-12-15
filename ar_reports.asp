@@ -101,18 +101,18 @@
             <div class="mt-3 mb-2 d-flex justify-content-between">
                 <form action="ar_reports.asp" method="POST" id="allData" class="">
                     
-                    <label>Start Date</label>
+                    <label>Start</label>
                     <input class="form-control form-control-sm d-inline col-2" name="startDate" id="startDate" type="date" required> 
                 
-                    <label class="ml-3">End Date&nbsp;</label>
+                    <label class="ml-3">End&nbsp;</label>
                     <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date"> 
                     
-                    <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate Report</button>
+                    <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p></p>
             </div>
 
-            <h2 class="h1 text-center mb-4 main-heading" style="font-weight: 400"> Accounts Receivables </h2>
+            <h2 class="h2 text-center mb-4 py-3 main-heading" style="font-weight: 400"> Accounts Receivables </h2>
 
             <%
     
@@ -205,7 +205,7 @@
 <script>  
     $(document).ready( function () {
         $('#myTable').DataTable({
-            scrollY: "38vh",
+            scrollY: "28vh",
             scroller: true,
             scrollCollapse: true,
             "order": [],

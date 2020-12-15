@@ -67,7 +67,7 @@
 <div id="main">
 
     <div class="main-heading--container mb-5">
-    <h1 class="h1 text-center pt-5 mb-4 main-heading" style="font-weight: 400"> Royce Customers List </h1>
+        <h1 class="h2 text-center pt-5 mb-5 pb-3 main-heading" style="font-weight: 400">  Customers List </h1>
     </div>
     <div id="content">
     <div class="container pt-1 mb-5">

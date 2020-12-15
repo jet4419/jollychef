@@ -117,11 +117,11 @@
         <% if not objAccess.EOF then %>
             <%if Trim(objAccess("status").value) <> Trim("closed") then%>
         
-                <h1 class="h2 daily-reports-label text-center pt-2 mt-2 main-heading"> 
+                <h1 class="h2 daily-reports-label text-center pt-4 mt-2 mb-5 main-heading"> 
                     <a href="sales_current_edit.asp">
                         <button class="btn btn-sm btn-outline-dark btn-edit-transaction py-2">Edit Transaction</button>
                     </a>    
-                    <span class="h1" style="font-weight: 400">Daily Sales Reports</span>
+                    <span class="h2" style="font-weight: 400">Daily Sales Reports</span>
                     <button class="btn-day-end">Day End</button>
                 </h1>
             <%else%>
@@ -274,7 +274,7 @@
 <script>  
  $(document).ready( function () {
     $('#myTable').DataTable({
-        scrollY: "38vh",
+        scrollY: "28vh",
         scroller: true,
         scrollCollapse: true,
         "order": [],

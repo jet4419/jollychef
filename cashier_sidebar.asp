@@ -1,4 +1,4 @@
-<div id="mySidebar" class="sidebar" onmouseover="toggleSidebar()" onmouseout="toggleSidebar()">
+<div id="mySidebar" class="sidebar">
     <a href="products.asp" class="main-menus--items"><i class="fab fa-product-hunt sidebar-icons"></i> <span class="icon-text">Products</span></a>
     <a href="cashier_order_page.asp" class="main-menus--items"><i class="fas fa-dollar-sign sidebar-icons dollar-sign"></i> <span class="icon-text">Order</span></a>
     <a href="customers_order.asp" class="main-menus--items"><i class="fa fa-shopping-cart sidebar-icons cart-icon"></i> <span class="icon-text">Cart</span></a>

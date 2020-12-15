@@ -68,9 +68,9 @@
     <div id="content">
     <div class="container mb-5">
 
-        <h1 class="main-heading--container h1 text-center mt-4 mb-4 pt-3"> 
+        <h1 class="main-heading--container h1 text-center mt-4 mb-5 pt-3"> 
             <button type="button" id="btnAddProduct" class="btn btn-outline-dark float-left" data-toggle="modal" data-target="#addProduct"> 
-                <i class="fas fa-plus-circle pr-1"></i> <span> Add Product </span> 
+                <i class="fas fa-plus-circle pr-1"></i> <span>Products</span> 
             </button> 
             <span class="pr-5 main-heading main-title">Products</span> 
             <a href="daily_menu_list.asp" id="btnAddDailyMeal" class="btn btn-outline-dark float-right">

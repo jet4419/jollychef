@@ -121,7 +121,7 @@
             displayDate1 = Day(startDate) & " " & MonthName(Month(startDate)) & " " & Year(startDate)
 
             endDate = systemDate
-            displayDate2 = Day(systemDate) & " " & MonthName(Month(systemDate)) & " " & Year(systemDate)
+            displayDate2 = MonthName(Month(systemDate)) & " " & Day(systemDate) & ", " &  Year(systemDate)
 
         else    
 
@@ -129,7 +129,7 @@
             displayDate1 = Day(startDate) & " " & MonthName(Month(startDate)) & " " & Year(startDate)
             
             endDate = CDate(dateSplit(1))
-            displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)
+            displayDate2 = MonthName(Month(endDate)) & " " & Day(endDate) & ", " &  Year(endDate)
 
         end if
         ' startDate = Request.Form("startDate")
@@ -148,7 +148,7 @@
 
             <h1 class="h2 text-center mt-4 mb-5 main-heading d-flex justify-content-between">
                 <button class="btn btn-sm btn-outline-dark date_transact" data-toggle="modal" data-target="#date_transactions" title="Select date of reports" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Select Date</button>
-                <span class="h2 text-center" style="font-weight: 500">Outstanding Balance of <%=displayDate2%></span>
+                <span class="h2 text-center" style="font-weight: 400">OB of <%=displayDate2%></span>
                 <button class="btn-month-end">End</button>
             </h1>
 

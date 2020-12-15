@@ -92,7 +92,7 @@
     
     <div id="content">
         <div class="container mb-5">
-            <h1 class="h1 text-center mt-5 mb-5 main-heading" style="font-weight: 400"> 
+            <h1 class="h2 text-center mt-5 mb-5 main-heading" style="font-weight: 400"> 
                 Credit Balance
             </h1>
 

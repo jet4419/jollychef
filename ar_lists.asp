@@ -297,7 +297,7 @@
     <div id="content">
         <div class="container pb-3 mb-2">
 
-            <div class="users-info">
+            <div class="users-info pt-4">
                 <h1 class="h2 text-center main-heading my-0" style="font-weight: 500"><span class="order_of">Credits of</span> <span id="custName" class="cust_name" style="font-weight: 600"><%=custFullName%></span></h1>
                 <h1 class="h5 text-center main-heading my-0" style="font-weight: 600"> <span id="custDepartment" class="department_lbl"><%=department%></span> </h1>
                 
@@ -502,7 +502,7 @@ loadingImg.classList.add('hidden');
 
 $(document).ready( function () {
     $('#myTable').DataTable({
-        scrollY: "28vh",
+        scrollY: "27.8vh",
         scroller: true,
         "paging": false,
         scrollCollapse: true,

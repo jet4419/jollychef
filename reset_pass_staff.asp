@@ -98,9 +98,7 @@ const formResetPass = document.getElementById('form-reset-pass');
 
                     if (data==='invalid email') {
 
-                        emailWarning = "Can't find your account"
-                        emailWarningContainer.innerHTML = emailWarning;
-                        emailInput.classList.add("warning-border");
+                        invalidEmailFunc();
 
                         passwordWarningContainer.innerHTML = "";
                         passwordInput1.classList.remove("warning-border");
@@ -109,10 +107,7 @@ const formResetPass = document.getElementById('form-reset-pass');
 
                     else if (data === 'invalid password') {
 
-                        passwordWarning = "Password does not match";
-                        passwordWarningContainer.innerHTML = passwordWarning;
-                        passwordInput1.classList.add("warning-border");
-                        passwordInput2.classList.add("warning-border");
+                        invalidPassFunc();
                         emailWarningContainer.innerHTML = "";
                         emailInput.classList.remove("warning-border");
 
@@ -120,14 +115,8 @@ const formResetPass = document.getElementById('form-reset-pass');
 
                     else if (data === 'invalid email and password') {
                         
-                        emailWarning = "Can't find your account"
-                        emailWarningContainer.innerHTML = emailWarning;
-                        emailInput.classList.add("warning-border")
-
-                        passwordWarning = "Password does not match"
-                        passwordWarningContainer.innerHTML = passwordWarning;
-                        passwordInput1.classList.add("warning-border")
-                        passwordInput2.classList.add("warning-border")
+                        invalidEmailFunc();
+                        invalidPassFunc();
                     }
 
                     else {
@@ -140,10 +129,26 @@ const formResetPass = document.getElementById('form-reset-pass');
 
                 }
             })
+
+            function invalidEmailFunc() {
+                emailWarning = "Can't find your account";
+                emailWarningContainer.innerHTML = emailWarning;
+                emailInput.classList.add("warning-border");
+            }
+
+            function invalidPassFunc() {
+                passwordWarning = "Password does not match";
+                passwordWarningContainer.innerHTML = passwordWarning;
+                passwordInput1.classList.add("warning-border");
+                passwordInput2.classList.add("warning-border");
+            }
+
         }
 
         else console.log("invalid form");
     });
+
+    
 
 </script>
 

@@ -117,14 +117,14 @@ input[type='number'] {
   color: #f6f6f6;
 }
 
-#main .sidebar {
+/* #main .sidebar {
   position: absolute;
   top: 0;
   right: 25px;
   font-size: 16px;
-  /* font-weight: 600; */
   margin-left: 50px;
-}
+  transition: all 0.5s;
+} */
 
 .sidebar-icons,
 .icon-text {
