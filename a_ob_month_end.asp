@@ -37,6 +37,7 @@
 
     rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" OR status=""Pending"" GROUP BY unique_num", CN2
 
+    'Month End won't process when there are a pending orders.'
     if not rs.EOF then
 
         Response.Write("<script>")
@@ -53,7 +54,7 @@
         end if
 
     else
-
+    'Processing of Month End'
         rs.close
 
         rs.Open "SELECT MAX(id) FROM eb_test;", CN2
@@ -66,7 +67,9 @@
         rs.close
 
         maxEbID = CInt(maxEbID) + 1
-
+        'Get all the records of customer's OB and insert to EB tbl.'
+        'So that it becomes so easy to get the ending balance from previous month'
+        '!! Consider to change this solution in the future. But this will do from now on.'        
         rs.open "SELECT MIN(date) AS fdate, cust_id, cust_type, balance FROM "&obPath&" WHERE duplicate!='yes' and status!='completed' and cust_type='in' GROUP BY cust_id", CN2
 
         if not rs.eof then
@@ -185,11 +188,11 @@
                             
                             do until rs.EOF 
 
-                            addMaxDuplicate = "INSERT INTO "&newArPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
-                            "VALUES ("&rs("ar_id")&", 0, '', '', '', 0, 0, 0, ctod(["&rs("date_owed")&"]), 'yes')"
-                            cnroot.execute(addMaxDuplicate)
+                                addMaxDuplicate = "INSERT INTO "&newArPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
+                                "VALUES ("&rs("ar_id")&", 0, '', '', '', 0, 0, 0, ctod(["&rs("date_owed")&"]), 'yes')"
+                                cnroot.execute(addMaxDuplicate)
 
-                            rs.movenext
+                                rs.movenext
                             loop
 
                             rs.close
@@ -199,15 +202,15 @@
                             
                             do until rs.EOF 
 
-                            ' addMaxAdjustment = "INSERT INTO "&newAdjustmentPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, a_type, amount, remarks, duplicate) "&_
-                            ' "VALUES ("&rs("id")&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', "&rs("invoice")&", '"&rs("ref_no")&"', ctod(["&rs("date")&"]), '"&rs("a_type")&"', "&rs("amount")&", '"&rs("remarks")&"', 'yes')"
-                            ' cnroot.execute(addMaxAdjustment)
+                                ' addMaxAdjustment = "INSERT INTO "&newAdjustmentPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, a_type, amount, remarks, duplicate) "&_
+                                ' "VALUES ("&rs("id")&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', "&rs("invoice")&", '"&rs("ref_no")&"', ctod(["&rs("date")&"]), '"&rs("a_type")&"', "&rs("amount")&", '"&rs("remarks")&"', 'yes')"
+                                ' cnroot.execute(addMaxAdjustment)
 
-                            addMaxAdjustment = "INSERT INTO "&newAdjustmentPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, a_type, amount, balance, remarks, duplicate) "&_
-                            "VALUES ("&rs("id")&", 0, '', '', 0, '', ctod(["&rs("date")&"]), '', 0, 0, '', 'yes')"
-                            cnroot.execute(addMaxAdjustment)
+                                addMaxAdjustment = "INSERT INTO "&newAdjustmentPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, a_type, amount, balance, remarks, duplicate) "&_
+                                "VALUES ("&rs("id")&", 0, '', '', 0, '', ctod(["&rs("date")&"]), '', 0, 0, '', 'yes')"
+                                cnroot.execute(addMaxAdjustment)
 
-                            rs.movenext
+                                rs.movenext
                             loop
 
                             rs.close
@@ -217,25 +220,26 @@
                             
                             do until rs.EOF 
 
-                            addMaxCollections = "INSERT INTO "&newCollectionsPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, tot_amount, cash, balance, p_method, duplicate) "&_
-                            "VALUES ("&rs("id")&", 0, '', '', 0, '', ctod(["&rs("date")&"]), 0, 0, 0, '', 'yes')"
-                            cnroot.execute(addMaxCollections)
+                                addMaxCollections = "INSERT INTO "&newCollectionsPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, tot_amount, cash, balance, p_method, duplicate) "&_
+                                "VALUES ("&rs("id")&", 0, '', '', 0, '', ctod(["&rs("date")&"]), 0, 0, 0, '', 'yes')"
+                                cnroot.execute(addMaxCollections)
 
-                            rs.movenext
+                                rs.movenext
                             loop
 
                             rs.close
 
-                            'Getting the OB TBL Max record
+                            'Getting the latest record of each customer'
+                            'And save it to the new OB TBL'
                             rs.open "SELECT * FROM "&obPath&" GROUP BY cust_id", CN2
                             
                             do until rs.EOF 
 
-                            addMaxOb = "INSERT INTO "&newObPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate) "&_
-                            "VALUES ("&rs("id")&", '"&rs("ref_no")&"', "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', '"&rs("t_type")&"', '"&rs("cust_type")&"', "&rs("cash_paid")&", "&rs("balance")&", ctod(["&systemDate&"]), '"&rs("status")&"', 'yes')"
-                            cnroot.execute(addMaxOb)
+                                addMaxOb = "INSERT INTO "&newObPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate) "&_
+                                "VALUES ("&rs("id")&", '"&rs("ref_no")&"', "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', '"&rs("t_type")&"', '"&rs("cust_type")&"', "&rs("cash_paid")&", "&rs("balance")&", ctod(["&systemDate&"]), '"&rs("status")&"', 'yes')"
+                                cnroot.execute(addMaxOb)
 
-                            rs.movenext
+                                rs.movenext
                             loop
 
                             rs.close
@@ -245,11 +249,11 @@
                             
                             do until rs.EOF 
 
-                            addMaxSales = "INSERT INTO "&newSalesPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, cashier, date, cash_paid, amount, profit, payment, duplicate) "&_
-                            "VALUES ("&rs("transactid")&", '"&rs("ref_no")&"', "&rs("invoice_no")&", 0, '', '', ctod(["&rs("date")&"]), 0, 0, 0, '', 'yes')"
-                            cnroot.execute(addMaxSales)
+                                addMaxSales = "INSERT INTO "&newSalesPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, cashier, date, cash_paid, amount, profit, payment, duplicate) "&_
+                                "VALUES ("&rs("transactid")&", '"&rs("ref_no")&"', "&rs("invoice_no")&", 0, '', '', ctod(["&rs("date")&"]), 0, 0, 0, '', 'yes')"
+                                cnroot.execute(addMaxSales)
 
-                            rs.movenext
+                                rs.movenext
                             loop
 
                             rs.close
@@ -259,11 +263,11 @@
                             
                             do until rs.EOF 
 
-                            addMaxSalesOrder = "INSERT INTO "&newSalesOrderPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, product_id, prod_brand, prod_gen, prod_price, prodamount, prod_qty, profit, date, payment, duplicate) "&_
-                            "VALUES ("&rs("transactid")&", '"&rs("ref_no")&"', "&rs("invoice_no")&", 0, '', 0, '', '', 0, 0, 0, 0, ctod(["&rs("date")&"]), '', 'yes')"
-                            cnroot.execute(addMaxSalesOrder)
+                                addMaxSalesOrder = "INSERT INTO "&newSalesOrderPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, product_id, prod_brand, prod_gen, prod_price, prodamount, prod_qty, profit, date, payment, duplicate) "&_
+                                "VALUES ("&rs("transactid")&", '"&rs("ref_no")&"', "&rs("invoice_no")&", 0, '', 0, '', '', 0, 0, 0, 0, ctod(["&rs("date")&"]), '', 'yes')"
+                                cnroot.execute(addMaxSalesOrder)
 
-                            rs.movenext
+                                rs.movenext
                             loop
 
                             rs.close
@@ -273,11 +277,11 @@
                             
                             do until rs.EOF 
 
-                            addMaxTransactions = "INSERT INTO "&newTransactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate) "&_
-                            "VALUES ("&rs("id")&", '', '', 0, 0, 0, 0, ctod(["&rs("date")&"]), '', 'yes')"
-                            cnroot.execute(addMaxTransactions)
+                                addMaxTransactions = "INSERT INTO "&newTransactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate) "&_
+                                "VALUES ("&rs("id")&", '', '', 0, 0, 0, 0, ctod(["&rs("date")&"]), '', 'yes')"
+                                cnroot.execute(addMaxTransactions)
 
-                            rs.movenext
+                                rs.movenext
                             loop
 
                             rs.close       

@@ -73,8 +73,6 @@ input[type='number'] {
 }
 
 .sidebar {
-  grid-row: 2 / -1;
-  grid-column: 1;
   margin-top: 50px;
   height: 100%;
   width: 50px;
@@ -83,7 +81,7 @@ input[type='number'] {
   top: 0;
   left: 0;
   background: #438a5e;
-  transition: all 0.5s;
+  transition: 0.5s;
   overflow-x: hidden;
   padding-top: 50px;
 

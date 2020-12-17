@@ -19,7 +19,7 @@ mySidebar.addEventListener('mouseout', toggleSidebar);
         } else {
             //console.log("closing sidebar");
             document.getElementById("mySidebar").style.width = "50px";
-            document.getElementById("main").style.marginLeft = "0";
+            document.getElementById("main").style.marginLeft = "50px";
 
             if (document.querySelector(".footer"))
                 document.querySelector(".footer").style.marginLeft = "0";

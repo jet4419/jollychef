@@ -299,7 +299,7 @@
                         end if
 
                         arPath = mainPath & arYearPath & "-" & arMonthPath & arFile
-                        arFolderPath = mainPath & yearPath & "-" & arMonthPath
+                        arFolderPath = mainPath & arYearPath & "-" & arMonthPath
 
                         if fs.FolderExists(arFolderPath) <> true then 
                             isArFolderExist = false
