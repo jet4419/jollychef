@@ -258,64 +258,7 @@
 
                 arPath = arFolderPath & arFile
 
-                Dim fs
-                set fs=Server.CreateObject("Scripting.FileSystemObject")
-
-                Dim isArFolderExist
-                isArFolderExist = fs.FolderExists(arFolderPath)
-
-                do until isArFolderExist = false
-
-                    isArFileExist = fs.FileExists(arPath)
-
-                    if isArFileExist = true then
-
-                        rs.open "SELECT ar_id "&_
-                                "FROM "&arPath&" "&_
-                                "WHERE cust_id="&custID&" AND invoice_no = "&invoice&" AND duplicate!='yes' ", CN2
-
-                        if not rs.EOF then
-
-                            arId = CDbl(rs("ar_id"))
-                            isArFolderExist = false
-
-                        end if
-
-                        rs.close
-
-                    end if
-
-                    if isArFolderExist <> false then
-
-                        arMonthPath = CInt(arMonthPath) - 1
-
-                        if arMonthPath = 0 then
-                                arMonthPath = 12
-                                arYearPath = CInt(arYearPath) - 1
-                        end if
-
-                        if Len(arMonthPath) = 1 then
-                                arMonthPath = "0" & arMonthPath
-                        end if
-
-                        arPath = mainPath & arYearPath & "-" & arMonthPath & arFile
-                        arFolderPath = mainPath & arYearPath & "-" & arMonthPath
-
-                        if fs.FolderExists(arFolderPath) <> true then 
-                            isArFolderExist = false
-                        end if
-
-                    end if    
-
-                loop            
-
-                'Response.Write arPath & "<br>"
-            %>    
-
-            <%
-                rs.open "SELECT cust_id, date_owed, ref_no, invoice_no, receivable, balance "&_
-                        "FROM "&arPath&" "&_
-                        "WHERE cust_id="&custID&" AND ar_id="&arId, CN2
+                rs.open "SELECT cust_id, date_owed, ref_no, invoice_no, receivable, balance FROM "&arPath&" WHERE cust_id="&custID&" and invoice_no="&invoice, CN2
             %>    
                           
             <form id="myForm" method="POST">
@@ -460,11 +403,11 @@ $(document).ready( function () {
 
     $(document).on("click", "#myBtn", function(event) {
 
+        event.preventDefault();
+
         var valid = this.form.checkValidity();
 
-        if (valid) {
-
-            event.preventDefault();
+        if (valid) { 
 
             var adjustmentValue = $('input[name="adjustment_value"]').val();
             var invoice = $('input[name="adjustment_value"]').attr('id')

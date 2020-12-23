@@ -70,7 +70,7 @@
 
         <h1 class="main-heading--container h1 text-center mt-4 mb-5 pt-3"> 
             <button type="button" id="btnAddProduct" class="btn btn-outline-dark float-left" data-toggle="modal" data-target="#addProduct"> 
-                <i class="fas fa-plus-circle pr-1"></i> <span>Products</span> 
+                <i class="fas fa-plus-circle pr-1"></i> <span>Product</span> 
             </button> 
             <span class="pr-5 main-heading main-title">Products</span> 
             <a href="daily_menu_list.asp" id="btnAddDailyMeal" class="btn btn-outline-dark float-right">
@@ -78,11 +78,10 @@
             </a>
         </h1>
 
-        <% rs.Open "SELECT prod_id, prod_brand, prod_name, orig_price, price, category, qty FROM products", CN2 %>
+        <% rs.Open "SELECT prod_id, prod_name, orig_price, price, category, qty FROM products", CN2 %>
 
         <table class="table table-hover table-bordered table-sm" id="myTable">
             <thead class="thead-dark">
-                <th>Brand Name</th>
                 <th>Product Name</th>
                 <th>Original Price</th>
                 <th>Sale Price</th>
@@ -94,10 +93,6 @@
             <%do until rs.EOF%>
 
                 <tr>
-                    <td class="text-darker">
-                        <%Response.Write(rs("prod_brand"))%>
-                    </td> 
-
                     <td class="text-darker">
                         <%Response.Write(rs("prod_name"))%>
                     </td> 
@@ -155,8 +150,7 @@
                             <form action="product_add.asp" class="form-group mb-3" method="POST">
 
                                 <div class="form-group mb-1">    
-                                    <label class="ml-1" style="font-weight: 500"> Brand Name </label>
-                                    <input type="text" class="form-control form-control-sm" name="brandName" id="brandName" pattern="[a-zA-Z0-9 ' -]+">
+                                    <input type="hidden" class="form-control form-control-sm" name="brandName" value="none" id="brandName" pattern="[a-zA-Z0-9 ' -]+">
                                 </div>
 
                                 <div class="form-group mb-1">    
@@ -207,7 +201,7 @@
                                     </div>
 
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu2" value="no">
+                                        <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu2" value="no" checked>
                                         <label class="form-check-label" for="isFixMenu2">No</label>
                                     </div>
 

@@ -272,21 +272,30 @@
 <!--#include file="cashier_sidebar.asp"-->
 
     <%
-        if Request.Form("cust_id") = "" then
+        if Request.QueryString("cust_id") = "" then
             Response.Redirect("ob_main.asp")
         end if
 
-        if IsNumeric(Request.Form("cust_id")) = false then
+        if IsNumeric(Request.QueryString("cust_id")) = false then
             Response.Redirect("ob_main.asp")
         end if
 
 
         Dim custFullName
         
-        custID = CLng(Request.Form("cust_id"))
-        custFullName = CStr(Request.Form("cust_name"))
-        department = CStr(Request.Form("department"))
-        creditDate = CStr(Request.Form("date_records"))
+        custID = CLng(Request.QueryString("cust_id"))
+
+        getCustomerInfo = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&custID
+        set objAccess = cnroot.execute(getCustomerInfo)
+
+        if not objAccess.EOF then
+    
+            custFullName = Trim(objAccess("cust_lname").value) & " " & Trim(objAccess("cust_fname"))
+            department = Trim(objAccess("department").value)
+
+        end if
+
+        ' creditDate = CStr(Request.Form("date_records"))
 
     %>
 
@@ -318,11 +327,12 @@
                 Dim arFile, arFolderPath
 
                 arFile = "\accounts_receivables.dbf"
-                arFolderPath = mainPath & creditDate
+                arFolderPath = mainPath & yearPath & "-" & monthPath
                 arPath = arFolderPath & arFile
 
                 Dim isArFolderExist
                 isArFolderExist = fs.FolderExists(arFolderPath)
+
             %>
 
             <% rs.Open "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and balance > 0 ORDER BY date_owed DESC, balance DESC GROUP BY invoice_no", CN2%>    
@@ -396,14 +406,14 @@
                             <span class="total-text">Cash
                                 <span class="text-dark">&#8369;</span>
                             </span>
-                            <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" required/>
+                            <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" required onchange="distributePayment()"/>
                         </div>
 
                     </div>
 
                     <div class="d-flex justify-content-center">
                         <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
-                        <input type="hidden" name="credit_date" id="credit_date" value="<%=creditDate%>">
+                        <input type="hidden" name="credit_date">
                         <button type="submit" class="btn btn-primary btn-sm" id="myBtn">Submit Payment</button>
                     </div>
 
@@ -595,14 +605,13 @@ $(document).ready( function () {
             event.preventDefault();
 
             var myValue = document.querySelectorAll('input[name="sub_total"]');
-            var myStrings = ""
-            var myInvoices = ""
-            var myValues = ""
-            var custID = document.getElementById("cust_id").value
-            var subTotal = document.getElementById("total").value
-            var cashPayment = document.getElementById("cash_payment").value
-            var referenceNo = document.getElementById("reference_no").value
-            var creditDate = document.getElementById("credit_date").value
+            var myStrings = "";
+            var myInvoices = "";
+            var myValues = "";
+            const custID = document.getElementById("cust_id").value;
+            var subTotal = document.getElementById("total").value;
+            var cashPayment = document.getElementById("cash_payment").value;
+            var referenceNo = document.getElementById("reference_no").value;
 
             var custName = document.getElementById('custName').textContent;
             var custDepartment = document.getElementById('custDepartment').textContent;
@@ -624,8 +633,7 @@ $(document).ready( function () {
                 type: "POST",
                 data: {
                        myInvoices: myInvoices, myValues: myValues, subTotal: subTotal, 
-                       custID: custID, cashPayment: cashPayment, referenceNo: referenceNo, custName: custName, custDepartment: custDepartment,
-                       creditDate: creditDate
+                       custID: custID, cashPayment: cashPayment, referenceNo: referenceNo, custName: custName, custDepartment: custDepartment
                       },
                 success: function(data) {
                     //alert(data)
@@ -671,6 +679,45 @@ $(document).ready( function () {
         document.querySelector('input#total').max = total;
         document.querySelector('input#cash_payment').min = total;
     }
+
+    function distributePayment() {
+        let custPayment = +document.getElementById('cash_payment').value;
+        const invoiceBalance = document.getElementsByName('sub_total');
+        let subTotal = 0;
+
+        console.log(typeof +custPayment.value);
+
+        for (let i = 0; i < invoiceBalance.length; i++) {
+            
+            if (custPayment <= 0) {
+                invoiceBalance[i].value = '';
+            } else {
+                
+                console.log(`${custPayment} - ${invoiceBalance[i].max} = ${custPayment - invoiceBalance[i].max}`);
+                custPayment = custPayment - invoiceBalance[i].max;
+                
+
+                if (custPayment >= 0) invoiceBalance[i].value = invoiceBalance[i].max;
+                else invoiceBalance[i].value = invoiceBalance[i].max - (-custPayment);
+
+                subTotal += +invoiceBalance[i].value;
+            }
+
+            
+
+            // if (custPayment <= 0) break;
+
+        }
+
+        document.querySelector('input#total').value = subTotal;
+        document.querySelector('input#total').min = subTotal;
+        document.querySelector('input#total').max = subTotal;
+        document.querySelector('input#cash_payment').min = subTotal;
+        // console.log(custPayment);
+        // console.log(subTotal);
+
+    }
+
 </script>
 
 

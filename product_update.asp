@@ -5,12 +5,12 @@
 
     rs.open "SELECT prod_brand, prod_name, price, orig_price, qty, category, fix_menu FROM products WHERE prod_id="&productID, CN2
 
-    brandName = CStr(rs("prod_brand"))
-    productName = CStr(rs("prod_name"))
+    brandName = Trim(CStr(rs("prod_brand")))
+    productName = Trim(CStr(rs("prod_name")))
     price = CDbl(rs("price"))
     origPrice = CDbl(rs("orig_price"))
     qty = CInt(rs("qty"))
-    category = CStr(rs("category"))
+    category = Trim(CStr(rs("category")))
     fixMenu = Trim(CStr(rs("fix_menu").value))
     
 
@@ -20,8 +20,7 @@
 
     <div class="form-group mb-1">    
         <input type="number" class="form-control form-control-sm" name="productID" id="productID" value="<%=productID%>" placeholder="ID" hidden>  
-        <label class="ml-1" style="font-weight: 500"> Brand Name </label>
-        <input type="text" class="form-control form-control-sm" name="brandName" id="brandName" value="<%=brandName%>">
+        <input type="hidden" class="form-control form-control-sm" name="brandName" id="brandName" value="<%=brandName%>">
     </div>
 
      <div class="form-group mb-1">    

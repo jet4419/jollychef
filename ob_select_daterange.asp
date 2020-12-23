@@ -50,9 +50,8 @@
                 currentSdate = CDate(rs("first_date"))
                 currentEdate = systemDate
                 'department = CStr(rs("department"))
-                displaySdate = Day(currentSdate) & " " & MonthName(Month(currentSdate)) & " " & Year(currentSdate)
-                displayEdate = Day(currentEdate) & " " & MonthName(Month(currentEdate)) & " " & Year(currentEdate) %>
-                <option value="<%="true" &","&currentSdate%>" data-description="<%="Current Date of Transactions"%>"> <%=""&displaySdate&" - "&displayEdate%> <!--<span>Current Date of Transactions</span>--></option>
+                displaySdate = MonthName(Month(currentSdate)) & " " & Year(currentSdate) %>
+                <option value="<%=currentEdate%>" data-description="<%="Current Date of Transactions"%>"> <%=displaySdate%> <!--<span>Current Date of Transactions</span>--></option>
                 
            <% else %>
                  <option disabled> No Ongoing Records</option>
@@ -61,20 +60,18 @@
         %>
 
         <%
-            sqlAccess = "SELECT first_date, end_date FROM eb_test GROUP BY end_date ORDER BY end_date DESC"
+            sqlAccess = "SELECT end_date FROM eb_test GROUP BY end_date ORDER BY end_date DESC"
             set objAccess  = cnroot.execute(sqlAccess)	
 
             if not objAccess.EOF then 
                           
                 do while not objAccess.eof 
 
-                firstDate = CDate(objAccess("first_date"))
-                displayDate1 = Day(firstDate) & " " & MonthName(Month(firstDate)) & " " & Year(firstDate)
                 'firstDate = FormatDateTime(firstDate, 2)
                 endDate = CDate(objAccess("end_date"))
-                displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)
+                displayDate2 = MonthName(Month(endDate)) & " " & Year(endDate)
                 %>
-                    <option value="<%=firstDate & "," & endDate%>" data-description="<%="Month Ended Date"%>"> <%=""&displayDate1&" - "&displayDate2%> </option>
+                    <option value="<%=endDate%>" data-description="<%="Month Ended Date"%>"> <%=displayDate2%> </option>
                     <%objaccess.movenext
                 loop
                 SET objAccess = nothing

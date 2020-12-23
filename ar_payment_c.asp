@@ -35,7 +35,7 @@
         custID = CDbl(Request.Form("custID"))
         custName = CStr(Request.Form("custName"))
         custDepartment = CStr(Request.Form("custDepartment"))
-        creditDate = CStr(Request.Form("creditDate"))
+        ' creditDate = CStr(Request.Form("creditDate"))
 
         values = Split(myValues,",")
         invoices = Split(myInvoices,",")
@@ -62,7 +62,7 @@
         transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
         obPath = mainPath & yearPath & "-" & monthPath & obFile
         collectionsPath = mainPath & yearPath & "-" & monthPath & collectionsFile
-        arPath = mainPath & creditDate & arFile
+        arPath = mainPath & yearPath & "-" & monthPath & arFile
     
         Dim maxID, maxOBtestID, transact_type, credit, currDate, invoice, status
 
@@ -137,14 +137,13 @@
 
             counter = counter + 1
 
-            sqlGetAr = "SELECT balance, date_owed, duplicate FROM "&arPath&" WHERE invoice_no = "&invoices(i)&" GROUP BY invoice_no"
+            sqlGetAr = "SELECT balance, date_owed FROM "&arPath&" WHERE invoice_no = "&invoices(i)&" GROUP BY invoice_no"
             set objAccess = cnroot.execute(sqlGetAr)
 
             if not objAccess.EOF then
 
                 balance = CDbl(objAccess("balance"))
                 arDate = CDate(objAccess("date_owed"))
-                duplicate = Trim(CStr(objAccess("duplicate")))
     
             end if
 

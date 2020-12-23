@@ -6,7 +6,6 @@
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="tail.select-default.css">
 
 
         <style>
@@ -19,7 +18,7 @@
     </head>
 
 <body>    
-<script src="tail.select-master/js/tail.select-full.min.js"></script>
+
 <%
 
     custID = CInt(Request.Form("custID"))
@@ -58,16 +57,6 @@
         <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date"> 
         
     </div>
-
-<script>
-
-    tail.select("#selectRecords", {
-        search: true,
-        deselect: true,
-        descriptions: true
-    });
-
-</script>
 
 </body>
 </html>

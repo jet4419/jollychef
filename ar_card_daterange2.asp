@@ -10,22 +10,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <style>
-
-            span.option-description {
-                /* font-size: .75rem !important; */
-                color: #007bff !important;
-            }
-
-            div.tail-select.no-classes {
-                width: 400px !important;
-            }
-
-        </style>
     </head>
 
 <body>    
-<script src="tail.select-master/js/tail.select-full.min.js"></script>
+
 <%
 
     custID = CInt(Request.Form("custID"))
@@ -41,6 +29,17 @@
     end if
 
     set objAccess = nothing
+
+    Dim defaultDate, systemYear, systemMonth
+
+    systemYear = Year(systemDate)
+    systemMonth = Month(systemDate)
+
+    if Len(systemMonth) = 1 then
+        systemMonth = "0" & systemMonth
+    end if
+
+    defaultDate = systemYear & "-" & systemMonth
    
 %>
  
@@ -55,80 +54,32 @@
         <input type="hidden" name="department" id="department" value="<%=department%>">
     </div>
 
-    <div class="form-group"> 
-        <select id="selectRecords" class="form-control" name="date_records" placeholder="Select Date of Records" required>
-            <option value="" disabled selected>Select Date of Records</option>
-            <%
-                Dim isDayEnded
+    <div class="form-group">
 
-                Dim yearPath, monthPath
+        <label class="ml-1" for="startDate">Start month:</label>
+        <input class="form-control" onchange="minDateFunc()" type="month" id="startDate" name="startDate" value="<%=defaultDate%>">
 
-                yearPath = Year(systemDate)
-                monthPath = Month(systemDate)
+    </div>
 
-                if Len(monthPath) = 1 then
-                    monthPath = "0" & CStr(monthPath)
-                end if
+    <div class="form-group">
 
-                Dim obFile
+        <label class="ml-1" for="endDate">End month:</label>
+        <input class="form-control" type="month" id="endDate" name="endDate" value="<%=defaultDate%>" max="<%=defaultDate%>">
 
-                obFile = "\ob_test.dbf" 
-
-                Dim obPath
-
-                obPath = mainPath & yearPath & "-" & monthPath & obFile
-
-                'status !='completed' means the transaction is still not month ended.
-                rs.Open "SELECT MIN(date) AS first_date, MAX(date) AS end_date FROM "&obPath&" WHERE duplicate!='yes' and cust_id="&custID&" and status!=""completed""", CN2
-
-                if not rs.EOF then
-
-                    currentSdate = CDate(rs("first_date"))
-                    currentEdate = CDate(rs("end_date"))
-                    'department = CStr(rs("department"))
-                    displaySdate = Day(currentSdate) & " " & MonthName(Month(currentSdate)) & " " & Year(currentSdate)
-                    displayEdate = Day(currentEdate) & " " & MonthName(Month(currentEdate)) & " " & Year(currentEdate) %>
-                    <option value="<%=currentSdate &","&currentEdate%>" data-description="<%="Current Date of Transactions"%>"> <%=""&displaySdate&" - "&displayEdate%> <!--<span>Current Date of Transactions</span>--></option>
-                    
-              <%else%>
-                    <option disabled> No Ongoing Records</option>
-              <%end if             
-                rs.close
-
-
-                sqlAccess = "SELECT * FROM eb_test WHERE cust_id="&custID&" ORDER BY id DESC"
-                set objAccess  = cnroot.execute(sqlAccess)	
-
-                if not objAccess.EOF then 
-                            
-                    do while not objAccess.eof 
-
-                        firstDate = CDate(objAccess("first_date"))
-                        displayDate1 = Day(firstDate) & " " & MonthName(Month(firstDate)) & " " & Year(firstDate)
-                        'firstDate = FormatDateTime(firstDate, 2)
-                        endDate = CDate(objAccess("end_date"))
-                        displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)%>
-
-                        <option value="<%=firstDate&","&endDate%>" data-description="<%="Month Ended Date"%>"> <%=""&displayDate1&" - "&displayDate2%> </option>
-                        <%objaccess.movenext
-                    loop
-                    SET objAccess = nothing
-                    
-                else %>
-                    <option disabled> No Completed Records </option>  
-                <%end if  
-
-            %>
-        </select>
     </div>
 
 <script>
 
-    tail.select("#selectRecords", {
-        search: true,
-        deselect: true,
-        descriptions: true
-    });
+    const startDate = document.getElementById('startDate');
+    const endDate = document.getElementById('endDate');
+
+    endDate.min = startDate.value;
+
+    function minDateFunc() {
+        console.log(startDate);
+        console.log(endDate);
+        endDate.min = startDate.value;
+    }
 
 </script>
 

@@ -104,7 +104,7 @@
                 folderPath = mainPath & yearPath & "-" & monthPath
                 arPath = folderPath & arFile
 
-                rs.open "SELECT cust_id, cust_name, cust_dept, invoice_no, date_owed, balance FROM "&arPath&" WHERE balance > 0 ORDER BY cust_name", CN2
+                rs.open "SELECT cust_id, cust_name, cust_dept, invoice_no, balance FROM "&arPath&" WHERE balance > 0 ORDER BY cust_dept, cust_name, date_owed", CN2
             %>
             
             <table class="table table-hover table-bordered table-sm" id="myTable">
@@ -124,9 +124,6 @@
 
                 <%do until rs.EOF%>
                 <tr>
-                    <% d = CDate(rs("date_owed"))
-                       d = FormatDateTime(d, 2)
-                    %>
                     <td class="text-darker"><%Response.Write(rs("cust_id"))%></td>
                     <td class="text-darker"><%Response.Write(Trim(rs("cust_name")))%></td>
                     <td class="text-darker"><%Response.Write(rs("cust_dept"))%></td>
@@ -134,7 +131,7 @@
                         <a class="text-info" target="_blank" href='receipt.asp?invoice=<%=rs("invoice_no")%>&date=<%=d%>'><%=rs("invoice_no")%>
                     </td>
                     <td class="text-darker">
-                        <%Response.Write(d)%>
+                        <%Response.Write(systemDate)%>
                     </td> 
                     <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
                     

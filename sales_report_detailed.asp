@@ -127,7 +127,7 @@
 
         <%
  
-            Response.Write("<p><strong> Date Range: </strong>")
+            Response.Write("<p><strong> Date: </strong>")
             Response.Write(displayDate1 & " - ")
             Response.Write(displayDate2)
             Response.Write "</p>"

@@ -100,6 +100,11 @@
                     do until objAccess.EOF 
                         
                         monthStr = CStr(objAccess("m_string").value)
+
+                        if monthStr = "Novembe" then
+                            monthStr = "November"
+                        end if
+                        
                         yearStr = CSTr(objAccess("y_str").value)
                         monthNum = CStr(objAccess("m_number").value)
 

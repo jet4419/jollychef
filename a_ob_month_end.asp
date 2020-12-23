@@ -183,6 +183,19 @@
                             set fs = nothing
                             Response.Write "Files successfully copied!"
 
+                            'Get all the records that have a remaining balance'
+                            rs.open "SELECT * FROM "&arPath&" WHERE balance > 0 ", CN2
+
+                            do until rs.EOF 
+                            
+                                sqlArAdd = "INSERT INTO "&newArPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
+                                "VALUES ("&rs("ar_id")&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("cust_dept")&"', '"&rs("ref_no")&"', "&rs("invoice_no")&", "&rs("receivable")&", "&rs("balance")&", ctod(["&rs("date_owed")&"]), 'yes')"
+                                cnroot.execute(sqlArAdd)
+
+                                rs.movenext
+                            loop
+                            rs.close
+
                             'Getting the AR TBL Max record
                             rs.open "SELECT TOP 1 ar_id, date_owed FROM "&arPath&" ORDER BY ar_id DESC", CN2
                             
@@ -231,12 +244,24 @@
 
                             'Getting the latest record of each customer'
                             'And save it to the new OB TBL'
-                            rs.open "SELECT * FROM "&obPath&" GROUP BY cust_id", CN2
+                            ' rs.open "SELECT * FROM "&obPath&" GROUP BY cust_id", CN2
+                            
+                            ' do until rs.EOF 
+
+                            '     addMaxOb = "INSERT INTO "&newObPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate) "&_
+                            '     "VALUES ("&rs("id")&", '"&rs("ref_no")&"', "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', '"&rs("t_type")&"', '"&rs("cust_type")&"', "&rs("cash_paid")&", "&rs("balance")&", ctod(["&systemDate&"]), '"&rs("status")&"', 'yes')"
+                            '     cnroot.execute(addMaxOb)
+
+                            '     rs.movenext
+                            ' loop
+
+                            'Getting the Ob TBL Max record
+                            rs.open "SELECT TOP 1 * FROM "&obPath&" ORDER BY id DESC", CN2
                             
                             do until rs.EOF 
 
                                 addMaxOb = "INSERT INTO "&newObPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate) "&_
-                                "VALUES ("&rs("id")&", '"&rs("ref_no")&"', "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', '"&rs("t_type")&"', '"&rs("cust_type")&"', "&rs("cash_paid")&", "&rs("balance")&", ctod(["&systemDate&"]), '"&rs("status")&"', 'yes')"
+                                "VALUES ("&rs("id")&", '', 0, '', '', '', '', 0, 0, ctod(["&rs("date")&"]), '', 'yes')"
                                 cnroot.execute(addMaxOb)
 
                                 rs.movenext

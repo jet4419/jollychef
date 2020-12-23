@@ -155,7 +155,7 @@
                         <%if CDbl(creditBal) <= 0 then%>
 
                             <td>
-                                <button class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
+                                <button class="btn btn-sm btn-outline-dark mx-auto mb-2"  title="The store is closed or zero balance" data-toggle="tooltip" data-placement="top" title="Tooltip on top" disabled>
                                     Pay Credit
                                 </button>
                             </td>
@@ -163,7 +163,7 @@
                         <%else%>
 
                             <td>
-                                <button id="<%=rs("cust_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 btnPayDebt" data-toggle="modal" data-target="#pay_debt_modal"  >
+                                <button onClick="payDebt(<%=rs("cust_id")%>)" class="btn btn-sm btn-outline-dark mx-auto mb-2">
                                     Pay Credit
                                 </button>
                             </td>
@@ -171,7 +171,7 @@
                         <%end if%>
                        
                     <td>
-                        <button type="button" id="<%=rs("cust_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 date_transact w-100" data-toggle="modal" data-target="#date_transactions"  title="View Transactions" data-toggle="tooltip" data-placement="top">
+                        <button type="button" id="<%=rs("cust_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 date_transact w-100" data-toggle="modal" data-target="#date_transactions" title="View Transactions" data-toggle="tooltip" data-placement="top">
                             Transactions
                         </button>
                     </td>
@@ -193,7 +193,7 @@
 
 <!-- End of FOOTER -->
 
-    <!-- Pay Debt -->
+    <!-- Pay Debt
         <div class="modal fade" id="pay_debt_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
@@ -205,7 +205,7 @@
                         </button>
                     </div>
                     <div class="modal-body" id="payDebtBody">
-                        <!-- Modal Body (Contents) -->
+
                         
                     
                     </div>
@@ -217,7 +217,7 @@
                 </div>
             </div>
         </div> 
-      <!-- END OF Pay Debt -->    
+      END OF Pay Debt -->    
 
    
 
@@ -275,22 +275,22 @@ let j = 0
 
         
     // Pay Debt
-    $(document).on("click", ".btnPayDebt", function(event) {
+    // $(document).on("click", ".btnPayDebt", function(event) {
 
-            event.preventDefault();
+    //         event.preventDefault();
 
-            let custID = $(this).attr("id");
-            $.ajax({
+    //         let custID = $(this).attr("id");
+    //         $.ajax({
 
-            url: "ar_list_datepicker.asp",
-            type: "POST",
-            data: {custID: custID},
-            success: function(data) {
-                $("#payDebtBody").html(data);
-                $("#pay_debt_modal").modal("show");
-            }
-        })    
-    }) // End of Pay Debt    
+    //         url: "ar_list_datepicker.asp",
+    //         type: "POST",
+    //         data: {custID: custID},
+    //         success: function(data) {
+    //             $("#payDebtBody").html(data);
+    //             $("#pay_debt_modal").modal("show");
+    //         }
+    //     })    
+    // }) // End of Pay Debt    
 
     // Date Transactions Generator
         $(document).on("click", ".date_transact", function(event) {
@@ -318,11 +318,11 @@ let j = 0
 
 });
 
-// function payDebt(id) {
+function payDebt(id) {
 
-//     window.location.href='ar_lists.asp?cust_id='+id;
+    window.location.href='ar_lists.asp?cust_id='+id;
 
-// }
+}
     
 </script>
 

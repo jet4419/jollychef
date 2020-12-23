@@ -131,6 +131,18 @@
                 text-decoration: none;
             }
 
+            a.link-or {
+                /* color: #206a5d; */
+                color: #318fb5;
+                text-decoration: none;
+            }
+
+            a.link-or:hover {
+                /* color: #557571; */
+                color: #3282b8;
+                text-decoration: underline;
+            }
+
             .order_of {
                 font-weight: 400;
                 color: #333;
@@ -147,6 +159,10 @@
             .total-value, .total-text {
                 font-size: 18px;
                 font-weight: 500;
+            }
+
+            .total-darker {
+                font-weight: 600;
             }
 
         </style>
@@ -169,50 +185,94 @@
     custID = CInt(Request.Form("cust_id"))
     custName = CStr(Request.Form("cust_name"))
     
-    if custID<>0  then
+    ' if custID<>0 then
 
         custID = CInt(Request.Form("cust_id"))
         custName = CStr(Request.Form("cust_name"))
-        dates = Request.Form("date_records")
+        ' dates = Request.Form("date_records")
         department = Request.Form("department")
+        startDate = CDate(Request.Form("startDate"))
+        lastDayOfStartDate = DateAdd("m", 1, startDate ) - 1
+        endDate = CDate(Request.Form("endDate"))
+        lastDayOfEndDate = DateAdd("m", 1, endDate ) - 1
+        endDate = DateAdd("m", 1, endDate ) - 1
 
-        dateSplit = Split(dates, ",")
-
-        startDate = CDate(dateSplit(0))
-        displayDate1 = Day(startDate) & " " & MonthName(Month(startDate)) & " " & Year(startDate)
-        
-        endDate = CDate(dateSplit(1))
-        displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)
-
-        Dim monthPath, yearPath
-
-        monthPath = Month(startDate)
-        yearPath = Year(startDate)
-
-        if Len(monthPath) = 1 then
-            monthPath = "0" & monthPath
+        if endDate > systemDate then
+            endDate = systemDate   
         end if
 
-        Dim folderPath
-        
-        folderPath = mainPath & yearPath & "-" & monthPath
+        displayDate1 = MonthName(Month(startDate)) & " " & Day(startDate) & ", " & Year(startDate)
+ 
+        displayDate2 = MonthName(Month(endDate)) & " " & Day(endDate) & ", " & Year(endDate)
 
-        Dim obFile
+        Dim monthsDiff
 
-        obFile = "\ob_test.dbf"
+        monthsDiff = DateDiff("m",startDate, endDate) 
 
-        Dim obPath
-        
-        obPath = folderPath & obFile
+        'Setting up of folder and file path'
+        Dim monthLength, monthPath, yearPath
 
-        Dim ebID, endingCredit, endingDebit, creditBal, debitBal
-        rs.open "SELECT * FROM "&obPath&" WHERE cust_id="&custID&" and date BETWEEN CTOD('"&startDate&"') AND CTOD('"&endDate&"')", CN2
-        'rs.open "SELECT eb_id, credit_bal FROM eb WHERE first_date=CTOD('"&startDate&"') and end_date=CTOD('"&endDate&"')", CN2
-        
-        do until rs.EOF
+            monthLength = Month(startDate)
+            if Len(monthLength) = 1 then
+                monthPath = "0" & CStr(Month(startDate))
+            else
+                monthPath = Month(startDate)
+            end if
 
-            if ASC(rs("status")) = ASC("completed") then
-                sqlQuery = "SELECT * FROM eb_test WHERE cust_id="&custID&" and first_date=CTOD('"&startDate&"') and end_date=CTOD('"&endDate&"')"
+            yearPath = Year(startDate)
+            folderPath = mainPath & yearPath & "-" & monthPath
+        'End of Setting up of folder and file path
+
+        Dim fs, counter
+        Set fs = Server.CreateObject("Scripting.FileSystemObject")
+        counter = 0
+
+        Dim exactStartDate, lastDayExactDate
+
+        exactStartDate = startDate
+
+        for i = counter To monthsDiff
+
+            if fs.FolderExists(folderPath) = true then EXIT for
+
+            monthLength = Month(DateAdd("m",i,startDate))
+            if Len(monthLength) = 1 then
+                monthPath = "0" & CStr(Month(DateAdd("m",i,startDate)))
+            else
+                monthPath = Month(DateAdd("m",i,startDate))
+            end if
+
+            yearPath = Year(DateAdd("m",i,startDate))
+    
+            folderPath = mainPath & yearPath & "-" & monthPath
+
+            counter = i
+
+            exactStartDate = DateAdd("m",i,startDate)
+            
+        next
+
+        lastDayExactDate = DateAdd("m", 1, exactStartDate ) - 1
+
+        Dim isValidPath
+        isValidPath = fs.FolderExists(folderPath)
+
+        if isValidPath = true then
+
+            obFile = "\ob_test.dbf"
+            obPath = folderPath & obFile
+
+            Dim ebID, endingCredit, endingDebit, creditBal, debitBal
+            endingCredit = 0.00
+
+            rs.open "SELECT TOP 1 status FROM "&obPath&" WHERE cust_id="&custID&" and status='completed' and date BETWEEN CTOD('"&exactStartDate&"') AND CTOD('"&lastDayExactDate&"') ORDER BY id", CN2
+
+            ' Response.Write "<br> Last Exact Date: " & lastDayExactDate & "<br>"
+
+            if not rs.EOF then
+
+                'Getting the eb ID of a customer to get the previous ending balance'
+                sqlQuery = "SELECT id FROM eb_test WHERE cust_id="&custID&" and end_date=CTOD('"&lastDayExactDate&"')"
                 set objAccess = cnroot.execute(sqlQuery)
 
                 if not objAccess.EOF then
@@ -220,18 +280,17 @@
                 end if    
                 set objAccess = nothing
 
+                'If ebID = 1, it means it is the first month of transactions'
+                'So there is no beginning balance that we can get'
                 if ebID=1 then
+
                     endingCredit = 0
                     endingDebit = 0
-                ' else
-                    
-                '     endingCredit = CDbl(objAccess("credit_bal"))
-                '     endingDebit = CDbl(objAccess("debit_bal"))
+
                 else 
-                    'ebID = ebID - 1
-                    'Response.Write("<br>" &ebID& "<br>")
+                    'Getting the previous month balance of a customer using the ebID'
+                    'endingCredit is the beginning balance'
                     sqlPrevRow = "SELECT * FROM eb_test WHERE id = (select max(id) from eb_test where id < "&ebID&" and cust_id="&custID&")"
-                    'sqlGet = "SELECT * FROM eb WHERE cust_id="&custID&" and eb_id="&ebID
                     set objAccess = cnroot.execute(sqlPrevRow)
                         if not objAccess.EOF then
                             endingCredit = CDbl(objAccess("credit_bal"))
@@ -244,36 +303,32 @@
 
                 end if
                 
-            else
-                sqlQuery = "SELECT * FROM "&obPath&" WHERE cust_id="&custID&" and date BETWEEN CTOD('"&startDate&"') AND CTOD('"&startDate&"') GROUP BY cust_id"
-                set objAccess = cnroot.execute(sqlQuery)
+                ' Response.Write "Completed Ending Balance"
 
-                if CDbl(objAccess("balance").value) < 0.00 then
-                    creditBal = 0
-                    debitBal = ABS(CDbl(objAccess("balance").value))    
-                else
-                    creditBal = CDbl(objAccess("balance").value)
-                    debitBal = 0
-                end if
+            else
 
                 endingDebit = 0.00
                 endingCredit = 0.00
                 set objAccess = nothing
 
-                sqlQuery = "SELECT MAX(id) AS max_eb_id, credit_bal, debit_bal FROM eb_test WHERE cust_id="&custID
-                set objAccess = cnroot.execute(sqlQuery)
-                    if not objAccess.EOF then
-                        endingCredit = CDbl(objAccess("credit_bal"))
-                        endingDebit = CDbl(objAccess("debit_bal"))
-                        set objAccess = nothing
-                    end if
+                getBeginBal = "SELECT MAX(id) AS max_eb_id, credit_bal, debit_bal FROM eb_test WHERE cust_id="&custID
+                set objAccess = cnroot.execute(getBeginBal)
+
+                if not objAccess.EOF then
+                    endingCredit = CDbl(objAccess("credit_bal"))
+                    endingDebit = CDbl(objAccess("debit_bal"))
+                end if
+
+                set objAccess = nothing
                 
+                ' Response.Write "Uncompleted Ending Balance"
+
             end if
 
-        rs.MoveNext
-        loop
-            
-        rs.close
+            rs.close
+
+        end if
+        'End of isValidPath condition'
 
         Dim p_start_date, p_end_date
         'Dim currCredit, currDebit
@@ -287,184 +342,182 @@
 
     <div id="content">
         <div class="container mb-5">
-            <div class="users-info mt-4 mb-4">
+            <div class="users-info mt-4">
                 <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">Receivable Card of</span> <span class="cust_name"><%=custName%></span></strong> </h1>
                 <h1 class="h4 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
             </div>
-            <% 
-                Dim transactionsFile, transactionsPath
 
-                transactionsFile = "\transactions.dbf"
-                transactionsPath = folderPath & transactionsFile         
-
-                rs.Open "SELECT * FROM "&transactionsPath&" WHERE cust_id="&custID&" and date between CTOD('"&p_start_date&"') and CTOD('"&p_end_date&"') GROUP BY cust_id", CN2 
-
-            %>
-
-            <%if not rs.BOF then%>
+            <%if custID <> "" then%>
 
                 <div class="users-info--divider">
 
                     <span class="p-0 m-0 d-block">
-                        <button type="button" class="btn btn-dark btn-sm mb-1 d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Other Date Reports</button>
+                        <button type="button" class="btn btn-dark btn-sm mb-1 d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Date Reports</button>
                     </span>
                    
                 </div>
                 
             <%end if%>
-            <%rs.close
-              set objAccess = nothing
-            %>    
-
-        
-            <%  sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
-                set objAccess = cnroot.execute(sqlQuery)
-                if not objAccess.EOF then
-                    isStoreClosed = CStr(objAccess("status"))
-                    set objAccess = nothing
-                else 
-                    isStoreClosed = "open"
-                end if    
-            %>
-            <%' rs.open "SELECT Transactions.ref_no, Transactions.t_type, Transactions.cust_id, Transactions.invoice, Transactions.debit, Transactions.credit, Ob_test.balance, Transactions.date FROM Transactions INNER JOIN Ob_test On Transactions.ref_no = Ob_test.ref_no WHERE Transactions.cust_id="&custID&" and Transactions.date between CTOD('"&p_start_date&"') and CTOD('"&p_end_date&"')", CN2 %>
-            <% rs.open "SELECT * FROM "&transactionsPath&" WHERE duplicate!='yes' and t_type!='OTC' and cust_id="&custID&" and date between CTOD('"&p_start_date&"') and CTOD('"&p_end_date&"') ORDER BY id", CN2 %>
 
                 <div class='date-label-container'>
                 
                     <div>
-                        <p class='display-date-container'><strong> Date Range: </strong>
+                        <p class='display-date-container'><strong> Date: </strong>
                             <%=displayDate1 & " - "%>
                             <%=displayDate2%>
                         </p>
                     </div>       
                     
                 </div>
-            <%
-                Dim balance, totalBalance
-                balance = endingCredit
-                totalBalance = 0.00
-            %>
+
             <div class="table-responsive-sm">
-            <table class="table table-striped table-bordered table-sm" id="myTable">
-                <thead class="thead-dark">
-                    <th>Reference No.</th>
-                    <th>Transaction Type</th>
-                    <th>Invoice</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th>Balance</th>
-                    <th>Date</th>
-                </thead>
 
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><strong>Beginning Balance</strong></td>
-                    <td><strong><span class="text-primary">&#8369;</span><%=endingCredit%></strong></td>
-                    <td></td>
-                </tr>
-                <% 
-                    Dim totalCredit, totalDebit 
-                    totalCredit = 0.00
-                    totalDebit = 0.00
-                %>
+                <table class="table table-striped table-bordered table-sm" id="myTable">
+                    <thead class="thead-dark">
+                        <th>Reference No.</th>
+                        <th>Transaction Type</th>
+                        <th>Invoice</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
+                        <th>Date</th>
+                    </thead>
 
-                <%do until rs.EOF%>
+                    <%if isValidPath = true then%>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>Beginning Balance</strong></td>
+                            <td><strong><span class="text-primary">&#8369;</span><%=endingCredit%></strong></td>
+                            <td></td>
+                        </tr>
+                        <% 
+                            Dim totalCredit, totalDebit, balance
+                            balance = endingCredit
+                            totalCredit = 0.00
+                            totalDebit = 0.00
 
-                <% d = CDate(rs("date"))
-                   d = FormatDateTime(d, 2)
-                %>
-                <tr>
-                    <%if Trim(CStr(rs("t_type").value)) = "A-plus" or Trim(CStr(rs("t_type").value)) = "A-minus" then%>
-                        <td>
-                            <a class="link-or" target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=d%>'><%Response.Write(Trim(rs("ref_no")))%></a>
-                        </td>
-                    <%else%>    
-                        <td class="text-darker">
-                            <a target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=d%>'><%Response.Write(Trim(rs("ref_no")))%></a>
-                        </td>
-                    <%end if%>    
-                    <td class="text-info"><%=rs("t_type")%></td>
-                    <!--
-                    <td class="text-primary"><%'=custName%></td>  
-                    -->
-                    <% if CInt(rs("invoice")) <= 0 then%>
-                        <td class="text-darker"><%="none"%></td> 
-                    <% else %>    
-                        <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%=rs("invoice")%></a></td> 
-                    <% end if %>    
-                    <% if CDbl(rs("debit")) <= 0 then %>
-                        <td class="text-darker"><%=" "%></td>
-                    <% else %>
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("debit")%></td>
-                        <% totalDebit = CDbl(totalDebit) + CDbl(rs("debit").value) 
-                           balance = balance - CDbl(rs("debit").value)
+                            Dim transactionsFile, transactionsPath
+
+                            transactionsFile = "\transactions.dbf"
+                            transactionsPath = folderPath & transactionsFile 
                         %>
-                    <% end if %>    
-                    <% if CDbl(rs("credit")) <= 0 then %>
-                        <td class="text-darker"><%=" "%></td>
-                    <% else %>    
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("credit")%></td>
-                        <% totalCredit = CDbl(totalCredit) + CDbl(rs("credit").value) 
-                           balance = balance + CDbl(rs("credit").value)
+
+                        <%
+                            
+                            for i = counter To monthsDiff
+
+                                monthLength = Month(DateAdd("m",i,startDate))
+                                if Len(monthLength) = 1 then
+                                    monthPath = "0" & CStr(Month(DateAdd("m",i,startDate)))
+                                else
+                                    monthPath = Month(DateAdd("m",i,startDate))
+                                end if
+
+                                yearPath = Year(DateAdd("m",i,startDate))
+                        
+                                folderPath = mainPath & yearPath & "-" & monthPath
+                                transactionsPath =  folderPath & transactionsFile
+
+                                Do 
+
+                                    if fs.FolderExists(folderPath) <> true then EXIT DO
+                                    if fs.FileExists(transactionsPath) <> true then EXIT DO
+
+                                    rs.open "SELECT * FROM "&transactionsPath&" WHERE t_type!='OTC' and duplicate!='yes' and cust_id="&custID&" and date between CTOD('"&startDate&"') and CTOD('"&endDate&"')", CN2
+
+                                    do until rs.EOF
+
+                                        transactDate = FormatDateTime(rs("date"), 2)%>
+                                        <tr>
+                                            <%if Trim(CStr(rs("t_type").value)) = "A-plus" or Trim(CStr(rs("t_type").value)) = "A-minus" then%>
+                                                <td>
+                                                    <a class="link-or" target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
+                                                </td>
+                                            <%else%>
+                                                <td>
+                                                    <a class="link-or" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
+                                                </td>
+                                            <%end if%>    
+                                            <td class="text-info"><%=rs("t_type")%></td>
+
+                                            <% if CInt(rs("invoice")) <= 0 then%>
+                                                <td class="text-darker"><%="none"%></td> 
+                                            <% else %>    
+                                                <td>
+                                                    <a class="link-or" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=transactDate%>''><%=rs("invoice")%></a>
+                                                </td> 
+                                            <% end if %>    
+                                            <% if CDbl(rs("debit")) <= 0 then %>
+                                                <td class="text-darker"><%=" "%></td>
+                                            <% else %>
+                                                <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("debit")%></td>
+                                                <% totalDebit = CDbl(totalDebit) + CDbl(rs("debit").value) 
+                                                balance = balance - CDbl(rs("debit").value)
+                                                %>
+                                            <% end if %>    
+                                            <% if CDbl(rs("credit")) <= 0 then %>
+                                                <td class="text-darker"><%=" "%></td>
+                                            <% else %>    
+                                                <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("credit")%></td>
+                                                <% totalCredit = CDbl(totalCredit) + CDbl(rs("credit").value) 
+                                                balance = balance + CDbl(rs("credit").value)
+                                                %>
+                                            <% end if %>    
+                                            <td class="text-darker"><span class="text-primary">&#8369;</span><%=balance%></td>
+                                            <% d = CDate(rs("date"))%>
+                                            <td class="text-darker"><%Response.Write(FormatDateTime(d,2))%></td>
+
+                                        </tr>
+                                        <%rs.MoveNext%>
+                                    <%loop
+                                rs.close
+                                loop while false
+
+                            next
                         %>
-                    <% end if %>    
-                    <!--<td class="text-darker"><span class="text-primary">&#8369;</span><'%='rs("balance")%></td>-->
-                    <td class="text-darker"><span class="text-primary">&#8369;</span><%=balance%></td>
-                    <td class="text-darker"><%Response.Write(d)%></td>
-                    <!--
-                    <td class="text-darker"><span class="text-primary">&#8369;</span><%'Response.Write(rs("debit_bal"))%></td>
-                    -->
-                </tr>
-                <%rs.MoveNext%>
-                <%loop%>
-                <%rs.close%>
 
-                <%
-                    totalBalance = balance
-                %>
-                <tfoot>
-                    <tr>
-                        <td colspan="3"><h3 class="lead"><strong class="text-darker total-text">Total</strong></h3></td>
-                        <td>
-                            <h3 class="lead">
-                                <strong class="text-darker total-value">
-                                    <span class="total-value" style="font-weight: 600"><%=totalDebit%></span>
-                                </strong>    
-                            </h3>
-                        </td>
+                        <tfoot>
+                            <tr>
+                                <td><h3 class="lead"><strong class="text-darker total-text total-darker">Total</strong></h3></td>
+                                <td class="no-cell"></td>
+                                <td class="no-cell"></td>
+                                <td>
+                                    <h3 class="lead">
+                                        <strong class="text-darker total-value">
+                                            <span class="total-darker"><%=totalDebit%></span>
+                                        </strong>    
+                                    </h3>
+                                </td>
 
-                        <td>
-                            <h3 class="lead">
-                                <strong class="text-darker total-value">
-                                    <span class="total-value" style="font-weight: 600"><%=totalCredit%></span>
-                                </strong>    
-                            </h3>
-                        </td>
+                                <td>
+                                    <h3 class="lead">
+                                        <strong class="text-darker total-value">
+                                            <span class="total-darker"><%=totalCredit%></span>
+                                        </strong>    
+                                    </h3>
+                                </td>
 
-                        <td>
-                            <h3 class="lead">
-                                <strong class="text-darker total-value">
-                                    <span class="total-value" style="font-weight: 600"><%=totalBalance%></span>
-                                </strong>
-                            </h3>
-                        </td>
-                        <td></td>
-                    </tr>
-                </tfoot>
+                                <td>
+                                    <h3 class="lead">
+                                        <strong class="text-darker total-value">
+                                            <span class="total-darker"><%=balance%></span>
+                                        </strong>
+                                    </h3>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
 
-            </table>
+                    <%end if%>
+                    
+                </table>
             </div>
         </div>    
     </div>
 
-    <%else%>
-
-        <h1 class="h1 no-records"> NO RECORDS </h1>
-
-    <%end if%>
 </div>
 
 <!-- FOOTER -->
@@ -508,7 +561,7 @@
 <script>  
 $(document).ready( function () {
     $('#myTable').DataTable({
-        scrollY: "38vh",
+        scrollY: "32vh",
         scroller: true,
         scrollCollapse: true,
         "order": [],

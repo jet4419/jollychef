@@ -19,7 +19,6 @@
         
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
-        <link rel="stylesheet" href="tail.select-default.css">
         <link rel="stylesheet" type="text/css" href="bootstraptable/datatables/css/twitter-bootstrap.css"/>
         <link rel="stylesheet" type="text/css" href="bootstraptable/datatables/css/dataTables.bootstrap4.min.css"/>
         <link rel="stylesheet" type="text/css" href="bootstraptable/buttons/css/buttons.dataTables.min.css"/>
@@ -147,6 +146,18 @@
                 font-weight: 500;
             }
 
+            a.link-or {
+                /* color: #206a5d; */
+                color: #318fb5;
+                text-decoration: none;
+            }
+
+            a.link-or:hover {
+                /* color: #557571; */
+                color: #3282b8;
+                text-decoration: underline;
+            }
+
         </style>
         <!--<script type="text/javascript" >
         function preventBack(){window.history.forward();}
@@ -156,7 +167,6 @@
         -->
     </head>
 <body>
-    <script src="tail.select-master/js/tail.select-full.min.js"></script>
     
 <!--#include file="customer_navbar.asp"-->
 <!--#include file="customer_sidebar.asp"-->
@@ -227,7 +237,7 @@
 
             <div class='date-label-container'>
                 <div>
-                    <p class='display-date-container'><strong> Date Range: </strong>
+                    <p class='display-date-container'><strong> Date: </strong>
                         <%=displayDate1 & " - "%>
                         <%=displayDate2%>
                     </p>
@@ -252,6 +262,10 @@
             Dim transactionsFile, folderPath, transactionsPath
             transactionsFile = "\transactions.dbf"
 
+            Dim balance, totalBalance, totalCashPaid
+            totalBalance = 0.00
+            totalCashPaid = 0.00
+
             for i = 0 To monthsDiff   
 
                 monthLength = Month(DateAdd("m",i,p_start_date))
@@ -265,10 +279,6 @@
 
                 folderPath = mainPath & yearPath & "-" & monthPath
                 transactionsPath =  folderPath & transactionsFile
-
-                Dim balance, totalBalance, totalCashPaid
-                totalBalance = 0.00
-                totalCashPaid = 0.00
 
                 Do 
 
@@ -291,12 +301,12 @@
                     %>
                     <tr>
                         <td class="text-darker">
-                            <a target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%Response.Write(rs("ref_no"))%></a>
+                            <a target="_blank" class="link-or" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%Response.Write(rs("ref_no"))%></a>
                             </td>
                         <td class="text-info"><%=rs("t_type")%></td>
 
                         <td class="text-darker">
-                            <a target="_blank" href='ob_invoice_records.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%=rs("invoice")%></a>
+                            <a target="_blank" class="link-or" href='ob_invoice_records.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%=rs("invoice")%></a>
                         </td>    
 
                         <% if CDbl(rs("debit")) < 0 then %>
@@ -416,14 +426,6 @@ $(document).ready( function () {
             }
         })    
     }) // End of Date Generator  
-
-
-
-    tail.select("#selectRecords", {
-        search: true,
-        deselect: true,
-        descriptions: true
-    });
 
     function monthEnd(nId, nCreditBal, nDebitBal) {
 

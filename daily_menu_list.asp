@@ -78,11 +78,10 @@
             </a>
         </h1>
 
-        <% rs.Open "SELECT prod_id, prod_brand, prod_name, prod_price, category, qty FROM daily_meals ORDER BY prod_brand, prod_name", CN2 %>
+        <% rs.Open "SELECT prod_id, prod_name, prod_price, category, qty FROM daily_meals ORDER BY prod_name", CN2 %>
 
         <table class="table table-hover table-bordered table-sm" id="myTable">
             <thead class="thead-dark">
-                <th>Brand Name</th>
                 <th>Product Name</th>
                 <th>Sale Price</th>
                 <th>Category</th>
@@ -93,10 +92,6 @@
             <%do until rs.EOF%>
 
                 <tr>
-                    <td class="text-darker">
-                        <%Response.Write(rs("prod_brand"))%>
-                    </td> 
-
                     <td class="text-darker">
                         <%Response.Write(rs("prod_name"))%>
                     </td> 

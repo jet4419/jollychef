@@ -127,13 +127,17 @@
             }
 
             a.link-or {
-                color: #206a5d;
+                color: #318fb5;
                 text-decoration: none;
             }
 
             a.link-or:hover {
-                color: #557571;
+                color: #3282b8;
                 text-decoration: underline;
+            }
+
+            a.link-or:visited {
+                color: #318fb5;
             }
 
             .order_of {
@@ -189,43 +193,71 @@
     <script src="tail.select-master/js/tail.select-full.min.js"></script>
 
     <%
-        custID = CInt(Request.Form("cust_id"))
-        custName = CStr(Request.Form("cust_name"))
-        department = CStr(Request.Form("department"))
+        if Request.QueryString("cust_id") = "" then
+            Response.Redirect("adjustments_main.asp")
+        end if
+
+        if IsNumeric(Request.QueryString("cust_id")) = false then
+            Response.Redirect("adjustments_main.asp")
+        end if
+
+        custID = CInt(Request.QueryString("cust_id"))
+
+        sqlGetInfo = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&custID
+        set objAccess = cnroot.execute(sqlGetInfo)
+
+        if not objAccess.EOF then
+
+            custName = Trim(objAccess("cust_lname").value) & " " & Trim(objAccess("cust_fname").value)
+            department = Trim(objAccess("department").value)
+
+        end if
+
+        set objAccess = nothing
+
     %>
 
 <!--#include file="cashier_navbar.asp"-->
 <!--#include file="cashier_sidebar.asp"-->
 
     <%
-        dates = Request.Form("date_records")
-
-        if dates = "" then
-            Response.Redirect("canteen_homepage.asp")
-        end if
-
-        dateSplit = Split(dates, ",")
-
-        startDate = CDate(dateSplit(0))
-        displayDate1 = Day(startDate) & " " & MonthName(Month(startDate)) & " " & Year(startDate)
-        
-        endDate = CDate(dateSplit(1))
-        displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)
 
         Dim monthLength, monthPath, yearPath
 
-        monthLength = Month(startDate)
+        monthLength = Month(systemDate)
         if Len(monthLength) = 1 then
-            monthPath = "0" & CStr(Month(startDate))
+            monthPath = "0" & CStr(Month(systemDate))
         else
-            monthPath = Month(startDate)
+            monthPath = Month(systemDate)
         end if
 
-        yearPath = Year(startDate)
+        yearPath = Year(systemDate)
 
         obFile = "\ob_test.dbf"
         folderPath = mainPath & yearPath & "-" & monthPath
         obPath = folderPath & obFile
+
+
+        rs.Open "SELECT MIN(date) AS first_date, MAX(date) AS end_date FROM "&obPath&" WHERE duplicate!='yes' and cust_id="&custID&" and status!=""completed""", CN2
+
+        if not rs.EOF then
+
+            startDate = CDate(rs("first_date"))
+            endDate = CDate(rs("end_date"))
+
+        else
+
+            startDate = systemDate
+            endDate = systemDate
+
+        end if
+
+        rs.close
+
+        displayDate1 = "1" & " " & MonthName(Month(startDate)) & " " & Year(startDate)
+
+        displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)
+
 
         Dim ebID, endingCredit, endingDebit, creditBal, debitBal
         endingCredit = 0.00
@@ -264,16 +296,16 @@
                 end if
                 
             else
-                sqlQuery = "SELECT * FROM "&obPath&" WHERE cust_id="&custID&" and date BETWEEN CTOD('"&startDate&"') AND CTOD('"&startDate&"') GROUP BY cust_id"
-                set objAccess = cnroot.execute(sqlQuery)
+                ' sqlQuery = "SELECT * FROM "&obPath&" WHERE cust_id="&custID&" and date BETWEEN CTOD('"&startDate&"') AND CTOD('"&startDate&"') GROUP BY cust_id"
+                ' set objAccess = cnroot.execute(sqlQuery)
 
-                if CDbl(objAccess("balance").value) < 0.00 then
-                    creditBal = 0
-                    debitBal = ABS(CDbl(objAccess("balance").value))    
-                else
-                    creditBal = CDbl(objAccess("balance").value)
-                    debitBal = 0
-                end if
+                ' if CDbl(objAccess("balance").value) < 0.00 then
+                '     creditBal = 0
+                '     debitBal = ABS(CDbl(objAccess("balance").value))    
+                ' else
+                '     creditBal = CDbl(objAccess("balance").value)
+                '     debitBal = 0
+                ' end if
 
                 endingDebit = 0.00
                 endingCredit = 0.00
@@ -359,9 +391,7 @@
                         <button class="btn btn-outline-dark btn-sm">Adjustments</button>
                     </a>
                     -->
-                    <span class="p-0 m-0 d-block">
-                        <button type="button" class="btn btn-dark btn-sm mb-1 d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Date Reports</button>
-                    </span>
+
                 </div>
                 
             <%end if%>
@@ -373,7 +403,7 @@
             <% rs.open "SELECT * FROM "&transactionsPath&" WHERE t_type!='OTC' and cust_id="&custID&" and date between CTOD('"&p_start_date&"') and CTOD('"&p_end_date&"')", CN2 %>
                 <div class='date-label-container'>
                     <div>
-                        <p class='display-date-container'><strong> Date Range: </strong>
+                        <p class='display-date-container'><strong> Date: </strong>
                             <%=displayDate1 & " - "%>
                             <%=displayDate2%>
                         </p>
@@ -430,7 +460,7 @@
                             <td class="text-info"><%=rs("t_type")%></td>
  
                             <% if CInt(rs("invoice")) <= 0 then%>
-                                <td class="text-darker"><%="none"%></td> 
+                                <td class="text-darker link-or"><%="none"%></td> 
                             <% else %>    
                                 <td >
                                     <a class="link-or" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%=rs("invoice")%></a>

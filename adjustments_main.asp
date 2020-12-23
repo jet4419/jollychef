@@ -136,7 +136,7 @@
                     <td class="text-darker"><%Response.Write(Trim(rs("cust_fname")))%></td>
                     <td class="text-darker"><%Response.Write(rs("department"))%></td>
                     <td>
-                        <button type="button" id="<%=rs("cust_id")%>" class="btn btn-sm btn-outline-dark mx-auto mb-2 date_transact w-100" data-toggle="modal" data-target="#date_transactions"  title="View Transactions" data-toggle="tooltip" data-placement="top">
+                        <button type="button" onClick="adjustmentListFunc(<%=rs("cust_id")%>)" class="btn btn-sm btn-outline-dark mx-auto mb-2 date_transact w-100" title="View Transactions" data-toggle="tooltip" data-placement="top">
                             Receivable Card
                         </button>
                     </td>
@@ -157,39 +157,6 @@
 
 <!-- End of FOOTER -->
 
-
-<!-- Date Range of Transactions -->
-<div class="modal fade" id="date_transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-            <form action="ar_card_report2.asp" method="POST" id="allData2" class="">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Date Range of Transaction </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body" id="daterange_modal_body">
-                <!-- Modal Body (Contents) -->
-                
-                    
-                </div>  
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
-                </div> 
-
-            </form>
-                
-        </div>
-    </div>
-</div>
-<!-- End of Date Range of Transactions -->
 
 <!--#include file="cashier_login_logout.asp"-->
 
@@ -214,25 +181,7 @@ let j = 0
             { extend: 'pdf', className: 'btn btn-sm btn-success' },
             { extend: 'print', className: 'btn btn-sm btn-success' }
         ]
-        });
-
-    // Date Transactions Generator
-        $(document).on("click", ".date_transact", function(event) {
-
-            event.preventDefault();
-
-            let custID = $(this).attr("id");
-            $.ajax({
-
-            url: "ar_card_daterange.asp",
-            type: "POST",
-            data: {custID: custID},
-            success: function(data) {
-                $("#daterange_modal_body").html(data);
-                $("#date_transactions").modal("show");
-            }
-        })    
-    }) // End of Date Transactions Generator  
+        }); 
 
     tail.select("#selectRecords", {
         search: true,
@@ -242,14 +191,9 @@ let j = 0
 
 });
 
-function payDebt(id) {
+function adjustmentListFunc(id) {
 
-    //alert("Are you sure to cutoff?")
-    // if(confirm('Are you sure to cutoff on this date?'))
-    // {
-        window.location.href='t_receivable_lists.asp?cust_id='+id;
-        //window.location.href='delete.asp?delete_id='+id;
-    // }
+    window.location.href='ar_card_report2.asp?cust_id='+id;
 
 }
     
