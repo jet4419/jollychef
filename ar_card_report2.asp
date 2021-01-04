@@ -176,6 +176,10 @@
                 background: #ef1641;
             }
 
+            .total-darker {
+                font-weight: 600;
+            }
+
 
 
         </style>
@@ -492,11 +496,11 @@
                     <%rs.close%>
                     <tfoot>
                         <tr>
-                            <td colspan="3"><h3 class="lead"><strong class="text-darker total-text">Total</strong></h3></td>
+                            <td colspan="3"><h3 class="lead"><strong class="text-darker total-text total-darker">Total</strong></h3></td>
                             <td>
                                 <h3 class="lead">
                                     <strong class="text-darker">
-                                        <span class="total-value"><%=totalDebit%></span>
+                                        <span class="total-value total-darker"><%=totalDebit%></span>
                                     </strong>    
                                 </h3>
                             </td>
@@ -504,7 +508,7 @@
                             <td>
                                 <h3 class="lead">
                                     <strong class="text-darker">
-                                        <span class="total-value"><%=totalCredit%></span>
+                                        <span class="total-value total-darker"><%=totalCredit%></span>
                                     </strong>    
                                 </h3>
                             </td>
@@ -512,7 +516,7 @@
                             <td>
                                 <h3 class="lead">
                                     <strong class="text-darker">
-                                        <span class="total-value"><%=currCredit%></span>
+                                        <span class="total-value total-darker"><%=currCredit%></span>
                                     </strong>
                                 </h3>
                             </td>

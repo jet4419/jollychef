@@ -1,0 +1,40 @@
+article {
+  column-width: 17em;
+  column-gap: 3em;
+}
+
+/* print.css */
+* {
+  background-image: none !important;
+  color: #000;
+}
+
+img,
+svg {
+  display: none !important;
+}
+
+img.print,
+svg.print {
+  display: block;
+  max-width: 100%;
+}
+
+.heading-print {
+  display: block !important;
+  font-weight: 500;
+  margin-bottom: 1cm;
+  font-size: 16pt;
+}
+
+#printData::after {
+  content: 'JollyChef Inc.';
+  display: block;
+  text-align: center;
+}
+
+.date-range-print {
+  font-weight: 400;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  display: inline-block;
+}

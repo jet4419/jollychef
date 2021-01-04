@@ -335,7 +335,7 @@
 
             %>
 
-            <% rs.Open "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and balance > 0 ORDER BY date_owed DESC, balance DESC GROUP BY invoice_no", CN2%>    
+            <% rs.Open "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and balance > 0 ORDER BY date_owed DESC, invoice_no DESC GROUP BY invoice_no", CN2%>    
                           
             <form id="myForm" method="POST">
  

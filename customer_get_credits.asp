@@ -48,7 +48,7 @@
 
         if isArFileExist = true then
 
-            getCredits = "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and balance > 0 ORDER BY date_owed DESC, invoice_no DESC GROUP BY invoice_no"
+            getCredits = "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and duplicate!='yes' and balance > 0 ORDER BY date_owed DESC, invoice_no DESC GROUP BY invoice_no"
             set objAccess = cnroot.execute(getCredits)
 
             do until objAccess.EOF

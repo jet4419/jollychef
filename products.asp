@@ -155,7 +155,7 @@
 
                                 <div class="form-group mb-1">    
                                     <label class="ml-1" style="font-weight: 500"> Product Name </label>
-                                    <input type="text" class="form-control form-control-sm" name="productName" id="productName" required pattern="[a-zA-Z0-9 ' -]+">
+                                    <input type="text" class="form-control form-control-sm" name="productName" id="productName" required >
                                 </div>
 
                                 <div class="form-group mb-1"> 

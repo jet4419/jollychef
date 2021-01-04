@@ -22,7 +22,7 @@
         </p>
         <div class="receipt--container">
             <div class="receipt__header">
-                <h1 class="receipt__header--text">Payment Receipt</h1>
+                <h1 class="receipt__header--text">Sales Receipt</h1>
                 <div class="receipt__header--infos">
                     <div class="company__info">
                         <span class="company__info--container">

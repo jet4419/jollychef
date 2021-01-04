@@ -69,7 +69,7 @@
         maxEbID = CInt(maxEbID) + 1
         'Get all the records of customer's OB and insert to EB tbl.'
         'So that it becomes so easy to get the ending balance from previous month'
-        '!! Consider to change this solution in the future. But this will do from now on.'        
+        '!! Consider to change this solution in the future. But this will do from now on.'
         rs.open "SELECT MIN(date) AS fdate, cust_id, cust_type, balance FROM "&obPath&" WHERE duplicate!='yes' and status!='completed' and cust_type='in' GROUP BY cust_id", CN2
 
         if not rs.eof then
@@ -242,32 +242,34 @@
 
                             rs.close
 
-                            'Getting the latest record of each customer'
+                            'Getting the latest OB of each customer and the MAX ID'
                             'And save it to the new OB TBL'
-                            ' rs.open "SELECT * FROM "&obPath&" GROUP BY cust_id", CN2
-                            
-                            ' do until rs.EOF 
-
-                            '     addMaxOb = "INSERT INTO "&newObPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate) "&_
-                            '     "VALUES ("&rs("id")&", '"&rs("ref_no")&"', "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', '"&rs("t_type")&"', '"&rs("cust_type")&"', "&rs("cash_paid")&", "&rs("balance")&", ctod(["&systemDate&"]), '"&rs("status")&"', 'yes')"
-                            '     cnroot.execute(addMaxOb)
-
-                            '     rs.movenext
-                            ' loop
-
-                            'Getting the Ob TBL Max record
-                            rs.open "SELECT TOP 1 * FROM "&obPath&" ORDER BY id DESC", CN2
+                            rs.open "SELECT * FROM "&obPath&" GROUP BY cust_id ORDER BY id", CN2
                             
                             do until rs.EOF 
 
                                 addMaxOb = "INSERT INTO "&newObPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate) "&_
-                                "VALUES ("&rs("id")&", '', 0, '', '', '', '', 0, 0, ctod(["&rs("date")&"]), '', 'yes')"
+                                "VALUES ("&rs("id")&", '"&rs("ref_no")&"', "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', '"&rs("t_type")&"', '"&rs("cust_type")&"', "&rs("cash_paid")&", "&rs("balance")&", ctod(["&systemDate&"]), '"&rs("status")&"', 'yes')"
                                 cnroot.execute(addMaxOb)
 
                                 rs.movenext
                             loop
 
                             rs.close
+
+                            'Getting the Ob TBL Max record
+                            ' rs.open "SELECT TOP 1 * FROM "&obPath&" ORDER BY id DESC", CN2
+                            
+                            ' do until rs.EOF 
+
+                            '     addMaxOb = "INSERT INTO "&newObPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate) "&_
+                            '     "VALUES ("&rs("id")&", '', 0, '', '', '', '', 0, 0, ctod(["&rs("date")&"]), '', 'yes')"
+                            '     cnroot.execute(addMaxOb)
+
+                            '     rs.movenext
+                            ' loop
+
+                            ' rs.close
 
                             'Getting the Sales TBL Max record
                             rs.open "SELECT TOP 1 * FROM "&salesPath&" ORDER BY transactid DESC", CN2
