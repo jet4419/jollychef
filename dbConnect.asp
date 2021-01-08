@@ -14,7 +14,7 @@
    ' end if
 'v_DpathRoot = "\\cluster\salesdata"
 
-mainPath = "C:\jollychef\"
+mainPath = Server.MapPath("./") & "/"
 
 v_DpathRoot = mainPath
 

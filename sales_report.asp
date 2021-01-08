@@ -263,6 +263,7 @@
 
 <script>  
  $(document).ready( function () {
+
     // $('#myTable').DataTable({
     //     scrollY: 430,
     //     scroller: true

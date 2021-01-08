@@ -2,6 +2,8 @@
 
 <%
 
+    On Error Resume Next 
+
     Dim isClosed, currDate, isDayEnded
 
     Dim yearPath, monthPath
@@ -55,32 +57,54 @@
 
         else 
 
-            sqlDateUpdate = "UPDATE system_date SET date = date + 1"
-            cnroot.execute(sqlDateUpdate)
-            'systemDate = systemDate + 1
-            'Response.Write("Day end")    
+            if Err.Number = 0 And CN2.Errors.Count = 0 Then
 
-            Dim maxSchedID
-            rs.Open "SELECT MAX(sched_id) FROM store_schedule;", CN2
-                do until rs.EOF
-                    for each x in rs.Fields
-                        maxSchedID = x.value
-                    next
-                    rs.MoveNext
-                loop
-                maxSchedID = CInt(maxSchedID) + 1
-            rs.close
+                sqlDateUpdate = "UPDATE system_date SET date = date + 1"
+                cnroot.execute(sqlDateUpdate)
+                'systemDate = systemDate + 1
+                'Response.Write("Day end")    
 
-            isClosed = CStr(Request.Form("isClosed"))
-            systemDate = CStr(systemDate & " " & Time)
-            if isClosed = "yes" then
+                Dim maxSchedID
+                rs.Open "SELECT MAX(sched_id) FROM store_schedule;", CN2
+                    do until rs.EOF
+                        for each x in rs.Fields
+                            maxSchedID = x.value
+                        next
+                        rs.MoveNext
+                    loop
+                    maxSchedID = CInt(maxSchedID) + 1
+                rs.close
 
-                sqlAdd = "INSERT INTO store_schedule (sched_id, date_time, status) VALUES ("&maxSchedID&",'"&systemDate&"', ""closed"")"
-                cnroot.execute(sqlAdd)
-                
-                CN2.close
-                Response.Redirect("cashier_order_page.asp")
+                isClosed = CStr(Request.Form("isClosed"))
+                systemDate = CStr(systemDate & " " & Time)
+                if isClosed = "yes" then
+
+                    sqlAdd = "INSERT INTO store_schedule (sched_id, date_time, status) VALUES ("&maxSchedID&",'"&systemDate&"', ""closed"")"
+                    cnroot.execute(sqlAdd)
+                    
+                    CN2.close
+                    Response.Redirect("cashier_order_page.asp")
+                end if
+
             end if
+
+
+            'Deleting temporary table of sales reports'
+            Dim fs
+            Set fs = Server.CreateObject("Scripting.FileSystemObject")
+
+            tempSalesReportTbl = Server.MapPath("./temp_folder/sales_report_container.dbf")
+            
+            if fs.FileExists(tempSalesReportTbl) then
+                fs.DeleteFile(tempSalesReportTbl)
+                ' if Err.Number = 0 then
+                ' Response.Write "File was deleted"
+                ' else
+                ' Response.Write "<br> No permission to delete. Error: " & Err.description & "<br>"
+                ' end if
+            end if
+            
+            set fs=nothing
 
         end if
 

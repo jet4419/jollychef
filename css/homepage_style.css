@@ -264,6 +264,23 @@ a.main-menus--items.customers-icon {
   margin: 0;
 }
 
+.thead-bg {
+  background-color: #438a5e;
+  color: #fff;
+  border-color: #000;
+}
+
+.totalAmount {
+  font-weight: 600;
+  /* border: 1.5px solid rgb(88, 82, 82) !important; */
+}
+
+.currency-sign {
+  color: #438a5e;
+  color: #608c71;
+  font-weight: 500;
+}
+
 @media screen and (max-height: 450px) {
   .sidebar {
     padding-top: 15px;

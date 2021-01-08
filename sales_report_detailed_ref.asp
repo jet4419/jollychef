@@ -58,6 +58,11 @@
                 font-weight: 500;
             }
 
+            /* .currency-sign {
+                color: #007bff;
+                font-weight: 500;
+            } */
+
             .date-range-print {
                 display: inline-block;
                 padding-left: .5rem;
@@ -201,7 +206,7 @@
         <div class="container mb-5">
 
             <div class="mt-4 mb-2 d-flex justify-content-between">
-                <form action="sales_report_detailed.asp" method="POST" id="allData" class="">
+                <form action="sales_report_detailed_ref.asp" method="POST" id="allData" class="">
                     
                     <label>Start</label>
                     <input class="form-control form-control-sm d-inline col-2" name="startDate" id="startDate" type="date" required> 
@@ -212,13 +217,14 @@
                     <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
-                    <a href="sales_report_detailed_ref.asp" class="btn btn-sm btn-outline-dark">Sales Report by Reference</a>
-                    <a href="sales_report_sum.asp" class="btn btn-sm btn-outline-dark">Sales Report Summary</a>
-                </p>
+                <a href="sales_report_detailed.asp" class="btn btn-sm btn-outline-dark">Sales Report by Order</a>
+                <a href="sales_report_sum.asp" class="btn btn-sm btn-outline-dark">Sales Report Summary</a>
+            </p>
             </div>
+            
 
             <button id="printMe" class="btn btn-sm btn-dark">Print</button>
-            <h1 class="h2 text-center mb-4 main-heading" style="font-weight: 400"> Sales Report by Order </h1>
+            <h1 class="h2 text-center mb-4 main-heading" style="font-weight: 400"> Sales Report by Reference</h1>
 
             <%
     
@@ -231,17 +237,16 @@
 
             <div id="printData"> 
 
-                <p class="heading-print"> Sales Report per Order: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span></p>
+                <p class="heading-print"> Sales Report per Reference: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span></p>
 
                 <table class="table table-hover table-bordered table-sm mb-5" id="myTable">
                     <thead class="thead-bg">
                         <th>Customer</th>
                         <th>Reference No</th>
                         <th>Date</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Qty</th>
-                        <th>Amount</th>            
+                        <th>Amount</th>
+                        <th>Cash</th>
+                        <th>Charge</th>          
                     </thead>
                     <%
                 
@@ -249,14 +254,12 @@
                     Dim fs
                     set fs = Server.CreateObject("Scripting.FileSystemObject")
 
-                    Dim invoiceNo, testInvoice, totalSales, totalQty, invoiceCounter
-                    totalSales = 0
+                    Dim invoiceNo, testInvoice, totalQty, invoiceCounter
                     totalQty = 0
                     invoiceCounter = 0
 
-                    Dim custIdCont, isFirstUser, isNewUser, customerCount, dateCounter
+                    Dim custIdCont, isFirstUser, isNewUser, customerCount
                     customerCount = 0
-                    dateCounter = 0
 
                     Dim salesOrderReportFile, prevSalesReportPath, salesReportPath
 
@@ -321,7 +324,14 @@
                             cnroot.execute(insertSalesReport)
                         end if
                         'Displaying reports'
-                        rs.Open "SELECT cust_id, cust_name, invoice_no, date, prod_gen, prod_price, prod_qty, prodamount FROM "&salesReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') ORDER BY cust_name, cust_id, invoice_no", CN2
+                        rs.Open "SELECT cust_id, cust_name, invoice_no, date, prod_gen, prod_price, prod_qty, SUM(prodamount) AS prodamount, payment FROM "&salesReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY invoice_no ORDER BY cust_name, cust_id, invoice_no", CN2
+
+                        Dim totalSales, totalCredit, totalCash
+                        totalSales = 0
+                        totalCredit = 0
+                        totalCash = 0
+
+                        Dim isTotalPrinted
                     %>
 
                             <%do until rs.EOF
@@ -343,45 +353,38 @@
 
                                 if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
                                     customerCount = customerCount + 1
+                                    totalSales = totalSales + CDBL(rs("prodamount"))
                                 else
                                     customerCount = 1
+                                    isTotalPrinted = true
+                                    %>
+                                    <tr> 
+                                        <td></td>   
+                                        <td></td>   
+                                        <td></td>   
+                                        <td class="totalAmount">&#8369; <%=totalSales%></td>      
+                                        <td class="totalAmount">&#8369; <%=totalCash%></td>   
+                                        <td class="totalAmount">&#8369; <%=totalCredit%></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="blank_row" colspan="7"></td>
+                                    </tr>
+
+                                   <%
+                                    totalSales = CDBL(rs("prodamount"))
+                                    totalCash = 0
+                                    totalCredit = 0
+                                    isTotalPrinted = false
+                                end if
+
+                                paymentType = Trim(CSTR(rs("payment")))
+                                if paymentType = "Credit" then
+                                    totalCredit = totalCredit + CDBL(rs("prodamount"))
+                                else
+                                    totalCash = totalCash + CDBL(rs("prodamount"))
                                 end if
 
                                 custIdCont = CLNG(rs("cust_id"))
-
-                                if invoiceNo = "" or invoiceNo = CLNG(rs("invoice_no")) then
-                                    totalSales = totalSales + CDBL(rs("prodamount")) 
-                                    totalQty = totalQty + CINT(rs("prod_qty"))
-                                    invoiceCounter = invoiceCounter + 1
-                                    dateCounter = dateCounter + 1
-                                else%>
-                                    <%if invoiceCounter > 1 then%>
-                                        <tr> 
-                                            <td></td>   
-                                            <td></td>   
-                                            <td></td>   
-                                            <td></td>   
-                                            <td></td>   
-                                            <td class="totalAmount"><%=totalQty%></td>   
-                                            <td class="totalAmount">&#8369; <%=totalSales%></tr>
-                                        </tr>
-                                        <tr>
-                                            <td class="blank_row" colspan="7"></td>
-                                        </tr>
-                                        <%isTotalPrinted = true%>
-                                    <%else%>
-                                        <tr>
-                                            <td class="blank_row" colspan="7"></td>
-                                        </tr>
-                                    <%end if%>
-                                    <%
-                                    totalSales = CDBL(rs("prodamount"))
-                                    totalQty = CINT(rs("prod_qty"))
-                                    custID = ""
-                                    invoiceCounter = 1
-                                    isTotalPrinted = false
-                                    dateCounter = 1
-                                end if
 
                                 invoiceNo = CLNG(rs("invoice_no"))%> 
                                 <tr>
@@ -397,16 +400,18 @@
                                             <% testInvoice = CINT(rs("invoice_no"))%>
                                         <%end if%>
                                     </td>
-                                    <%if dateCounter > 1 then%>
-                                        <td></td>
-                                    <%else%>
-                                        <td class="text-darker"><%Response.Write(dateFormat)%></td>
-                                    <%end if%>
-                                    <td class="text-darker"><%Response.Write(rs("prod_gen"))%></td> 
-                                    <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prod_price"))%></td> 
-                                    <td class="text-darker"><%Response.Write(rs("prod_qty"))%></td> 
+                                    <td class="text-darker"><%Response.Write(dateFormat)%></td>
                                     <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
                                     <%invoiceAmount = CDBL(rs("prodamount"))%>
+
+                                    <%if paymentType = "Credit" then%>
+                                        <td></td>
+                                        <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
+                                    <%else%>
+                                        <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
+                                        <td></td>
+                                    <%end if%>
+
                                 </tr>
                                 <%rs.MoveNext%>
                       
@@ -414,16 +419,15 @@
                         <%rs.close%>   
 
                         <%
-                            if invoiceCounter > 1 then
+                            if customerCount > 1 then
                                 if isTotalPrinted = false then%>
                                     <tr> 
                                         <td></td>   
                                         <td></td>   
                                         <td></td>   
-                                        <td></td>   
-                                        <td></td>   
-                                        <td class="totalAmount"><%=totalQty%></td>      
-                                        <td class="totalAmount">&#8369; <%=totalSales%></tr>
+                                        <td class="totalAmount">&#8369; <%=totalSales%></td>      
+                                        <td class="totalAmount">&#8369; <%=totalCash%></td>   
+                                        <td class="totalAmount">&#8369; <%=totalCredit%></td>
                                     </tr>
                                 <%end if%>
                             <%end if%>
