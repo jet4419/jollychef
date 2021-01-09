@@ -409,7 +409,7 @@
             <div class="table-responsive-sm">
 
                 <table class="table table-hover table-bordered table-sm" id="myTable">
-                    <thead class="thead-dark">
+                    <thead class="thead-bg">
                         <th>Reference No.</th>
                         <th>Transaction Type</th>
                         <th>Invoice</th>
@@ -427,7 +427,7 @@
                             <td></td>
                             <td></td>
                             <td><strong>Beginning Balance</strong></td>
-                            <td><strong><span class="text-primary">&#8369;</span><%=endingCredit%></strong></td>
+                            <td><strong><span class="currency-sign">&#8369;</span><%=endingCredit%></strong></td>
                             <td></td>
                         </tr>
                         <% 
@@ -467,6 +467,19 @@
 
                                     do until rs.EOF
 
+                                        myDate = CDATE(rs("date"))
+                                        myYear = Year(myDate)
+                                        myDay = Day(myDate)
+                                        if Len(myDay) = 1 then
+                                            myDay = "0" & myDay
+                                        end if
+
+                                        myMonth = Month(myDate)
+                                        if Len(myMonth) = 1 then
+                                            myMonth = "0" & myMonth
+                                        end if
+
+                                        dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
                                         transactDate = FormatDateTime(rs("date"), 2)%>
                                         <tr>
                                             <%if Trim(CStr(rs("t_type").value)) = "A-plus" or Trim(CStr(rs("t_type").value)) = "A-minus" then%>
@@ -490,7 +503,7 @@
                                             <% if CDbl(rs("debit")) <= 0 then %>
                                                 <td class="text-darker"><%=" "%></td>
                                             <% else %>
-                                                <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("debit")%></td>
+                                                <td class="text-darker"><span class="currency-sign">&#8369;</span><%=rs("debit")%></td>
                                                 <% totalDebit = CDbl(totalDebit) + CDbl(rs("debit").value) 
                                                 balance = balance - CDbl(rs("debit").value)
                                                 %>
@@ -498,14 +511,14 @@
                                             <% if CDbl(rs("credit")) <= 0 then %>
                                                 <td class="text-darker"><%=" "%></td>
                                             <% else %>    
-                                                <td class="text-darker"><span class="text-primary">&#8369;</span><%=rs("credit")%></td>
+                                                <td class="text-darker"><span class="currency-sign">&#8369;</span><%=rs("credit")%></td>
                                                 <% totalCredit = CDbl(totalCredit) + CDbl(rs("credit").value) 
                                                 balance = balance + CDbl(rs("credit").value)
                                                 %>
                                             <% end if %>    
-                                            <td class="text-darker"><span class="text-primary">&#8369;</span><%=balance%></td>
+                                            <td class="text-darker"><span class="currency-sign">&#8369;</span><%=balance%></td>
                                             <% d = CDate(rs("date"))%>
-                                            <td class="text-darker"><%Response.Write(FormatDateTime(d,2))%></td>
+                                            <td class="text-darker"><%Response.Write(dateFormat)%></td>
 
                                         </tr>
                                         <%rs.MoveNext%>
@@ -679,11 +692,11 @@ $(document).ready( function () {
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
             { 
-                extend: 'print', className: 'btn btn-sm btn-success' ,
+                extend: 'print', className: 'btn btn-sm btn-light' ,
                 title: 'Receivable Card '+ dateText,
                 footer: 'true',
 

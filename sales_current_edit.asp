@@ -104,7 +104,7 @@
         %>
 
         <table class="table table-hover table-bordered table-sm" id="myTable">
-            <thead class="thead-dark">
+            <thead class="thead-bg">
                 <th>ID</th>
                 <th>Customer Name</th>
                 <th>Department</th>
@@ -123,7 +123,22 @@
 
                 <% collectID = rs("id").value %>
             <tr>
-                <% d = CDate(rs("date"))%>
+                <% 
+                    myDate = CDATE(rs("date"))
+                    myYear = Year(myDate)
+                    myDay = Day(myDate)
+                    if Len(myDay) = 1 then
+                        myDay = "0" & myDay
+                    end if
+
+                    myMonth = Month(myDate)
+                    if Len(myMonth) = 1 then
+                        myMonth = "0" & myMonth
+                    end if
+
+                    dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                    d = CDate(rs("date"))
+                %>
                 <td class="text-darker">
                     <%Response.Write(rs("cust_id"))%>
                 </td>
@@ -168,11 +183,11 @@
                 <% referenceNo = Trim(CStr(rs("ref_no").value)) %>
 
                 <td class="text-darker">
-                    <%Response.Write(FormatDateTime(d,2))%>
+                    <%Response.Write(dateFormat)%>
                 </td> 
 
                 <td class="text-darker">
-                    <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("tot_amount"))%>
+                    <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("tot_amount"))%>
                 </td> 
                 <% if Trim(rs("p_method").value) = Trim("ar") then 
                     cash_paid = 0.00
@@ -184,11 +199,11 @@
                    end if
                 %>
                 <td class="text-darker">
-                    <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&cash_paid)%>
+                    <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&cash_paid)%>
                 </td> 
 
                 <td class="text-darker">
-                    <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&ar_paid)%>
+                    <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&ar_paid)%>
                 </td> 
 
                 <td>
@@ -199,11 +214,11 @@
                     -->
                     <% if d = systemDate then %>
                         <% if Trim(rs("p_method").value) <> Trim("cash") then %>
-                            <button class="btn btn-sm btn-warning mx-auto mb-2" onClick="edit_transact(<%=arInvoice%>, <%=collectID%>,<%=custID%>,'<%=referenceNo%>')">
+                            <button class="btn btn-sm btn-dark mx-auto mb-2" onClick="edit_transact(<%=arInvoice%>, <%=collectID%>,<%=custID%>,'<%=referenceNo%>')">
                                 <i class="fas fa-edit text-white"></i>
                             </button>
                         <% else %>
-                            <button type="button" id="<%=collectID%>" class="btn btn-sm btn-warning mx-auto mb-2 updateTransaction" style="max-width: 50px;" data-toggle="modal" data-target="#editTransact">
+                            <button type="button" id="<%=collectID%>" class="btn btn-sm btn-dark mx-auto mb-2 updateTransaction" style="max-width: 50px;" data-toggle="modal" data-target="#editTransact">
                                 <i class="fas fa-edit text-white"></i>
                             </button>
                         <% end if %>
@@ -273,10 +288,10 @@
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 
@@ -289,7 +304,7 @@
         //console.log(arID)
         $.ajax({
 
-            url: "t_edit_transaction.asp",
+            url: "sales_current_cash.asp",
             type: "POST",
             data: {collectionID: collectionID},
             success: function(data) {

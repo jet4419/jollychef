@@ -216,18 +216,19 @@
             </p>
             </div>
             
+            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Sales Report Summary by Day</h1>
 
-            <button id="printMe" class="btn btn-sm btn-dark">Print</button>
-            <h1 class="h2 text-center mb-4 main-heading" style="font-weight: 400"> Sales Report Summary by Day</h1>
-
-            <%
-    
-                Response.Write("<p><strong> Date: </strong>")
-                Response.Write(displayDate1 & " - ")
-                Response.Write(displayDate2)
-                Response.Write "</p>"
-               
-            %>  
+            <div>
+                <%
+        
+                    Response.Write("<p class='float-left'><strong> Date: </strong>")
+                    Response.Write(displayDate1 & " - ")
+                    Response.Write(displayDate2)
+                    Response.Write "</p>"
+                
+                %>  
+                <button id="printMe" class="btn btn-sm btn-dark float-right mr-1">Print</button>
+            </div>
 
             <div id="printData"> 
 
@@ -344,9 +345,9 @@
                                     %>
                                     <tr> 
                                         <td><%=dateFormat%></td>   
-                                        <td>&#8369; <%=dayTotalSales%></td>      
-                                        <td>&#8369; <%=dayTotalCash%></td>   
-                                        <td>&#8369; <%=dayTotalCredit%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=dayTotalSales%></td>      
+                                        <td><span class="currency-sign">&#8369;</span> <%=dayTotalCash%></td>   
+                                        <td><span class="currency-sign">&#8369;</span> <%=dayTotalCredit%></td>
                                     </tr>
                                    <%
                                     dayTotalSales = CDBL(rs("prodamount"))

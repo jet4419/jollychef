@@ -360,7 +360,7 @@
                 <h1 class="h4 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
                 <!--
                 <h4 class=" total-text text-center total-balance mr-3">Total Balance:
-                    <span class="text-primary">&#8369;</span> <'%='currOB%>
+                    <span class="currency-sign">&#8369;</span> <'%='currOB%>
                 </h4>
                 -->
             </div>
@@ -400,7 +400,7 @@
                 <input type="text" id="paymentMethod" name="paymentMethod" value="<%=paymentMethod%>" hidden>
             <div class="table-responsive-sm">
                 <table class="table table-bordered table-sm" id="myTable">
-                    <thead class="thead-dark">
+                    <thead class="thead-bg">
                         <th>Date</th>
                         <th>Invoice</th>
                         <th>Amount Credit</th>
@@ -431,13 +431,28 @@
                     <tr>
                         <%invoice = rs("invoice").value%>
                         <%recentCashPaid = rs("cash_paid").value%>
-                        <% d = CDate(rs("date"))%>
-                        <td class="text-darker"><%Response.Write(FormatDateTime(d,2))%></td>
+                        <% 
+                            myDate = CDATE(rs("date"))
+                            myYear = Year(myDate)
+                            myDay = Day(myDate)
+                            if Len(myDay) = 1 then
+                                myDay = "0" & myDay
+                            end if
+
+                            myMonth = Month(myDate)
+                            if Len(myMonth) = 1 then
+                                myMonth = "0" & myMonth
+                            end if
+
+                            dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                            d = CDate(rs("date"))
+                        %>
+                        <td class="text-darker"><%Response.Write(dateFormat)%></td>
                         <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=transactDate%>'><%Response.Write(rs("invoice"))%></a></td>
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("receivable"))%></td>
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
+                        <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("receivable"))%></td>
+                        <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("balance"))%></td>
                         <% dateOwed = CDate(rs("date_owed")) %>
-                        <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("cash"))%></td>
+                        <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("cash"))%></td>
                         <% totalRecentPayment = totalRecentPayment + CDbl(rs("cash").value) 
                            maxInputVal = CDbl(rs("balance").value) + CDbl(rs("cash").value)
                            minInputVal = (CDbl(rs("receivable").value) - CDbl(rs("cash").value)) * -1
@@ -472,14 +487,14 @@
 
                     <div class="form-group">
                         <span class="total-text">Sub Total
-                            <span class="text-primary">&#8369;</span>
+                            <span class="currency-sign">&#8369;</span>
                         </span>
                         <input class="input-total form-control form-control-sm" type="number" name="total" value="<%=totalRecentPayment%>" step="any" min="0" max="<%=totalRecentPayment%>" id="total" required data-readonly/>
                     </div>
 
                     <div class="form-group">
                         <span class="total-text">Cash
-                            <span class="text-primary">&#8369;</span>
+                            <span class="currency-sign">&#8369;</span>
                         </span>
                         <input class="input-total cash-input form-control form-control-sm" type="number" value="<%=recentCashPaid%>" name="cash_payment" step="any"  id="cash_payment" min="0" step="any" required/>
                     </div>
@@ -555,10 +570,10 @@ $(document).ready( function () {
         dom: "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
              "<'row'<'col-sm-12'tr>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 }); 

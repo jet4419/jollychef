@@ -74,6 +74,19 @@
     sDay = Day(systemDate)
     sMonth = MonthName(Month(systemDate))
     sYear = Year(systemDate)
+
+    myYear = Year(systemDate)
+    myDay = Day(systemDate)
+    if Len(myDay) = 1 then
+        myDay = "0" & myDay
+    end if
+
+    myMonth = Month(systemDate)
+    if Len(myMonth) = 1 then
+        myMonth = "0" & myMonth
+    end if
+
+    dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
 %>
 
 <div id="main">    
@@ -108,7 +121,7 @@
             %>
             
             <table class="table table-hover table-bordered table-sm" id="myTable">
-                <thead class="thead-dark">
+                <thead class="thead-bg">
                     <th>Customer ID</th>
                     <th>Customer Name</th>
                     <th>Department</th>
@@ -131,9 +144,9 @@
                         <a class="text-info" target="_blank" href='receipt.asp?invoice=<%=rs("invoice_no")%>&date=<%=d%>'><%=rs("invoice_no")%>
                     </td>
                     <td class="text-darker">
-                        <%Response.Write(systemDate)%>
+                        <%Response.Write(dateFormat)%>
                     </td> 
-                    <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
+                    <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("balance"))%></td>
                     
                 </tr>
                 <%rs.MoveNext%>
@@ -197,10 +210,10 @@ let j = 0
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
         });
    

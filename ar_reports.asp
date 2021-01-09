@@ -124,7 +124,7 @@
             %>
 
             <table class="table table-hover table-bordered table-sm" id="myTable">
-                <thead class="thead-dark">
+                <thead class="thead-bg">
                     <th>Customer ID</th>
                     <th>Customer Name</th>
                     <th>Department</th>
@@ -163,13 +163,28 @@
 
                             do until rs.EOF%>
                             <tr>
-                                <% d = CDate(rs("date_owed"))%>
+                                <% 
+                                    myDate = CDATE(rs("date_owed"))
+                                    myYear = Year(myDate)
+                                    myDay = Day(myDate)
+                                    if Len(myDay) = 1 then
+                                        myDay = "0" & myDay
+                                    end if
+
+                                    myMonth = Month(myDate)
+                                    if Len(myMonth) = 1 then
+                                        myMonth = "0" & myMonth
+                                    end if
+
+                                    dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                                    d = CDate(rs("date_owed"))
+                                %>
                                 <td class="text-darker"><%Response.Write(rs("cust_id"))%></td>   
                                 <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
                                 <td class="text-darker"><%Response.Write(rs("cust_dept"))%></td> 
                                 <td class="text-darker"><%Response.Write(rs("invoice_no"))%></td> 
-                                <td class="text-darker"><%Response.Write(FormatDateTime(d,2))%></td>
-                                <td class="text-darker"><%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("receivable"))%></td> 
+                                <td class="text-darker"><%Response.Write(dateFormat)%></td>
+                                <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("receivable"))%></td> 
                                 
                             <%rs.MoveNext%>
                             </tr>
@@ -213,10 +228,10 @@
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             buttons: [
-                { extend: 'copy', className: 'btn btn-sm btn-success' },
-                { extend: 'excel', className: 'btn btn-sm btn-success' },
-                { extend: 'pdf', className: 'btn btn-sm btn-success' },
-                { extend: 'print', className: 'btn btn-sm btn-success' }
+                { extend: 'copy', className: 'btn btn-sm btn-light' },
+                { extend: 'excel', className: 'btn btn-sm btn-light' },
+                { extend: 'pdf', className: 'btn btn-sm btn-light' },
+                { extend: 'print', className: 'btn btn-sm btn-light' }
             ]
             
 

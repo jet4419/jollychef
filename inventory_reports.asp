@@ -97,7 +97,7 @@
                 
             %>
             <table class="table table-hover table-bordered table-sm" id="myTable">
-                <thead class="thead-dark">
+                <thead class="thead-bg">
                     <th>ID</th>
                     <th>Brand</th>
                     <th>Name</th>
@@ -112,8 +112,8 @@
                     <td class="text-darker"><%Response.Write(rs("prod_id"))%></td> 
                     <td class="text-darker"><%Response.Write(rs("prod_brand"))%></td> 
                     <td class="text-darker"><%Response.Write(rs("prod_name"))%></td> 
-                    <td class="text-darker"><strong class='text-primary' >&#8369; </strong><%Response.Write(rs("orig_price"))%></td>
-                    <td class="text-darker"><strong class='text-primary' >&#8369; </strong><%Response.Write(rs("price"))%></td>
+                    <td class="text-darker"><strong class='currency-sign' >&#8369; </strong><%Response.Write(rs("orig_price"))%></td>
+                    <td class="text-darker"><strong class='currency-sign' >&#8369; </strong><%Response.Write(rs("price"))%></td>
                     <td class="text-darker"><%Response.Write(rs("qty"))%></td> 
                 </tr>
                 <%rs.MoveNext%>
@@ -154,10 +154,10 @@
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 } ); 

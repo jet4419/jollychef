@@ -340,7 +340,7 @@
                         </select>
 
                         <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" required>
-                        <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-success" min="1" max="100" >Add</button>
+                        <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-primary" min="1" max="100" >Add</button>
                     </form>
                     <!-- END OF ORDER FORM -->
 

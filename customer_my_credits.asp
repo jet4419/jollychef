@@ -387,8 +387,8 @@
                         return_data.push({
                             'date': `<span class='text-darker'>${json[i].date} </span>` ,
                             'invoice'  : `<a target='_blank' href='ob_invoice_records.asp?invoice=${json[i].invoice}&date=${json[i].date}'> ${json[i].invoice} </a> `,
-                            'receivable' :`<span class='text-primary'>&#8369; </span> ${json[i].receivable}` ,
-                            'balance' : `<span class='text-primary'>&#8369; </span> ${json[i].balance}`
+                            'receivable' :`<span class='currency-sign'>&#8369; </span> ${json[i].receivable}` ,
+                            'balance' : `<span class='currency-sign'>&#8369; </span> ${json[i].balance}`
                         });
                         
                         custOB += json[i].balance;
@@ -423,10 +423,10 @@
         dom: "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
              "<'row'<'col-sm-12'tr>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
         
     });
@@ -446,7 +446,7 @@
     //             <td colspan="3"> 
     //                 <strong>Total Balance<strong>
     //             </td>
-    //             <td colspan="1"> <strong> <span class='text-primary'> &#8369; </span> ${custOB} </strong> 
+    //             <td colspan="1"> <strong> <span class='currency-sign'> &#8369; </span> ${custOB} </strong> 
     //             </td>
     //         </tr>`
     // $('#myTable').append(tr);
@@ -504,8 +504,8 @@
     //                 output += ` <tr>
     //                                 <td class='text-darker'> ${jsonObject[i].date} </td>
     //                                 <td class='text-darker'> <a target='_blank' href='ob_invoice_records.asp?invoice=${jsonObject[i].invoice}&date=${jsonObject[i].date}'> ${jsonObject[i].invoice} </td>
-    //                                 <td class='text-darker'> <span class='text-primary'>&#8369; </span> ${jsonObject[i].receivable} </td> 
-    //                                 <td class='text-darker'> <span class='text-primary'>&#8369; </span> ${jsonObject[i].balance} </td> 
+    //                                 <td class='text-darker'> <span class='currency-sign'>&#8369; </span> ${jsonObject[i].receivable} </td> 
+    //                                 <td class='text-darker'> <span class='currency-sign'>&#8369; </span> ${jsonObject[i].balance} </td> 
 
     //                             </tr>    
 
@@ -519,7 +519,7 @@
     //                         <td colspan="3"> 
     //                             <strong>Total Balance<strong>
     //                         </td>
-    //                         <td colspan="1"> <strong> <span class='text-primary'> &#8369; </span> ${custOB} </strong> 
+    //                         <td colspan="1"> <strong> <span class='currency-sign'> &#8369; </span> ${custOB} </strong> 
     //                         </td>
     //                     </tr>`
 

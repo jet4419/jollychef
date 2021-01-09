@@ -145,7 +145,7 @@
 
             <table class="table table-hover table-bordered table-sm" id="myTable">
 
-                <thead class="thead-dark">
+                <thead class="thead-bg">
                     <th>ID</th>
                     <th>Customer Name</th>
                     <th>Department</th>
@@ -186,8 +186,22 @@
                             do until rs.EOF%>
 
                                 <tr>
-                                    <% d = CDate(rs("date"))
-                                    d = FormatDateTime(d, 2)
+                                    <% 
+                                        myDate = CDATE(rs("date"))
+                                        myYear = Year(myDate)
+                                        myDay = Day(myDate)
+                                        if Len(myDay) = 1 then
+                                            myDay = "0" & myDay
+                                        end if
+
+                                        myMonth = Month(myDate)
+                                        if Len(myMonth) = 1 then
+                                            myMonth = "0" & myMonth
+                                        end if
+
+                                        dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                                        d = CDate(rs("date"))
+                                        d = FormatDateTime(d, 2)
                                     %>
                                     <td class="text-darker">
                                         <%Response.Write(rs("cust_id"))%>
@@ -210,7 +224,7 @@
                                     </td> 
 
                                     <td class="text-darker">
-                                        <%Response.Write(d)%>
+                                        <%Response.Write(dateFormat)%>
                                     </td> 
 
                                     <td class="text-darker">
@@ -218,7 +232,7 @@
                                     </td> 
 
                                     <td class="text-darker">
-                                        <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("amount"))%>
+                                        <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("amount"))%>
                                     </td>
 
                                     <td class="text-darker">
@@ -284,10 +298,10 @@
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 

@@ -82,7 +82,7 @@
             %>
 
             <table class="table table-hover table-bordered table-sm" id="myTable">
-                <thead class="thead-dark">
+                <thead class="thead-bg">
                     <th>Customer ID</th>
                     <th>Customer Name</th>
                     <th>Department</th>
@@ -188,12 +188,12 @@ const custID = localStorage.getItem('cust_id');
                         'id': `<span class='text-darker'>${json[i].id} </span>` ,
                         'name'  : `<span class='text-darker'> ${json[i].name}`,
                         'department' :`<span class='text-darker'> ${json[i].department}`,
-                        'balance' : `<span class='text-darker'> <span class='text-primary'> &#8369; </span> ${json[i].balance} </span>`,
-                        'buttons' : `<button type='button' id='${json[i].id}' class='btn btn-sm btn-success mx-auto mb-2 date_sales w-100' data-toggle='modal' data-target='#date_sales'  title='View Transactions' data-toggle='tooltip' data-placement='top'>
+                        'balance' : `<span class='text-darker'> <span class='currency-sign'> &#8369; </span> ${json[i].balance} </span>`,
+                        'buttons' : `<button type='button' id='${json[i].id}' class='btn btn-sm btn-outline-dark mx-auto mb-2 date_sales w-100' data-toggle='modal' data-target='#date_sales'  title='View Transactions' data-toggle='tooltip' data-placement='top'>
                             Cash
                         </button>
                         
-                        <button type='button' id='${json[i].id}' class='btn btn-sm btn-dark mx-auto mb-2 date_transact w-100' data-toggle='modal' data-target='#date_transactions'  title='View Transactions' data-toggle='tooltip' data-placement='top'>
+                        <button type='button' id='${json[i].id}' class='btn btn-sm btn-outline-dark mx-auto mb-2 date_transact w-100' data-toggle='modal' data-target='#date_transactions'  title='View Transactions' data-toggle='tooltip' data-placement='top'>
                             Credit
                         </button>
                         ` 
@@ -220,10 +220,10 @@ const custID = localStorage.getItem('cust_id');
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
         });
 

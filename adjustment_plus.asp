@@ -269,7 +269,7 @@
 
                     <table class="table table-bordered table-sm" id="myTable">
 
-                        <thead class="thead-dark">
+                        <thead class="thead-bg">
                             <th>Date</th>
                             <th>Reference No</th>
                             <th>Invoice</th>
@@ -284,9 +284,24 @@
                         <%do until rs.EOF%>
                         <tr>
                             <%invoice = rs("invoice_no").value%>
-                            <% refDate = CDate(rs("date_owed"))%>
+                            <% 
+                                myDate = CDATE(rs("date_owed"))
+                                myYear = Year(myDate)
+                                myDay = Day(myDate)
+                                if Len(myDay) = 1 then
+                                    myDay = "0" & myDay
+                                end if
+
+                                myMonth = Month(myDate)
+                                if Len(myMonth) = 1 then
+                                    myMonth = "0" & myMonth
+                                end if
+
+                                dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                                refDate = CDate(rs("date_owed"))
+                            %>
                             <td class="text-darker">
-                                <%=(FormatDateTime(refDate,2))%>
+                                <%=(dateFormat)%>
                             </td>
 
                             <td class="text-darker">
@@ -298,11 +313,11 @@
                             </td>
 
                             <td class="text-darker">
-                                <span class="text-primary">&#8369;</span><%=(rs("receivable"))%>
+                                <span class="currency-sign">&#8369;</span><%=(rs("receivable"))%>
                             </td>
 
                             <td class="text-darker">
-                                <span class="text-primary">&#8369;</span><%=(rs("balance"))%>
+                                <span class="currency-sign">&#8369;</span><%=(rs("balance"))%>
                             </td>
 
                             <%
@@ -319,7 +334,6 @@
                                     </div>
                                     <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
                                     <input id="balance" value = "<%=rs("balance").value%>" hidden>
-                                    <input id="date_owed" value="<%=rs("date_owed").value%>" hidden>
                                     <input id="transact_date" value="<%=transactDate%>" hidden>
                                     <input onblur="findTotal()" type="number" id="<%=invoice%>" name="adjustment_value" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=(maxAdjustment)%>">
                                 </div>
@@ -343,7 +357,7 @@
                             
                             <div class="item item-left form-group">
                                 <label class="d-block total-text text-center">Total Adjustment
-                                    <span class="text-primary">&#8369;</span>
+                                    <span class="currency-sign">&#8369;</span>
                                 </label>
                                 <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" max="0" name="total_adjustment" step="any"  id="total_adjustment" step="any" required data-readonly/>
                             </div>
@@ -393,10 +407,10 @@ $(document).ready( function () {
         dom: "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
              "<'row'<'col-sm-12'tr>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 }); 
@@ -417,7 +431,6 @@ $(document).ready( function () {
             var department = $("#department").val()
             var receivable = $("#receivable").val()
             var balance = $("#balance").val()
-            var dateOwed = $("#date_owed").val()
             var totalAdjustment = $("#total_adjustment").val()
             var referenceNo = $("#reference_no").val()
             var remarks = $("#remarks").val()
@@ -429,7 +442,7 @@ $(document).ready( function () {
                 data: {
                        invoice: invoice, adjustmentValue: adjustmentValue,
                        custID: custID, custName: custName, department: department,
-                       receivable: receivable, balance: balance, dateOwed: dateOwed,
+                       receivable: receivable, balance: balance,
                        referenceNo : referenceNo, remarks: remarks
                       },
                 success: function(data) {

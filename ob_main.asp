@@ -123,7 +123,7 @@
             %>
             
             <table class="table table-hover table-bordered table-sm" id="myTable">
-                <thead class="thead-dark">
+                <thead class="thead-bg">
                     <th>Customer ID</th>
                     <th>Name</th>
                     <th>Department</th>
@@ -149,7 +149,7 @@
                             debitBal = 0
                         end if
                     %>
-                    <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(creditBal)%></td>
+                    <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(creditBal)%></td>
   
                     
                         <%if CDbl(creditBal) <= 0 then%>
@@ -266,10 +266,10 @@ let j = 0
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
         });
 

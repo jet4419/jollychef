@@ -168,6 +168,20 @@
                 folderPath = mainPath & yearPath & "-" & monthPath
                 obPath = folderPath & obFile
 
+
+                obMyYear = Year(obDate)
+                obMyDay = Day(obDate)
+                if Len(obMyDay) = 1 then
+                    obMyDay = "0" & obMyDay
+                end if
+
+                obMyMonth = Month(obDate)
+                if Len(obMyMonth) = 1 then
+                    obMyMonth = "0" & obMyMonth
+                end if
+
+                obDateFormat = obMyMonth & "/" & obMyDay & "/" & Mid(obMyYear, 3)
+
                 'Response.Write obPath
 
                 if obDate = systemDate then
@@ -202,7 +216,7 @@
             %>
             
             <table class="table table-hover table-bordered table-sm" id="myTable">
-                <thead class="thead-dark">
+                <thead class="thead-bg">
                     <th>Customer ID</th>
                     <th>Customer Name</th>
                     <th>Department</th>
@@ -212,23 +226,38 @@
 
                 <%do until rs.EOF%>
 
-                <tr>
-                    <td class="text-darker"><%Response.Write(rs("cust_id"))%></td>
-                    <!--
-                    <td class="text-darker"><'%'Response.Write(Trim(rs("cust_lname")) & " " & Trim(rs("cust_fname")))%></td>
-                    -->
-                    <td class="text-darker"><%Response.Write(Trim(rs("cust_name")))%></td>
-                    <td class="text-darker"><%Response.Write(rs("department"))%></td>
-                    <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("credit_bal"))%></td>
-                    <% d = CDate(rs("end_date"))%>
-                    <td class="text-darker">
-                        <%if obDate = systemDate then
-                            Response.Write(systemDate)
-                          else
-                            Response.Write(FormatDateTime(d,2))
-                          end if%>
-                    </td>                   
-                </tr>
+                    <tr>
+                        <td class="text-darker"><%Response.Write(rs("cust_id"))%></td>
+                        <!--
+                        <td class="text-darker"><'%'Response.Write(Trim(rs("cust_lname")) & " " & Trim(rs("cust_fname")))%></td>
+                        -->
+                        <td class="text-darker"><%Response.Write(Trim(rs("cust_name")))%></td>
+                        <td class="text-darker"><%Response.Write(rs("department"))%></td>
+                        <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("credit_bal"))%></td>
+                        <% 
+                            myDate = CDATE(rs("end_date"))
+                            myYear = Year(myDate)
+                            myDay = Day(myDate)
+                            if Len(myDay) = 1 then
+                                myDay = "0" & myDay
+                            end if
+
+                            myMonth = Month(myDate)
+                            if Len(myMonth) = 1 then
+                                myMonth = "0" & myMonth
+                            end if
+
+                            dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                            d = CDate(rs("end_date"))
+                        %>
+                        <td class="text-darker">
+                            <%if obDate = systemDate then
+                                Response.Write(obDateFormat)
+                            else
+                                Response.Write(dateFormat)
+                            end if%>
+                        </td>                   
+                    </tr>
 
                 <%rs.MoveNext%>
                 <%loop%>
@@ -292,10 +321,10 @@ let j = 0
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
         });
    

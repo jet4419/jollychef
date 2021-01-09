@@ -220,7 +220,7 @@
                     </select>
 
                     <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" required>
-                    <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-success" min="1" max="100" >Add</button>
+                    <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-primary" min="1" max="100" >Add</button>
                 </form>
                 <!-- END OF ORDER FORM -->
 
@@ -245,7 +245,7 @@
                 </table>
                 <!-- END OF ORDER TABLE -->
 
-                <button type="button" class="btn btnPayment btn-success btn-block text-white mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#paymentMethodModal">
+                <button type="button" class="btn btnPayment btn-primary btn-block text-white mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#paymentMethodModal">
                 Process Order
                 </button> 
   
@@ -270,7 +270,7 @@
                                 <p>Are you sure to process your order?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-success">Yes</button>
+                                <button type="submit" class="btn btn-primary">Yes</button>
                                 <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
                             </div>
                             </div>

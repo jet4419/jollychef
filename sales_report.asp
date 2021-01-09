@@ -135,7 +135,7 @@
             %>
 
 			<table class="table table-hover table-bordered table-sm" id="myTable">
-				<thead class="thead-dark">
+				<thead class="thead-bg">
 					<th>Reference No</th>
                     <th>Invoice Number</th>
                     <th>Customer</th>
@@ -203,7 +203,21 @@
                             'totalNet = totalNet + CDbl(rs("profit"))
                         %>
                             <tr> 
-                                
+                                <%
+                                myDate = CDATE(rs("date"))
+                                myYear = Year(myDate)
+                                myDay = Day(myDate)
+                                if Len(myDay) = 1 then
+                                    myDay = "0" & myDay
+                                end if
+
+                                myMonth = Month(myDate)
+                                if Len(myMonth) = 1 then
+                                    myMonth = "0" & myMonth
+                                end if
+
+                                dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                                %>
                                 <% transactDate = FormatDateTime(CDate(rs("date")), 2)%>
                                 <td class="text-darker"><%Response.Write(rs("ref_no"))%></td> 
                                 <%  if Trim(rs("payment").value) = Trim("Credit") then 
@@ -224,16 +238,16 @@
                                 %>
                                 
                                 <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
-                                <td class="text-darker"><%Response.Write(transactDate)%></td>
-                                <td class="text-darker"><strong class='text-primary' >&#8369; </strong><%Response.Write(rs("amount"))%></td>
+                                <td class="text-darker"><%Response.Write(dateFormat)%></td>
+                                <td class="text-darker"><strong class='currency-sign' >&#8369; </strong><%Response.Write(rs("amount"))%></td>
 
                                 
                                 <td class="text-darker">
-                                    <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&cash)%>
+                                    <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&cash)%>
                                 </td> 
 
                                 <td class="text-darker">
-                                    <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&credit)%>
+                                    <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&credit)%>
                                 </td>  
                                 <td class="text-darker"><%Response.Write(rs("payment"))%></td> 
                             </tr>
@@ -278,10 +292,10 @@
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         "order": [],
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 

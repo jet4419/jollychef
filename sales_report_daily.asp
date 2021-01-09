@@ -151,7 +151,7 @@
                 Response.Write(displayDate)
                 Response.Write("</span>")
             %>
-				<thead class="thead-dark">
+				<thead class="thead-bg">
 					<th>Reference No</th>
                     <th>Invoice Number</th>
                     <th>Customer</th>
@@ -207,6 +207,21 @@
                         %>
 
                         <tr>
+                            <%
+                                myDate = CDATE(rs("date"))
+                                myYear = Year(myDate)
+                                myDay = Day(myDate)
+                                if Len(myDay) = 1 then
+                                    myDay = "0" & myDay
+                                end if
+
+                                myMonth = Month(myDate)
+                                if Len(myMonth) = 1 then
+                                    myMonth = "0" & myMonth
+                                end if
+
+                                dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                            %>
                             <% transactDate = FormatDateTime(CDate(rs("date")), 2)%>
                             <td class="text-darker"><%Response.Write(rs("ref_no"))%></td> 
 
@@ -221,12 +236,12 @@
                             <%end if%>    
 
                             <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
-                            <td class="text-darker"><%Response.Write(transactDate)%></td> 
+                            <td class="text-darker"><%Response.Write(dateFormat)%></td> 
                             <td class="text-darker">
-                                <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("amount"))%>
+                                <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("amount"))%>
                             </td>
                             <td class="text-darker">
-                                <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("cash_paid"))%>
+                                <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("cash_paid"))%>
                             </td>
                             <% change = CDbl(rs("cash_paid")) - CDbl(rs("amount")) 
                                 if change < 0 then
@@ -234,7 +249,7 @@
                                 end if 
                             %>
                             <td class="text-darker">
-                                <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&change)%>
+                                <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&change)%>
                             </td>
                             <td class="text-darker"><%Response.Write(rs("payment"))%></td>
                         </tr>
@@ -247,9 +262,9 @@
 
                 <tfoot>
                     <tr>
-                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Sales</h3></strong> <h5>  <span class="text-primary">  &#8369; </span> <%=totalGross%></h5></td>
-                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Cash</h3></strong> <h5>  <span class="text-primary">  &#8369; </span> <%=totalCOH%></h5></td>
-                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Credit</h3></strong> <h5><span class="text-primary">  &#8369; </span> <%=totalCredit%></h5></td>
+                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Sales</h3></strong> <h5>  <span class="currency-sign">  &#8369; </span> <%=totalGross%></h5></td>
+                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Cash</h3></strong> <h5>  <span class="currency-sign">  &#8369; </span> <%=totalCOH%></h5></td>
+                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Credit</h3></strong> <h5><span class="currency-sign">  &#8369; </span> <%=totalCredit%></h5></td>
                     </tr>
                 </tfoot>
 
@@ -282,10 +297,10 @@
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 

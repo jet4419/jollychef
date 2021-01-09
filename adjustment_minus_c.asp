@@ -14,7 +14,6 @@
     department = CStr(Request.Form("department"))
     receivable = CDbl(Request.Form("receivable"))
     balance = CDbl(Request.Form("balance"))
-    dateOwed = CDate(Request.Form("dateOwed"))
 
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & "AD" & referenceNo)
@@ -39,12 +38,12 @@
 
     if isValidRef = true then
 
-        Dim yearPath, monthPath, arYearPath, arMonthPath
+        Dim yearPath, monthPath
 
         yearPath = CStr(Year(systemDate))
         monthPath = CStr(Month(systemDate))
-        arYearPath = CStr(Year(dateOwed))
-        arMonthPath = CStr(Month(dateOwed))
+        ' arYearPath = CStr(Year(dateOwed))
+        ' arMonthPath = CStr(Month(dateOwed))
 
         if Len(monthPath) = 1 then
             monthPath = "0" & monthPath
@@ -60,9 +59,9 @@
         transactionsFile = "\transactions.dbf"
         adjustmentFile = "\adjustments.dbf"
 
-        Dim arOrigPath, arPath, transactionsPath, adjustmentPath
+        Dim arPath, transactionsPath, adjustmentPath
 
-        arOrigPath = mainPath & arYearPath & "-" & arMonthPath & arFile
+        ' arOrigPath = mainPath & arYearPath & "-" & arMonthPath & arFile
         arPath = mainPath & yearPath & "-" & monthPath & arFile
         transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
         adjustmentPath = mainPath & yearPath & "-" & monthPath & adjustmentFile
@@ -114,7 +113,7 @@
 
         isDuplicate = "yes"
 
-        sqlArUpdate = "UPDATE "&arOrigPath&" SET balance = balance - "&adjustmentValue&" WHERE invoice_no="&invoice
+        sqlArUpdate = "UPDATE "&arPath&" SET balance = balance - "&adjustmentValue&" WHERE invoice_no="&invoice
         cnroot.execute(sqlArUpdate)
 
         sqlAdd2 = "INSERT INTO "&transactionsPath&" (id, ref_no, t_type, cust_id, invoice, debit, credit, date, status, duplicate)"&_

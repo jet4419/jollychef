@@ -217,23 +217,27 @@
                     <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
-                <a href="sales_report_detailed.asp" class="btn btn-sm btn-outline-dark">Sales Report by Order</a>
-                <a href="sales_report_sum.asp" class="btn btn-sm btn-outline-dark">Sales Report Summary</a>
-            </p>
+                    <a href="sales_report_detailed.asp" class="btn btn-sm btn-outline-dark">Sales Report by Order</a>
+                    <a href="sales_report_sum.asp" class="btn btn-sm btn-outline-dark">Sales Report Summary</a>
+                </p>
             </div>
             
 
-            <button id="printMe" class="btn btn-sm btn-dark">Print</button>
-            <h1 class="h2 text-center mb-4 main-heading" style="font-weight: 400"> Sales Report by Reference</h1>
+           
+            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Sales Report by Reference</h1>
 
-            <%
-    
-                Response.Write("<p><strong> Date: </strong>")
-                Response.Write(displayDate1 & " - ")
-                Response.Write(displayDate2)
-                Response.Write "</p>"
-               
-            %>  
+            <div>
+                <%
+        
+                    Response.Write("<p class='float-left'><strong> Date: </strong>")
+                    Response.Write(displayDate1 & " - ")
+                    Response.Write(displayDate2)
+                    Response.Write "</p>"
+                
+                %>  
+                <button id="printMe" class="btn btn-sm btn-dark float-right mr-1">Print</button>
+
+            </div>
 
             <div id="printData"> 
 

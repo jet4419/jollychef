@@ -296,8 +296,22 @@
                     %>
 
                     <%do until rs.EOF%>
-                    <%d = CDate(rs("date"))
-                    d = FormatDateTime(d, 2)
+                    <%
+                        myDate = CDATE(rs("date"))
+                        myYear = Year(myDate)
+                        myDay = Day(myDate)
+                        if Len(myDay) = 1 then
+                            myDay = "0" & myDay
+                        end if
+
+                        myMonth = Month(myDate)
+                        if Len(myMonth) = 1 then
+                            myMonth = "0" & myMonth
+                        end if
+
+                        dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                        d = CDate(rs("date"))
+                        d = FormatDateTime(d, 2)
                     %>
                     <tr>
                         <td class="text-darker">
@@ -319,7 +333,7 @@
                             </td>
                         <% end if %>    
 
-                        <td class="text-darker"><%Response.Write(d)%></td>
+                        <td class="text-darker"><%Response.Write(dateFormat)%></td>
 
                     </tr>
                     <%rs.MoveNext%>
@@ -401,10 +415,10 @@ $(document).ready( function () {
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 }); 

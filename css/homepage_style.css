@@ -66,7 +66,14 @@ input[type='number'] {
   z-index: 1;
   top: 0;
   left: 0;
-  background: #438a5e;
+  /* background: #438a5e;
+  background-color: #1a5b92;
+  background-color: #385065;
+  background-color: #194b73;
+  background-color: #264c6b; */
+  /* background-color: #30536f; */
+  background-color: #205288;
+  background-color: #117a8b;
   transition: 0.5s;
   overflow: hidden;
   padding-top: 35px;
@@ -260,18 +267,29 @@ a.main-menus--items.customers-icon {
   color: #eee;
 }
 
+.main-heading {
+  font-family: monospace !important;
+  font-size: 32px !important;
+}
+
 #reports-container {
   margin: 0;
 }
 
 .thead-bg {
   background-color: #438a5e;
+  background-color: #8ebfc7;
+  background-color: #004954;
+  background-color: #053d46;
   color: #fff;
   border-color: #000;
 }
 
 .totalAmount {
   font-weight: 600;
+  /* color: #9e8f00;
+  color: #ab9b0a; */
+  color: #7b6f00;
   /* border: 1.5px solid rgb(88, 82, 82) !important; */
 }
 

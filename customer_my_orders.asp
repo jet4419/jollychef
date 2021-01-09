@@ -125,7 +125,7 @@ $(document).ready( function () {
                         'order': `<span class='text-bold'>${json[i].orderNumber} </span>` ,
                         'name'  : `<span class='text-darker'> ${json[i].custName} </span> `,
                         'department' :`<span class='text-darker'>${json[i].department} </span> ` ,
-                        'amount' : `<strong class='text-darker'>&#8369; </strong> ${json[i].amount}`,
+                        'amount' : `<strong class='currency-sign'>&#8369; </strong> ${json[i].amount}`,
                         'date' : `<span class='text-darker'>${json[i].date} </span> `,
                         'button' : `<a href='customer_my_orders_list.asp?unique_num=${json[i].uniqueNum}&cust_id=${json[i].custID}' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
                         View Orders
@@ -169,10 +169,10 @@ $(document).ready( function () {
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 }); 

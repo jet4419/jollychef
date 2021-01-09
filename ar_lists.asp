@@ -341,7 +341,7 @@
  
                 <div class="table-responsive-sm mt-2">
                     <table class="table table-bordered table-sm" id="myTable">
-                        <thead class="thead-dark">
+                        <thead class="thead-bg">
                             <th>Date</th>
                             <th>Invoice</th>
                             <th>Amount Credit</th>
@@ -356,18 +356,32 @@
                         <%do until rs.EOF%>
                         <tr>
                             <%invoice = rs("invoice_no").value%>
-                            <% d = CDate(rs("date_owed"))
-                            d = FormatDateTime(d, 2)
+                            <% 
+                                myDate = CDATE(rs("date_owed"))
+                                myYear = Year(myDate)
+                                myDay = Day(myDate)
+                                if Len(myDay) = 1 then
+                                    myDay = "0" & myDay
+                                end if
+
+                                myMonth = Month(myDate)
+                                if Len(myMonth) = 1 then
+                                    myMonth = "0" & myMonth
+                                end if
+
+                                dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                                d = CDate(rs("date_owed"))
+                                d = FormatDateTime(d, 2)
                             %>
-                            <td class="text-darker"><%Response.Write(d)%></td>
+                            <td class="text-darker"><%Response.Write(dateFormat)%></td>
                             <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>'><%Response.Write(rs("invoice_no"))%></a></td>
-                            <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("receivable"))%></td>
-                            <td class="text-darker"><span class="text-primary">&#8369;</span><%Response.Write(rs("balance"))%></td>
+                            <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("receivable"))%></td>
+                            <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("balance"))%></td>
                             <% totalBalance = totalBalance + CDbl(rs("balance").value) %>
                             <td>
                             <div class="input-group input-group-sm py-1">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
+                                    <span class="input-group-text bg-primary text-light currency-sign" id="inputGroup-sizing-sm">&#8369;</span>
                                 </div>
                                 <input onblur="findTotal()" type="number" id="<%=invoice%>" name="sub_total" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=rs("balance")%>">
                             </div>
@@ -397,14 +411,14 @@
                         
                         <div class="item item-left form-group">
                             <span class="total-text">Sub Total
-                                <span class="text-dark">&#8369;</span>
+                                <span class="currency-sign">&#8369;</span>
                             </span>
                             <input class="input-total form-control form-control-sm" type="number" name="total" value="0" step="any" min="0.1" max="0" id="total" required data-readonly/>
                         </div>
 
                         <div class="item item-right form-group">
                             <span class="total-text">Cash
-                                <span class="text-dark">&#8369;</span>
+                                <span class="currency-sign">&#8369;</span>
                             </span>
                             <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" required onchange="distributePayment()"/>
                         </div>
@@ -520,10 +534,10 @@ $(document).ready( function () {
         dom: "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
              "<'row'<'col-sm-12'tr>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 }); 

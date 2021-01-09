@@ -50,6 +50,16 @@
                 font-family: 'Kulim Park', sans-serif;
             }
 
+            .blank_row {
+                height: 30px !important;
+                background-color: #FFFFFF;
+            }
+
+            .final-total {
+                font-weight: 600;
+            }
+
+
         </style>
     </head>
 
@@ -148,6 +158,13 @@
 
             Dim collectID, cash_paid, ar_paid, custID, referenceNo
 
+            printTototal = false
+
+            Dim customerTotalAmount, customerTotalCash, customerTotalCharge
+            customerTotalAmount = 0
+            customerTotalCash = 0
+            customerTotalCharge = 0
+
             for i=0 to monthsDiff
 
                 monthLength = Month(DateAdd("m",i,queryDate1))
@@ -172,6 +189,52 @@
             %>
                     <%do until rs.EOF%>
 
+                        <%
+                            totalSales = totalSales + CDBL(rs("tot_amount"))
+                            paymentType = Trim(CSTR(rs("p_method")))
+
+
+                            if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
+                                customerCount = customerCount + 1
+                                customerTotalAmount = customerTotalAmount + CDBL(rs("tot_amount"))
+                            else
+                                printTototal = true
+                                customerCount = 1
+                                if printTototal = true then%>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td  class="totalAmount">&#8369; <%=customerTotalAmount%></td>
+                                        <td class="totalAmount">&#8369; <%=customerTotalCash%></td>
+                                        <td class="totalAmount">&#8369; <%=customerTotalCharge%></td>
+                                    </tr>
+                                    <tr class="blank_row">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                <%
+                                    printTototal = false
+                                    customerTotalAmount = CDBL(rs("tot_amount"))
+                                    customerTotalCash = 0
+                                    customerTotalCharge = 0
+                                end if
+                        
+                        
+                            end if
+
+                            custIdCont = CLNG(rs("cust_id"))
+                        %>
                         <% collectID = rs("id").value %>
                     <tr>
                         <%
@@ -257,12 +320,52 @@
                             <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&ar_paid)%>
                         </td> 
 
+                        <%
+                            if paymentType = "ar" then
+                                customerTotalCharge = customerTotalCharge + CDBL(rs("cash"))
+                                totalCharge = totalCharge + CDBL(rs("cash"))
+                            else
+                                customerTotalCash = customerTotalCash + CDBL(rs("cash"))
+                                totalCash = totalCash + CDBL(rs("cash"))
+                            end if
+
+                            ' Response.Write "Cust Total Charge: " & customerTotalCharge & " Cust Total Cash: " & customerTotalCash & "<br>"
+                        %>
+
                     <%rs.MoveNext%>
                     <%loop%>
                 <%rs.close
                 Loop While False  
                     
-            next%>    
+            next%>   
+
+                <%if isTotalPrinted = false then%>
+                    <tr> 
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class='totalAmount'>&#8369; <%=customerTotalAmount%></td>
+                        <td class='totalAmount'>&#8369; <%=customerTotalCash%></td>
+                        <td class='totalAmount'>&#8369; <%=customerTotalCharge%></td>
+                    </tr>
+                <%end if%>
+
+                <tr class="final-total"> 
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>&#8369; <%=totalSales%></td>
+                    <td>&#8369; <%=totalCash%></td>
+                    <td>&#8369; <%=totalCharge%></td>
+                </tr>
+                         
+
         </table>
     </div>    
     </div>
