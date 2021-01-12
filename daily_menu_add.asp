@@ -107,8 +107,8 @@
                     <tr>   
                         <td class="text-darker"><%Response.Write(rs("prod_id"))%></td> 
                         <td class="text-darker"><%Response.Write(rs("prod_name"))%></td> 
-                        <td class="text-darker"><%Response.Write("<strong class='text-primary' >&#8369; </strong>"& rs("orig_price"))%></td> 
-                        <td class="text-darker"><%Response.Write("<strong class='text-primary' >&#8369; </strong>"& rs("price"))%></td> 
+                        <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"& rs("orig_price"))%></td> 
+                        <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"& rs("price"))%></td> 
                         <td class="text-darker"><%Response.Write(rs("category"))%></td> 
                         <td class="text-darker"><%Response.Write(rs("qty"))%></td> 
                     </tr>  

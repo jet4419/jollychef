@@ -309,15 +309,15 @@
                             </td>
 
                             <td class="text-darker">
-                                <a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=refDate%>'><%=(rs("invoice_no"))%></a>
+                                <a target="_blank" class="text-info" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=refDate%>'><%=(rs("invoice_no"))%></a>
                             </td>
 
                             <td class="text-darker">
-                                <span class="currency-sign">&#8369;</span><%=(rs("receivable"))%>
+                                <span class="currency-sign">&#8369;</span> <%=(rs("receivable"))%>
                             </td>
 
                             <td class="text-darker">
-                                <span class="currency-sign">&#8369;</span><%=(rs("balance"))%>
+                                <span class="currency-sign">&#8369;</span> <%=(rs("balance"))%>
                             </td>
 
                             <%
@@ -330,7 +330,7 @@
                             <td>
                                 <div class="input-group input-group-sm py-1">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
+                                        <span class="input-group-text bg-info text-light" id="inputGroup-sizing-sm">&#8369;</span>
                                     </div>
                                     <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
                                     <input id="balance" value = "<%=rs("balance").value%>" hidden>

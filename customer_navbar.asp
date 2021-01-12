@@ -122,7 +122,7 @@
     } else {
 
         const btnLogin = document.createElement('button');
-        btnLogin.className = 'btn btn-sm btn-success';
+        btnLogin.className = 'btn btn-sm btn-info';
         btnLogin.setAttribute('data-toggle', 'modal'); 
         btnLogin.setAttribute('data-target', '#login'); 
         btnLogin.textContent = 'Login';

@@ -94,6 +94,7 @@
             Set fs = Server.CreateObject("Scripting.FileSystemObject")
 
             tempSalesReportTbl = Server.MapPath("./temp_folder/sales_report_container.dbf")
+            tempCollectionsReportTbl = Server.MapPath("./temp_folder/collections_report_container.dbf")
             
             if fs.FileExists(tempSalesReportTbl) then
                 fs.DeleteFile(tempSalesReportTbl)
@@ -102,6 +103,10 @@
                 ' else
                 ' Response.Write "<br> No permission to delete. Error: " & Err.description & "<br>"
                 ' end if
+            end if
+
+            if fs.FileExists(tempCollectionsReportTbl) then
+                fs.DeleteFile(tempCollectionsReportTbl)
             end if
             
             set fs=nothing

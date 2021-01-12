@@ -86,10 +86,6 @@
                 font-size: 30px;
             }
 
-            .department_lbl {
-                color: #7d7d7d;
-            }
-
             .order_of {
                 color: #333;
             }
@@ -312,7 +308,9 @@
                 
             </div>
             
-            <button id="<%=custID%>" class="btn btn-sm btn-dark btnDateCredit" >Select Credit Date</button>
+            <!--
+            <button id="<'%=custID%>" class="btn btn-sm btn-dark btnDateCredit" >Select Credit Date</button>
+            -->
             <%  'sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
             '     set objAccess = cnroot.execute(sqlQuery)
             '     if not objAccess.EOF then
@@ -339,7 +337,7 @@
                           
             <form id="myForm" method="POST">
  
-                <div class="table-responsive-sm mt-2">
+                <div class="table-responsive-sm mt-5">
                     <table class="table table-bordered table-sm" id="myTable">
                         <thead class="thead-bg">
                             <th>Date</th>
@@ -347,7 +345,6 @@
                             <th>Amount Credit</th>
                             <th>Balance</th>
                             <th>Payment</th>
-                    
                         </thead>
 
                         <% Dim totalBalance 
@@ -374,14 +371,14 @@
                                 d = FormatDateTime(d, 2)
                             %>
                             <td class="text-darker"><%Response.Write(dateFormat)%></td>
-                            <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>'><%Response.Write(rs("invoice_no"))%></a></td>
-                            <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("receivable"))%></td>
-                            <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("balance"))%></td>
+                            <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>' class="text-info"><%Response.Write(rs("invoice_no"))%></a></td>
+                            <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("receivable"))%></td>
+                            <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("balance"))%></td>
                             <% totalBalance = totalBalance + CDbl(rs("balance").value) %>
                             <td>
                             <div class="input-group input-group-sm py-1">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-primary text-light currency-sign" id="inputGroup-sizing-sm">&#8369;</span>
+                                    <span class="input-group-text bg-info text-light currency-sign" id="inputGroup-sizing-sm">&#8369;</span>
                                 </div>
                                 <input onblur="findTotal()" type="number" id="<%=invoice%>" name="sub_total" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=rs("balance")%>">
                             </div>
@@ -402,7 +399,7 @@
                     </table>
 
                     
-                    <div class="total-payment-container mt-3">
+                    <div class="total-payment-container mt-2">
 
                         <div class="item item-left form-group ">
                             <span class="total-text">Reference No</span>
@@ -578,22 +575,22 @@ $(document).ready( function () {
     }
 
     // Pay Debt
-    $(document).on("click", ".btnDateCredit", function(event) {
+    // $(document).on("click", ".btnDateCredit", function(event) {
 
-            event.preventDefault();
+    //         event.preventDefault();
 
-            let custID = $(this).attr("id");
-            $.ajax({
+    //         let custID = $(this).attr("id");
+    //         $.ajax({
 
-            url: "ar_list_datepicker.asp",
-            type: "POST",
-            data: {custID: custID},
-            success: function(data) {
-                $("#payDebtBody").html(data);
-                $("#pay_debt_modal").modal("show");
-            }
-        })    
-    }) // End of Pay Debt    
+    //         url: "ar_list_datepicker.asp",
+    //         type: "POST",
+    //         data: {custID: custID},
+    //         success: function(data) {
+    //             $("#payDebtBody").html(data);
+    //             $("#pay_debt_modal").modal("show");
+    //         }
+    //     })    
+    // }) // End of Pay Debt    
 
     
     // Payment

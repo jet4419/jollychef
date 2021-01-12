@@ -98,11 +98,11 @@
                     </td> 
 
                     <td class="text-darker">
-                        <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("orig_price"))%>
+                        <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("orig_price"))%>
                     </td> 
 
                     <td class="text-darker">
-                        <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("price"))%>
+                        <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("price"))%>
                     </td> 
 
                     <td class="text-darker">

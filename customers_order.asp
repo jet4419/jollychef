@@ -90,7 +90,7 @@
             <% rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" GROUP BY unique_num", CN2 %>
             <table class="table table-hover table-bordered table-sm" id="myTable">
             <caption>List of orders</caption>
-                <thead class="thead-dark">
+                <thead class="thead-bg">
                     <th>Order#</th>
                     <th>Name</th>
                     <th>Department</th>
@@ -114,7 +114,7 @@
                     <td class="text-bold"><%Response.Write(i)%></td> 
                     <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
                     <td class="text-darker"><%Response.Write(rs("department"))%></td>   
-                    <td class="text-darker"><%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("amount"))%></td> 
+                    <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("amount"))%></td> 
                     <td class="text-darker"><%Response.Write(FormatDateTime(rs("date"), 2))%></td>
                     <td class="m-0">
                         <button onClick="view_order(<%=rs("unique_num")%>, '<%=rs("cust_id")%>')" class="btn btn-sm btn-outline-dark mx-auto mb-2">

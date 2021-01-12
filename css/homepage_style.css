@@ -34,7 +34,8 @@ input[type='number'] {
 .navigation {
   /*background: #2dd1ac; */
   /*background: #343a40;*/
-  background-color: #252f3a;
+  /* background-color: #252f3a; */
+  background-color: #061323;
   color: #f4f4f4;
   height: 50px;
   /* padding: 10px; */
@@ -72,13 +73,18 @@ input[type='number'] {
   background-color: #194b73;
   background-color: #264c6b; */
   /* background-color: #30536f; */
-  background-color: #205288;
-  background-color: #117a8b;
+  /* background-color: #205288;
+  background-color: #117a8b; */
+  background-color: #2d717d;
   transition: 0.5s;
   overflow: hidden;
   padding-top: 35px;
 
   white-space: nowrap;
+}
+
+.print-main-heading {
+  display: none;
 }
 
 /* a.main-menus--items {
@@ -277,15 +283,17 @@ a.main-menus--items.customers-icon {
 }
 
 .thead-bg {
-  background-color: #438a5e;
+  /* background-color: #438a5e;
   background-color: #8ebfc7;
   background-color: #004954;
-  background-color: #053d46;
+  background-color: #053d46; */
+  background-color: #061323;
   color: #fff;
   border-color: #000;
 }
 
-.totalAmount {
+.totalAmount,
+.totalAmountCollect {
   font-weight: 600;
   /* color: #9e8f00;
   color: #ab9b0a; */
@@ -413,6 +421,11 @@ a.main-menus--items.customers-icon {
   justify-content: center;
   align-items: center;
   margin-bottom: 0.5rem;
+}
+
+.department_lbl {
+  color: #7d7d7d;
+  font-size: 25px;
 }
 
 .footer {

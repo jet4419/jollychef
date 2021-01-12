@@ -48,7 +48,8 @@ input[type='number'] {
   grid-column: 1 / -1;
   /*background: #2dd1ac; */
   /*background: #343a40;*/
-  background-color: #252f3a;
+  /* background-color: #252f3a; */
+  background-color: #061323;
   color: #f4f4f4;
   height: 50px;
   /* padding: 10px; */
@@ -83,8 +84,9 @@ input[type='number'] {
   background: #438a5e;
   /* background-color: #194b73; */
   /* background-color: #30536f; */
-  background-color: #205288;
-  background-color: #117a8b;
+  /* background-color: #205288;
+  background-color: #117a8b; */
+  background-color: #2d717d;
   transition: 0.5s;
   overflow-x: hidden;
   padding-top: 50px;
@@ -229,9 +231,10 @@ input[type='number'] {
 }
 
 .thead-bg {
-  background-color: #438a5e;
+  /* background-color: #438a5e;
   background-color: #074b56;
-  background-color: #004954;
+  background-color: #004954; */
+  background-color: #061323;
   color: #fff;
   border-color: #000;
 }
@@ -242,6 +245,11 @@ input[type='number'] {
   color: #ab9b0a;
   color: #7b6f00;
   /* border: 1.5px solid rgb(88, 82, 82) !important; */
+}
+
+.department_lbl {
+  color: #7d7d7d;
+  font-size: 30px;
 }
 
 .currency-sign {

@@ -74,26 +74,26 @@
         if startDate="" then
             
             queryDate1 = CDate(FormatDateTime(systemDate, 2))
-            displayDate1 = Day(systemDate) & " " & MonthName(Month(systemDate)) & " " & Year(systemDate)
+            displayDate1 = MonthName(Month(systemDate)) & " " & Day(systemDate) & ", " & Year(systemDate)
 
         else
 
             queryDate1 = CDate(FormatDateTime(startDate, 2))
-            displayDate1 = Day(queryDate1) & " " &  MonthName(Month(queryDate1)) & " " & Year(queryDate1)
+            displayDate1 = MonthName(Month(queryDate1)) & " " & Day(queryDate1) & ", " & Year(queryDate1)
 
         end if   
         
         if endDate="" then
 
             queryDate2 = CDate(FormatDateTime(systemDate, 2))
-            displayDate2 = Day(systemDate) & " " & MonthName(Month(systemDate)) & " " & Year(systemDate)
+            displayDate2 = MonthName(Month(systemDate)) & " " & Day(systemDate) & ", " & Year(systemDate)
 
         else 
 
             queryDate2 = CDate(FormatDateTime(endDate, 2))
-            displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)
+            displayDate2 = MonthName(Month(endDate)) & " " & Day(endDate) & ", " & Year(endDate)
 
-        end if   
+        end if  
 
         Dim monthsDiff
 
@@ -116,7 +116,7 @@
                 
                 <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
             </form>
-            <p><a href="collections_report_detailed.asp" class="btn btn-sm btn-outline-dark">Detailed Collections Report</a></p>
+            <p><a href="collections_report_per_ref.asp" class="btn btn-sm btn-outline-dark">Detailed Collections Report</a></p>
         </div>
 
         <h1 class="h2 text-center mb-4 mt-3 main-heading" style="font-weight: 400">Collections Report</h1>

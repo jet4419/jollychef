@@ -75,7 +75,7 @@
         <% rs.Open "SELECT cust_id, cust_lname, cust_fname, department, address, contact_no FROM customers WHERE cust_type!='out' ORDER BY cust_lname", CN2 %>
 
         <table class="table table-hover table-bordered table-sm" id="myTable">
-            <thead class="thead-dark">
+            <thead class="thead-bg">
                 <th>ID</th>
                 <th>Last Name</th>
                 <th>First Name</th>
@@ -85,14 +85,15 @@
             </thead>
 
             <%do until rs.EOF%>
-            <tr >
-                <td class="text-darker"><%Response.Write(rs("cust_id"))%></td> 
-                <td class="text-darker"><%Response.Write(rs("cust_lname"))%></td> 
-                <td class="text-darker"><%Response.Write(rs("cust_fname"))%></td> 
-                <td class="text-darker"><%Response.Write(rs("department"))%></td> 
-                <td class="text-darker"><%Response.Write(rs("address"))%></td> 
-                <td class="text-darker"><%Response.Write(rs("contact_no"))%></td> 
-            <%rs.MoveNext%>
+                <tr>
+                    <td class="text-darker"><%Response.Write(rs("cust_id"))%></td> 
+                    <td class="text-darker"><%Response.Write(rs("cust_lname"))%></td> 
+                    <td class="text-darker"><%Response.Write(rs("cust_fname"))%></td> 
+                    <td class="text-darker"><%Response.Write(rs("department"))%></td> 
+                    <td class="text-darker"><%Response.Write(rs("address"))%></td> 
+                    <td class="text-darker"><%Response.Write(rs("contact_no"))%></td> 
+                </tr>
+                <%rs.MoveNext%>
             <%loop%>
         </table>
     </div>    
@@ -119,10 +120,10 @@
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         buttons: [
-            { extend: 'copy', className: 'btn btn-sm btn-success' },
-            { extend: 'excel', className: 'btn btn-sm btn-success' },
-            { extend: 'pdf', className: 'btn btn-sm btn-success' },
-            { extend: 'print', className: 'btn btn-sm btn-success' }
+            { extend: 'copy', className: 'btn btn-sm btn-light' },
+            { extend: 'excel', className: 'btn btn-sm btn-light' },
+            { extend: 'pdf', className: 'btn btn-sm btn-light' },
+            { extend: 'print', className: 'btn btn-sm btn-light' }
         ]
     });
 } ); 

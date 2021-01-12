@@ -82,10 +82,10 @@
             Dim cutoff
             
             if (Month(systemDate) <> Month(systemDate + 1)) then
-                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-primary float-right' onClick='monthEnd()'>Month End</button></div>"
+                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-info float-right' onClick='monthEnd()'>Month End</button></div>"
 
             else
-                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-primary ' data-toggle='modal' data-target='#confirmDayEnd'>Day End</button></div>"
+                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-info ' data-toggle='modal' data-target='#confirmDayEnd'>Day End</button></div>"
             end if
         %>
 

@@ -149,7 +149,7 @@
                             debitBal = 0
                         end if
                     %>
-                    <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(creditBal)%></td>
+                    <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(creditBal)%></td>
   
                     
                         <%if CDbl(creditBal) <= 0 then%>

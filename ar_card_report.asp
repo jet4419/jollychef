@@ -427,7 +427,7 @@
                             <td></td>
                             <td></td>
                             <td><strong>Beginning Balance</strong></td>
-                            <td><strong><span class="currency-sign">&#8369;</span><%=endingCredit%></strong></td>
+                            <td><strong><span class="currency-sign">&#8369;</span> <%=endingCredit%></strong></td>
                             <td></td>
                         </tr>
                         <% 
@@ -503,7 +503,7 @@
                                             <% if CDbl(rs("debit")) <= 0 then %>
                                                 <td class="text-darker"><%=" "%></td>
                                             <% else %>
-                                                <td class="text-darker"><span class="currency-sign">&#8369;</span><%=rs("debit")%></td>
+                                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%=rs("debit")%></td>
                                                 <% totalDebit = CDbl(totalDebit) + CDbl(rs("debit").value) 
                                                 balance = balance - CDbl(rs("debit").value)
                                                 %>
@@ -511,12 +511,12 @@
                                             <% if CDbl(rs("credit")) <= 0 then %>
                                                 <td class="text-darker"><%=" "%></td>
                                             <% else %>    
-                                                <td class="text-darker"><span class="currency-sign">&#8369;</span><%=rs("credit")%></td>
+                                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%=rs("credit")%></td>
                                                 <% totalCredit = CDbl(totalCredit) + CDbl(rs("credit").value) 
                                                 balance = balance + CDbl(rs("credit").value)
                                                 %>
                                             <% end if %>    
-                                            <td class="text-darker"><span class="currency-sign">&#8369;</span><%=balance%></td>
+                                            <td class="text-darker"><span class="currency-sign">&#8369;</span> <%=balance%></td>
                                             <% d = CDate(rs("date"))%>
                                             <td class="text-darker"><%Response.Write(dateFormat)%></td>
 

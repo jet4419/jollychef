@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn-main btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
+                    <button type="submit" class="btn-main btn btn-sm btn-info" name="btn-login" value="login" >Login</button>
                 </div>
             </div>
         </form>

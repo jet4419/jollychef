@@ -227,12 +227,16 @@
                     Response.Write "</p>"
                 
                 %>  
-                <button id="printMe" class="btn btn-sm btn-dark float-right mr-1">Print</button>
+                <button id="printMe" class="btn btn-sm btn-light float-right mr-1">Print</button>
             </div>
 
             <div id="printData"> 
 
-                <p class="heading-print"> Sales Report Summary per Day: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span></p>
+                <div class="print-main-heading">
+                    <p class="print-heading-company">JollyChef Inc.</p> 
+                    <p class="heading-print"> Sales Report Summary per Day: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span>
+                    </p>
+                </div>
 
                 <table class="table table-hover table-bordered table-sm mb-5" id="myTable">
                     <thead class="thead-bg">
@@ -371,6 +375,7 @@
                                 dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
 
                                 paymentType = Trim(CSTR(rs("payment")))
+
                                 if paymentType = "Credit" then
                                     totalCredit = totalCredit + CDBL(rs("prodamount"))
                                     dayTotalCredit = dayTotalCredit + CDBL(rs("prodamount"))
@@ -453,205 +458,7 @@
 <!--#include file="cashier_login_logout.asp"-->
 
 <script src="js/main.js"></script>   
+<script src="./js/print.js"></script> 
 
-
-<script> 
-
-    // $("#myTable").print({
-    //     	globalStyles: true,
-    //     	mediaPrint: false,
-    //     	stylesheet: null,
-    //     	noPrintSelector: ".no-print",
-    //     	iframe: true,
-    //     	append: null,
-    //     	prepend: null,
-    //     	manuallyCopyFormValues: true,
-    //     	deferred: $.Deferred(),
-    //     	timeout: 750,
-    //     	title: null,
-    //     	doctype: '<!doctype html>'
-	// });
-
-    // $("#myTable").find('.printMe').on('click', function() {
-    //     console.log('Print');
-    //     $.print("#myTable");
-    // });
-
-
-
-
-// function printData() {
-//     // $("#myTable").find('.print').on('click', function() {
-//     //     $.print("#printable");
-//     // });
-    
-// }
-
-
-//    var divToPrint=document.getElementById("myTable");
-//    newWin= window.open("");
-//    newWin.document.write(divToPrint.outerHTML);
-//    newWin.print();
-//    newWin.close();
-// }
-
-// document.getElementById('printMe').addEventListener('click', () => {
-//     $("#printData").print({
-//         globalStyles: true,
-//         mediaPrint: false,
-//         stylesheet: null,
-//         noPrintSelector: ".no-print",
-//         iframe: true,
-//         append: null,
-//         prepend: null,
-//         manuallyCopyFormValues: true,
-//         deferred: $.Deferred(),
-//         timeout: 750,
-//         title: null,
-//         doctype: '<!doctype html>'
-// 	});
-// })
-
-document.getElementById('printMe').addEventListener('click', printDiv)
-
-function printDiv() {
-    var divToPrint = document.getElementById('printData');
-    var htmlToPrint =
-        `<style type="text/css"> 
-
-            * {
-                box-sizing: border-box;
-                text-align: left;
-                font-size: 16px;
-                color: rgb(16,16,16);
-            }
-
-            table {
-                background-color: transparent;
-                width: 100%;
-                display: table;
-                box-sizing: border-box;
-                text-align: start;
-                // border-color: grey;
-                font-variant: normal;
-                border: 0.1px solid #000;
-                border-collapse: collapse;
-            }
-
-            th, td {
-                font-family: sans-serif;
-            }
-
-            thead {
-                display: table-header-group;
-                vertical-align: middle;
-                border-color: inherit;
-                border: 0.1px #bbb solid;
-            }
-
-            th {
-                display: table-cell;
-                font-weight: 600;
-                border-color: #32383e;
-                vertical-align: bottom;
-                padding: .3rem;
-                border: 0.1px #e9ecef solid;
-                font-size: 13px;
-            }
-
-            td {
-                display: table-cell;
-                border: solid 0.1px #e9ecef !important;
-                border-bottom: none;
-                border-collapse: collapse;
-                font-size: 12px;
-                padding: .3rem;
-            }
-
-            
-            * {
-                color: #000 !important;
-            }
-
-            a.text-info,
-            a.text-info:hover {
-                text-decoration: none !important;
-                color: #000 !important;
-                font-size: 12px;
-            }
-
-            @page {
-                margin: 2cm;
-            }
-
-            #printData {
-                /* columns: 7; */
-                /* orphans: 3; */
-            }
-
-            .currency-sign {
-                // color: #393e46 !important;
-                font-size: 11pt;
-            }
-            
-
-            @page :first {
-                margin-top: 2.5cm;
-            }
-
-            header, footer, aside, nav, form, iframe, .menu, .hero, .adslot {
-                display: none;
-            }
-            
-            .totalAmount {
-                // text-decoration: underline;
-                // text-underline-position: under;
-                border: 1px solid #252422 !important;
-                font-size: 11pt;
-
-            }
-
-            .blank_row {
-                display: table-cell !important;
-                padding: .3rem !important;
-                height: 30px;
-            }
-
-            td.bold-text {
-                font-weight: 600 !important;
-            }
-
-            .heading-print {
-                display: block !important;
-                font-weight: 600;
-                margin-bottom: 1cm;
-                font-size: 16px;
-            }
-
-            .date-range-print {
-                font-weight: 400;
-                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-                display: inline-block;
-                font-size: 13px;
-            }
-
-            #printData::after {
-                content: 'JollyChef Inc.';
-                display: block;
-                text-align: center;
-                padding: 50px;
-            }
-
-        </style>`
-
-    htmlToPrint += divToPrint.outerHTML;
-    newWin = window.open("");
-    newWin.document.write(htmlToPrint);
-    newWin.print();
-    newWin.close();
-}
-
- 
-</script>
 </body>
 </html>

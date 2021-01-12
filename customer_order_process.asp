@@ -349,7 +349,7 @@
                 <!-- ORDER TABLE --> 
                 <table class="table table-striped table-bordered table-sm"> 
                     <caption>List of orders</caption>
-                    <thead class="thead-dark">
+                    <thead class="thead-bg">
                         <th>Brand Name</th>
                         <th>Product Name</th>
                         <th>Price</th>
@@ -375,9 +375,9 @@
                                     <tr>
                                         <td><%=rs("prod_brand")%> </td>
                                         <td><%=rs("prod_name")%> </td>
-                                        <td> <span class="text-primary">&#8369;</span><%=rs("price")%> </td>
+                                        <td> <span class="currency-sign">&#8369;</span> <%=rs("price")%> </td>
                                         <td><%=rs("qty")%> </td>
-                                        <td> <span class="text-primary">&#8369;</span><%=rs("amount")%> </td>
+                                        <td> <span class="currency-sign">&#8369; </span><%=rs("amount")%> </td>
                                         <%if userType = "admin" or userType = "programmer" then%>    
                                             <td width="90">
                                                 <button onClick="delete_order(<%=CLng(rs("id"))%>, <%=uniqueNum%>, <%=custID%>)" class="btn btn-sm btn-warning"> Cancel </button>
@@ -393,7 +393,7 @@
                                 loop%>
                             
                                     <tr>
-                                        <td colspan="6"><h1 class="lead"><strong>Total Amount</h1></strong> <h4> <span class="text-primary">&#8369;</span> <%=totalAmount%></h4> </td>
+                                        <td colspan="6"><h1 class="lead"><strong>Total Amount</h1></strong> <h4> <span class="currency-sign">&#8369;</span> <%=totalAmount%></h4> </td>
                                     </tr>
                             <%else
                                 hasOrdered = false

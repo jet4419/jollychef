@@ -97,7 +97,7 @@
                     </td> 
 
                     <td class="text-darker">
-                        <%Response.Write("<strong class='text-primary' >&#8369; </strong>"&rs("prod_price"))%>
+                        <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("prod_price"))%>
                     </td> 
 
                     <td class="text-darker">
