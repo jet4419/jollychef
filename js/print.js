@@ -144,6 +144,10 @@ function printDiv() {
                 border-bottom: #000 1px solid !important;
             }
 
+            .total-label, .name-label {
+                font-weight: 600;
+            }
+
         </style>`
 
     htmlToPrint += divToPrint.outerHTML;

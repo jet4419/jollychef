@@ -293,7 +293,7 @@
                     </div>    
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success btn-sm mb-1" id="generateReport2">Generate Report</button>
+                                <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
                             </div>        
                     </form>
                         

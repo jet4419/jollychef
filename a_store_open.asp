@@ -1,6 +1,34 @@
 <!--#include file="dbConnect.asp"-->
 
 <%
+    
+    'Deleting temporary table of sales reports'
+    Dim fs
+    Set fs = Server.CreateObject("Scripting.FileSystemObject")
+
+    tempSalesReportTbl = Server.MapPath("./temp_folder/sales_report_container.dbf")
+    tempCollectionsReportTbl = Server.MapPath("./temp_folder/collections_report_container.dbf")
+    
+    if fs.FileExists(tempSalesReportTbl) then
+
+        On Error Resume Next 
+
+            fs.DeleteFile(tempSalesReportTbl)
+
+        On Error GoTo 0
+        ' if Err.Number = 0 then
+        ' Response.Write "File was deleted"
+        ' else
+        ' Response.Write "<br> No permission to delete. Error: " & Err.description & "<br>"
+        ' end if
+    end if
+
+    if fs.FileExists(tempCollectionsReportTbl) then
+        fs.DeleteFile(tempCollectionsReportTbl)
+    end if
+    
+    set fs=nothing
+
     Dim currDateTime, maxSchedID
 
     maxSchedID = 0

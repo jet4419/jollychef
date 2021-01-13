@@ -163,39 +163,21 @@
 <!--#include file="cashier_sidebar.asp"-->
 
     <%
-        Dim startDate, endDate, userSessionID
+        Dim dailyReportDate
 
-        startDate = Request.Form("startDate")
-        endDate = Request.Form("endDate")
-        userSessionID = CDBL(Session.SessionID)
+        dailyReportDate = Request.Form("startDate")
 
-        if startDate="" then
+        if dailyReportDate="" then
 
-            queryDate1 = CDate(FormatDateTime(systemDate, 2))
-            displayDate1 = MonthName(Month(systemDate)) & " " & Day(systemDate) & ", " & Year(systemDate)
+            queryDate = CDate(FormatDateTime(systemDate, 2))
+            displayDate = MonthName(Month(systemDate)) & " " & Day(systemDate) & ", " & Year(systemDate)
 
         else
 
-            queryDate1 = CDate(FormatDateTime(startDate, 2))
-            displayDate1 = MonthName(Month(queryDate1)) & " " & Day(queryDate1) & ", " & Year(queryDate1)
+            queryDate = CDate(FormatDateTime(dailyReportDate, 2))
+            displayDate = MonthName(Month(queryDate)) & " " & Day(queryDate) & ", " & Year(queryDate)
 
         end if   
-
-        if endDate="" then
-
-            queryDate2 = CDate(FormatDateTime(systemDate, 2))
-            displayDate2 = MonthName(Month(systemDate)) & " " & Day(systemDate) & ", " & Year(systemDate)
-
-        else 
-
-            queryDate2 = CDate(FormatDateTime(endDate, 2))
-            displayDate2 = MonthName(Month(endDate)) & " " & Day(endDate) & ", " & Year(endDate)
-
-        end if   
-
-        Dim monthsDiff
-
-        monthsDiff = DateDiff("m",queryDate1,queryDate2) 
 
 %>
 
@@ -206,13 +188,9 @@
         <div class="container mb-5">
 
             <div class="mt-4 mb-2 d-flex justify-content-between">
-                <form action="sales_report_detailed_ref.asp" method="POST" id="allData" class="">
-                    
-                    <label>Start</label>
-                    <input class="form-control form-control-sm d-inline col-2" name="startDate" id="startDate" type="date" required> 
-                
-                    <label class="ml-3">End&nbsp;</label>
-                    <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date"> 
+                <form action="sales_report_daily_format.asp" method="POST" id="allData" class=""> 
+                    <label for="startDate">Select Date</label>
+                    <input class="form-control form-control-sm d-inline col-4" name="startDate" id="startDate" type="date" max="<%=systemDate%>" required> 
                     
                     <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
@@ -223,15 +201,14 @@
             </div>
             
 
-           
-            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Sales Report by Reference</h1>
+            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Daily Sales Report <p><%=displayDate%></p>
+            </h1>
 
             <div>
                 <%
         
                     Response.Write("<p class='float-left'><strong> Date: </strong>")
-                    Response.Write(displayDate1 & " - ")
-                    Response.Write(displayDate2)
+                    Response.Write(displayDate)
                     Response.Write "</p>"
                 
                 %>  
@@ -243,7 +220,7 @@
 
                 <div class="print-main-heading">
                     <p class="print-heading-company">JollyChef Inc.</p> 
-                    <p class="heading-print"> Sales Report per Reference: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span>
+                    <p class="heading-print"> Daily Sales Report: <span class="date-range-print"> <%=displayDate%></span>
                     </p>
                 </div>
 
@@ -251,7 +228,6 @@
                     <thead class="thead-bg">
                         <th>Customer</th>
                         <th>Reference No</th>
-                        <th>Date</th>
                         <th>Amount</th>
                         <th>Cash</th>
                         <th>Charge</th>          
@@ -269,126 +245,81 @@
                     Dim custIdCont, isFirstUser, isNewUser, customerCount
                     customerCount = 0
 
-                    Dim salesOrderReportFile, prevSalesReportPath, salesReportPath
+                    Dim monthLength, monthPath, yearPath
 
-                    salesOrderReportFile = "sales_report_container.dbf"
-                    prevSalesReportPath = mainPath & "tbl_blank\" & salesOrderReportFile
-                    salesReportPath = mainPath & "temp_folder\" & salesOrderReportFile
+                    monthLength = Month(queryDate)
 
-                    if fs.FileExists(salesReportPath) then
-
-                        On Error Resume Next
-                            fs.DeleteFile(salesReportPath)
-                        On Error GoTo 0
+                    if Len(monthLength) = 1 then
+                        monthPath = "0" & CStr(Month(queryDate))
+                    else
+                        monthPath = Month(queryDate)
                     end if
 
+                    yearPath = Year(queryDate)
 
-                    if fs.FileExists(salesReportPath) <> true then 
+                    Dim salesOrderFile, salesOrderPath
 
-                        fs.CopyFile prevSalesReportPath, salesReportPath
-                        ' Response.Write "File successfully copied"
+                    salesOrderFile = "\sales_order.dbf"
+                    folderPath = mainPath & yearPath & "-" & monthPath
+                    salesOrderPath = folderPath & salesOrderFile
+
                     
-                    end if
+                    Do 
 
-                    for i=0 to monthsDiff
+                        if fs.FolderExists(folderPath) <> true then EXIT DO
+                        if fs.FileExists(salesOrderPath) <> true then EXIT DO
 
-                        monthLength = Month(DateAdd("m",i,queryDate1))
-                        if Len(monthLength) = 1 then
-                            monthPath = "0" & CStr(Month(DateAdd("m",i,queryDate1)))
-                        else
-                            monthPath = Month(DateAdd("m",i,queryDate1))
-                        end if
-
-                        yearPath = Year(DateAdd("m",i,queryDate1))
-                        
-                        salesOrderFile = "\sales_order.dbf"
-                        folderPath = mainPath &yearPath&"-"&monthPath
-                        salesOrderPath = folderPath & salesOrderFile
-
-                        Do 
-                            
-                            if fs.FolderExists(folderPath) <> true then EXIT DO
-                            if fs.FileExists(salesOrderPath) <> true then EXIT DO
-
-                            rs.Open "SELECT * FROM "&salesOrderPath&" WHERE duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') ORDER BY cust_name, cust_id", CN2
-
-                            do until rs.EOF 
-
-                                insertSalesReport = insertSalesReport & " INSERT INTO "&salesReportPath&" "&_
-                                "(transactid, ref_no, invoice_no, cust_id, cust_name, product_id, prod_brand, prod_gen, prod_price, prodamount, prod_qty, profit, date, payment, duplicate, session_id) VALUES ("&rs("transactid")&", '"&rs("ref_no")&"', "&rs("invoice_no")&", "&rs("cust_id")&", '"&rs("cust_name")&"', "&rs("product_id")&", '"&rs("prod_brand")&"', '"&rs("prod_gen")&"', "&rs("prod_price")&", "&rs("prodamount")&", "&rs("prod_qty")&", "&rs("profit")&", ctod(["&rs("date")&"]), '"&rs("payment")&"', '"&rs("duplicate")&"', "&userSessionID&"); "
-
-                                rs.MoveNext
-                            loop
-
-                            ' Response.Write insertSalesReport
-                            rs.close
-
-                        Loop While False  
-                            
-                    next%>    
-                    <%
-                        'INSERTING SALES RECORDS'
-                        if insertSalesReport <> "" then
-                            cnroot.execute(insertSalesReport)
-                        end if
                         'Displaying reports'
-                        rs.Open "SELECT cust_id, cust_name, invoice_no, date, prod_gen, prod_price, prod_qty, SUM(prodamount) AS prodamount, payment FROM "&salesReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY invoice_no ORDER BY cust_name, cust_id, invoice_no", CN2
+                        rs.Open "SELECT cust_id, cust_name, invoice_no, date, prod_gen, prod_price, prod_qty, SUM(prodamount) AS prodamount, payment FROM "&salesOrderPath&" WHERE duplicate!='yes' and date = CTOD('"&queryDate&"') GROUP BY invoice_no ORDER BY cust_name, cust_id, invoice_no", CN2
 
-                        Dim totalSales, totalCredit, totalCash
+                        Dim totalSales, totalCharge, totalCash
                         totalSales = 0
-                        totalCredit = 0
+                        totalCharge = 0
                         totalCash = 0
 
-                        Dim isTotalPrinted
-                    %>
+                        Dim customerTotalSales, customerTotalCash, customerTotalCharge 
+                        customerTotalSales = 0
+                        customerTotalCash = 0
+                        customerTotalCharge = 0
+
+                        Dim isTotalPrinted%>
 
                             <%do until rs.EOF
                                 
                                 Response.Flush
-                                myDate = CDATE(rs("date"))
-                                myYear = Year(myDate)
-                                myDay = Day(myDate)
-                                if Len(myDay) = 1 then
-                                    myDay = "0" & myDay
-                                end if
-
-                                myMonth = Month(myDate)
-                                if Len(myMonth) = 1 then
-                                    myMonth = "0" & myMonth
-                                end if
-
-                                dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
 
                                 if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
                                     customerCount = customerCount + 1
-                                    totalSales = totalSales + CDBL(rs("prodamount"))
+                                    customerTotalSales = customerTotalSales +  CDBL(rs("prodamount"))
                                 else
                                     customerCount = 1
                                     isTotalPrinted = true
                                     %>
                                     <tr> 
                                         <td></td>   
-                                        <td></td>   
-                                        <td></td>   
-                                        <td class="totalAmount">&#8369; <%=totalSales%></td>      
-                                        <td class="totalAmount">&#8369; <%=totalCash%></td>   
-                                        <td class="totalAmount">&#8369; <%=totalCredit%></td>
+                                        <td></td>     
+                                        <td class="totalAmount">&#8369; <%=customerTotalSales%></td>      
+                                        <td class="totalAmount">&#8369; <%=customerTotalCash%></td>   
+                                        <td class="totalAmount">&#8369; <%=customerTotalCharge%></td>
                                     </tr>
                                     <tr>
                                         <td class="blank_row" colspan="7"></td>
                                     </tr>
 
                                    <%
-                                    totalSales = CDBL(rs("prodamount"))
-                                    totalCash = 0
-                                    totalCredit = 0
+                                    customerTotalSales = CDBL(rs("prodamount"))
+                                    customerTotalCash = 0
+                                    customerTotalCharge = 0
                                     isTotalPrinted = false
                                 end if
 
+                                totalSales = totalSales + CDBL(rs("prodamount"))
                                 paymentType = Trim(CSTR(rs("payment")))
                                 if paymentType = "Credit" then
-                                    totalCredit = totalCredit + CDBL(rs("prodamount"))
+                                    customerTotalCharge = customerTotalCharge + CDBL(rs("prodamount"))
+                                    totalCharge = totalCharge + CDBL(rs("prodamount"))
                                 else
+                                    customerTotalCash = customerTotalCash + CDBL(rs("prodamount"))
                                     totalCash = totalCash + CDBL(rs("prodamount"))
                                 end if
 
@@ -408,7 +339,6 @@
                                             <% testInvoice = CINT(rs("invoice_no"))%>
                                         <%end if%>
                                     </td>
-                                    <td class="text-darker"><%Response.Write(dateFormat)%></td>
                                     <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
                                     <%invoiceAmount = CDBL(rs("prodamount"))%>
 
@@ -430,43 +360,29 @@
                             if customerCount > 1 then
                                 if isTotalPrinted = false then%>
                                     <tr> 
-                                        <td class="total-label">Total</td>   
                                         <td></td>   
-                                        <td></td>   
-                                        <td class="totalAmount">&#8369; <%=totalSales%></td>      
-                                        <td class="totalAmount">&#8369; <%=totalCash%></td>   
-                                        <td class="totalAmount">&#8369; <%=totalCredit%></td>
+                                        <td></td>      
+                                        <td class="totalAmount">&#8369; <%=customerTotalSales%></td>      
+                                        <td class="totalAmount">&#8369; <%=customerTotalCash%></td>   
+                                        <td class="totalAmount">&#8369; <%=customerTotalCharge%></td>
                                     </tr>
                                 <%end if%>
-                            <%end if%>
-                          
+                            <%end if
+                    Loop While False%>    
+
+                    <tr> 
+                        <td class="total-label">Total</td>   
+                        <td></td>      
+                        <td class="final-total">&#8369; <%=totalSales%></td>      
+                        <td class="final-total">&#8369; <%=totalCash%></td>   
+                        <td class="final-total">&#8369; <%=totalCharge%></td>
+                    </tr>  
+
                 </table>
 
-                <!-- DELETING sales_report_container -->
                 <%  
-                    deleteReport = "DELETE FROM "&salesReportPath&" WHERE session_id="&userSessionID
-                    set objAccess = cnroot.execute(deleteReport)
-                    set objAccess = nothing
-
                     set rs = nothing
                     CN2.close
-
-
-                    ' closeTbl = "USE IN "&salesReportPath
-                    ' cnroot.execute(closeTbl)
-
-                    
- 
-                     '''Check if file exists before deleting
-                    ' if fs.FileExists(salesReportPath) then
-
-                    '     fs.DeleteFile(salesReportPath)
-                    '     Response.Write "File was deleted"
-
-                    ' end if
-                    ' set fs=nothing
-
-                    
                 %>
 
             </div>

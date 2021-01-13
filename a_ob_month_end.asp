@@ -238,7 +238,7 @@
                                 do until rs.EOF 
 
                                     addMaxDuplicate = "INSERT INTO "&newArPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
-                                    "VALUES ("&rs("ar_id")&", 0, '', '', '', 0, 0, 0, ctod(["&rs("date_owed")&"]), 'yes')"
+                                    "VALUES ("&rs("ar_id")&", 0, 'top-record', 'top-record', 'top-record', 0, 0, 0, ctod(["&rs("date_owed")&"]), 'yes')"
                                     cnroot.execute(addMaxDuplicate)
 
                                     rs.movenext

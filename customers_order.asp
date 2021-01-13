@@ -216,7 +216,7 @@ function get_post(){
                                 <td class='text-bold'> ${jsonObject[i].orderNumber} </td>
                                 <td class='text-darker'> ${jsonObject[i].custName} </td>
                                 <td class='text-darker'> ${jsonObject[i].department} </td> 
-                                <td class='text-darker'> <strong class='text-primary'> &#8369; </strong> ${jsonObject[i].amount} </td> 
+                                <td class='text-darker'> <strong class='currency-sign'> &#8369; </strong> ${jsonObject[i].amount} </td> 
                                 <td class='text-darker'> ${jsonObject[i].date} </td> 
                                 <td class='m-0'>
                                     <a href='customer_order_process.asp?unique_num=${jsonObject[i].uniqueNum}&cust_id=${jsonObject[i].custID}&userType=${userType}' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>

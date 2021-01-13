@@ -428,6 +428,17 @@ a.main-menus--items.customers-icon {
   font-size: 25px;
 }
 
+.final-total,
+.total-label,
+.name-label {
+  font-weight: 600;
+}
+
+.blank_row {
+  height: 30px !important;
+  background-color: #ffffff;
+}
+
 .footer {
   color: #fff;
   background-color: #252f3a;

@@ -406,7 +406,7 @@
                         if dateCounter > 1 then  
                             if isTotalPrinted = false then%>
                                 <tr>   
-                                    <td></td>   
+                                    <td class="total-label">Total</td>   
                                     <td class="totalAmount">&#8369; <%=totalSales%></td>      
                                     <td class="totalAmount">&#8369; <%=totalCash%></td>   
                                     <td class="totalAmount">&#8369; <%=totalCredit%></td>

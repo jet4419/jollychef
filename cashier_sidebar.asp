@@ -26,6 +26,7 @@
             <a class="main-menus--items"><i class="fas fa-layer-group sidebar-icons"></i> <span class="icon-text">Receivables</span></a>
         </label>
         <div class="checked-items--receivables">
+            <a href="schedule_receivables.asp">Schedule of Receivables</a>
             <a href="ob_main.asp">Credit Payment</a>
             <a href="adjustments_main.asp">Adjustments</a>
         </div>

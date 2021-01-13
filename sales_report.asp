@@ -184,9 +184,8 @@
                         if fs.FolderExists(folderPath) <> true then EXIT DO
                         if fs.FileExists(salesPath) <> true then EXIT DO
 
-                        rs.Open "SELECT * FROM "&salesPath&" WHERE duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') ORDER BY transactid", CN2
+                        rs.Open "SELECT * FROM "&salesPath&" WHERE duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') ORDER BY transactid", CN2%>
 
-            %>    
                         <%do until rs.EOF
                             if Trim(rs("payment").value) = Trim("Cash") then
                                 totalCOH = totalCOH + CDbl(rs("amount"))
@@ -253,7 +252,7 @@
                             </tr>
                             <%rs.MoveNext%>
                         <%loop%>
-                <%  rs.close
+                        <%rs.close
                     Loop While False  
                     
                 next%>                     

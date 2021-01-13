@@ -122,7 +122,9 @@
                         <button class="btn btn-sm btn-outline-dark btn-edit-transaction py-2">Edit Transaction</button>
                     </a>    
                     <span class="h2" style="font-weight: 400">Daily Sales Reports</span>
-                    <button class="btn-day-end">Day End</button>
+                    <a href="sales_report_daily_format.asp">
+                        <button class="btn btn-sm btn-outline-dark btn-edit-transaction py-2">Other Daily Reports</button>
+                    </a>   
                 </h1>
             <%else%>
                 <h1 class="h2 daily-reports-label text-center pt-2 mt-2 main-heading"> 
@@ -130,7 +132,9 @@
                         <button class="btn btn-sm btn-outline-dark btn-edit-transaction py-2">Edit Transaction</button>
                     </a>    
                     <span class="h1" style="font-weight: 400">Daily Sales Reports</span>
-                    <button class="btn-day-end">Day End</button>
+                    <a href="sales_report_daily_format.asp">
+                        <button class="btn btn-sm btn-outline-dark btn-edit-transaction py-2">Other Daily Reports</button>
+                    </a>   
                 </h1>
             <%end if%>
         <% end if %>    
@@ -264,7 +268,7 @@
                     <tr>
                         <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Sales</h3></strong> <h5>  <span class="currency-sign">  &#8369; </span> <%=totalGross%></h5></td>
                         <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Cash</h3></strong> <h5>  <span class="currency-sign">  &#8369; </span> <%=totalCOH%></h5></td>
-                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Credit</h3></strong> <h5><span class="currency-sign">  &#8369; </span> <%=totalCredit%></h5></td>
+                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Charge</h3></strong> <h5><span class="currency-sign">  &#8369; </span> <%=totalCredit%></h5></td>
                     </tr>
                 </tfoot>
 

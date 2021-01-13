@@ -50,15 +50,6 @@
                 font-family: 'Kulim Park', sans-serif;
             }
 
-            .blank_row {
-                height: 30px !important;
-                background-color: #FFFFFF;
-            }
-
-            .final-total {
-                font-weight: 600;
-            }
-
             th {
                 display: table-cell !important;
                 padding: .3rem;
