@@ -38,6 +38,11 @@
         <script src="bootstraptable/buttons/js/buttons.print.min.js"></script>
 
         <style>
+
+            #myTable {
+                text-align: end;
+            }
+
              .dt-buttons {
                 position: absolute;
                 top: -10px;
@@ -319,7 +324,7 @@
                     next  
 
                     'INSERTING Collections RECORDS'
-                    if insertCollections <br> "" then
+                    if insertCollections <> "" then
                         cnroot.execute(insertCollections)
                     end if
                     'Displaying reports'

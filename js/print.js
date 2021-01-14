@@ -14,15 +14,19 @@ function printDiv() {
                 
             }
 
+            #myTable {
+                text-align: end;
+            }
+
             table {
                 background-color: transparent;
                 width: 100%;
                 display: table;
                 box-sizing: border-box;
-                text-align: start;
+                text-align: end;
                 // border-color: grey;
                 // font-variant: normal;
-                border: 0.1px solid #000;
+                // border: 0.1px solid #000;
                 border-collapse: collapse;
             }
 
@@ -34,7 +38,7 @@ function printDiv() {
                 display: table-header-group;
                 vertical-align: middle;
                 border-color: inherit;
-                border: 0.1px #bbb solid;
+                // border: 0.1px #bbb solid;
             }
 
             th {
@@ -43,14 +47,14 @@ function printDiv() {
                 border-color: #32383e;
                 vertical-align: bottom;
                 padding: .3rem;
-                border: 0.1px #e9ecef solid;
+                // border: 0.1px #e9ecef solid;
                 // font-size: 13px;
                 font-size: 12pt;
             }
 
             td {
                 display: table-cell;
-                border: solid 0.1px #e9ecef !important;
+                // border: solid 0.1px #e9ecef !important;
                 border-bottom: none;
                 border-collapse: collapse;
                 // font-size: 12px;
