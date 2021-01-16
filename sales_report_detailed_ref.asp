@@ -430,7 +430,7 @@
                             if customerCount > 1 then
                                 if isTotalPrinted = false then%>
                                     <tr> 
-                                        <td class="total-label">Total</td>   
+                                        <td></td>   
                                         <td></td>   
                                         <td></td>   
                                         <td class="totalAmount">&#8369; <%=totalSales%></td>      

@@ -320,42 +320,45 @@
                     next  
 
                     'INSERTING Collections RECORDS'
-                    if insertCollections <br> "" then
+                    if insertCollections <> "" then
                         cnroot.execute(insertCollections)
                     end if
-                    'Displaying reports'
+
+
+                    'Start of Displaying reports'
                     rs.Open "SELECT cust_id, cust_name, date, SUM(tot_amount) AS tot_amount, SUM(cash) AS cash, p_method FROM "&collectionsReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY date, cust_id, p_method ORDER BY cust_name, cust_id, date", CN2
+
+                    Dim customerCounter, printBlankRow
+                    customerCounter = 1
+                    printBlankRow = false
 
                     do until rs.EOF 
 
                         Response.Flush
-
+                        
                         totalSales = totalSales + CDBL(rs("tot_amount"))
                         paymentType = Trim(CSTR(rs("p_method")))
 
-                        counter = customerCount
+                        if custIdCont <> "" AND custIdCont <> CLNG(rs("cust_id")) then
 
-                        if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
-                            customerCount = customerCount + 1
-                            custName = TRIM(CSTR(rs("cust_name")))
-                            printBlankRow = false
-                        else
-                            customerCount = 1
+                            isCustomerChanged = true
+                            printTotal = true
                             printBlankRow = true
+                            'customerCounter = 1
+
                         end if
 
+                        'Same date'
                         if dateCont = "" or dateCont = CDATE(rs("date")) then
-                            customerTotalAmount = customerTotalAmount + CDBL(rs("tot_amount"))
-                        else
+                            
+                            'Same date but the customer has been changed'
+                            if isCustomerChanged = true then%>
 
-                            printTototal = true
-
-                            if printTototal = true then%>
                                 <tr>
-                                    <%if counter = "" or counter = 1 then%>
+                                    <%if customerCounter < 2 then%>
                                         <td class="bold-text"><%=custName%></td>
                                     <%else%>
-                                       <td></td>
+                                        <td></td>  
                                     <%end if%>
                                     <td><%=dateFormat%></td>
                                     <td  class="totalAmountCollect">&#8369; <%=customerTotalAmount%></td>
@@ -367,20 +370,88 @@
                                     <tr>
                                         <td class="blank_row" colspan="7"></td>
                                     </tr>
-                                <%end if%>
-                                
                                 <%
-                                printTototal = false
-                                custName = TRIM(CSTR(rs("cust_name")))
-                                customerTotalAmount = CDBL(rs("tot_amount"))
+                                   printBlankRow = false
+                                end if
+
+                                isCustomerChanged = false
+                                customerTotalAmount = 0
                                 customerTotalCash = 0
                                 customerTotalCharge = 0
+                                customerCounter = 1
+
+                                'if Same date but no changing of customer => do nothing'
+
                             end if
-                    
-                    
+                            
+
+                        'Date has been changed'
+                        else%>
+                            
+                            <!-- Date has been changed and also the customer -->
+                            <%if isCustomerChanged = true then%>
+
+                                <tr>
+                                    <%if customerCounter < 2 then%>
+                                        <td class="bold-text"><%=custName%></td>
+                                    <%else%>
+                                        <td></td>
+                                    <%end if%>
+                                    <td><%=dateFormat%></td>
+                                    <td  class="totalAmountCollect">&#8369; <%=customerTotalAmount%></td>
+                                    <td class="totalAmountCollect">&#8369; <%=customerTotalCash%></td>
+                                    <td class="totalAmountCollect">&#8369; <%=customerTotalCharge%></td>
+                                </tr>
+
+                                <%if printBlankRow = true then%>
+                                    <tr>
+                                        <td class="blank_row" colspan="7"></td>
+                                    </tr>
+                                <%
+                                   printBlankRow = false
+                                end if
+
+                                isCustomerChanged = false
+                                customerTotalAmount = 0
+                                customerTotalCash = 0
+                                customerTotalCharge = 0
+                                customerCounter = 1
+
+                            'Date has been changed but not the customer'
+                            else%>
+
+                                <tr>
+                                    <%if customerCounter < 2 then%>
+                                        <td class="bold-text"><%=custName%></td>
+                                    <%else%>
+                                        <td></td>
+                                    <%end if%>
+                                    <td><%=dateFormat%></td>
+                                    <td  class="totalAmountCollect">&#8369; <%=customerTotalAmount%></td>
+                                    <td class="totalAmountCollect">&#8369; <%=customerTotalCash%></td>
+                                    <td class="totalAmountCollect">&#8369; <%=customerTotalCharge%></td>
+                                </tr>
+
+                                <%if printBlankRow = true then%>
+                                    <tr>
+                                        <td class="blank_row" colspan="7"></td>
+                                    </tr>
+                                <%
+                                   printBlankRow = false
+                                end if
+                                
+                                customerTotalAmount = 0
+                                customerTotalCash = 0
+                                customerTotalCharge = 0
+                                customerCounter = customerCounter + 1
+
+                            end if
+
                         end if
 
                         custIdCont = CLNG(rs("cust_id"))
+                        custName = TRIM(CSTR(rs("cust_name")))
+                        'customerCounter = customerCounter + 1
                         dateCont = CDATE(rs("date"))
 
                         myDate = CDATE(rs("date"))
@@ -403,13 +474,17 @@
                             else
                                 customerTotalCash = customerTotalCash + CDBL(rs("cash"))
                                 totalCash = totalCash + CDBL(rs("cash"))
-                            end if%>
+                            end if
+
+                        customerTotalAmount = customerTotalAmount + CDBL(rs("tot_amount"))    
+                            
+                        %>
 
                         <%rs.MoveNext
 
                             if rs.EOF then%>
                                 <tr> 
-                                    <%if counter = "" or counter = 1 then%>
+                                    <%if customerCounter = "" or customerCounter = 1 then%>
                                         <td class="bold-text"><%=custName%></td>
                                     <%else%>
                                         <td></td>
@@ -420,21 +495,26 @@
                                     <td class="totalAmountCollect">&#8369; <%=customerTotalCharge%></td>
                                 </tr>
                             <%end if
+
+                             'Response.Write "<br>Customer Counter: " & customerCounter & "<br>"
+                             i = i + 1
                     loop
                     rs.close
                     %>
 
-                    <%if isTotalPrinted = false then%>
-                        <tr class="final-total"> 
-                            <td></td>
-                            <td></td>
-                            <td class="final-total">&#8369; <%=totalSales%></td>
-                            <td class="final-total">&#8369; <%=totalCash%></td>
-                            <td class="final-total">&#8369; <%=totalCharge%></td>
-                        </tr>  
-                    <%end if%>
+                    <%if customerCounter > 1 then%>
 
-                             
+                        <%if isTotalPrinted = false then%>
+                            <tr class="final-total"> 
+                                <td>Total</td>
+                                <td></td>
+                                <td class="final-total">&#8369; <%=totalSales%></td>
+                                <td class="final-total">&#8369; <%=totalCash%></td>
+                                <td class="final-total">&#8369; <%=totalCharge%></td>
+                            </tr>  
+                        <%end if%>
+
+                    <%end if%>        
 
                 </table>
 

@@ -293,7 +293,8 @@ a.main-menus--items.customers-icon {
 }
 
 .totalAmount,
-.totalAmountCollect {
+.totalAmountCollect,
+.totalAmountManyCollect {
   font-weight: 600;
   /* color: #9e8f00;
   color: #ab9b0a; */

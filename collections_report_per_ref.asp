@@ -340,9 +340,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td  class="totalAmount">&#8369; <%=customerTotalAmount%></td>
-                                    <td class="totalAmount">&#8369; <%=customerTotalCash%></td>
-                                    <td class="totalAmount">&#8369; <%=customerTotalCharge%></td>
+                                    <td  class="totalAmountManyCollect">&#8369; <%=customerTotalAmount%></td>
+                                    <td class="totalAmountManyCollect">&#8369; <%=customerTotalCash%></td>
+                                    <td class="totalAmountManyCollect">&#8369; <%=customerTotalCharge%></td>
                                 </tr>
                                 <tr>
                                     <td class="blank_row" colspan="7"></td>
@@ -449,27 +449,31 @@
                     rs.close
                     %>
 
-                    <%if isTotalPrinted = false then%>
-                        <tr> 
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class='totalAmount'>&#8369; <%=customerTotalAmount%></td>
-                            <td class='totalAmount'>&#8369; <%=customerTotalCash%></td>
-                            <td class='totalAmount'>&#8369; <%=customerTotalCharge%></td>
-                        </tr>
-                    <%end if%>
+                    <%if customerCount > 1 then%>
 
-                    <tr class="final-total"> 
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="final-total">&#8369; <%=totalSales%></td>
-                        <td class="final-total">&#8369; <%=totalCash%></td>
-                        <td class="final-total">&#8369; <%=totalCharge%></td>
-                    </tr>           
+                        <%if isTotalPrinted = false then%>
+                            <tr> 
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class='totalAmountManyCollect'>&#8369; <%=customerTotalAmount%></td>
+                                <td class='totalAmountManyCollect'>&#8369; <%=customerTotalCash%></td>
+                                <td class='totalAmountManyCollect'>&#8369; <%=customerTotalCharge%></td>
+                            </tr>
+                        <%end if%>
+
+                        <tr class="final-total"> 
+                            <td>Total</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="final-total">&#8369; <%=totalSales%></td>
+                            <td class="final-total">&#8369; <%=totalCash%></td>
+                            <td class="final-total">&#8369; <%=totalCharge%></td>
+                        </tr>  
+
+                    <%end if%>         
 
                 </table>
 

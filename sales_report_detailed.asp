@@ -50,6 +50,10 @@
                 border-left: 1px solid black;
             } */
 
+            #myTable {
+                text-align: start;
+            }
+
             td:empty::after {
                 content: "\00a0";
             }
@@ -433,7 +437,7 @@
                             if invoiceCounter > 1 then
                                 if isTotalPrinted = false then%>
                                     <tr> 
-                                        <td class="total-label">Total</td>   
+                                        <td></td>   
                                         <td></td>   
                                         <td></td>   
                                         <td></td>   

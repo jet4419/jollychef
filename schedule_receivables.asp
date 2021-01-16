@@ -149,6 +149,8 @@
                     folderPath = mainPath & yearPath & "-" & monthPath
                     arPath = folderPath & arFile
 
+                    Response.Write arPath
+
                     rs.open "SELECT cust_id, cust_name, invoice_no, date_owed, balance FROM "&arPath&" WHERE balance > 0 ORDER BY cust_name, invoice_no", CN2
         
 

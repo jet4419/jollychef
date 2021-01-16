@@ -15,24 +15,20 @@ function printDiv() {
             }
 
             #myTable {
-                text-align: end;
-            }
-
-            table {
                 background-color: transparent;
                 width: 100%;
                 display: table;
                 box-sizing: border-box;
-                text-align: end;
+                text-align: start !important;
                 // border-color: grey;
                 // font-variant: normal;
                 // border: 0.1px solid #000;
                 border-collapse: collapse;
             }
 
-            // th, td {
-            //     font-family: sans-serif;
-            // }
+            th, td {
+                text-align: start !important;
+            }
 
             thead {
                 display: table-header-group;
@@ -59,7 +55,7 @@ function printDiv() {
                 border-collapse: collapse;
                 // font-size: 12px;
                 padding: .3rem;
-                font-size: 11pt;
+                font-size: 12pt;
                 white-space: nowrap;
             }
 
@@ -96,15 +92,23 @@ function printDiv() {
             .totalAmount {
                 // text-decoration: underline;
                 // text-underline-position: under;
-                border: 1px solid #252422 !important;
+                border-top: 1px solid #252422 !important;
+                border-bottom: 1px solid #252422 !important;
                 font-size: 12pt;
+            }
 
+            .totalAmountManyCollect {
+                border-top: 1px solid #252422 !important;
+                border-bottom: 1px solid #252422 !important;
+                font-weight: 500 !important;
+                font-size: 12pt;
             }
 
             .totalAmountCollect {
-                // border: 1px solid #252422 !important;
-                // font-size: 12pt;
-
+                // border-top: 1px solid #252422 !important;
+                // border-bottom: 1px solid #252422 !important;
+                font-weight: 500 !important;
+                font-size: 12pt;
             }
 
             .blank_row {
@@ -131,12 +135,12 @@ function printDiv() {
                 // font-size: 13px;
             }
 
-            #printData::after {
-                content: 'JollyChef Inc.';
-                display: block;
-                text-align: center;
-                padding: 50px;
-            }
+            // #printData::after {
+            //     content: 'JollyChef Inc.';
+            //     display: block;
+            //     text-align: center;
+            //     padding: 50px;
+            // }
 
             .print-main-heading, .print-heading-company, .print-heading-company + p {
                 text-align: center !important;
@@ -145,6 +149,7 @@ function printDiv() {
             .final-total {
                 font-weight: 600;
                 font-size: 13pt;
+                border-top: #000 1px solid !important;
                 border-bottom: #000 1px solid !important;
             }
 
