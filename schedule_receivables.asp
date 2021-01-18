@@ -105,8 +105,8 @@
             </h1>
 
             <h1 class="h2 text-center mb-4 main-heading" style="font-weight: 400">Schedule of Receivables 
-                <p class="mb-0">per Reference</p> <p>as of <%=displayDate%></p>
-                </h1>
+                <p class="mb-0 report-type">per Reference</p> <p class="report-date">as of <%=displayDate%></p>
+            </h1>
 
             <div>
                 <%
@@ -149,7 +149,7 @@
                     folderPath = mainPath & yearPath & "-" & monthPath
                     arPath = folderPath & arFile
 
-                    Response.Write arPath
+                    'Response.Write arPath
 
                     rs.open "SELECT cust_id, cust_name, invoice_no, date_owed, balance FROM "&arPath&" WHERE balance > 0 ORDER BY cust_name, invoice_no", CN2
         

@@ -40,7 +40,7 @@
         <style>
 
             #myTable {
-                text-align: end;
+                /* text-align: end; */
             }
 
              .dt-buttons {
@@ -218,7 +218,7 @@
                 </p>
             </div>
 
-            <h1 class="h2 text-center mb-4 mt-3 main-heading" style="font-weight: 400">Collections Report <p>Summary</p></h1>
+            <h1 class="h2 text-center mb-4 mt-3 main-heading" style="font-weight: 400">Collections Report <p class="report-type">Summary</p></h1>
 
             <div>
                 <%
@@ -276,6 +276,7 @@
                         On Error Resume Next
                             fs.DeleteFile(collectionsReportPath)
                         On Error GoTo 0
+
                     end if
 
 
@@ -413,7 +414,7 @@
                             else
                                 dayTotalCash = dayTotalCash + CDBL(rs("cash"))
                                 totalCash = totalCash + CDBL(rs("cash"))
-                            end if%>
+                            end if%> 
 
                         <%rs.MoveNext
 
@@ -429,13 +430,17 @@
                     rs.close
                     %>
 
-                    <%if isTotalPrinted = false then%>
-                        <tr class="final-total"> 
-                            <td></td>
-                            <td class="final-total">&#8369; <%=totalCollections%></td>
-                            <td class="final-total">&#8369; <%=totalCash%></td>
-                            <td class="final-total">&#8369; <%=totalCharge%></td>
-                        </tr>  
+                    <%if dateCounter > 1 then%>
+
+                        <%if isTotalPrinted = false then%>
+                            <tr class="final-total"> 
+                                <td>Total</td>
+                                <td class="final-total">&#8369; <%=totalCollections%></td>
+                                <td class="final-total">&#8369; <%=totalCash%></td>
+                                <td class="final-total">&#8369; <%=totalCharge%></td>
+                            </tr>  
+                        <%end if%>
+
                     <%end if%>
 
                              

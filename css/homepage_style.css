@@ -302,6 +302,11 @@ a.main-menus--items.customers-icon {
   /* border: 1.5px solid rgb(88, 82, 82) !important; */
 }
 
+.report-type,
+.report-date {
+  font-size: 20px;
+}
+
 .currency-sign {
   color: #438a5e;
   color: #608c71;

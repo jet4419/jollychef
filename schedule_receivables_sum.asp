@@ -105,8 +105,8 @@
             </h1>
 
             <h1 class="h2 text-center mb-4 main-heading" style="font-weight: 400">Schedule of Receivables 
-                <p class="mb-0">Summary</p> <p>as of <%=displayDate%></p>
-                </h1>
+                <p class="mb-0 report-type">Summary</p> <p class="report-date   ">as of <%=displayDate%></p>
+            </h1>
 
             <div>
                 <%
@@ -157,7 +157,7 @@
                         totalBalance = totalBalance + CDBL(rs("balance"))%>
 
                         <tr>
-                            <td class="text-darker name-label"><%Response.Write(rs("cust_name"))%></td> 
+                            <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
                             <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("balance"))%></td>  
                         </tr>
                         <%rs.MoveNext%>
