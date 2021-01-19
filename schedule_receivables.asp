@@ -105,7 +105,8 @@
             </h1>
 
             <h1 class="h2 text-center mb-4 main-heading" style="font-weight: 400">Schedule of Receivables 
-                <p class="mb-0 report-type">per Reference</p> <p class="report-date">as of <%=displayDate%></p>
+                <p class="mb-0 report-type">per Reference <span class="report-date">as of <%=displayDate%></span>
+                </p>
             </h1>
 
             <div>

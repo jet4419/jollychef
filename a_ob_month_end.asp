@@ -1,17 +1,24 @@
 <!--#include file="dbConnect.asp"-->
 <!--#include file="session_cashier.asp"-->
 <%
-    On Error Resume Next
-
     Dim fs
     Set fs = Server.CreateObject("Scripting.FileSystemObject")
 
-    'Deleting temp table sales report'
-    tempSalesReportCont = Server.MapPath("./temp_folder/sales_report_container.dbf")
+    'Deleting Temporary Report Tables'
+    tempSalesReportTbl = Server.MapPath("./temp_folder/sales_report_container.dbf")
+    tempCollectionsReportTbl = Server.MapPath("./temp_folder/collections_report_container.dbf")
     
-    if fs.FileExists(tempSalesReportCont) then
-        fs.DeleteFile(tempSalesReportCont)
-    end if
+    On Error Resume Next
+        if fs.FileExists(tempSalesReportTbl) then
+            
+                fs.DeleteFile(tempSalesReportTbl)
+        end if
+
+        if fs.FileExists(tempCollectionsReportTbl) then
+            fs.DeleteFile(tempCollectionsReportTbl)
+        end if
+        'End of Deleting Temporary Report Tables'
+    On Error Goto 0
 
     if CN2.Errors.Count <> 0 then
         Response.Write "<br> There's a connection error Error: " & CN2.Error & "<br>"
@@ -30,7 +37,7 @@
         monthPath = "0" & CStr(monthPath)
     end if
 
-    Dim arFile, adjustmentFile, collectionsFile, obFile, salesFile, salesOrderFile, transactionsFile, ordersHolderFile
+    Dim arFile, adjustmentFile, collectionsFile, obFile, salesFile, salesOrderFile, transactionsFile, ordersHolderFile, ebFile
 
     arFile = "\accounts_receivables.dbf" 
     adjustmentFile = "\adjustments.dbf" 
@@ -40,8 +47,9 @@
     salesOrderFile = "\sales_order.dbf" 
     transactionsFile = "\transactions.dbf" 
     ordersHolderFile = "\orders_holder.dbf" 
+    ebFile = "\eb_test.dbf" 
 
-    Dim arPath, adjustmentPath, collectionsPath, obPath, salesPath, salesOrderPath, transactionsPath, ordersHolderPath
+    Dim arPath, adjustmentPath, collectionsPath, obPath, salesPath, salesOrderPath, transactionsPath, ordersHolderPath, ebPath
 
     arPath = mainPath & yearPath & "-" & monthPath & arFile
     adjustmentPath = mainPath & yearPath & "-" & monthPath & adjustmentFile
@@ -51,6 +59,7 @@
     salesOrderPath = mainPath & yearPath & "-" & monthPath & salesOrderFile
     transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
     ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
+    ebPath = mainPath & yearPath & "-" & monthPath & ebFile
 
     rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" OR status=""Pending"" GROUP BY unique_num", CN2
 
@@ -74,7 +83,7 @@
         'Processing of Month End'
         rs.close
 
-        rs.Open "SELECT MAX(id) FROM eb_test;", CN2
+        rs.Open "SELECT MAX(id) FROM "&ebPath&";", CN2
             do until rs.EOF
                 for each x in rs.Fields
                     maxEbID = x.value
@@ -86,28 +95,10 @@
         maxEbID = CInt(maxEbID) + 1
         'Get all the records of customer's OB and insert to EB tbl.'
         'So that it becomes so easy to get the ending balance from previous month'
-        '!! Consider to change this solution in the future. But this will do from now on.'
+        '!! Consider to change this solution in the future with creating new EB table per month. But this will do from now on.'
         rs.open "SELECT MIN(date) AS fdate, cust_id, cust_type, balance FROM "&obPath&" WHERE duplicate!='yes' and status!='completed' and cust_type='in' GROUP BY cust_id", CN2
 
         if Err.Number = 0 and CN2.Errors.Count = 0 then
-
-            'Deleting Temporary Report Tables'
-            tempSalesReportTbl = Server.MapPath("./temp_folder/sales_report_container.dbf")
-            tempCollectionsReportTbl = Server.MapPath("./temp_folder/collections_report_container.dbf")
-            
-            if fs.FileExists(tempSalesReportTbl) then
-                fs.DeleteFile(tempSalesReportTbl)
-                ' if Err.Number = 0 then
-                ' Response.Write "File was deleted"
-                ' else
-                ' Response.Write "<br> No permission to delete. Error: " & Err.description & "<br>"
-                ' end if
-            end if
-
-            if fs.FileExists(tempCollectionsReportTbl) then
-                fs.DeleteFile(tempCollectionsReportTbl)
-            end if
-            'End of Deleting Temporary Report Tables'
 
             if not rs.eof then
                 
@@ -123,14 +114,12 @@
                         creditBal = CDbl(rs("balance").value)
                         debitBal = 0.00
                     end if     
-                    ' creditBal = CDbl(rs("credit_bal").value)
-                    ' debitBal = CDbl(rs("debit_bal").value)
+
                     cust_type = Trim(CStr(rs("cust_type").value))
 
                     'Get the customer's info
                     Dim custName, custDepartment, paymentMethod
                     paymentMethod = "ar"
-
 
                     sqlCustInfo = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&custID
                     set objAccess = cnroot.execute(sqlCustInfo)
@@ -144,8 +133,8 @@
 
                     set objAccess = nothing
                     
-                    sqlAdd = "INSERT INTO eb_test (id, cust_id, cust_name, department, cust_type, credit_bal, debit_bal, first_date, end_date)"&_
-                    "VALUES ("&maxEbID&", "&custId&" , '"&custName&"', '"&custDepartment&"', '"&cust_type&"', "&creditBal&", " &debitBal&", ctod(["&fdate&"]), ctod(["&ldate&"]))"
+                    sqlAdd = "INSERT INTO eb_test (id, cust_id, cust_name, department, cust_type, credit_bal, debit_bal, first_date, end_date, duplicate)"&_
+                    "VALUES ("&maxEbID&", "&custId&" , '"&custName&"', '"&custDepartment&"', '"&cust_type&"', "&creditBal&", " &debitBal&", ctod(["&fdate&"]), ctod(["&ldate&"]), '')"
                     cnroot.execute sqlAdd
 
                     maxEbID = maxEbID + 1
@@ -179,7 +168,7 @@
                             Set folder = fs.CreateFolder(newFolderPath)
 
                             Dim arBlankFile, adjustmentBlankFile, collectionsBlankFile, obBlankFile
-                            Dim salesBlankFile, salesOrderBlankFile, transactionsBlankFile, ordersHolderBlankFile
+                            Dim salesBlankFile, salesOrderBlankFile, transactionsBlankFile, ordersHolderBlankFile, ebBlankFile
 
                             arBlankFile = mainPath & "tbl_blank" & arFile
                             adjustmentBlankFile = mainPath & "tbl_blank" & adjustmentFile
@@ -189,9 +178,10 @@
                             salesOrderBlankFile = mainPath & "tbl_blank" & salesOrderFile
                             transactionsBlankFile = mainPath & "tbl_blank" & transactionsFile
                             ordersHolderBlankFile = mainPath & "tbl_blank" & ordersHolderFile
+                            ebBlankFile = mainPath & "tbl_blank" & ebFile
 
                             Dim newArPath, newAdjustmentPath, newCollectionsPath, newObPath
-                            Dim newSalesPath, newSalesOrderPath, newTransactionsPath, newOrdersHolderPath
+                            Dim newSalesPath, newSalesOrderPath, newTransactionsPath, newOrdersHolderPath, newEbPath
 
                             newArPath = newFolderPath & arFile
                             newAdjustmentPath = newFolderPath & adjustmentFile
@@ -201,11 +191,12 @@
                             newSalesOrderPath = newFolderPath & salesOrderFile
                             newTransactionsPath = newFolderPath & transactionsFile
                             newOrdersHolderPath = newFolderPath & ordersHolderFile
+                            newEbPath = newFolderPath & ebFile
 
                             if fs.FileExists(newArPath) <> true AND fs.FileExists(newAdjustmentPath) <> true AND _ 
                             fs.FileExists(newCollectionsPath) <> true AND fs.FileExists(newObPath) <> true AND _
                             fs.FileExists(newSalesPath) <> true AND fs.FileExists(newSalesOrderPath) <> true AND _
-                            fs.FileExists(newTransactionsPath) <> true AND fs.FileExists(newOrdersHolderPath) <> true _
+                            fs.FileExists(newTransactionsPath) <> true AND fs.FileExists(newOrdersHolderPath) <> true AND fs.FileExists(newEbPath) _
                             then 
 
                                 fs.CopyFile arBlankFile, newArPath
@@ -216,6 +207,7 @@
                                 fs.CopyFile salesOrderBlankFile, newSalesOrderPath
                                 fs.CopyFile transactionsBlankFile, newTransactionsPath
                                 fs.CopyFile ordersHolderBlankFile, newOrdersHolderPath
+                                fs.CopyFile ebBlankFile, newEbPath
                                 set fs = nothing
                                 Response.Write "Files successfully copied!"
 
@@ -278,20 +270,34 @@
 
                                 rs.close
 
-                                'Getting the latest OB of each customer and the MAX ID'
-                                'And save it to the new OB TBL'
-                                rs.open "SELECT * FROM "&obPath&" GROUP BY cust_id ORDER BY id", CN2
+                                'Getting the OB TBL Max record
+                                rs.open "SELECT TOP 1 * FROM "&obPath&" ORDER BY id DESC", CN2
                                 
                                 do until rs.EOF 
 
                                     addMaxOb = "INSERT INTO "&newObPath&" (id, ref_no, cust_id, cust_name, department, t_type, cust_type, cash_paid, balance, date, status, duplicate) "&_
-                                    "VALUES ("&rs("id")&", '"&rs("ref_no")&"', "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', '"&rs("t_type")&"', '"&rs("cust_type")&"', "&rs("cash_paid")&", "&rs("balance")&", ctod(["&systemDate&"]), '"&rs("status")&"', 'yes')"
+                                    "VALUES ("&rs("id")&", '', 0, '', '', '', '', 0, 0, ctod(["&rs("date")&"]), '', 'yes')"
                                     cnroot.execute(addMaxOb)
 
                                     rs.movenext
                                 loop
 
                                 rs.close
+
+                                'Getting the EB TBL Max record
+                                ' rs.open "SELECT TOP 1 * FROM "&ebPath&" ORDER BY id DESC", CN2
+                                
+                                ' do until rs.EOF 
+
+                                '     addMaxEb = "INSERT INTO "&newEbPath&" (id, cust_id, cust_name, department, cust_type, credit_bal, debit_bal, first_date, end_date, duplicate)"&_
+                                '     "VALUES ("&maxEbID&", 0 , '', '', '', 0, 0, ctod(["&fdate&"]), ctod(["&ldate&"]), 'yes')"
+
+                                '     cnroot.execute addMaxEb
+
+                                '     rs.movenext
+                                ' loop
+
+                                ' rs.close
 
                                 'Getting the Ob TBL Max record
                                 ' rs.open "SELECT TOP 1 * FROM "&obPath&" ORDER BY id DESC", CN2

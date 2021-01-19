@@ -276,6 +276,8 @@ a.main-menus--items.customers-icon {
 .main-heading {
   font-family: monospace !important;
   font-size: 32px !important;
+  margin-top: 20px !important;
+  margin-bottom: 30px;
 }
 
 #reports-container {
@@ -302,9 +304,14 @@ a.main-menus--items.customers-icon {
   /* border: 1.5px solid rgb(88, 82, 82) !important; */
 }
 
+.report-type {
+  /* font-style: italic; */
+  padding-top: 5px;
+}
+
 .report-type,
 .report-date {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .currency-sign {
