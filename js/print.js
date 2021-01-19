@@ -24,6 +24,7 @@ function printDiv() {
                 // font-variant: normal;
                 // border: 0.1px solid #000;
                 border-collapse: collapse;
+                margin-top: 1.5cm;
             }
 
             th, td {
@@ -132,7 +133,7 @@ function printDiv() {
                 font-weight: 400;
                 font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
                 display: inline-block;
-                // font-size: 13px;
+                font-size: 15pt;
             }
 
             // #printData::after {
@@ -144,6 +145,7 @@ function printDiv() {
 
             .print-main-heading, .print-heading-company, .print-heading-company + p {
                 text-align: center !important;
+                font-size: 16pt;
             }
 
             .final-total {
