@@ -23,11 +23,19 @@
         ' end if
     end if
 
-    if fs.FileExists(tempCollectionsReportTbl) then
-        fs.DeleteFile(tempCollectionsReportTbl)
+    if fs.FileExists(tempSalesReportTbl) then
+
+        if fs.FileExists(tempCollectionsReportTbl) then
+
+            On Error Resume Next 
+                fs.DeleteFile(tempCollectionsReportTbl)
+            On Error GoTo 0
+            
+        end if
+        
+        set fs=nothing
+
     end if
-    
-    set fs=nothing
 
     Dim currDateTime, maxSchedID
 
