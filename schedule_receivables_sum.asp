@@ -74,7 +74,7 @@
     Dim obReportDate
     obReportDate = Request.Form("ob_report_date")
 
-    if obReportDate = "" or obReportDate = systemDate then
+    if obReportDate = "" or obReportDate = systemDate or obReportDate > systemDate then
         obReportDate = systemDate
     end if
 
@@ -149,6 +149,9 @@
                     arPath = folderPath & arFile
 
                     rs.open "SELECT cust_id, cust_name, SUM(balance) AS balance FROM "&arPath&" WHERE balance != 0 GROUP BY cust_id ORDER BY cust_name, cust_id", CN2
+
+                    Dim totalBalance
+                    totalBalance = 0
         
 
                     do until rs.EOF

@@ -66,13 +66,13 @@
 
 <div id="main">
 
-    <div class="main-heading--container mb-5">
-        <h1 class="h2 text-center pt-5 mb-5 pb-3 main-heading" style="font-weight: 400">  Customers List </h1>
+    <div class="main-heading--container mb-4">
+        <h1 class="h2 text-center pt-5 mb-3 pb-3 main-heading" style="font-weight: 400">  Customers List </h1>
     </div>
     <div id="content">
     <div class="container pt-1 mb-5">
 
-        <% rs.Open "SELECT cust_id, cust_lname, cust_fname, department, address, contact_no FROM customers WHERE cust_type!='out' ORDER BY cust_lname", CN2 %>
+        <% rs.Open "SELECT cust_id, cust_lname, cust_fname, department FROM customers WHERE cust_type!='out' ORDER BY cust_lname", CN2 %>
 
         <table class="table table-hover table-bordered table-sm" id="myTable">
             <thead class="thead-bg">
@@ -80,8 +80,6 @@
                 <th>Last Name</th>
                 <th>First Name</th>
                 <th>Department</th>
-                <th>Address</th>
-                <th>Contact No</th>
             </thead>
 
             <%do until rs.EOF%>
@@ -90,8 +88,6 @@
                     <td class="text-darker"><%Response.Write(rs("cust_lname"))%></td> 
                     <td class="text-darker"><%Response.Write(rs("cust_fname"))%></td> 
                     <td class="text-darker"><%Response.Write(rs("department"))%></td> 
-                    <td class="text-darker"><%Response.Write(rs("address"))%></td> 
-                    <td class="text-darker"><%Response.Write(rs("contact_no"))%></td> 
                 </tr>
                 <%rs.MoveNext%>
             <%loop%>

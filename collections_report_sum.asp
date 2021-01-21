@@ -266,26 +266,30 @@
 
                     collectionsReportFile = "collections_report_container.dbf"
                     prevCollectionsReportPath = mainPath & "tbl_blank\" & collectionsReportFile
-                    collectionsReportPath = mainPath & "temp_folder\" & collectionsReportFile
+                    collectionsReportPath = tempFolderPath & collectionsReportFile
+
+                    if fs.FolderExists(tempFolderPath) <> true then
+                        fs.CreateFolder(tempFolderPath)
+                    end if
 
                     Dim userSessionID
                     userSessionID = CDBL(Session.SessionID)
 
-                    if fs.FileExists(collectionsReportPath) then
+                    On Error Resume Next
 
-                        On Error Resume Next
+                        if fs.FileExists(collectionsReportPath) then
+  
                             fs.DeleteFile(collectionsReportPath)
-                        On Error GoTo 0
+                            
+                        end if
 
-                    end if
+                        if fs.FileExists(collectionsReportPath) <> true then 
 
+                            fs.CopyFile prevCollectionsReportPath, collectionsReportPath
+                        
+                        end if
 
-                    if fs.FileExists(collectionsReportPath) <> true then 
-
-                        fs.CopyFile prevCollectionsReportPath, collectionsReportPath
-                        ' Response.Write "File successfully copied"
-                    
-                    end if
+                    On Error GoTo 0
 
                     for i=0 to monthsDiff
 
@@ -328,130 +332,138 @@
                     if insertCollections <> "" then
                         cnroot.execute(insertCollections)
                     end if
-                    'Displaying reports'
-                    rs.Open "SELECT date, SUM(tot_amount) AS tot_amount, SUM(cash) AS cash, p_method FROM "&collectionsReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY date, p_method ORDER BY date", CN2
 
-                    Dim totalCollections, totalCharge, totalCash
-                    totalSales = 0
-                    totalCharge = 0
-                    totalCash = 0
+                    if fs.FileExists(collectionsReportPath) = true then
 
-                    Dim dayTotalSales, dayTotalCash, dayTotalCharge
-                    dayTotalSales = 0
-                    dayTotalCash = 0
-                    dayTotalCharge = 0
+                        'Displaying reports'
+                        rs.Open "SELECT date, SUM(tot_amount) AS tot_amount, SUM(cash) AS cash, p_method FROM "&collectionsReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY date, p_method ORDER BY date", CN2
 
-                    Dim isTotalPrinted, dateCounter
-                    dateCounter = 1
+                        Dim totalCollections, totalCharge, totalCash
+                        totalSales = 0
+                        totalCharge = 0
+                        totalCash = 0
 
-                    do until rs.EOF 
+                        Dim dayTotalSales, dayTotalCash, dayTotalCharge
+                        dayTotalSales = 0
+                        dayTotalCash = 0
+                        dayTotalCharge = 0
 
-                        Response.Flush
+                        Dim isTotalPrinted, dateCounter
+                        dateCounter = 1
 
-                        totalCollections = totalCollections + CDBL(rs("tot_amount"))
-                        paymentType = Trim(CSTR(rs("p_method")))
+                        do until rs.EOF 
 
-                        ' counter = customerCount
+                            Response.Flush
 
-                        ' if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
-                        '     customerCount = customerCount + 1
-                        '     custName = TRIM(CSTR(rs("cust_name")))
-                        '     printBlankRow = false
-                        ' else
-                        '     customerCount = 1
-                        '     printBlankRow = true
-                        ' end if
+                            totalCollections = totalCollections + CDBL(rs("tot_amount"))
+                            paymentType = Trim(CSTR(rs("p_method")))
 
-                        if dateCont = "" or dateCont = CDATE(rs("date")) then
-                            dayTotalCollections = dayTotalCollections + CDBL(rs("tot_amount"))
-                        else
-                            dateCounter = dateCounter + 1
-                            printTototal = true
+                            ' counter = customerCount
 
-                            if printTototal = true then%>
-                                <tr>
-                                    <td><%=dateFormat%></td>
-                                    <td  class="totalAmountCollect">&#8369; <%=dayTotalCollections%></td>
-                                    <td class="totalAmountCollect">&#8369; <%=dayTotalCash%></td>
-                                    <td class="totalAmountCollect">&#8369; <%=dayTotalCharge%></td>
-                                </tr>
+                            ' if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
+                            '     customerCount = customerCount + 1
+                            '     custName = TRIM(CSTR(rs("cust_name")))
+                            '     printBlankRow = false
+                            ' else
+                            '     customerCount = 1
+                            '     printBlankRow = true
+                            ' end if
 
-                                <%if printBlankRow = true then%>
-                                    <tr>
-                                        <td class="blank_row" colspan="7"></td>
-                                    </tr>
-                                <%end if%>
-                                
-                                <%
-                                printTototal = false
-                                dayTotalCollections = CDBL(rs("tot_amount"))
-                                dayTotalCash = 0
-                                dayTotalCredit = 0
-                            end if
-                    
-                    
-                        end if
-
-                        dateCont = CDATE(rs("date"))
-
-                        myDate = CDATE(rs("date"))
-                        myYear = Year(myDate)
-                        myDay = Day(myDate)
-                        if Len(myDay) = 1 then
-                            myDay = "0" & myDay
-                        end if
-
-                        myMonth = Month(myDate)
-                        if Len(myMonth) = 1 then
-                            myMonth = "0" & myMonth
-                        end if
-
-                        dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
-                        
-                            if paymentType = "ar" then
-                                dayTotalCharge = dayTotalCharge + CDBL(rs("cash"))
-                                totalCharge = totalCharge + CDBL(rs("cash"))
+                            if dateCont = "" or dateCont = CDATE(rs("date")) then
+                                dayTotalCollections = dayTotalCollections + CDBL(rs("tot_amount"))
                             else
-                                dayTotalCash = dayTotalCash + CDBL(rs("cash"))
-                                totalCash = totalCash + CDBL(rs("cash"))
-                            end if%> 
+                                dateCounter = dateCounter + 1
+                                printTototal = true
 
-                        <%rs.MoveNext
+                                if printTototal = true then%>
+                                    <tr>
+                                        <td><%=dateFormat%></td>
+                                        <td  class="totalAmountCollect">&#8369; <%=dayTotalCollections%></td>
+                                        <td class="totalAmountCollect">&#8369; <%=dayTotalCash%></td>
+                                        <td class="totalAmountCollect">&#8369; <%=dayTotalCharge%></td>
+                                    </tr>
 
-                            if rs.EOF then%>
-                                <tr>
-                                    <td><%=dateFormat%></td>
-                                    <td  class="totalAmountCollect">&#8369; <%=dayTotalCollections%></td>
-                                    <td class="totalAmountCollect">&#8369; <%=dayTotalCash%></td>
-                                    <td class="totalAmountCollect">&#8369; <%=dayTotalCharge%></td>
-                                </tr>
-                            <%end if
-                    loop
-                    rs.close
-                    %>
+                                    <%if printBlankRow = true then%>
+                                        <tr>
+                                            <td class="blank_row" colspan="7"></td>
+                                        </tr>
+                                    <%end if%>
+                                    
+                                    <%
+                                    printTototal = false
+                                    dayTotalCollections = CDBL(rs("tot_amount"))
+                                    dayTotalCash = 0
+                                    dayTotalCredit = 0
+                                end if
+                        
+                        
+                            end if
 
-                    <%if dateCounter > 1 then%>
+                            dateCont = CDATE(rs("date"))
 
-                        <%if isTotalPrinted = false then%>
-                            <tr class="final-total"> 
-                                <td>Total</td>
-                                <td class="final-total">&#8369; <%=totalCollections%></td>
-                                <td class="final-total">&#8369; <%=totalCash%></td>
-                                <td class="final-total">&#8369; <%=totalCharge%></td>
-                            </tr>  
+                            myDate = CDATE(rs("date"))
+                            myYear = Year(myDate)
+                            myDay = Day(myDate)
+                            if Len(myDay) = 1 then
+                                myDay = "0" & myDay
+                            end if
+
+                            myMonth = Month(myDate)
+                            if Len(myMonth) = 1 then
+                                myMonth = "0" & myMonth
+                            end if
+
+                            dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                            
+                                if paymentType = "ar" then
+                                    dayTotalCharge = dayTotalCharge + CDBL(rs("cash"))
+                                    totalCharge = totalCharge + CDBL(rs("cash"))
+                                else
+                                    dayTotalCash = dayTotalCash + CDBL(rs("cash"))
+                                    totalCash = totalCash + CDBL(rs("cash"))
+                                end if%> 
+
+                            <%rs.MoveNext
+
+                                if rs.EOF then%>
+                                    <tr>
+                                        <td><%=dateFormat%></td>
+                                        <td  class="totalAmountCollect">&#8369; <%=dayTotalCollections%></td>
+                                        <td class="totalAmountCollect">&#8369; <%=dayTotalCash%></td>
+                                        <td class="totalAmountCollect">&#8369; <%=dayTotalCharge%></td>
+                                    </tr>
+                                <%end if
+                        loop
+                        rs.close
+                        %>
+
+                        <%if dateCounter > 1 then%>
+
+                            <%if isTotalPrinted = false then%>
+                                <tr class="final-total"> 
+                                    <td>Total</td>
+                                    <td class="final-total">&#8369; <%=totalCollections%></td>
+                                    <td class="final-total">&#8369; <%=totalCash%></td>
+                                    <td class="final-total">&#8369; <%=totalCharge%></td>
+                                </tr>  
+                            <%end if%>
+
                         <%end if%>
 
                     <%end if%>
-
                              
 
                 </table>
 
                 <!-- DELETING sales_report_container -->
                 <%  
-                    deleteReport = "DELETE FROM "&collectionsReportPath&" WHERE session_id="&userSessionID
-                    set objAccess = cnroot.execute(deleteReport)
-                    set objAccess = nothing
+                    if fs.FileExists(collectionsReportPath) = true then
+
+                        deleteReport = "DELETE FROM "&collectionsReportPath&" WHERE session_id="&userSessionID
+                        set objAccess = cnroot.execute(deleteReport)
+                        set objAccess = nothing
+
+                    end if
 
                     set rs = nothing
                     CN2.close

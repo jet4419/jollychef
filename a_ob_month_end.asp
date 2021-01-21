@@ -189,6 +189,10 @@
                         end if
 
                         set objAccess = nothing
+
+                        ' sqlAddEb = "INSERT INTO "&ebPath&" (id, cust_id, cust_name, department, cust_type, credit_bal, debit_bal, first_date, end_date, duplicate)"&_
+                        ' "VALUES ("&maxEbID&", "&custId&" , '"&custName&"', '"&custDepartment&"', '"&cust_type&"', "&creditBal&", " &debitBal&", ctod(["&fdate&"]), ctod(["&ldate&"]), '')"
+                        ' cnroot.execute sqlAddEb
                         
                         sqlAdd = "INSERT INTO "&newEbPath&" (id, cust_id, cust_name, department, cust_type, credit_bal, debit_bal, first_date, end_date, duplicate)"&_
                         "VALUES ("&maxEbID&", "&custId&" , '"&custName&"', '"&custDepartment&"', '"&cust_type&"', "&creditBal&", " &debitBal&", ctod(["&fdate&"]), ctod(["&ldate&"]), 'yes')"

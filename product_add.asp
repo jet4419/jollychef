@@ -17,11 +17,13 @@
 
     productName = Trim(Request.Form("productName"))
     price = CDbl(Request.Form("price"))
-    origPrice = CDbl(Request.Form("origPrice"))
+    'origPrice = CDbl(Request.Form("origPrice"))
+    origPrice = price
     qty = Trim(CInt(Request.Form("qty")))
     qtySold = 0
     category = Trim(CStr(Request.Form("particulars")))
-    isFixMenu = Trim(CStr(Request.Form("isFixMenu")))
+    ' isFixMenu = Trim(CStr(Request.Form("isFixMenu")))
+    isFixMenu = "no"
    ' cost = CDbl(origPrice) * CInt(qty)
 
     rs.Open "SELECT MAX(prod_id) FROM products", CN2

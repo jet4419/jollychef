@@ -181,7 +181,7 @@
                             if fs.FolderExists(folderPath) <> true then EXIT DO
                             if fs.FileExists(adjustmentsPath) <> true then EXIT DO
 
-                            rs.Open "SELECT * FROM "&adjustmentsPath&" WHERE date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') ORDER BY id", CN2
+                            rs.Open "SELECT * FROM "&adjustmentsPath&" WHERE date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') and duplicate!='yes' ORDER BY id", CN2
 
                             do until rs.EOF%>
 

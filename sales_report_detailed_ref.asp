@@ -273,22 +273,27 @@
 
                     salesOrderReportFile = "sales_report_container.dbf"
                     prevSalesReportPath = mainPath & "tbl_blank\" & salesOrderReportFile
-                    salesReportPath = mainPath & "temp_folder\" & salesOrderReportFile
+                    salesReportPath = tempFolderPath & salesOrderReportFile
 
-                    if fs.FileExists(salesReportPath) then
+                    if fs.FolderExists(tempFolderPath) <> true then
+                        fs.CreateFolder(tempFolderPath)
+                    end if
 
-                        On Error Resume Next
+                    On Error Resume Next
+
+                        if fs.FileExists(salesReportPath) then
+
                             fs.DeleteFile(salesReportPath)
-                        On Error GoTo 0
-                    end if
 
+                        end if
 
-                    if fs.FileExists(salesReportPath) <> true then 
+                        if fs.FileExists(salesReportPath) <> true then 
 
-                        fs.CopyFile prevSalesReportPath, salesReportPath
-                        ' Response.Write "File successfully copied"
-                    
-                    end if
+                            fs.CopyFile prevSalesReportPath, salesReportPath
+                        
+                        end if
+
+                    On Error GoTo 0
 
                     for i=0 to monthsDiff
 
@@ -331,103 +336,106 @@
                         if insertSalesReport <> "" then
                             cnroot.execute(insertSalesReport)
                         end if
-                        'Displaying reports'
-                        rs.Open "SELECT cust_id, cust_name, invoice_no, date, prod_gen, prod_price, prod_qty, SUM(prodamount) AS prodamount, payment FROM "&salesReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY invoice_no ORDER BY cust_name, cust_id, invoice_no", CN2
-
-                        Dim totalSales, totalCredit, totalCash
-                        totalSales = 0
-                        totalCredit = 0
-                        totalCash = 0
-
-                        Dim isTotalPrinted
                     %>
 
-                            <%do until rs.EOF
-                                
-                                Response.Flush
-                                myDate = CDATE(rs("date"))
-                                myYear = Year(myDate)
-                                myDay = Day(myDate)
-                                if Len(myDay) = 1 then
-                                    myDay = "0" & myDay
-                                end if
+                        <%if fs.FileExists(salesReportPath) = true then
 
-                                myMonth = Month(myDate)
-                                if Len(myMonth) = 1 then
-                                    myMonth = "0" & myMonth
-                                end if
+                            'Displaying reports'
+                            rs.Open "SELECT cust_id, cust_name, invoice_no, date, prod_gen, prod_price, prod_qty, SUM(prodamount) AS prodamount, payment FROM "&salesReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY invoice_no ORDER BY cust_name, cust_id, invoice_no", CN2
 
-                                dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                            Dim totalSales, totalCredit, totalCash
+                            totalSales = 0
+                            totalCredit = 0
+                            totalCash = 0
 
-                                if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
-                                    customerCount = customerCount + 1
-                                    totalSales = totalSales + CDBL(rs("prodamount"))
-                                else
-                                    customerCount = 1
-                                    isTotalPrinted = true
-                                    %>
-                                    <tr> 
-                                        <td></td>   
-                                        <td></td>   
-                                        <td></td>   
-                                        <td class="totalAmount">&#8369; <%=totalSales%></td>      
-                                        <td class="totalAmount">&#8369; <%=totalCash%></td>   
-                                        <td class="totalAmount">&#8369; <%=totalCredit%></td>
-                                    </tr>
+                            Dim isTotalPrinted
+                        
+
+                                do until rs.EOF
+                                    
+                                    Response.Flush
+                                    myDate = CDATE(rs("date"))
+                                    myYear = Year(myDate)
+                                    myDay = Day(myDate)
+                                    if Len(myDay) = 1 then
+                                        myDay = "0" & myDay
+                                    end if
+
+                                    myMonth = Month(myDate)
+                                    if Len(myMonth) = 1 then
+                                        myMonth = "0" & myMonth
+                                    end if
+
+                                    dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+
+                                    if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
+                                        customerCount = customerCount + 1
+                                        totalSales = totalSales + CDBL(rs("prodamount"))
+                                    else
+                                        customerCount = 1
+                                        isTotalPrinted = true
+                                        %>
+                                        <tr> 
+                                            <td></td>   
+                                            <td></td>   
+                                            <td></td>   
+                                            <td class="totalAmount">&#8369; <%=totalSales%></td>      
+                                            <td class="totalAmount">&#8369; <%=totalCash%></td>   
+                                            <td class="totalAmount">&#8369; <%=totalCredit%></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="blank_row" colspan="7"></td>
+                                        </tr>
+
+                                    <%
+                                        totalSales = CDBL(rs("prodamount"))
+                                        totalCash = 0
+                                        totalCredit = 0
+                                        isTotalPrinted = false
+                                    end if
+
+                                    paymentType = Trim(CSTR(rs("payment")))
+                                    if paymentType = "Credit" then
+                                        totalCredit = totalCredit + CDBL(rs("prodamount"))
+                                    else
+                                        totalCash = totalCash + CDBL(rs("prodamount"))
+                                    end if
+
+                                    custIdCont = CLNG(rs("cust_id"))
+
+                                    invoiceNo = CLNG(rs("invoice_no"))%> 
                                     <tr>
-                                        <td class="blank_row" colspan="7"></td>
-                                    </tr>
+                                        <%transactDate = FormatDateTime(CDate(rs("date")), 2)%> 
+                                        <%if customerCount > 1 then%>
+                                            <td></td> 
+                                        <%else%>
+                                            <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
+                                        <%end if%> 
+                                        <td class="text-darker">
+                                            <%if invoiceCounter < 2 then%>
+                                                <a class="text-info" target="_blank" href='receipt.asp?invoice=<%=rs("invoice_no")%>&date=<%=transactDate%>'><%=rs("invoice_no")%>
+                                                <% testInvoice = CINT(rs("invoice_no"))%>
+                                            <%end if%>
+                                        </td>
+                                        <td class="text-darker"><%Response.Write(dateFormat)%></td>
+                                        <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
+                                        <%invoiceAmount = CDBL(rs("prodamount"))%>
 
-                                   <%
-                                    totalSales = CDBL(rs("prodamount"))
-                                    totalCash = 0
-                                    totalCredit = 0
-                                    isTotalPrinted = false
-                                end if
-
-                                paymentType = Trim(CSTR(rs("payment")))
-                                if paymentType = "Credit" then
-                                    totalCredit = totalCredit + CDBL(rs("prodamount"))
-                                else
-                                    totalCash = totalCash + CDBL(rs("prodamount"))
-                                end if
-
-                                custIdCont = CLNG(rs("cust_id"))
-
-                                invoiceNo = CLNG(rs("invoice_no"))%> 
-                                <tr>
-                                    <%transactDate = FormatDateTime(CDate(rs("date")), 2)%> 
-                                    <%if customerCount > 1 then%>
-                                        <td></td> 
-                                    <%else%>
-                                        <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
-                                    <%end if%> 
-                                    <td class="text-darker">
-                                        <%if invoiceCounter < 2 then%>
-                                            <a class="text-info" target="_blank" href='receipt.asp?invoice=<%=rs("invoice_no")%>&date=<%=transactDate%>'><%=rs("invoice_no")%>
-                                            <% testInvoice = CINT(rs("invoice_no"))%>
+                                        <%if paymentType = "Credit" then%>
+                                            <td></td>
+                                            <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
+                                        <%else%>
+                                            <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
+                                            <td></td>
                                         <%end if%>
-                                    </td>
-                                    <td class="text-darker"><%Response.Write(dateFormat)%></td>
-                                    <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
-                                    <%invoiceAmount = CDBL(rs("prodamount"))%>
 
-                                    <%if paymentType = "Credit" then%>
-                                        <td></td>
-                                        <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
-                                    <%else%>
-                                        <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
-                                        <td></td>
-                                    <%end if%>
+                                    </tr>
+                                    <%rs.MoveNext%>
+                        
+                                <%loop%>
+                            <%rs.close%>   
 
-                                </tr>
-                                <%rs.MoveNext%>
-                      
-                            <%loop%>
-                        <%rs.close%>   
-
-                        <%
-                            if customerCount > 1 then
+                            <%if customerCount > 1 then
                                 if isTotalPrinted = false then%>
                                     <tr> 
                                         <td></td>   
@@ -439,34 +447,23 @@
                                     </tr>
                                 <%end if%>
                             <%end if%>
+
+                        <%end if%>
                           
                 </table>
 
                 <!-- DELETING sales_report_container -->
                 <%  
-                    deleteReport = "DELETE FROM "&salesReportPath&" WHERE session_id="&userSessionID
-                    set objAccess = cnroot.execute(deleteReport)
-                    set objAccess = nothing
+                    if fs.FileExists(salesReportPath) = true then
+
+                        deleteReport = "DELETE FROM "&salesReportPath&" WHERE session_id="&userSessionID
+                        set objAccess = cnroot.execute(deleteReport)
+                        set objAccess = nothing
+
+                    end if
 
                     set rs = nothing
-                    CN2.close
-
-
-                    ' closeTbl = "USE IN "&salesReportPath
-                    ' cnroot.execute(closeTbl)
-
-                    
- 
-                     '''Check if file exists before deleting
-                    ' if fs.FileExists(salesReportPath) then
-
-                    '     fs.DeleteFile(salesReportPath)
-                    '     Response.Write "File was deleted"
-
-                    ' end if
-                    ' set fs=nothing
-
-                    
+                    CN2.close  
                 %>
 
             </div>

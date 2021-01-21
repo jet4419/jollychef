@@ -60,27 +60,64 @@
         %>
 
         <%
-            sqlAccess = "SELECT end_date FROM eb_test GROUP BY end_date ORDER BY end_date DESC"
-            set objAccess  = cnroot.execute(sqlAccess)	
+            Dim fs
+            Set fs = Server.CreateObject("Scripting.FileSystemObject")
 
-            if not objAccess.EOF then 
-                          
-                do while not objAccess.eof 
+            Dim ebFile, ebPath, ebMonthPath, ebYearPath, ebFolderPath, counter
 
-                'firstDate = FormatDateTime(firstDate, 2)
-                endDate = CDate(objAccess("end_date"))
-                displayDate2 = MonthName(Month(endDate)) & " " & Year(endDate)
-                %>
-                    <option value="<%=endDate%>" data-description="<%="Month Ended Date"%>"> <%=displayDate2%> </option>
-                    <%objaccess.movenext
-                loop
-                SET objAccess = nothing
-            else %>
-                <option disabled> No Completed Records </option>  
-            <%end if  
-            'Dim invoiceNumber
-            'invoiceNumber = "ST-" + 1000
+            ebMonthPath = monthPath
+            ebYearPath = yearPath
+            ebFile = "\eb_test.dbf"
+            ebFolderPath = mainPath & yearPath & "-" & monthPath
+            ebPath = folderPath & ebFile
+            counter = 0
+
+            Do
+                    
+                if fs.FolderExists(ebFolderPath) <> true then EXIT DO
+                if fs.FileExists(ebPath) <> true then EXIT DO
+
+                sqlAccess = "SELECT end_date FROM "&ebPath&" GROUP BY end_date ORDER BY end_date DESC"
+                set objAccess  = cnroot.execute(sqlAccess)	
+
+                if not objAccess.EOF then 
+
+                    counter = counter + 1
+                            
+                    do while not objAccess.eof 
+
+                        'firstDate = FormatDateTime(firstDate, 2)
+                        endDate = CDate(objAccess("end_date"))
+                        displayDate2 = MonthName(Month(endDate)) & " " & Year(endDate)
+                        %>
+                            <option value="<%=endDate%>" data-description="<%="Month Ended Date"%>"> <%=displayDate2%> </option>
+                            <%objaccess.movenext
+                    loop
+
+                    SET objAccess = nothing
+
+                end if
+
+                ebMonthPath = CINT(ebMonthPath) - 1
+
+                if ebMonthPath = 0 then
+                    ebYearPath = CINT(ebYearPath) - 1
+                end if
+
+                if LEN(ebMonthPath) = 1 then
+                    ebMonthPath = "0" & ebMonthPath
+                end if
+
+                ebFolderPath = mainPath & ebYearPath & "-" & ebMonthPath
+                ebPath = ebFolderPath & ebFile
+
+            Loop While False
         %>
+
+            <%if counter = 0 then%>
+                <option disabled> No Completed Records </option>
+            <%end if%>
+
     </select>
     </div>
 

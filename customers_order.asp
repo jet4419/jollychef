@@ -79,6 +79,9 @@
     Dim ordersHolderPath
 
     ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
+
+    Dim fs
+    Set fs = Server.CreateObject("Scripting.FileSystemObject")
 %>
 
 <div id="main">
@@ -87,54 +90,57 @@
     <div id="content">
         <div class="container mb-5">
 
-            <% rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" GROUP BY unique_num", CN2 %>
-            <table class="table table-hover table-bordered table-sm" id="myTable">
-            <caption>List of orders</caption>
-                <thead class="thead-bg">
-                    <th>Order#</th>
-                    <th>Name</th>
-                    <th>Department</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                    <!--<th>Date</th>-->
-                </thead>
+            <%if fs.FileExists(ordersHolderPath) = true then %>
 
-                <tbody>
-                <% Dim i, ordersID 
-                   i = 0 
-                   ordersID = 0
-                %>
-                <%do until rs.EOF%>
-                <tr>
-                    <%
-                        i = i + 1
-                        ordersID = CLng(rs("id").value)
+                <% rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" GROUP BY unique_num", CN2 %>
+                <table class="table table-hover table-bordered table-sm" id="myTable">
+                <caption>List of orders</caption>
+                    <thead class="thead-bg">
+                        <th>Order#</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                        <!--<th>Date</th>-->
+                    </thead>
+
+                    <tbody>
+                    <% Dim i, ordersID 
+                    i = 0 
+                    ordersID = 0
                     %>
-                    <td class="text-bold"><%Response.Write(i)%></td> 
-                    <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
-                    <td class="text-darker"><%Response.Write(rs("department"))%></td>   
-                    <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("amount"))%></td> 
-                    <td class="text-darker"><%Response.Write(FormatDateTime(rs("date"), 2))%></td>
-                    <td class="m-0">
-                        <button onClick="view_order(<%=rs("unique_num")%>, '<%=rs("cust_id")%>')" class="btn btn-sm btn-outline-dark mx-auto mb-2">
-                        View
-                        </button>
+                    <%do until rs.EOF%>
+                    <tr>
+                        <%
+                            i = i + 1
+                            ordersID = CLng(rs("id").value)
+                        %>
+                        <td class="text-bold"><%Response.Write(i)%></td> 
+                        <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
+                        <td class="text-darker"><%Response.Write(rs("department"))%></td>   
+                        <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("amount"))%></td> 
+                        <td class="text-darker"><%Response.Write(FormatDateTime(rs("date"), 2))%></td>
+                        <td class="m-0">
+                            <button onClick="view_order(<%=rs("unique_num")%>, '<%=rs("cust_id")%>')" class="btn btn-sm btn-outline-dark mx-auto mb-2">
+                            View
+                            </button>
 
-                        <button onClick="delete_order(<%=rs("unique_num")%>, '<%=i%>')" class="btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct">
-                            Cancel
-                        </button>
-                    </td>
-                <%rs.MoveNext%>
-                </tr>
-                <%loop%>
+                            <button onClick="delete_order(<%=rs("unique_num")%>, '<%=i%>')" class="btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct">
+                                Cancel
+                            </button>
+                        </td>
+                    <%rs.MoveNext%>
+                    </tr>
+                    <%loop%>
 
-                <%rs.close%>
-                </tbody>
-            </table>
-            <!-- Last ID number of order -->
-            <span class="orderID" id="<%=ordersID%>" hidden> </span>
-            <span class="orderNumber" id="<%=i%>" hidden> </span>
+                    <%rs.close%>
+                    </tbody>
+                </table>
+                <!-- Last ID number of order -->
+                <span class="orderID" id="<%=ordersID%>" hidden> </span>
+                <span class="orderNumber" id="<%=i%>" hidden> </span>
+            <%end if%>
         </div>    
     </div>
 
@@ -191,62 +197,62 @@ function delete_order(unique_num ,order_number) {
      }
 }
 
-function get_post(){
-    //var Url = 'a_get_orders.asp'
-    var Url = 'aspJSON2.asp'
-    //var Url = 'aspJSON.asp'
-    var orderID = $('.orderID').attr('id')
-    var orderNumber = $('.orderNumber').attr('id')
-    $.ajax({
-        url: Url,
-        type: 'POST',
-        data: {orderID: orderID, orderNumber: orderNumber},
-        //data: {},
-    })
-    .done(function(data) {
+// function get_post(){
+//     //var Url = 'a_get_orders.asp'
+//     var Url = 'aspJSON2.asp'
+//     //var Url = 'aspJSON.asp'
+//     var orderID = $('.orderID').attr('id')
+//     var orderNumber = $('.orderNumber').attr('id')
+//     $.ajax({
+//         url: Url,
+//         type: 'POST',
+//         data: {orderID: orderID, orderNumber: orderNumber},
+//         //data: {},
+//     })
+//     .done(function(data) {
 
-        if (data!=="no new data") {
+//         if (data!=="no new data") {
 
-            let jsonObject = JSON.parse(data)
+//             let jsonObject = JSON.parse(data)
 
-            let output = '';
+//             let output = '';
 
-            for (let i in jsonObject) {
-                output += ` <tr>
-                                <td class='text-bold'> ${jsonObject[i].orderNumber} </td>
-                                <td class='text-darker'> ${jsonObject[i].custName} </td>
-                                <td class='text-darker'> ${jsonObject[i].department} </td> 
-                                <td class='text-darker'> <strong class='currency-sign'> &#8369; </strong> ${jsonObject[i].amount} </td> 
-                                <td class='text-darker'> ${jsonObject[i].date} </td> 
-                                <td class='m-0'>
-                                    <a href='customer_order_process.asp?unique_num=${jsonObject[i].uniqueNum}&cust_id=${jsonObject[i].custID}&userType=${userType}' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
-                                        View
-                                    </a>
-                                    <button onClick='delete_order(${jsonObject[i].uniqueNum}, ${jsonObject[i].orderNumber})' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
-                                        Cancel
-                                    </button>
-                                </td>
-                            </tr>        
-                        `;
-                $("span.orderID").attr('id', jsonObject[i].id)
-                $('.orderNumber').attr('id', jsonObject[i].orderNumber)
-            }
+//             for (let i in jsonObject) {
+//                 output += ` <tr>
+//                                 <td class='text-bold'> ${jsonObject[i].orderNumber} </td>
+//                                 <td class='text-darker'> ${jsonObject[i].custName} </td>
+//                                 <td class='text-darker'> ${jsonObject[i].department} </td> 
+//                                 <td class='text-darker'> <strong class='currency-sign'> &#8369; </strong> ${jsonObject[i].amount} </td> 
+//                                 <td class='text-darker'> ${jsonObject[i].date} </td> 
+//                                 <td class='m-0'>
+//                                     <a href='customer_order_process.asp?unique_num=${jsonObject[i].uniqueNum}&cust_id=${jsonObject[i].custID}&userType=${userType}' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
+//                                         View
+//                                     </a>
+//                                     <button onClick='delete_order(${jsonObject[i].uniqueNum}, ${jsonObject[i].orderNumber})' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
+//                                         Cancel
+//                                     </button>
+//                                 </td>
+//                             </tr>        
+//                         `;
+//                 $("span.orderID").attr('id', jsonObject[i].id)
+//                 $('.orderNumber').attr('id', jsonObject[i].orderNumber)
+//             }
 
-            $('td.dataTables_empty').attr('hidden', 'hidden');
-            $('#myTable tr:last').after(output);
+//             $('td.dataTables_empty').attr('hidden', 'hidden');
+//             $('#myTable tr:last').after(output);
 
-        } else {
-            console.log("no new data");
-        }
-    })
-    .fail(function() {
-        console.log("error");
-    });
-}
+//         } else {
+//             console.log("no new data");
+//         }
+//     })
+//     .fail(function() {
+//         console.log("error");
+//     });
+// }
 
-setInterval(function(){
-    get_post()         
-},10000);
+// setInterval(function(){
+//     get_post()         
+// },10000);
 
 </script>
 

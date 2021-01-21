@@ -20,7 +20,7 @@
 
     <div class="form-group mb-1">    
         <input type="number" class="form-control form-control-sm" name="productID" id="productID" value="<%=productID%>" placeholder="ID" hidden>  
-        <input type="hidden" class="form-control form-control-sm" name="brandName" id="brandName" value="<%=brandName%>">
+        <input type="hidden" class="form-control form-control-sm" name="brandName" id="brandName" value="<%=brandName%>" hidden>
     </div>
 
      <div class="form-group mb-1">    
@@ -34,8 +34,8 @@
     </div>
 
     <div class="form-group mb-1"> 
-        <label class="ml-1" style="font-weight: 500"> Original Price </label>
-        <input type="number" class="form-control form-control-sm" name="origPrice" id="origPrice" value="<%=origPrice%>">
+        <label class="ml-1" style="font-weight: 500" hidden> Original Price </label>
+        <input type="number" class="form-control form-control-sm" name="origPrice" id="origPrice" value="<%=origPrice%>" hidden>
     </div>
 
     <div class="form-group mb-1"> 
@@ -63,10 +63,11 @@
         </select>
     </div>
 
+    <!--
     <div class="form-group mt-3">
         <label class="form-label" style="font-weight: 500" for="particulars">Track this on inventory report? </label>
 
-        <% if fixMenu = "yes" then %>
+        <%' if fixMenu = "yes" then %>
             <div class="form-check form-check-inline ml-2">
                 <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu1" value="yes" checked required>
                 <label class="form-check-label" for="isFixMenu1">Yes</label>
@@ -76,7 +77,7 @@
                 <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu2" value="no">
                 <label class="form-check-label" for="isFixMenu2">No</label>
             </div>
-        <% else %>
+        <%' else %>
             <div class="form-check form-check-inline ml-2">
                 <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu1" value="yes" required>
                 <label class="form-check-label" for="isFixMenu1">Yes</label>
@@ -86,7 +87,8 @@
                 <input class="form-check-input" type="radio" name="isFixMenu" id="isFixMenu2" value="no" checked>
                 <label class="form-check-label" for="isFixMenu2">No</label>
             </div>
-        <% end if %>    
+        <%' end if %>   
+        --> 
     </div>  
      
 

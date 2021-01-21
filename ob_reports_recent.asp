@@ -78,6 +78,7 @@
     Dim startDate, endDate, obDate, dateSplit
 
     obDate = CDate(Request.Form("date_records"))
+    'Response.Write obDate
     ' Response.Write obDate
 
     if obDate = "" then
@@ -233,7 +234,7 @@
                         -->
                         <td class="text-darker"><%Response.Write(Trim(rs("cust_name")))%></td>
                         <td class="text-darker"><%Response.Write(rs("department"))%></td>
-                        <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("credit_bal"))%></td>
+                        <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("credit_bal"))%></td>
                         <% 
                             myDate = CDATE(rs("end_date"))
                             myYear = Year(myDate)

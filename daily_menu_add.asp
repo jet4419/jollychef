@@ -88,7 +88,7 @@
         <pre id="view-rows"></pre>
         <pre id="view-form"></pre>
         <p><strong>Form data as submitted to the server</strong></p> -->
-        <% rs.open "SELECT prod_id, prod_name, orig_price, price, category, qty FROM products WHERE products.prod_id "&_
+        <% rs.open "SELECT prod_id, prod_name, price, category, qty FROM products WHERE products.prod_id "&_
                    "NOT IN (SELECT prod_id FROM daily_meals) ORDER BY prod_id", CN2
         %>
 
@@ -96,7 +96,6 @@
             <thead class="thead-dark">
                 <th>Product ID</th>
                 <th>Product Name</th>
-                <th>Original Price</th>
                 <th>Sale Price</th>
                 <th>Category</th>
                 <th>Quantity</th>
@@ -106,8 +105,7 @@
 
                     <tr>   
                         <td class="text-darker"><%Response.Write(rs("prod_id"))%></td> 
-                        <td class="text-darker"><%Response.Write(rs("prod_name"))%></td> 
-                        <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"& rs("orig_price"))%></td> 
+                        <td class="text-darker"><%Response.Write(rs("prod_name"))%></td>  
                         <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"& rs("price"))%></td> 
                         <td class="text-darker"><%Response.Write(rs("category"))%></td> 
                         <td class="text-darker"><%Response.Write(rs("qty"))%></td> 

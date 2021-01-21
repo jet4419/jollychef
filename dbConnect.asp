@@ -15,6 +15,7 @@
 'v_DpathRoot = "\\cluster\salesdata"
 
 mainPath = Server.MapPath("./") & "/"
+tempFolderPath = Server.MapPath("./") & "/temp_folder/"
 
 v_DpathRoot = mainPath
 
@@ -63,6 +64,7 @@ set rs=Server.CreateObject("ADODB.recordset")
             dateClosed = CDate(FormatDateTime(objAccess("date_time"), 2))
             'currDate = CDate(Date)
       else
+            schedID = 1
             isStoreClosed = "open"
             dateClosed = CDate(Date)
             'currDate = CDate(Date)

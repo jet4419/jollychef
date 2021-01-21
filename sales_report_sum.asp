@@ -270,22 +270,28 @@
 
                     salesOrderReportFile = "sales_report_container.dbf"
                     prevSalesReportPath = mainPath & "tbl_blank\" & salesOrderReportFile
-                    salesReportPath = mainPath & "temp_folder\" & salesOrderReportFile
+                    salesReportPath = tempFolderPath & salesOrderReportFile
 
-                    if fs.FileExists(salesReportPath) then
+                    if fs.FolderExists(tempFolderPath) <> true then
+                        fs.CreateFolder(tempFolderPath)
+                    end if
 
-                        On Error Resume Next
+                    On Error Resume Next
+
+                        if fs.FileExists(salesReportPath) then
+
                             fs.DeleteFile(salesReportPath)
-                        On Error GoTo 0
-                    end if
+                            
+                        end if
 
 
-                    if fs.FileExists(salesReportPath) <> true then 
+                        if fs.FileExists(salesReportPath) <> true then 
 
-                        fs.CopyFile prevSalesReportPath, salesReportPath
-                        ' Response.Write "File successfully copied"
-                    
-                    end if
+                            fs.CopyFile prevSalesReportPath, salesReportPath
+                        
+                        end if
+
+                    On Error GoTo 0
 
                     for i=0 to monthsDiff
 
@@ -328,23 +334,27 @@
                         if insertSalesReport <> "" then
                             cnroot.execute(insertSalesReport)
                         end if
-                        'Displaying reports'
-                        rs.Open "SELECT cust_id, cust_name, SUM(prodamount) AS prodamount, payment FROM "&salesReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY cust_id, payment ORDER BY cust_name, cust_id", CN2
-
-                        Dim totalSales, totalCredit, totalCash
-                        totalSales = 0
-                        totalCredit = 0
-                        totalCash = 0
-
-                        Dim custTotalSales, custTotalCash, custTotalCredit
-                        custTotalSales = 0
-                        custTotalCash = 0
-                        custTotalCredit = 0
-
-                        Dim isTotalPrinted
                     %>
 
-                            <%do until rs.EOF
+                        <%if fs.FileExists(salesReportPath) = true then
+
+                            'Displaying reports'
+                            rs.Open "SELECT cust_id, cust_name, SUM(prodamount) AS prodamount, payment FROM "&salesReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY cust_id, payment ORDER BY cust_name, cust_id", CN2
+
+                            Dim totalSales, totalCredit, totalCash
+                            totalSales = 0
+                            totalCredit = 0
+                            totalCash = 0
+
+                            Dim custTotalSales, custTotalCash, custTotalCredit
+                            custTotalSales = 0
+                            custTotalCash = 0
+                            custTotalCredit = 0
+
+                            Dim isTotalPrinted
+                    
+
+                            do until rs.EOF
                                 
                                 Response.Flush
 
@@ -395,11 +405,9 @@
 
                             <%loop%>
 
-                        <%rs.close%>   
+                            <%rs.close%>   
 
-                        <%
-                            
-                            if isTotalPrinted = false then%>
+                            <%if isTotalPrinted = false then%>
                                 <tr>   
                                     <td class="final-total">Total</td>   
                                     <td class="totalAmount">&#8369; <%=totalSales%></td>      
@@ -408,34 +416,24 @@
                                 </tr>
                             <%end if%>
                         
+                        <%end if%>
                           
                 </table>
 
                 <!-- DELETING sales_report_container -->
                 <%  
-                    deleteReport = "DELETE FROM "&salesReportPath&" WHERE session_id="&userSessionID
-                    set objAccess = cnroot.execute(deleteReport)
-                    set objAccess = nothing
+
+                    if fs.FileExists(salesReportPath) = true then
+
+                        deleteReport = "DELETE FROM "&salesReportPath&" WHERE session_id="&userSessionID
+                        set objAccess = cnroot.execute(deleteReport)
+                        set objAccess = nothing
+
+                    end if
 
                     set rs = nothing
                     CN2.close
-
-
-                    ' closeTbl = "USE IN "&salesReportPath
-                    ' cnroot.execute(closeTbl)
-
-                    
- 
-                     '''Check if file exists before deleting
-                    ' if fs.FileExists(salesReportPath) then
-
-                    '     fs.DeleteFile(salesReportPath)
-                    '     Response.Write "File was deleted"
-
-                    ' end if
-                    ' set fs=nothing
-
-                    
+        
                 %>
 
             </div>

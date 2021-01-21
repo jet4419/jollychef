@@ -262,73 +262,28 @@
 
         displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)
 
+        Dim ebMonth, ebYear, previousDate
+
+        ebMonth = Month(startDate)
+        ebYear = Year(startDate)
+        previousDate = CDate(ebYear & "-" & ebMonth) - 1
+
+        Response.Write previousDate
+
 
         Dim ebID, endingCredit, endingDebit, creditBal, debitBal
-        endingCredit = 0.00
 
-        rs.open "SELECT * FROM "&obPath&" WHERE cust_id="&custID&" and date BETWEEN CTOD('"&startDate&"') AND CTOD('"&endDate&"')", CN2
+        Dim ebFile, ebPath
+        ebFile = "\eb_test.dbf"
+        ebPath = folderPath & ebFile
 
-        do until rs.EOF
+        rs.open "SELECT credit_bal, debit_bal FROM "&ebPath&" WHERE cust_id="&custID&" and end_date=CTOD('"&previousDate&"')", CN2
 
-            if ASC(rs("status")) = ASC("completed") then
+        if not rs.EOF then
+            endingCredit = CDbl(rs("credit_bal"))
+            endingDebit = CDbl(rs("debit_bal"))
+        end if
 
-                sqlQuery = "SELECT * FROM eb_test WHERE cust_id="&custID&" and first_date=CTOD('"&startDate&"') and end_date=CTOD('"&endDate&"')"
-                set objAccess = cnroot.execute(sqlQuery)
-
-                if not objAccess.EOF then
-                    ebID = CInt(objAccess("id").value)
-                end if    
-                set objAccess = nothing
-
-                if ebID=1 then
-                    endingCredit = 0
-                    endingDebit = 0
-
-                else 
-
-                    sqlPrevRow = "SELECT * FROM eb_test WHERE id = (select max(id) from eb_test where id < "&ebID&" and cust_id="&custID&")"
-                    set objAccess = cnroot.execute(sqlPrevRow)
-                        if not objAccess.EOF then
-                            endingCredit = CDbl(objAccess("credit_bal"))
-                            endingDebit = CDbl(objAccess("debit_bal"))
-                        else
-                            endingCredit = 0
-                            endingDebit = 0
-                        end if
-                    set objAccess = nothing
-
-                end if
-                
-            else
-                ' sqlQuery = "SELECT * FROM "&obPath&" WHERE cust_id="&custID&" and date BETWEEN CTOD('"&startDate&"') AND CTOD('"&startDate&"') GROUP BY cust_id"
-                ' set objAccess = cnroot.execute(sqlQuery)
-
-                ' if CDbl(objAccess("balance").value) < 0.00 then
-                '     creditBal = 0
-                '     debitBal = ABS(CDbl(objAccess("balance").value))    
-                ' else
-                '     creditBal = CDbl(objAccess("balance").value)
-                '     debitBal = 0
-                ' end if
-
-                endingDebit = 0.00
-                endingCredit = 0.00
-                set objAccess = nothing
-
-                sqlQuery = "SELECT MAX(id) AS max_eb_id, credit_bal, debit_bal FROM eb_test WHERE cust_id="&custID
-                set objAccess = cnroot.execute(sqlQuery)
-
-                if not objAccess.EOF then
-                    endingCredit = CDbl(objAccess("credit_bal"))
-                    endingDebit = CDbl(objAccess("debit_bal"))
-                    set objAccess = nothing
-                end if
-                
-            end if
-
-            rs.MoveNext
-        loop
-            
         rs.close
         
         Dim p_start_date, p_end_date, currCredit, currDebit
@@ -442,8 +397,8 @@
                     <% 
                         Dim totalCredit, totalDebit, balance
                         balance = endingCredit
-                        totalCredit = 0.00
-                        totalDebit = 0.00
+                        ' totalCredit = 0.00
+                        ' totalDebit = 0.00
                     %>
                     
                     <%do until rs.EOF%>

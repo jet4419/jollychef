@@ -194,7 +194,7 @@
         transactDate = FormatDateTime(systemDate, 2)
 
         Dim maxRefNoChar, maxRefNo
-        rs.Open "SELECT MAX(ref_no) FROM adjustment_ref_no;", CN2
+        rs.Open "SELECT TOP 1 ref_no FROM adjustment_ref_no ORDER BY id DESC;", CN2
 
             do until rs.EOF
                 for each x in rs.Fields

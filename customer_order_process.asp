@@ -152,7 +152,7 @@
    set objAccess = nothing
 
     Dim maxRefNoChar, maxRefNo
-    rs.Open "SELECT MAX(ref_no) FROM reference_no;", CN2
+    rs.Open "SELECT TOP 1 ref_no FROM reference_no ORDER BY id DESC;", CN2
         do until rs.EOF
             for each x in rs.Fields
 
@@ -173,7 +173,7 @@
     end if
 
     Dim maxArRefChar, maxArRefNo
-    rs.Open "SELECT MAX(ref_no) FROM ar_reference_no;", CN2
+    rs.Open "SELECT TOP 1 ref_no FROM ar_reference_no ORDER BY id DESC;", CN2
         do until rs.EOF
             for each x in rs.Fields
 
@@ -184,6 +184,8 @@
         loop
         
     rs.close  
+
+    'Response.Write maxArRefChar & "<br>"
 
     'AR Reference No
     if maxArRefChar <> "" then
@@ -201,6 +203,8 @@
     maxRefNo = formattedInteger
     maxArRefNo = formattedIntegerAR
 
+    ' Response.Write maxRefNo & "<br>"
+    ' Response.Write maxArRefNo & "<br>"
 %>
 
 <body>

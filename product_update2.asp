@@ -8,7 +8,8 @@
     origPrice = CDbl(Request.Form("origPrice"))
     qty = CInt(Request.Form("qty"))
     category = Trim(CStr(Request.Form("particulars")))
-    isFixMenu  = Trim(CStr(Request.Form("isFixMenu")))
+    ' isFixMenu  = Trim(CStr(Request.Form("isFixMenu")))
+    isFixMenu = "no"
 
     rs.open "SELECT * FROM products WHERE prod_id="&productID, CN2
      

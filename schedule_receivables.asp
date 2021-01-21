@@ -74,6 +74,8 @@
     Dim obReportDate
     obReportDate = Request.Form("ob_report_date")
 
+    Response.Write obReportDate
+
     if obReportDate = "" or obReportDate = systemDate then
         obReportDate = systemDate
     end if
@@ -153,7 +155,10 @@
                     'Response.Write arPath
 
                     rs.open "SELECT cust_id, cust_name, invoice_no, date_owed, balance FROM "&arPath&" WHERE balance > 0 ORDER BY cust_name, invoice_no", CN2
-        
+
+                    Dim customerTotalBalance, totalBalance
+                    customerTotalBalance = 0
+                    totalBalance = 0
 
                     do until rs.EOF
 

@@ -10,18 +10,19 @@
         settingDate = CDate(Request.Form("date"))
         storeScheduleTime = CStr(settingDate)
 
-        Dim maxSdId
+        Dim maxSdId, updateSystemDate
+        maxSdId = 0
+        updateSystemDate = false
 
         rs.Open "SELECT MAX(id) FROM system_date;", CN2
-            do until rs.EOF
-                for each x in rs.Fields
-                    maxSdId = x.value
-                next
-                rs.MoveNext
-            loop
+            if not rs.EOF then
+                updateSystemDate = true
+            end if
         rs.close
+        
+        'Response.Write updateSystemDate
 
-        maxSdId = CInt(maxSdId) + 1
+        maxSdId = maxSdId + 1
 
         Dim maxSsId
 
@@ -36,8 +37,13 @@
 
         maxSsId = CInt(maxSsId) + 1
 
-        sqlAdd = "INSERT INTO system_date (id, date) VALUES ("&maxSdId&", ctod(["&settingDate&"]))"
-        cnroot.execute(sqlAdd)
+        if updateSystemDate = true then
+            sqlUpdate = "UPDATE system_date SET date=CTOD(["&settingDate&"])"
+            cnroot.execute(sqlUpdate)
+        else
+            sqlAdd = "INSERT INTO system_date (id, date) VALUES ("&maxSdId&", ctod(["&settingDate&"]))"
+            cnroot.execute(sqlAdd)
+        end if
 
         sqlAdd2 = "INSERT INTO store_schedule (sched_id, date_time, status) VALUES ("&maxSsId&", '"&storeScheduleTime&"', 'open')"
         cnroot.execute(sqlAdd2)
@@ -60,7 +66,7 @@
             
             Set folder = fs.CreateFolder(newFolderPath)
 
-            Dim arFile, adjustmentFile, collectionsFile, obFile, salesFile, salesOrderFile, transactionsFile, ordersHolderFile
+            Dim arFile, adjustmentFile, collectionsFile, obFile, salesFile, salesOrderFile, transactionsFile, ordersHolderFile, ebFile
 
             arFile = "\accounts_receivables.dbf" 
             adjustmentFile = "\adjustments.dbf" 
@@ -70,9 +76,10 @@
             salesOrderFile = "\sales_order.dbf" 
             transactionsFile = "\transactions.dbf" 
             ordersHolderFile = "\orders_holder.dbf" 
+            ebFile = "\eb_test.dbf" 
 
             Dim arBlankFile, adjustmentBlankFile, collectionsBlankFile, obBlankFile
-            Dim salesBlankFile, salesOrderBlankFile, transactionsBlankFile, ordersHolderBlankFile
+            Dim salesBlankFile, salesOrderBlankFile, transactionsBlankFile, ordersHolderBlankFile, ebBlankFile
 
             arBlankFile = mainPath & "tbl_blank" & arFile
             adjustmentBlankFile = mainPath & "tbl_blank" & adjustmentFile
@@ -82,9 +89,11 @@
             salesOrderBlankFile = mainPath & "tbl_blank" & salesOrderFile
             transactionsBlankFile = mainPath & "tbl_blank" & transactionsFile
             ordersHolderBlankFile = mainPath & "tbl_blank" & ordersHolderFile
+            ebBlankFile = mainPath & "tbl_blank" & ebFile
 
             Dim newArPath, newAdjustmentPath, newCollectionsPath, newObPath
             Dim newSalesPath, newSalesOrderPath, newTransactionsPath, newOrdersHolderPath
+            Dim newEbPath
 
             newArPath = newFolderPath & arFile
             newAdjustmentPath = newFolderPath & adjustmentFile
@@ -94,11 +103,15 @@
             newSalesOrderPath = newFolderPath & salesOrderFile
             newTransactionsPath = newFolderPath & transactionsFile
             newOrdersHolderPath = newFolderPath & ordersHolderFile
+            newEbPath = newFolderPath & ebFile
+
+            ' Response.Write ebBlankFile & "<br>"
+            ' Response.Write newEbPath & "<br>"
 
             if fs.FileExists(newArPath) <> true AND fs.FileExists(newAdjustmentPath) <> true AND _ 
             fs.FileExists(newCollectionsPath) <> true AND fs.FileExists(newObPath) <> true AND _
             fs.FileExists(newSalesPath) <> true AND fs.FileExists(newSalesOrderPath) <> true AND _
-            fs.FileExists(newTransactionsPath) <> true AND fs.FileExists(newOrdersHolderPath) <> true _
+            fs.FileExists(newTransactionsPath) <> true AND fs.FileExists(newOrdersHolderPath) <> true AND fs.FileExists(newEbPath) <> true _
             then 
 
                 fs.CopyFile arBlankFile, newArPath
@@ -109,11 +122,31 @@
                 fs.CopyFile salesOrderBlankFile, newSalesOrderPath
                 fs.CopyFile transactionsBlankFile, newTransactionsPath
                 fs.CopyFile ordersHolderBlankFile, newOrdersHolderPath
-                set fs = nothing
-                'Response.Write "Files successfully copied!"
+                fs.CopyFile ebBlankFile, newEbPath
+                Response.Write "Files successfully copied!"
+            else
+                Response.Write "Files not copied"
+            end if
+
+            set fs = nothing
+
+        else
+
+             Response.Write("<script>")
+            Response.Write("alert('Files already exist!')")
+            Response.Write("</script>")
+            isSetted = true
+
+            if isSetted = true then
+
+                Response.Write("<script>")
+                Response.Write("window.location.href = 'set_date.asp' ")
+                Response.Write("</script>")
+
             end if
 
         end if
+
 
 
         Response.Write("<script>")

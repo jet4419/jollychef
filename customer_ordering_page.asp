@@ -110,6 +110,8 @@
 
             ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
+            Dim fs
+            Set fs = Server.CreateObject("Scripting.FileSystemObject")
         %>
 
         <div id="main">
@@ -119,135 +121,138 @@
                 <p class="h1 mb-5 p-3 text-center" style="font-weight: 400">Ordering Page <i class="fas fa-store store-icon"></i> 
                 </p>
 
-                <!-- ORDER FORM -->
-                <form class="form-group form-inline mainForm">
-                    <select id="products" class="form-control mr-2" name="productID" style="width:650px; "class="chzn-select" required placeholder="Select Product">
+                <%if fs.FileExists(ordersHolderPath) = true then%>
+                    <!-- ORDER FORM -->
+                    <form class="form-group form-inline mainForm">
+                        <select id="products" class="form-control mr-2" name="productID" style="width:650px; "class="chzn-select" required placeholder="Select Product">
 
-                    <% 
-                        rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND (orders_holder.status = 'Pending' OR orders_holder.status = 'On Process') GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name", CN2
+                        <% 
+                            rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND (orders_holder.status = 'Pending' OR orders_holder.status = 'On Process') GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name", CN2
 
-                        if not rs.EOF then%>
+                            if not rs.EOF then%>
 
-                            <option value="" disabled selected>Select a product</option>
+                                <option value="" disabled selected>Select a product</option>
 
-                            <%do until rs.EOF 
+                                <%do until rs.EOF 
 
-                                if Trim(rs("category").value) = "lunch" or  Trim(rs("category").value) = "meat" or Trim(rs("category").value) = "vegetable" or Trim(rs("category").value) = "fish" or Trim(rs("category").value) = "chicken" then%>
+                                    if Trim(rs("category").value) = "lunch" or  Trim(rs("category").value) = "meat" or Trim(rs("category").value) = "vegetable" or Trim(rs("category").value) = "fish" or Trim(rs("category").value) = "chicken" then%>
 
-                                <optgroup label="Lunch">
-                                    <option value="<%=rs("prod_id")%>"> 
-                                        <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                    </option>   
-                                </optgroup>
-
-                                <%elseif Trim(rs("category").value) = "breakfast" then%>       
-                                    <optgroup label="Breakfast">    
+                                    <optgroup label="Lunch">
                                         <option value="<%=rs("prod_id")%>"> 
                                             <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                        </option>
+                                        </option>   
                                     </optgroup>
 
-                                <%elseif Trim(rs("category").value) = "rice" then%>       
-                                    <optgroup label="Rice">    
-                                        <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                        </option>
-                                    </optgroup>
+                                    <%elseif Trim(rs("category").value) = "breakfast" then%>       
+                                        <optgroup label="Breakfast">    
+                                            <option value="<%=rs("prod_id")%>"> 
+                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            </option>
+                                        </optgroup>
 
-                                <%elseif Trim(rs("category").value) = "drinks" then%>       
-                                    <optgroup label="Drinks">    
-                                        <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                        </option>
-                                    </optgroup>
+                                    <%elseif Trim(rs("category").value) = "rice" then%>       
+                                        <optgroup label="Rice">    
+                                            <option value="<%=rs("prod_id")%>"> 
+                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            </option>
+                                        </optgroup>
 
-                                <%elseif Trim(rs("category").value) = "dessert" then%>       
-                                    <optgroup label="Dessert">    
-                                        <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                        </option>
-                                    </optgroup>
+                                    <%elseif Trim(rs("category").value) = "drinks" then%>       
+                                        <optgroup label="Drinks">    
+                                            <option value="<%=rs("prod_id")%>"> 
+                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            </option>
+                                        </optgroup>
 
-                                <%elseif Trim(rs("category").value) = "snacks" then%>       
-                                    <optgroup label="Snacks">    
-                                        <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                        </option>
-                                    </optgroup>
+                                    <%elseif Trim(rs("category").value) = "dessert" then%>       
+                                        <optgroup label="Dessert">    
+                                            <option value="<%=rs("prod_id")%>"> 
+                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            </option>
+                                        </optgroup>
 
-                                <%elseif Trim(rs("category").value) = "candies" then%>       
-                                    <optgroup label="Candies">    
-                                        <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                        </option>
-                                    </optgroup>
+                                    <%elseif Trim(rs("category").value) = "snacks" then%>       
+                                        <optgroup label="Snacks">    
+                                            <option value="<%=rs("prod_id")%>"> 
+                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            </option>
+                                        </optgroup>
 
-                                <%elseif Trim(rs("category").value) = "groceries" then%>       
-                                    <optgroup label="Groceries">    
-                                        <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                        </option>
-                                    </optgroup>
+                                    <%elseif Trim(rs("category").value) = "candies" then%>       
+                                        <optgroup label="Candies">    
+                                            <option value="<%=rs("prod_id")%>"> 
+                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            </option>
+                                        </optgroup>
 
-                                <%elseif Trim(rs("category").value) = "fresh-meat" then%>       
-                                    <optgroup label="Fresh Meat">    
-                                        <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                        </option>
-                                    </optgroup>
+                                    <%elseif Trim(rs("category").value) = "groceries" then%>       
+                                        <optgroup label="Groceries">    
+                                            <option value="<%=rs("prod_id")%>"> 
+                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            </option>
+                                        </optgroup>
 
-                                <%elseif Trim(rs("category").value) = "others" then%>       
-                                    <optgroup label="Others">    
-                                        <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
-                                        </option>
-                                    </optgroup>
-                                <%end if%>
+                                    <%elseif Trim(rs("category").value) = "fresh-meat" then%>       
+                                        <optgroup label="Fresh Meat">    
+                                            <option value="<%=rs("prod_id")%>"> 
+                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            </option>
+                                        </optgroup>
 
-                                <%
-                                rs.MoveNext
-                            loop 
+                                    <%elseif Trim(rs("category").value) = "others" then%>       
+                                        <optgroup label="Others">    
+                                            <option value="<%=rs("prod_id")%>"> 
+                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            </option>
+                                        </optgroup>
+                                    <%end if%>
 
-                        else%>
+                                    <%
+                                    rs.MoveNext
+                                loop 
 
-                            <option value="" disabled selected>No available product</option>
+                            else%>
 
-                        <%end if
+                                <option value="" disabled selected>No available product</option>
 
-                        rs.close
-                    %>
+                            <%end if
+
+                            rs.close
+                        %>
+                                
+                        </select>
+
+                        <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" required>
+                        <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-primary" min="1" max="100" >Add</button>
+                    </form>
+                    <!-- END OF ORDER FORM -->
+
+                    <!-- ORDER TABLE --> 
+                    <table id="myTable" class="table table-striped table-bordered table-sm"> 
+                        <caption>List of orders</caption>
+                        <thead class="thead-dark">
+                            <th>Brand Name</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Amount</th>
+                            <!--<th>Profit</th>-->
+                            <th>Action</th>
+                        </thead>
+                    
+                        <tbody>
                             
-                    </select>
+                            
+                                        
+                        </tbody>
+                    </table>
+                    <!-- END OF ORDER TABLE -->
 
-                    <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" required>
-                    <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-primary" min="1" max="100" >Add</button>
-                </form>
-                <!-- END OF ORDER FORM -->
+                    <button type="button" class="btn btnPayment btn-primary btn-block text-white mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#paymentMethodModal">
+                    Process Order
+                    </button> 
 
-                <!-- ORDER TABLE --> 
-                <table id="myTable" class="table table-striped table-bordered table-sm"> 
-                    <caption>List of orders</caption>
-                    <thead class="thead-dark">
-                        <th>Brand Name</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Qty</th>
-                        <th>Amount</th>
-                        <!--<th>Profit</th>-->
-                        <th>Action</th>
-                    </thead>
-                
-                    <tbody>
-                        
-                        
-                                    
-                    </tbody>
-                </table>
-                <!-- END OF ORDER TABLE -->
-
-                <button type="button" class="btn btnPayment btn-primary btn-block text-white mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#paymentMethodModal">
-                Process Order
-                </button> 
+                <%end if%>
   
                 <!--<button type="button" class="btn btn-danger btn-block btn-sm text-white mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#confirmDayEnd">
                 Day End

@@ -255,25 +255,30 @@
 
                     collectionsReportFile = "collections_report_container.dbf"
                     prevCollectionsReportPath = mainPath & "tbl_blank\" & collectionsReportFile
-                    collectionsReportPath = mainPath & "temp_folder\" & collectionsReportFile
+                    collectionsReportPath = tempFolderPath & collectionsReportFile
+
+                    if fs.FolderExists(tempFolderPath) <> true then
+                        fs.CreateFolder(tempFolderPath)
+                    end if
 
                     Dim userSessionID
                     userSessionID = CDBL(Session.SessionID)
 
-                    if fs.FileExists(collectionsReportPath) then
+                    On Error Resume Next
 
-                        On Error Resume Next
+                        if fs.FileExists(collectionsReportPath) then
+
                             fs.DeleteFile(collectionsReportPath)
-                        On Error GoTo 0
-                    end if
+                            
+                        end if
 
+                        if fs.FileExists(collectionsReportPath) <> true then 
 
-                    if fs.FileExists(collectionsReportPath) <> true then 
+                            fs.CopyFile prevCollectionsReportPath, collectionsReportPath
+                        
+                        end if
 
-                        fs.CopyFile prevCollectionsReportPath, collectionsReportPath
-                        ' Response.Write "File successfully copied"
-                    
-                    end if
+                    On Error GoTo 0
 
                     for i=0 to monthsDiff
 
@@ -316,172 +321,182 @@
                     if insertCollections <> "" then
                         cnroot.execute(insertCollections)
                     end if
-                    'Displaying reports'
-                    rs.Open "SELECT * FROM "&collectionsReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY id, cust_id ORDER BY cust_name, cust_id", CN2
-
-                    do until rs.EOF 
-
-                        Response.Flush
-
-                        totalSales = totalSales + CDBL(rs("tot_amount"))
-                        paymentType = Trim(CSTR(rs("p_method")))
 
 
-                        if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
-                            customerCount = customerCount + 1
-                            customerTotalAmount = customerTotalAmount + CDBL(rs("tot_amount"))
-                        else
-                            printTototal = true
-                            customerCount = 1
+                    if fs.FileExists(collectionsReportPath) = true then
 
-                            if printTototal = true then%>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td  class="totalAmountManyCollect">&#8369; <%=customerTotalAmount%></td>
-                                    <td class="totalAmountManyCollect">&#8369; <%=customerTotalCash%></td>
-                                    <td class="totalAmountManyCollect">&#8369; <%=customerTotalCharge%></td>
-                                </tr>
-                                <tr>
-                                    <td class="blank_row" colspan="7"></td>
-                                </tr>
+                        'Displaying reports'
+                        rs.Open "SELECT * FROM "&collectionsReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY id, cust_id ORDER BY cust_name, cust_id", CN2
+
+                        do until rs.EOF 
+
+                            Response.Flush
+
+                            totalSales = totalSales + CDBL(rs("tot_amount"))
+                            paymentType = Trim(CSTR(rs("p_method")))
+
+
+                            if custIdCont = "" or custIdCont = CLNG(rs("cust_id")) then
+                                customerCount = customerCount + 1
+                                customerTotalAmount = customerTotalAmount + CDBL(rs("tot_amount"))
+                            else
+                                printTototal = true
+                                customerCount = 1
+
+                                if printTototal = true then%>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td  class="totalAmountManyCollect">&#8369; <%=customerTotalAmount%></td>
+                                        <td class="totalAmountManyCollect">&#8369; <%=customerTotalCash%></td>
+                                        <td class="totalAmountManyCollect">&#8369; <%=customerTotalCharge%></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="blank_row" colspan="7"></td>
+                                    </tr>
+                                    <%
+                                    printTototal = false
+                                    customerTotalAmount = CDBL(rs("tot_amount"))
+                                    customerTotalCash = 0
+                                    customerTotalCharge = 0
+                                end if
+                        
+                        
+                            end if
+
+                            custIdCont = CLNG(rs("cust_id"))
+
+                            collectID = rs("id").value %>
+                            <tr>
                                 <%
-                                printTototal = false
-                                customerTotalAmount = CDBL(rs("tot_amount"))
-                                customerTotalCash = 0
-                                customerTotalCharge = 0
-                            end if
-                    
-                    
-                        end if
+                                    myDate = CDATE(rs("date"))
+                                    myYear = Year(myDate)
+                                    myDay = Day(myDate)
+                                    if Len(myDay) = 1 then
+                                        myDay = "0" & myDay
+                                    end if
 
-                        custIdCont = CLNG(rs("cust_id"))
+                                    myMonth = Month(myDate)
+                                    if Len(myMonth) = 1 then
+                                        myMonth = "0" & myMonth
+                                    end if
 
-                        collectID = rs("id").value %>
-                        <tr>
-                            <%
-                                myDate = CDATE(rs("date"))
-                                myYear = Year(myDate)
-                                myDay = Day(myDate)
-                                if Len(myDay) = 1 then
-                                    myDay = "0" & myDay
-                                end if
+                                    dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                                    d = CDate(rs("date"))
+                                    d  = FormatDateTime(d, 2)
+                                %>
+                                <% custID = rs("cust_id").value %>
 
-                                myMonth = Month(myDate)
-                                if Len(myMonth) = 1 then
-                                    myMonth = "0" & myMonth
-                                end if
+                                <%if customerCount > 1 then%>
+                                    <td></td> 
+                                <%else%>
+                                    <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
+                                <%end if%> 
 
-                                dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
-                                d = CDate(rs("date"))
-                                d  = FormatDateTime(d, 2)
-                            %>
-                            <% custID = rs("cust_id").value %>
+                                <% if Trim(rs("p_method").value) <> Trim("cash") then %>
+                                    <td class="text-darker">
+                                        <a class="text-info" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=d%>'>
+                                            <%Response.Write(rs("ref_no"))%>
+                                        </a>
+                                    </td> 
+                                <% else %>
+                                    <td class="text-darker">
+                                        <a class="text-info" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'>
+                                            <%Response.Write(rs("ref_no"))%>
+                                        </a>
+                                    </td>
+                                <% end if %>
 
-                            <%if customerCount > 1 then%>
-                                <td></td> 
-                            <%else%>
-                                <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
-                            <%end if%> 
+                                <% referenceNo = rs("ref_no").value %>
 
-                            <% if Trim(rs("p_method").value) <> Trim("cash") then %>
                                 <td class="text-darker">
-                                    <a class="text-info" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=d%>'>
-                                        <%Response.Write(rs("ref_no"))%>
-                                    </a>
+                                    <%Response.Write(dateFormat)%>
                                 </td> 
-                            <% else %>
+
                                 <td class="text-darker">
-                                    <a class="text-info" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'>
-                                        <%Response.Write(rs("ref_no"))%>
-                                    </a>
-                                </td>
-                            <% end if %>
+                                    <%Response.Write(rs("invoice"))%>
+                                </td> 
 
-                            <% referenceNo = rs("ref_no").value %>
+                                <td class="text-darker">
+                                    <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("tot_amount"))%>
+                                </td> 
+                                <%if Trim(rs("p_method").value) = Trim("ar") then 
+                                    cash_paid = 0.00
+                                    ar_paid = rs("cash").value
 
-                            <td class="text-darker">
-                                <%Response.Write(dateFormat)%>
-                            </td> 
-
-                            <td class="text-darker">
-                                <%Response.Write(rs("invoice"))%>
-                            </td> 
-
-                            <td class="text-darker">
-                                <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("tot_amount"))%>
-                            </td> 
-                            <%if Trim(rs("p_method").value) = Trim("ar") then 
-                                cash_paid = 0.00
-                                ar_paid = rs("cash").value
-
-                            else  
-                                ar_paid = 0.00
-                                cash_paid = rs("cash").value
-                            end if
-                            %>
-                            <td class="text-darker">
-                                <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&cash_paid)%>
-                            </td> 
-
-                            <td class="text-darker">
-                                <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&ar_paid)%>
-                            </td> 
-
-                            <%
-                                if paymentType = "ar" then
-                                    customerTotalCharge = customerTotalCharge + CDBL(rs("cash"))
-                                    totalCharge = totalCharge + CDBL(rs("cash"))
-                                else
-                                    customerTotalCash = customerTotalCash + CDBL(rs("cash"))
-                                    totalCash = totalCash + CDBL(rs("cash"))
+                                else  
+                                    ar_paid = 0.00
+                                    cash_paid = rs("cash").value
                                 end if
+                                %>
+                                <td class="text-darker">
+                                    <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&cash_paid)%>
+                                </td> 
 
-                                ' Response.Write "Cust Total Charge: " & customerTotalCharge & " Cust Total Cash: " & customerTotalCash & "<br>"
-                            %>
-                            
-                        </tr>
+                                <td class="text-darker">
+                                    <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&ar_paid)%>
+                                </td> 
 
-                        <%rs.MoveNext
-                    loop
-                    rs.close
-                    %>
+                                <%
+                                    if paymentType = "ar" then
+                                        customerTotalCharge = customerTotalCharge + CDBL(rs("cash"))
+                                        totalCharge = totalCharge + CDBL(rs("cash"))
+                                    else
+                                        customerTotalCash = customerTotalCash + CDBL(rs("cash"))
+                                        totalCash = totalCash + CDBL(rs("cash"))
+                                    end if
 
-                    <%if customerCount > 1 then%>
-
-                        <%if isTotalPrinted = false then%>
-                            <tr> 
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class='totalAmountManyCollect'>&#8369; <%=customerTotalAmount%></td>
-                                <td class='totalAmountManyCollect'>&#8369; <%=customerTotalCash%></td>
-                                <td class='totalAmountManyCollect'>&#8369; <%=customerTotalCharge%></td>
+                                    ' Response.Write "Cust Total Charge: " & customerTotalCharge & " Cust Total Cash: " & customerTotalCash & "<br>"
+                                %>
+                                
                             </tr>
-                        <%end if%>
 
-                        <tr class="final-total"> 
-                            <td>Total</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="final-total">&#8369; <%=totalSales%></td>
-                            <td class="final-total">&#8369; <%=totalCash%></td>
-                            <td class="final-total">&#8369; <%=totalCharge%></td>
-                        </tr>  
+                            <%rs.MoveNext
+                        loop
+                        rs.close
+                        %>
 
-                    <%end if%>         
+                        <%if customerCount > 1 then%>
+
+                            <%if isTotalPrinted = false then%>
+                                <tr> 
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class='totalAmountManyCollect'>&#8369; <%=customerTotalAmount%></td>
+                                    <td class='totalAmountManyCollect'>&#8369; <%=customerTotalCash%></td>
+                                    <td class='totalAmountManyCollect'>&#8369; <%=customerTotalCharge%></td>
+                                </tr>
+                            <%end if%>
+
+                            <tr class="final-total"> 
+                                <td>Total</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="final-total">&#8369; <%=totalSales%></td>
+                                <td class="final-total">&#8369; <%=totalCash%></td>
+                                <td class="final-total">&#8369; <%=totalCharge%></td>
+                            </tr>  
+
+                        <%end if%>   
+
+                    <%end if%>      
 
                 </table>
 
                 <!-- DELETING sales_report_container -->
                 <%  
-                    deleteReport = "DELETE FROM "&collectionsReportPath&" WHERE session_id="&userSessionID
-                    set objAccess = cnroot.execute(deleteReport)
-                    set objAccess = nothing
+                    if fs.FileExists(collectionsReportPath) = true then
+
+                        deleteReport = "DELETE FROM "&collectionsReportPath&" WHERE session_id="&userSessionID
+                        set objAccess = cnroot.execute(deleteReport)
+                        set objAccess = nothing
+
+                    end if
 
                     set rs = nothing
                     CN2.close

@@ -68,7 +68,7 @@
     <div id="content">
     <div class="container mb-5">
 
-        <h1 class="main-heading--container h1 text-center mt-4 mb-5 pt-3"> 
+        <h1 class="main-heading--container h1 text-center mt-4 mb-4 pt-3"> 
             <button type="button" id="btnAddProduct" class="btn btn-outline-dark float-left" data-toggle="modal" data-target="#addProduct"> 
                 <i class="fas fa-plus-circle pr-1"></i> <span>Product</span> 
             </button> 
@@ -78,12 +78,11 @@
             </a>
         </h1>
 
-        <% rs.Open "SELECT prod_id, prod_name, orig_price, price, category, qty FROM products", CN2 %>
+        <% rs.Open "SELECT prod_id, prod_name, price, category, qty FROM products", CN2 %>
 
         <table class="table table-hover table-bordered table-sm" id="myTable">
             <thead class="thead-dark">
                 <th>Product Name</th>
-                <th>Original Price</th>
                 <th>Sale Price</th>
                 <th>Category</th>
                 <th>Quantity</th>
@@ -95,10 +94,6 @@
                 <tr>
                     <td class="text-darker">
                         <%Response.Write(rs("prod_name"))%>
-                    </td> 
-
-                    <td class="text-darker">
-                        <%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("orig_price"))%>
                     </td> 
 
                     <td class="text-darker">
@@ -163,10 +158,12 @@
                                     <input type="number" class="form-control form-control-sm" name="price" required id="price">
                                 </div>
 
+                                <!--
                                 <div class="form-group mb-1"> 
                                     <label class="ml-1" style="font-weight: 500"> Original Price </label>
                                     <input type="number" class="form-control form-control-sm" name="origPrice" required id="origPrice">
                                 </div>
+                                -->
 
                                 <div class="form-group mb-1"> 
                                     <label class="ml-1" style="font-weight: 500"> Quantity </label>
@@ -191,8 +188,12 @@
                                         <option value="fresh-meat">Fresh Meat</option>
                                         <option value="others">Others</option>
                                     </select>
+                                    
                                 </div>
+
+                                <input type="text" name="userType" id="userType" value="" hidden>
                                 
+                                <!--
                                 <div class="form-group mt-3">
                                     <label class="form-label" style="font-weight: 500" for="particulars">Track this on inventory report? </label>
                                     <div class="form-check form-check-inline ml-2">
@@ -205,10 +206,8 @@
                                         <label class="form-check-label" for="isFixMenu2">No</label>
                                     </div>
 
-                                    <input type="text" name="userType" id="userType" value="" hidden>
-
                                 </div> 
-                                    
+                                -->
                                    
                         
                         </div>

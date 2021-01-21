@@ -383,8 +383,6 @@
                         <% 
                             Dim totalCredit, totalDebit, balance
                             balance = endingCredit
-                            totalCredit = 0.00
-                            totalDebit = 0.00
 
                             Dim transactionsFile, transactionsPath
 
