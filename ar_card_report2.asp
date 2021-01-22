@@ -317,7 +317,7 @@
     <input type="text" name="endDate" id="endDate" value="<%=transferDate2%>" hidden>
     <!-- End of Dates Container -->
     <div id="content">
-        <div class="container pt-4 mb-5">
+        <div class="container mb-5">
             <div class="users-info mb-3">
                 <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">Receivable Card of</span> <span class="cust_name"><%=custName%></span></strong> </h1>
                 <h1 class="h4 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
