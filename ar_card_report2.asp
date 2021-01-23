@@ -272,6 +272,7 @@
 
 
         Dim ebID, endingCredit, endingDebit, creditBal, debitBal
+        endingCredit = 0
 
         Dim ebFile, ebPath
         ebFile = "\eb_test.dbf"

@@ -3,27 +3,74 @@
 
 <%
 
-Dim arReferenceNo, isValidRef
+    Dim arReferenceNo, isValidRef
 
-arReferenceNo = CStr(Request.Form("arReferenceNo"))
-arReferenceNo = Trim(CStr(Year(systemDate)) & "-" & "AR" & arReferenceNo)
-isValidRef = true
+    arReferenceNo = CStr(Request.Form("arReferenceNo"))
+    arReferenceNo = Trim(CStr(Year(systemDate)) & "-" & "AR" & arReferenceNo)
+    isValidRef = true
 
-Dim customerID, custName, customerDepartment, uniqueNum, customerType, transact_type
+    Dim customerID, custName, customerDepartment, uniqueNum, customerType, transact_type
 
-customerID = CLng(Request.Form("cust_id"))
-custName = CStr(Request.Form("cust_name"))
-customerDepartment = CStr(Request.Form("cust_dept"))
-uniqueNum = CLng(Request.Form("unique_num"))
-customerType = CStr(Request.Form("customerType"))
-transact_type = "Buy"
+    customerID = CLng(Request.Form("cust_id"))
+    custName = CStr(Request.Form("cust_name"))
+    customerDepartment = CStr(Request.Form("cust_dept"))
+    uniqueNum = CLng(Request.Form("unique_num"))
+    customerType = CStr(Request.Form("customerType"))
+    transact_type = "Buy"
 
-Dim userType, userEmail
-userType = CStr(Request.Form("userType"))
-userEmail = CStr(Request.Form("userEmail"))
-cashierName = CStr(Request.Form("cashierName"))
+    Dim userType, userEmail
+    userType = CStr(Request.Form("userType"))
+    userEmail = CStr(Request.Form("userEmail"))
+    cashierName = CStr(Request.Form("cashierName"))
 
-sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&"'"
+    Dim yearPath, monthPath
+
+    yearPath = Year(systemDate)
+    monthPath = Month(systemDate)
+
+    if Len(monthPath) = 1 then
+        monthPath = "0" & CStr(monthPath)
+    end if
+
+    Dim arReferenceNoFile
+    arReferenceNoFile = "\ar_reference_no.dbf" 
+
+    Dim arReferenceNoPath
+    arReferenceNoPath = mainPath & yearPath & "-" & monthPath & arReferenceNoFile
+
+    Dim minArRefNo
+    rs.Open "SELECT TOP 1 ref_no FROM "&arReferenceNoPath&" ORDER BY id ASC;", CN2
+        do until rs.EOF
+            for each x in rs.Fields
+                minArRefNo = x.value
+            next
+            rs.MoveNext
+        loop
+    rs.close  
+
+    if minArRefNo = "" then
+        minArRefNo = CLNG(minArRefNo) + 1
+    else
+        minArRefNo = CLNG(Mid(minArRefNo, 8)) + 1
+    end if
+
+    if CLNG(Request.Form("arReferenceNo")) < minArRefNo then
+
+        isValidRef = false
+        Response.Write("<script language=""javascript"">")
+        Response.Write("alert('Error: Reference already exist!')")
+        Response.Write("</script>")
+
+        if isValidRef = false then
+            Response.Write("<script language=""javascript"">")
+            Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&customerID&"&userType="&userType&" "";")
+            Response.Write("</script>")
+        end if
+
+    end if
+
+
+    sqlCheckRef = "SELECT ref_no FROM "&arReferenceNoPath&" WHERE ref_no='"&arReferenceNo&"'"
     set objAccess = cnroot.execute(sqlCheckRef)
 
         if not objAccess.EOF then
@@ -35,26 +82,16 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
 
         end if
 
-            if isValidRef = false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&customerID&"&userType="&userType&" "";")
-                Response.Write("</script>")
-            end if
+        if isValidRef = false then
+            Response.Write("<script language=""javascript"">")
+            Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&customerID&"&userType="&userType&" "";")
+            Response.Write("</script>")
+        end if
 
     set objAccess = nothing
 
-    'Response.Write(isValidRef)
 
     if isValidRef = true then    
-
-        Dim yearPath, monthPath
-
-        yearPath = Year(systemDate)
-        monthPath = Month(systemDate)
-
-        if Len(monthPath) = 1 then
-            monthPath = "0" & CStr(monthPath)
-        end if
 
         Dim ordersHolderFile
 
@@ -324,15 +361,15 @@ sqlCheckRef = "SELECT ref_no FROM ar_reference_no WHERE ref_no='"&arReferenceNo&
                 Dim maxArRefId 
                 maxArRefId = 0
 
-                rs.Open "SELECT MAX(id) AS id FROM ar_reference_no;", CN2
+                rs.Open "SELECT MAX(id) AS id FROM "&arReferenceNoPath&";", CN2
                     if not rs.EOF then
                         maxArRefId = CDbl(rs("id").value)
                     end if
                     maxArRefId = maxArRefId + 1
                 rs.close
 
-                sqlRefAdd = "INSERT INTO ar_reference_no (id, ref_no) "&_
-                            "VALUES ("&maxArRefId&", '"&arReferenceNo&"')"
+                sqlRefAdd = "INSERT INTO "&arReferenceNoPath&" (id, ref_no, duplicate) "&_
+                            "VALUES ("&maxArRefId&", '"&arReferenceNo&"', '')"
                 cnroot.execute(sqlRefAdd)   
 
 

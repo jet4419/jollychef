@@ -229,13 +229,31 @@
             monthPath = Month(systemDate)
         end if
 
-        Dim folderPath
 
-        folderPath = mainPath & yearPath & "-" & monthPath
+        Dim referenceNoFile
+        referenceNoFile = "\reference_no.dbf" 
 
+        Dim referenceNoPath
+        referenceNoPath = mainPath & yearPath & "-" & monthPath & referenceNoFile
+
+        Dim minRefNo
+        rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id ASC;", CN2
+            do until rs.EOF
+                for each x in rs.Fields
+                    minRefNo = x.value
+                next
+                rs.MoveNext
+            loop
+        rs.close   
+
+        if minRefNo = "" then
+            minRefNo = CLNG(minRefNo) + 1
+        else
+            minRefNo = CLNG(Mid(minRefNo, 6)) + 1  
+        end if
 
         Dim maxRefNoChar, maxRefNo
-        rs.Open "SELECT TOP 1 ref_no FROM reference_no ORDER BY id DESC;", CN2
+        rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id DESC;", CN2
 
             do until rs.EOF
                 for each x in rs.Fields
@@ -403,7 +421,7 @@
 
                         <div class="item item-left form-group ">
                             <span class="total-text">Reference No</span>
-                            <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
+                            <input class="form-control form-control-sm" style="font-weight: 600;" type="number" id="reference_no" name="reference_no" min="<%=minRefNo%>" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
                         </div>
                         
                         <div class="item item-left form-group">

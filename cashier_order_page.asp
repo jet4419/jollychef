@@ -127,6 +127,15 @@
 <%'else%>
 
 <%  
+    Dim yearPath, monthPath
+
+    yearPath = Year(systemDate)
+    monthPath = Month(systemDate)
+
+    if Len(monthPath) = 1 then
+        monthPath = "0" & CStr(monthPath)
+    end if
+
     sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
     set objAccess = cnroot.execute(sqlQuery)
     Dim maxDailyDate
@@ -151,17 +160,39 @@
         cnroot.execute(sqlUpdate)
     end if
 
-    Dim maxRefNoChar, maxRefNo
-    rs.Open "SELECT TOP 1 ref_no FROM reference_no ORDER BY id DESC;", CN2
+    Dim referenceNoFile
+    referenceNoFile = "\reference_no.dbf" 
+
+    Dim referenceNoPath
+    referenceNoPath = mainPath & yearPath & "-" & monthPath & referenceNoFile   
+
+    Dim minRefNo
+    rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id ASC;", CN2
         do until rs.EOF
             for each x in rs.Fields
-
-                maxRefNoChar = x.value
-
+                minRefNo = x.value
             next
             rs.MoveNext
         loop
+    rs.close   
 
+    if minRefNo = "" then
+        minRefNo = CLNG(minRefNo) + 1
+    else
+        minRefNo = CLNG(Mid(minRefNo, 6)) + 1
+    end if
+
+    'Response.Write "Minimum ref number: " & minimumRefNo
+    
+
+    Dim maxRefNoChar, maxRefNo
+    rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id DESC;", CN2
+        do until rs.EOF
+            for each x in rs.Fields
+                maxRefNoChar = x.value
+            next
+            rs.MoveNext
+        loop
     rs.close  
 
 
@@ -177,6 +208,7 @@
 
     formattedInteger = Right(String(NUMBER_DIGITS, "0") & maxRefNo, NUMBER_DIGITS)
     maxRefNo = formattedInteger
+
 %>
 
 <%if systemDate >= dateClosed then%>
@@ -189,14 +221,6 @@
         <!--#include file="cashier_sidebar.asp"-->
 
         <%
-            Dim yearPath, monthPath
-
-            yearPath = Year(systemDate)
-            monthPath = Month(systemDate)
-
-            if Len(monthPath) = 1 then
-                monthPath = "0" & CStr(monthPath)
-            end if
 
             Dim ordersHolderFile
             ordersHolderFile = "\orders_holder.dbf" 
@@ -421,7 +445,7 @@
 
                                             <div class="form-group mb-3">    
                                                 <label class="ml-1" style="font-weight: 500"> Reference No. </label>
-                                                <input type="text" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="referenceNo" id="referenceNo" value="<%=maxRefNo%>" pattern="[0-9]{9}" min="1" required>
+                                                <input type="number" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="referenceNo" id="referenceNo" value="<%=maxRefNo%>" pattern="[0-9]{9}" min="<%=minRefNo%>" required>
                                             </div>
                                             
                                             <div class="form-group">

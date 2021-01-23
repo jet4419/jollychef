@@ -6,10 +6,47 @@
 
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
-
     isValidRef = true
 
-    sqlCheckRef = "SELECT ref_no FROM reference_no WHERE ref_no='"&referenceNo&"'"
+    Dim yearPath, monthPath
+
+    yearPath = CStr(Year(systemDate))
+    monthPath = CStr(Month(systemDate))
+
+    if Len(monthPath) = 1 then
+        monthPath = "0" & monthPath
+    end if
+
+    Dim referenceNoFile
+    referenceNoFile = "\reference_no.dbf" 
+
+    Dim referenceNoPath
+    referenceNoPath = mainPath & yearPath & "-" & monthPath & referenceNoFile
+
+    Dim minRefNo
+    rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id ASC;", CN2
+        do until rs.EOF
+            for each x in rs.Fields
+                minRefNo = x.value
+            next
+            rs.MoveNext
+        loop
+    rs.close   
+
+    if minRefNo = "" then
+        minRefNo = CLNG(minRefNo) + 1
+    else
+        minRefNo = CLNG(Mid(minRefNo, 6)) + 1
+    end if
+
+    if CLNG(Request.Form("referenceNo")) < minRefNo then
+
+        isValidRef = false
+        Response.Write("false")
+
+    end if
+
+    sqlCheckRef = "SELECT ref_no FROM "&referenceNoPath&" WHERE ref_no='"&referenceNo&"'"
     set objAccess = cnroot.execute(sqlCheckRef)
 
         if not objAccess.EOF then
@@ -39,15 +76,6 @@
 
         values = Split(myValues,",")
         invoices = Split(myInvoices,",")
-
-        Dim yearPath, monthPath
-
-        yearPath = CStr(Year(systemDate))
-        monthPath = CStr(Month(systemDate))
-
-        if Len(monthPath) = 1 then
-            monthPath = "0" & monthPath
-        end if
 
         Dim collectionsFile, transactionsFile
 
@@ -185,7 +213,7 @@
         Dim maxRefId 
         maxRefId = 0
 
-        getMaxRefID = "SELECT MAX(id) AS id FROM reference_no;"
+        getMaxRefID = "SELECT MAX(id) AS id FROM "&referenceNoPath&";"
         set objAccess = cnroot.execute(getMaxRefID)
 
         if not objAccess.EOF then
@@ -194,8 +222,8 @@
 
         maxRefId = maxRefId + 1
 
-        sqlRefAdd = "INSERT INTO reference_no (id, ref_no) "&_
-                    "VALUES ("&maxRefId&", '"&referenceNo&"')"
+        sqlRefAdd = "INSERT INTO "&referenceNoPath&" (id, ref_no, duplicate) "&_
+                    "VALUES ("&maxRefId&", '"&referenceNo&"', '')"
         cnroot.execute(sqlRefAdd) 
 
 

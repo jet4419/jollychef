@@ -7,10 +7,11 @@ Dim userType
 userType = CStr(Request.Form("userType"))
 
 if userType = "" then
+
     Response.Redirect("canteen_login.asp")
 
 else
-    Dim totalProfit, totalAmount, customerCash, userPayment, email, cashierName, referenceNo
+
     Dim custID, uniqueNum, custName, custDepartment, isValidRef
     isValidRef = true
 
@@ -19,41 +20,66 @@ else
     custDepartment = CStr(Request.Form("cust_dept"))
     uniqueNum = CLng(Request.Form("uniqueNum"))
 
-    ' sqlCustomerInfo = "SELECT cust_fname, cust_lname, department FROM customers WHERE cust_id="&custID
-    ' set objAccess = cnroot.execute(sqlCustomerInfo)
-
-    ' if not objAccess.EOF then
-    '     custName = Trim(objAccess("cust_lname").value) & " " & Trim(objAccess("cust_fname").value)
-    '     custDepartment = Trim(objAccess("department").value)
-    ' end if
+    Dim totalProfit, totalAmount, customerCash, userPayment, email, cashierName, referenceNo
 
     totalProfit = CDbl(Request.Form("totalProfit"))
     totalAmount = CDbl(Request.Form("totalAmount"))
     customerCash = CDbl(Request.Form("customerMoney"))
-    'userType = "Cashier"
     userPayment = "Cash"
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
 
-    'currDate = CDate(Date)
-
     email = CStr(Request.Form("userEmail"))
     cashierName = CStr(Request.Form("cashierName"))
 
-    'Set the user type of the cashier's currently logged in'
-    ' sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
-    ' set objAccess = cnroot.execute(sqlGetInfo)
+    Dim yearPath, monthPath
 
-    ' if not objAccess.EOF then
+    yearPath = Year(systemDate)
+    monthPath = Month(systemDate)
 
-    '     cashierName = Trim(objAccess("first_name")) & " " & Trim(objAccess("last_name"))
+    if Len(monthPath) = 1 then
+        monthPath = "0" & CStr(monthPath)
+    end if
 
-    ' end if
+    Dim referenceNoFile
+    referenceNoFile = "\reference_no.dbf" 
 
-    ' set objAccess = nothing
+    Dim referenceNoPath
+    referenceNoPath = mainPath & yearPath & "-" & monthPath & referenceNoFile
+
+    Dim minRefNo
+    rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id ASC;", CN2
+        do until rs.EOF
+            for each x in rs.Fields
+                minRefNo = x.value
+            next
+            rs.MoveNext
+        loop
+    rs.close   
+
+    if minRefNo = "" then
+        minRefNo = CLNG(minRefNo) + 1
+    else
+        minRefNo = CLNG(Mid(minRefNo, 6)) + 1
+    end if
+
+    if CLNG(Request.Form("referenceNo")) < minRefNo then
+
+        isValidRef = false
+        Response.Write("<script language=""javascript"">")
+        Response.Write("alert('Error: Reference already exist!')")
+        Response.Write("</script>")
+
+        if isValidRef = false then
+            Response.Write("<script language=""javascript"">")
+            Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&userType&" "";")
+            Response.Write("</script>")
+        end if
+
+    end if
     
 
-    sqlCheckRef = "SELECT ref_no FROM reference_no WHERE ref_no='"&referenceNo&"'"
+    sqlCheckRef = "SELECT ref_no FROM "&referenceNoPath&" WHERE ref_no='"&referenceNo&"'"
     set objAccess = cnroot.execute(sqlCheckRef)
 
         if not objAccess.EOF then
@@ -73,18 +99,8 @@ else
 
     set objAccess = nothing
 
-    'Response.Write(isValidRef)
 
     if isValidRef = true then
-
-        Dim yearPath, monthPath
-
-        yearPath = Year(systemDate)
-        monthPath = Month(systemDate)
-
-        if Len(monthPath) = 1 then
-            monthPath = "0" & CStr(monthPath)
-        end if
 
         Dim ordersHolderFile
 
@@ -315,7 +331,7 @@ else
 
                     Dim maxRefId 
 
-                    rs.Open "SELECT MAX(id) AS id FROM reference_no;", CN2
+                    rs.Open "SELECT MAX(id) AS id FROM "&referenceNoPath&";", CN2
                         do until rs.EOF
                             for each x in rs.Fields
                                 maxRefId = x.value
@@ -325,8 +341,8 @@ else
                         maxRefId = CDbl(maxRefId) + 1
                     rs.close
 
-                    sqlRefAdd = "INSERT INTO reference_no (id, ref_no) "&_
-                                "VALUES ("&maxRefId&", '"&referenceNo&"')"
+                    sqlRefAdd = "INSERT INTO "&referenceNoPath&" (id, ref_no, duplicate) "&_
+                                "VALUES ("&maxRefId&", '"&referenceNo&"', '')"
                     cnroot.execute(sqlRefAdd)   
 
                     CN2.close

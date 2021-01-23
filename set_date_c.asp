@@ -77,9 +77,12 @@
             transactionsFile = "\transactions.dbf" 
             ordersHolderFile = "\orders_holder.dbf" 
             ebFile = "\eb_test.dbf" 
+            referenceNoFile = "\reference_no.dbf" 
+            arReferenceNoFile = "\ar_reference_no.dbf" 
+            adReferenceNoFile = "\adjustment_ref_no.dbf" 
 
             Dim arBlankFile, adjustmentBlankFile, collectionsBlankFile, obBlankFile
-            Dim salesBlankFile, salesOrderBlankFile, transactionsBlankFile, ordersHolderBlankFile, ebBlankFile
+            Dim salesBlankFile, salesOrderBlankFile, transactionsBlankFile, ordersHolderBlankFile, ebBlankFile, referenceNoBlankFile, arReferenceNoBlankFile, adReferenceNoBlankFile
 
             arBlankFile = mainPath & "tbl_blank" & arFile
             adjustmentBlankFile = mainPath & "tbl_blank" & adjustmentFile
@@ -90,10 +93,13 @@
             transactionsBlankFile = mainPath & "tbl_blank" & transactionsFile
             ordersHolderBlankFile = mainPath & "tbl_blank" & ordersHolderFile
             ebBlankFile = mainPath & "tbl_blank" & ebFile
+            referenceNoBlankFile = mainPath & "tbl_blank" & referenceNoFile
+            arReferenceNoBlankFile = mainPath & "tbl_blank" & arReferenceNoFile
+            adReferenceNoBlankFile = mainPath & "tbl_blank" & adReferenceNoFile
 
             Dim newArPath, newAdjustmentPath, newCollectionsPath, newObPath
             Dim newSalesPath, newSalesOrderPath, newTransactionsPath, newOrdersHolderPath
-            Dim newEbPath
+            Dim newEbPath, newReferenceNoPath, newArReferenceNoPath, newAdReferencePath
 
             newArPath = newFolderPath & arFile
             newAdjustmentPath = newFolderPath & adjustmentFile
@@ -104,6 +110,9 @@
             newTransactionsPath = newFolderPath & transactionsFile
             newOrdersHolderPath = newFolderPath & ordersHolderFile
             newEbPath = newFolderPath & ebFile
+            newReferenceNoPath = newFolderPath & referenceNoFile
+            newArReferenceNoPath = newFolderPath & arReferenceNoFile
+            newAdReferencePath = newFolderPath & adReferenceNoFile
 
             ' Response.Write ebBlankFile & "<br>"
             ' Response.Write newEbPath & "<br>"
@@ -111,7 +120,11 @@
             if fs.FileExists(newArPath) <> true AND fs.FileExists(newAdjustmentPath) <> true AND _ 
             fs.FileExists(newCollectionsPath) <> true AND fs.FileExists(newObPath) <> true AND _
             fs.FileExists(newSalesPath) <> true AND fs.FileExists(newSalesOrderPath) <> true AND _
-            fs.FileExists(newTransactionsPath) <> true AND fs.FileExists(newOrdersHolderPath) <> true AND fs.FileExists(newEbPath) <> true _
+            fs.FileExists(newTransactionsPath) <> true AND fs.FileExists(newOrdersHolderPath) <> true AND _
+            fs.FileExists(newEbPath) <> true AND _
+            fs.FileExists(newReferenceNoPath) <> true AND _
+            fs.FileExists(newArReferenceNoPath) <> true AND _
+            fs.FileExists(newAdReferencePath) <> true _
             then 
 
                 fs.CopyFile arBlankFile, newArPath
@@ -123,6 +136,9 @@
                 fs.CopyFile transactionsBlankFile, newTransactionsPath
                 fs.CopyFile ordersHolderBlankFile, newOrdersHolderPath
                 fs.CopyFile ebBlankFile, newEbPath
+                fs.CopyFile referenceNoBlankFile, newReferenceNoPath
+                fs.CopyFile arReferenceNoBlankFile, newArReferenceNoPath
+                fs.CopyFile adReferenceNoBlankFile, newAdReferencePath
                 Response.Write "Files successfully copied!"
             else
                 Response.Write "Files not copied"

@@ -485,7 +485,7 @@
                                 <td>
                                     <h3 class="lead">
                                         <strong class="text-darker total-value">
-                                            <span class="total-darker"><%=totalDebit%></span>
+                                            <span class="text-darker">&#8369; <%=totalDebit%></span>
                                         </strong>    
                                     </h3>
                                 </td>
@@ -493,7 +493,7 @@
                                 <td>
                                     <h3 class="lead">
                                         <strong class="text-darker total-value">
-                                            <span class="total-darker"><%=totalCredit%></span>
+                                            <span class="text-darker">&#8369; <%=totalCredit%></span>
                                         </strong>    
                                     </h3>
                                 </td>
@@ -501,7 +501,7 @@
                                 <td>
                                     <h3 class="lead">
                                         <strong class="text-darker total-value">
-                                            <span class="total-darker"><%=balance%></span>
+                                            <span class="text-darker">&#8369; <%=balance%></span>
                                         </strong>
                                     </h3>
                                 </td>

@@ -5,7 +5,7 @@
     '     Response.Redirect("canteen_login.asp")
     ' end if
 
-    Dim custID, custName, cash, invoice
+    Dim invoice, adjustmentValue, custID, custName, department, receivable, balance
 
     invoice = CDbl(Request.Form("invoice"))
     adjustmentValue = CDbl(Request.Form("adjustmentValue"))
@@ -14,6 +14,8 @@
     department = CStr(Request.Form("department"))
     receivable = CDbl(Request.Form("receivable"))
     balance = CDbl(Request.Form("balance"))
+
+    Dim referenceNo, remarks
 
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & "AD" & referenceNo)
@@ -24,7 +26,45 @@
     Dim isValidRef
     isValidRef = true
 
-    sqlCheckRef = "SELECT ref_no FROM adjustment_ref_no WHERE ref_no='"&referenceNo&"'"
+    Dim yearPath, monthPath
+
+    yearPath = CStr(Year(systemDate))
+    monthPath = CStr(Month(systemDate))
+
+    if Len(monthPath) = 1 then
+        monthPath = "0" & monthPath
+    end if
+
+    Dim adReferenceNoFile
+    adReferenceNoFile = "\adjustment_ref_no.dbf" 
+
+    Dim adReferenceNoPath
+    adReferenceNoPath = mainPath & yearPath & "-" & monthPath & adReferenceNoFile
+
+    Dim minAdRefNo
+    rs.Open "SELECT TOP 1 ref_no FROM "&adReferenceNoPath&" ORDER BY id ASC;", CN2
+        do until rs.EOF
+            for each x in rs.Fields
+                minAdRefNo = x.value
+            next
+            rs.MoveNext
+        loop
+    rs.close  
+
+    if minAdRefNo = "" then
+        minAdRefNo = CLNG(minAdRefNo) + 1
+    else
+        minAdRefNo = CLNG(Mid(minAdRefNo, 8)) + 1
+    end if
+
+    if CLNG(Request.Form("referenceNo")) < minAdRefNo then
+
+        isValidRef = false
+        Response.Write("false")
+
+    end if
+
+    sqlCheckRef = "SELECT ref_no FROM "&adReferenceNoPath&" WHERE ref_no='"&referenceNo&"'"
     set objAccess = cnroot.execute(sqlCheckRef)
 
         if not objAccess.EOF then
@@ -37,17 +77,6 @@
     set objAccess = nothing
 
     if isValidRef = true then
-
-        Dim yearPath, monthPath
-
-        yearPath = CStr(Year(systemDate))
-        monthPath = CStr(Month(systemDate))
-        ' arYearPath = CStr(Year(dateOwed))
-        ' arMonthPath = CStr(Month(dateOwed))
-
-        if Len(monthPath) = 1 then
-            monthPath = "0" & monthPath
-        end if
 
         if Len(arMonthPath) = 1 then
             arMonthPath = "0" & arMonthPath
@@ -168,7 +197,7 @@
 
         Dim maxAdRefId 
 
-        rs.Open "SELECT MAX(id) AS id FROM adjustment_ref_no;", CN2
+        rs.Open "SELECT MAX(id) AS id FROM "&adReferenceNoPath&";", CN2
             do until rs.EOF
                 for each x in rs.Fields
                     maxAdRefId = x.value
@@ -178,8 +207,8 @@
             maxAdRefId = CDbl(maxAdRefId) + 1
         rs.close
 
-        sqlRefAdd = "INSERT INTO adjustment_ref_no (id, ref_no) "&_
-                    "VALUES ("&maxAdRefId&", '"&referenceNo&"')"
+        sqlRefAdd = "INSERT INTO "&adReferenceNoPath&" (id, ref_no, duplicate) "&_
+                    "VALUES ("&maxAdRefId&", '"&referenceNo&"', '')"
         cnroot.execute(sqlRefAdd)   
 
         'To send the referenceNo to the Adjustment receipt'

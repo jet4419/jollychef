@@ -208,22 +208,53 @@
         department = CStr(Request.Form("department"))
         transactDate = FormatDateTime(systemDate, 2)
 
-        Dim maxRefNoChar, maxRefNo
-        rs.Open "SELECT TOP 1 ref_no FROM adjustment_ref_no ORDER BY id DESC;", CN2
+        Dim yearPath, monthPath
+
+        yearPath = CStr(Year(systemDate))
+        monthPath = CStr(Month(systemDate))
+
+        if Len(monthPath) = 1 then
+            monthPath = "0" & monthPath
+        end if
+
+        Dim adReferenceNoFile
+        adReferenceNoFile = "\adjustment_ref_no.dbf" 
+
+        Dim adReferenceNoPath
+        adReferenceNoPath = mainPath & yearPath & "-" & monthPath & adReferenceNoFile
+
+        Dim minAdRefNo
+        rs.Open "SELECT TOP 1 ref_no FROM "&adReferenceNoPath&" ORDER BY id ASC;", CN2
+            do until rs.EOF
+                for each x in rs.Fields
+                    minAdRefNo = x.value
+                next
+                rs.MoveNext
+            loop
+        rs.close  
+
+        if minAdRefNo = "" then
+            minAdRefNo = CLNG(minAdRefNo) + 1
+        else
+            minAdRefNo = CLNG(Mid(minAdRefNo, 8)) + 1
+        end if
+
+        Dim maxAdRefNoChar, maxAdRefNo
+        rs.Open "SELECT TOP 1 ref_no FROM "&adReferenceNoPath&" ORDER BY id DESC;", CN2
 
             do until rs.EOF
                 for each x in rs.Fields
 
-                    maxRefNoChar = x.value
+                    maxAdRefNoChar = x.value
 
                 next
                 rs.MoveNext
             loop
-            Response.Write maxRefNoChar
-            if maxRefNoChar <> "" then
-                maxRefNo = Mid(maxRefNoChar, 8) + 1
+            Response.Write maxAdRefNoChar
+            if maxAdRefNoChar <> "" then
+                maxAdRefNo = Mid(maxAdRefNoChar, 8) + 1
             else
-                maxRefNo = "000000000" + 1
+                maxAdRefNo = "000000000" + 1
             end if
             
         rs.close  
@@ -231,8 +262,8 @@
         Const NUMBER_DIGITS = 9
         Dim formatedInteger
 
-        formattedInteger = Right(String(NUMBER_DIGITS, "0") & maxRefNo, NUMBER_DIGITS)
-        maxRefNo = formattedInteger
+        formattedInteger = Right(String(NUMBER_DIGITS, "0") & maxAdRefNo, NUMBER_DIGITS)
+        maxAdRefNo = formattedInteger
 
     %>
 
@@ -249,16 +280,6 @@
             </div>  
 
             <%       
-
-                Dim yearPath, monthPath
-
-                yearPath = CStr(Year(systemDate))
-                monthPath = CStr(Month(systemDate))
-
-                if Len(monthPath) = 1 then
-                    monthPath = "0" & monthPath
-                end if
-
 
                 Dim arFile
 
@@ -361,7 +382,7 @@
 
                         <div class="item item-left form-group ">
                             <label class="d-block total-text text-center">Reference No</label>
-                            <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
+                            <input class="form-control form-control-sm" style="font-weight: 600;" type="number" id="reference_no" name="reference_no" value="<%=maxAdRefNo%>" min="<%=minAdRefNo%>" pattern="[0-9]{9}" required/>
                         </div>
                         
                         <div class="item item-left form-group">
@@ -486,11 +507,11 @@
 
     $(document).on("click", "#myBtn", function(event) {
 
-        event.preventDefault();
-
         var valid = this.form.checkValidity();
 
         if (valid) {
+
+            event.preventDefault();
 
             var adjustmentValue = $('input[name="adjustment_value"]').val();
             var invoice = $('input[name="adjustment_value"]').attr('id')

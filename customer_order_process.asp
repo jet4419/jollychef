@@ -151,8 +151,30 @@
    end if
    set objAccess = nothing
 
+    Dim referenceNoFile
+    referenceNoFile = "\reference_no.dbf" 
+
+    Dim referenceNoPath
+    referenceNoPath = mainPath & yearPath & "-" & monthPath & referenceNoFile
+
+    Dim minRefNo
+    rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id ASC;", CN2
+        do until rs.EOF
+            for each x in rs.Fields
+                minRefNo = x.value
+            next
+            rs.MoveNext
+        loop
+    rs.close  
+
+    if minRefNo = "" then
+        minRefNo = CLNG(minRefNo) + 1
+    else
+        minRefNo = CLNG(Mid(minRefNo, 6)) + 1
+    end if
+
     Dim maxRefNoChar, maxRefNo
-    rs.Open "SELECT TOP 1 ref_no FROM reference_no ORDER BY id DESC;", CN2
+    rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id DESC;", CN2
         do until rs.EOF
             for each x in rs.Fields
 
@@ -161,7 +183,6 @@
             next
             rs.MoveNext
         loop
-        ' Response.Write(TypeName(maxRefNo))   
 
     rs.close  
 
@@ -172,8 +193,31 @@
         maxRefNo = "000000000" + 1
     end if
 
+    
+    Dim arReferenceNoFile
+    arReferenceNoFile = "\ar_reference_no.dbf" 
+
+    Dim arReferenceNoPath
+    arReferenceNoPath = mainPath & yearPath & "-" & monthPath & arReferenceNoFile
+
+    Dim minArRefNo
+    rs.Open "SELECT TOP 1 ref_no FROM "&arReferenceNoPath&" ORDER BY id ASC;", CN2
+        do until rs.EOF
+            for each x in rs.Fields
+                minArRefNo = x.value
+            next
+            rs.MoveNext
+        loop
+    rs.close  
+
+    if minArRefNo = "" then
+        minArRefNo = CLNG(minArRefNo) + 1
+    else
+        minArRefNo = CLNG(Mid(minArRefNo, 8)) + 1
+    end if
+
     Dim maxArRefChar, maxArRefNo
-    rs.Open "SELECT TOP 1 ref_no FROM ar_reference_no ORDER BY id DESC;", CN2
+    rs.Open "SELECT TOP 1 ref_no FROM "&arReferenceNoPath&" ORDER BY id DESC;", CN2
         do until rs.EOF
             for each x in rs.Fields
 
@@ -456,7 +500,7 @@
                                         <input type="text" name="cust_dept" value="<%=department%>" hidden>
                                         <div class="form-group mb-3">    
                                             <label class="ml-1" style="font-weight: 500"> Reference No. </label>
-                                            <input type="text" style="color: #ec7b1c; font-weight: 600;" pattern="[0-9]{9}" class="form-control" name="referenceNo" id="referenceNo" value="<%=maxRefNo%>" min="1" required>
+                                            <input type="number" style="color: #ec7b1c; font-weight: 600;" pattern="[0-9]{9}" class="form-control" name="referenceNo" id="referenceNo" min="<%=minRefNo%>" value="<%=maxRefNo%>" required>
                                         </div>
                                         
                                         <div class="form-group">
@@ -512,7 +556,7 @@
                                     -->
                                     <div class="form-group mb-3">    
                                         <label class="ml-1" style="font-weight: 500"> Reference No. </label>
-                                        <input type="text" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="arReferenceNo" id="arReferenceNo" value="<%=maxArRefNo%>" pattern="[0-9]{9}" required>
+                                        <input type="number" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="arReferenceNo" id="arReferenceNo" min="<%=minArRefNo%>" value="<%=maxArRefNo%>" pattern="[0-9]{9}" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

@@ -39,7 +39,7 @@
         monthPath = "0" & CStr(monthPath)
     end if
 
-    Dim arFile, adjustmentFile, collectionsFile, obFile, salesFile, salesOrderFile, transactionsFile, ordersHolderFile, ebFile
+    Dim arFile, adjustmentFile, collectionsFile, obFile, salesFile, salesOrderFile, transactionsFile, ordersHolderFile, ebFile, referenceNoFile, arReferenceNoFile, adReferenceNoFile
 
     arFile = "\accounts_receivables.dbf" 
     adjustmentFile = "\adjustments.dbf" 
@@ -50,8 +50,11 @@
     transactionsFile = "\transactions.dbf" 
     ordersHolderFile = "\orders_holder.dbf" 
     ebFile = "\eb_test.dbf" 
+    referenceNoFile = "\reference_no.dbf" 
+    arReferenceNoFile = "\ar_reference_no.dbf" 
+    adReferenceNoFile = "\adjustment_ref_no.dbf" 
 
-    Dim arPath, adjustmentPath, collectionsPath, obPath, salesPath, salesOrderPath, transactionsPath, ordersHolderPath, ebPath
+    Dim arPath, adjustmentPath, collectionsPath, obPath, salesPath, salesOrderPath, transactionsPath, ordersHolderPath, ebPath, referenceNoPath, arReferenceNoPath, adReferenceNoPath
 
     arPath = mainPath & yearPath & "-" & monthPath & arFile
     adjustmentPath = mainPath & yearPath & "-" & monthPath & adjustmentFile
@@ -62,6 +65,9 @@
     transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
     ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
     ebPath = mainPath & yearPath & "-" & monthPath & ebFile
+    referenceNoPath = mainPath & yearPath & "-" & monthPath & referenceNoFile
+    arReferenceNoPath = mainPath & yearPath & "-" & monthPath & arReferenceNoFile
+    adReferenceNoPath = mainPath & yearPath & "-" & monthPath & adReferenceNoFile
 
     'Check if there is pending orders'
     rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" OR status=""Pending"" GROUP BY unique_num", CN2
@@ -211,7 +217,7 @@
 
 
                     Dim arBlankFile, adjustmentBlankFile, collectionsBlankFile, obBlankFile
-                    Dim salesBlankFile, salesOrderBlankFile, transactionsBlankFile, ordersHolderBlankFile
+                    Dim salesBlankFile, salesOrderBlankFile, transactionsBlankFile, ordersHolderBlankFile, referenceNoBlankFile, arReferenceNoBlankFile, adReferenceNoBlankFile
 
                     arBlankFile = mainPath & "tbl_blank" & arFile
                     adjustmentBlankFile = mainPath & "tbl_blank" & adjustmentFile
@@ -221,9 +227,12 @@
                     salesOrderBlankFile = mainPath & "tbl_blank" & salesOrderFile
                     transactionsBlankFile = mainPath & "tbl_blank" & transactionsFile
                     ordersHolderBlankFile = mainPath & "tbl_blank" & ordersHolderFile
+                    referenceNoBlankFile = mainPath & "tbl_blank" & referenceNoFile
+                    arReferenceNoBlankFile = mainPath & "tbl_blank" & arReferenceNoFile
+                    adReferenceNoBlankFile = mainPath & "tbl_blank" & adReferenceNoFile
 
                     Dim newArPath, newAdjustmentPath, newCollectionsPath, newObPath
-                    Dim newSalesPath, newSalesOrderPath, newTransactionsPath, newOrdersHolderPath
+                    Dim newSalesPath, newSalesOrderPath, newTransactionsPath, newOrdersHolderPath, newReferenceNoPath, newArReferenceNoPath, newAdReferencePath
 
                     newArPath = newFolderPath & arFile
                     newAdjustmentPath = newFolderPath & adjustmentFile
@@ -233,11 +242,17 @@
                     newSalesOrderPath = newFolderPath & salesOrderFile
                     newTransactionsPath = newFolderPath & transactionsFile
                     newOrdersHolderPath = newFolderPath & ordersHolderFile
+                    newReferenceNoPath = newFolderPath & referenceNoFile
+                    newArReferenceNoPath = newFolderPath & arReferenceNoFile
+                    newAdReferencePath = newFolderPath & adReferenceNoFile
 
                     if fs.FileExists(newArPath) <> true AND fs.FileExists(newAdjustmentPath) <> true AND _ 
                     fs.FileExists(newCollectionsPath) <> true AND fs.FileExists(newObPath) <> true AND _
                     fs.FileExists(newSalesPath) <> true AND fs.FileExists(newSalesOrderPath) <> true AND _
-                    fs.FileExists(newTransactionsPath) <> true AND fs.FileExists(newOrdersHolderPath) <> true _
+                    fs.FileExists(newTransactionsPath) <> true AND fs.FileExists(newOrdersHolderPath) <> true AND _
+                    fs.FileExists(newReferenceNoPath) <> true AND _
+                    fs.FileExists(newArReferenceNoPath) <> true AND _
+                    fs.FileExists(newAdReferencePath) <> true _
                     then 
 
                         fs.CopyFile arBlankFile, newArPath
@@ -248,6 +263,9 @@
                         fs.CopyFile salesOrderBlankFile, newSalesOrderPath
                         fs.CopyFile transactionsBlankFile, newTransactionsPath
                         fs.CopyFile ordersHolderBlankFile, newOrdersHolderPath
+                        fs.CopyFile referenceNoBlankFile, newReferenceNoPath
+                        fs.CopyFile arReferenceNoBlankFile, newArReferenceNoPath
+                        fs.CopyFile adReferenceNoBlankFile, newAdReferencePath
 
                         set fs = nothing
                         Response.Write "Files successfully copied!"
@@ -365,10 +383,56 @@
 
                         rs.close     
 
+                        'Getting the top reference number within the year'
+                        'Reset if it is new year or do nothing'
+                        if Year(systemDate) = Year(systemDate + 1) then
+
+                            rs.Open "SELECT TOP 1 * FROM "&referenceNoPath&" ORDER BY id DESC;", CN2
+                                do until rs.EOF
+                                   
+                                    addMaxRefNo = addMaxRefNo & "INSERT INTO "&newReferenceNoPath&" (id, ref_no, duplicate) "&_
+                                    "VALUES ("&rs("id")&", '"&rs("ref_no")&"', 'yes'); "
+
+                                    rs.MoveNext
+                                loop
+
+                                cnroot.execute(addMaxRefNo)
+
+                            rs.close  
+
+                            rs.Open "SELECT TOP 1 * FROM "&arReferenceNoPath&" ORDER BY id DESC;", CN2
+                                do until rs.EOF
+                                   
+                                    addMaxArRefNo = addMaxArRefNo & "INSERT INTO "&newArReferenceNoPath&" (id, ref_no, duplicate) "&_
+                                    "VALUES ("&rs("id")&", '"&rs("ref_no")&"', 'yes'); "
+
+                                    rs.MoveNext
+                                loop
+
+                                cnroot.execute(addMaxArRefNo)
+
+                            rs.close  
+
+                            rs.Open "SELECT TOP 1 * FROM "&adReferenceNoPath&" ORDER BY id DESC;", CN2
+                                do until rs.EOF
+                                   
+                                    addMaxAdRefNo = addMaxAdRefNo & "INSERT INTO "&newAdReferencePath&" (id, ref_no, duplicate) "&_
+                                    "VALUES ("&rs("id")&", '"&rs("ref_no")&"', 'yes'); "
+
+                                    rs.MoveNext
+                                loop
+
+                                cnroot.execute(addMaxAdRefNo)
+
+                            rs.close  
+
+                        end if
+                        'End of Getting the top reference number within the year'
+
+                        'Updating the system date'
                         sqlDateUpdate = "UPDATE system_date SET date = date + 1"
                         cnroot.execute(sqlDateUpdate)
-                        systemDate = systemDate + 1
-                        'Response.Write("Day end")    
+                        systemDate = systemDate + 1  
 
                         Dim maxSchedID, systemDateTime
                         rs.Open "SELECT MAX(sched_id) FROM store_schedule;", CN2
