@@ -101,6 +101,7 @@
                 ebMonthPath = CINT(ebMonthPath) - 1
 
                 if ebMonthPath = 0 then
+                    ebMonthPath = 12
                     ebYearPath = CINT(ebYearPath) - 1
                 end if
 
@@ -111,7 +112,7 @@
                 ebFolderPath = mainPath & ebYearPath & "-" & ebMonthPath
                 ebPath = ebFolderPath & ebFile
 
-            Loop While False
+            Loop While True
         %>
 
             <%if counter = 0 then%>

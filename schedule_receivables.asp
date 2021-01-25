@@ -74,9 +74,9 @@
     Dim obReportDate
     obReportDate = Request.Form("ob_report_date")
 
-    Response.Write obReportDate
+    'Response.Write obReportDate
 
-    if obReportDate = "" or obReportDate = systemDate then
+    if obReportDate = "" or obReportDate = systemDate or CDATE(obReportDate) > systemDate then
         obReportDate = systemDate
     end if
 

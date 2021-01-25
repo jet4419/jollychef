@@ -45,7 +45,7 @@
                 arFile = "\accounts_receivables.dbf"
                 arPath = folderPath & arFile
 
-                rs.Open "SELECT TOP 1 balance FROM "&arPath&" WHERE balance!=0 ORDER BY balance DESC", CN2
+                rs.Open "SELECT TOP 1 balance FROM "&arPath&" ORDER BY balance DESC", CN2
 
                 if not rs.EOF then
                     obDate = systemDate
@@ -100,6 +100,7 @@
                     ebMonthPath = CINT(ebMonthPath) - 1
 
                     if ebMonthPath = 0 then
+                        ebMonthPath = 12
                         ebYearPath = CINT(ebYearPath) - 1
                     end if
 
@@ -110,7 +111,7 @@
                     ebFolderPath = mainPath & ebYearPath & "-" & ebMonthPath
                     ebPath = ebFolderPath & ebFile
 
-                Loop While False
+                Loop While True
             %>
 
                 <%if counter = 0 then%>
