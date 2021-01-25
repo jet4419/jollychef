@@ -44,18 +44,18 @@
             obFile = "\ob_test.dbf"
             obPath = folderPath & obFile
 
-            rs.Open "SELECT MIN(date) AS first_date FROM "&obPath&" WHERE balance!=0 and duplicate!='yes' ", CN2
+            rs.Open "SELECT MIN(date) AS first_date FROM "&obPath&"", CN2
 
             if not rs.EOF then
-                currentSdate = CDate(rs("first_date"))
+                currentSdate = systemDate
                 currentEdate = systemDate
                 'department = CStr(rs("department"))
                 displaySdate = MonthName(Month(currentSdate)) & " " & Year(currentSdate) %>
                 <option value="<%=currentEdate%>" data-description="<%="Current Date of Transactions"%>"> <%=displaySdate%> <!--<span>Current Date of Transactions</span>--></option>
                 
-           <% else %>
-                 <option disabled> No Ongoing Records</option>
-           <% end if             
+           <%else%>
+                <option disabled> No Ongoing Records</option>
+           <%end if             
             rs.close
         %>
 

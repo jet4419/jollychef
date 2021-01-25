@@ -78,8 +78,6 @@
     Dim startDate, endDate, obDate, dateSplit
 
     obDate = CDate(Request.Form("date_records"))
-    'Response.Write obDate
-    ' Response.Write obDate
 
     if obDate = "" then
 
@@ -183,35 +181,27 @@
 
                 obDateFormat = obMyMonth & "/" & obMyDay & "/" & Mid(obMyYear, 3)
 
-                'Response.Write obPath
+                Dim ebFile, ebPath, ebMonthPath, ebYearPath
+                ebFile = "\eb_test.dbf"
+                ebMonthPath = Month(obDate)
+                ebYearPath = Year(obDate)
+
+                if LEN(ebMonthPath) = 1 then
+                    ebMonthPath = "0" & ebMonthPath
+                end if
+
+                ebPath =  mainPath & ebYearPath & "-" & ebMonthPath & ebFile
 
                 if obDate = systemDate then
-                'Response.Write "OB is true"
-                ' rs.open "SELECT Ob_Test.cust_id, Customers.cust_lname, Customers.cust_fname, Customers.department, Ob_Test.balance AS credit_bal, Ob_Test.date AS end_date "&_ 
-                '         "FROM "&obPath&" "&_
-                '         "INNER JOIN Customers ON Ob_Test.cust_id = Customers.cust_id "&_
-                '         "WHERE Ob_Test.status!='completed' GROUP BY Ob_Test.cust_id", CN2
-                ' rs.open "SELECT TOP 2 Ob_Test.cust_id, Customers.cust_lname, Customers.cust_fname, Customers.department, Ob_Test.balance AS credit_bal, Ob_Test.date AS end_date "&_ 
-                '         "FROM "&obPath&" "&_
-                '         "INNER JOIN Customers ON Ob_Test.cust_id = Customers.cust_id "&_
-                '         "WHERE Ob_Test.status!='completed' and Ob_Test.duplicate!='yes' ORDER BY Ob_Test.id DESC GROUP BY Ob_Test.cust_id", CN2
 
-                ' Response.Write "<br>OB<br>"
-
-                 rs.open "SELECT cust_id, cust_name, department, balance AS credit_bal, date AS end_date "&_ 
+                    rs.open "SELECT cust_id, cust_name, department, balance AS credit_bal, date AS end_date "&_ 
                          "FROM "&obPath&" "&_
                          "GROUP BY cust_id ORDER BY department, cust_name", CN2
 
                 else
-                    'Response.Write "EB is true"
-                ' rs.open "SELECT Eb_Test.cust_id, Customers.cust_lname, Customers.cust_fname, Customers.department, Eb_Test.credit_bal, Eb_Test.end_date "&_ 
-                '         "FROM eb_test "&_
-                '         "INNER JOIN Customers ON Eb_Test.cust_id = Customers.cust_id "&_
-                '         "WHERE Eb_Test.first_date=CTOD('"&startDate&"') and Eb_Test.end_date=CTOD('"&endDate&"')", CN2
 
-                ' Response.Write "<br>EB<br>"
-                rs.open "SELECT cust_id, cust_name, department, credit_bal, end_date "&_ 
-                        "FROM eb_test "&_
+                    rs.open "SELECT cust_id, cust_name, department, credit_bal, end_date "&_ 
+                        "FROM "&ebPath&" "&_
                         "WHERE end_date=CTOD('"&endDate&"') ORDER BY department, cust_name", CN2
                 end if
             %>

@@ -221,6 +221,7 @@
         custName = CStr(Request.Form("cust_name"))
         department = CStr(Request.Form("department"))
         startDate = CDate(Request.Form("startDate"))
+
         lastDayOfStartDate = DateAdd("m", 1, startDate ) - 1
         endDate = CDate(Request.Form("endDate"))
         lastDayOfEndDate = DateAdd("m", 1, endDate ) - 1
@@ -265,10 +266,9 @@
 
         exactStartDate = startDate
 
-        ' Response.Write "<br> Months Diff: " & monthsDiff & "<br>"
-
         for i = counter To monthsDiff
 
+            'Exit the loop if this is true'
             if fs.FolderExists(folderPath) = true then EXIT for
 
             monthLength = Month(DateAdd("m",i,startDate))
@@ -297,25 +297,35 @@
 
         Dim ebID, endingCredit, endingDebit
         endingCredit = 0.00
-        endingDebit = 0.00
 
         if isValidPath = true then
             
-            Dim ebFile, ebPath
+            Dim ebFile, ebPath, ebMonthPath, ebYearPath
             ebFile = "\eb_test.dbf"
-            ebPath = folderPath & ebFile 
 
-            Response.Write lastDayExactDate
-
-            'Getting the beginning balance'
-            rs.open "SELECT credit_bal, debit_bal FROM "&ebPath&" WHERE cust_id="&custID&" and end_date=CTOD('"&previousDate&"')", CN2
-
-            if not rs.EOF then
-                endingCredit = CDbl(rs("credit_bal"))
-                endingDebit = CDbl(rs("debit_bal"))
+            ebMonthPath = Month(previousDate)
+            if Len(ebMonthPath) = 1 then
+                ebMonthPath = "0" & ebMonthPath
             end if
 
-            rs.close
+            ebYearPath = Year(previousDate)
+
+            ebPath = mainPath & ebYearPath & "-" & ebMonthPath & ebFile
+
+            if fs.FileExists(ebPath) = true then
+
+                'Getting the beginning balance'
+                rs.open "SELECT credit_bal FROM "&ebPath&" WHERE cust_id="&custID&" and end_date=CTOD('"&previousDate&"')", CN2
+
+                if not rs.EOF then
+                    endingCredit = CDbl(rs("credit_bal"))
+                end if
+
+                rs.close
+
+            else
+                endingCredit = 0
+            end if
 
         end if
 
@@ -382,6 +392,8 @@
                         </tr>
                         <% 
                             Dim totalCredit, totalDebit, balance
+                            totalCredit = 0
+                            totalDebit = 0
                             balance = endingCredit
 
                             Dim transactionsFile, transactionsPath

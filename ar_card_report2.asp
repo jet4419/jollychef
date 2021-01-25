@@ -262,30 +262,49 @@
 
         displayDate2 = Day(endDate) & " " & MonthName(Month(endDate)) & " " & Year(endDate)
 
+        Dim fs, counter
+        Set fs = Server.CreateObject("Scripting.FileSystemObject")
+
         Dim ebMonth, ebYear, previousDate
 
         ebMonth = Month(startDate)
         ebYear = Year(startDate)
         previousDate = CDate(ebYear & "-" & ebMonth) - 1
 
-        Response.Write previousDate
-
-
-        Dim ebID, endingCredit, endingDebit, creditBal, debitBal
+        Dim ebID, endingCredit, creditBal, debitBal
         endingCredit = 0
 
-        Dim ebFile, ebPath
+        Dim ebFile, ebPath, ebMonthPath, ebYearPath
         ebFile = "\eb_test.dbf"
-        ebPath = folderPath & ebFile
+        ebYearPath = yearPath
+        ebMonthPath = CINT(monthPath) - 1
 
-        rs.open "SELECT credit_bal, debit_bal FROM "&ebPath&" WHERE cust_id="&custID&" and end_date=CTOD('"&previousDate&"')", CN2
-
-        if not rs.EOF then
-            endingCredit = CDbl(rs("credit_bal"))
-            endingDebit = CDbl(rs("debit_bal"))
+        if ebMonthPath = 0 then
+            ebMonthPath = 12
+            ebYearPath = CINT(yearPath) - 1
         end if
 
-        rs.close
+        if Len(ebMonthPath) = 1 then
+            ebMonthPath = "0" & ebMonthPath
+        end if
+
+        ebPath = mainPath & ebYearPath & "-" & ebMonthPath & ebFile
+
+        if fs.FileExists(ebPath) = true then
+
+            rs.open "SELECT credit_bal FROM "&ebPath&" WHERE cust_id="&custID&" and end_date=CTOD('"&previousDate&"')", CN2
+
+            if not rs.EOF then
+                endingCredit = CDbl(rs("credit_bal"))
+            end if
+
+            rs.close
+
+        else
+
+            endingCredit = 0
+
+        end if
         
         Dim p_start_date, p_end_date, currCredit, currDebit
 

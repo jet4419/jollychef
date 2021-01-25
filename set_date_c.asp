@@ -139,9 +139,9 @@
                 fs.CopyFile referenceNoBlankFile, newReferenceNoPath
                 fs.CopyFile arReferenceNoBlankFile, newArReferenceNoPath
                 fs.CopyFile adReferenceNoBlankFile, newAdReferencePath
-                Response.Write "Files successfully copied!"
+                'Response.Write "Files successfully copied!"
             else
-                Response.Write "Files not copied"
+                'Response.Write "Files not copied"
             end if
 
             set fs = nothing
