@@ -367,9 +367,9 @@
                                             <td></td>  
                                         <%end if%>
                                         <td><%=dateFormat%></td>
-                                        <td  class="totalAmountCollect">&#8369; <%=customerTotalAmount%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=customerTotalCash%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=customerTotalCharge%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalAmount%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalCash%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalCharge%></td>
                                     </tr>
 
                                     <%if printBlankRow = true then%>
@@ -404,9 +404,9 @@
                                             <td></td>
                                         <%end if%>
                                         <td><%=dateFormat%></td>
-                                        <td  class="totalAmountCollect">&#8369; <%=customerTotalAmount%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=customerTotalCash%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=customerTotalCharge%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalAmount%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalCash%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalCharge%></td>
                                     </tr>
 
                                     <%if printBlankRow = true then%>
@@ -433,9 +433,9 @@
                                             <td></td>
                                         <%end if%>
                                         <td><%=dateFormat%></td>
-                                        <td  class="totalAmountCollect">&#8369; <%=customerTotalAmount%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=customerTotalCash%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=customerTotalCharge%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalAmount%></td>
+                                        <td><span class="currency-sign">&#8369; </span><%=customerTotalCash%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalCharge%></td>
                                     </tr>
 
                                     <%if printBlankRow = true then%>
@@ -496,9 +496,9 @@
                                             <td></td>
                                         <%end if%>
                                         <td><%=dateFormat%></td>
-                                        <td  class="totalAmountCollect">&#8369; <%=customerTotalAmount%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=customerTotalCash%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=customerTotalCharge%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalAmount%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalCash%></td>
+                                        <td><span class="currency-sign">&#8369;</span> <%=customerTotalCharge%></td>
                                     </tr>
                                 <%end if
 
@@ -514,9 +514,9 @@
                                 <tr class="final-total"> 
                                     <td>Total</td>
                                     <td></td>
-                                    <td class="final-total">&#8369; <%=totalSales%></td>
-                                    <td class="final-total">&#8369; <%=totalCash%></td>
-                                    <td class="final-total">&#8369; <%=totalCharge%></td>
+                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalSales%></td>
+                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCash%></td>
+                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCharge%></td>
                                 </tr>  
                             <%end if%>
 

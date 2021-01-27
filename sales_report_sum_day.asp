@@ -414,9 +414,9 @@
                                 if isTotalPrinted = false then%>
                                     <tr class="final-total">   
                                         <td>Total</td>   
-                                        <td class="totalAmount">&#8369; <%=totalSales%></td>      
-                                        <td class="totalAmount">&#8369; <%=totalCash%></td>   
-                                        <td class="totalAmount">&#8369; <%=totalCredit%></td>
+                                        <td class="totalAmount"><span class="currency-sign">&#8369;</span> <%=totalSales%></td>      
+                                        <td class="totalAmount"><span class="currency-sign">&#8369;</span> <%=totalCash%></td>   
+                                        <td class="totalAmount"><span class="currency-sign">&#8369;</span> <%=totalCredit%></td>
                                     </tr>
                                 <%end if%>
                             <%end if%>

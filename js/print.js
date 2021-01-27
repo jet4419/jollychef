@@ -90,7 +90,7 @@ function printDiv() {
                 display: none;
             }
             
-            .totalAmount {
+            .salesTotalAmount {
                 // text-decoration: underline;
                 // text-underline-position: under;
                 border-top: 1px solid #252422 !important;
@@ -98,7 +98,7 @@ function printDiv() {
                 font-size: 12pt;
             }
 
-            .totalAmountManyCollect {
+            .collectionTotalAmount {
                 border-top: 1px solid #252422 !important;
                 border-bottom: 1px solid #252422 !important;
                 font-weight: 500 !important;
@@ -149,7 +149,7 @@ function printDiv() {
             }
 
             .final-total {
-                font-weight: 600;
+                font-weight: 500;
                 font-size: 13pt;
                 border-top: #000 1px solid !important;
                 border-bottom: #000 1px solid !important;
@@ -158,6 +158,8 @@ function printDiv() {
             .total-label, .name-label {
                 font-weight: 600;
             }
+
+            .currency-sign {display: none !important}
 
         </style>`
 

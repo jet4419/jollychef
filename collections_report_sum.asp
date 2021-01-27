@@ -378,9 +378,9 @@
                                 if printTototal = true then%>
                                     <tr>
                                         <td><%=dateFormat%></td>
-                                        <td  class="totalAmountCollect">&#8369; <%=dayTotalCollections%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=dayTotalCash%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=dayTotalCharge%></td>
+                                        <td  class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCollections%></td>
+                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCash%></td>
+                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCharge%></td>
                                     </tr>
 
                                     <%if printBlankRow = true then%>
@@ -428,9 +428,9 @@
                                 if rs.EOF then%>
                                     <tr>
                                         <td><%=dateFormat%></td>
-                                        <td  class="totalAmountCollect">&#8369; <%=dayTotalCollections%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=dayTotalCash%></td>
-                                        <td class="totalAmountCollect">&#8369; <%=dayTotalCharge%></td>
+                                        <td  class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCollections%></td>
+                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCash%></td>
+                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCharge%></td>
                                     </tr>
                                 <%end if
                         loop
@@ -441,10 +441,10 @@
 
                             <%if isTotalPrinted = false then%>
                                 <tr class="final-total"> 
-                                    <td>Total</td>
-                                    <td class="final-total">&#8369; <%=totalCollections%></td>
-                                    <td class="final-total">&#8369; <%=totalCash%></td>
-                                    <td class="final-total">&#8369; <%=totalCharge%></td>
+                                    <td class="final-total">Total</td>
+                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCollections%></td>
+                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCash%></td>
+                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCharge%></td>
                                 </tr>  
                             <%end if%>
 

@@ -302,11 +302,20 @@ a.main-menus--items.customers-icon {
 .totalAmount,
 .totalAmountCollect,
 .totalAmountManyCollect {
-  font-weight: 600;
+  /* font-weight: 600; */
   /* color: #9e8f00;
   color: #ab9b0a; */
-  color: #7b6f00;
-  /* border: 1.5px solid rgb(88, 82, 82) !important; */
+  /* color: #7b6f00; */
+  /* border-bottom: 1.5px solid rgb(88, 82, 82) !important; */
+}
+
+.totalAmount {
+  font-weight: 600;
+}
+
+.final-total {
+  font-weight: 600;
+  border-bottom: 1.5px solid rgb(88, 82, 82) !important;
 }
 
 .report-type {
@@ -323,6 +332,7 @@ a.main-menus--items.customers-icon {
   color: #438a5e;
   color: #608c71;
   font-weight: 500;
+  /* display: none; */
 }
 
 @media screen and (max-height: 450px) {
@@ -342,6 +352,7 @@ a.main-menus--items.customers-icon {
   align-items: center;
   margin-right: 15px;
 }
+
 .user-profile-pic {
   width: 35px;
   height: 35px;
@@ -446,10 +457,22 @@ a.main-menus--items.customers-icon {
   font-size: 25px;
 }
 
+.salesTotalAmount {
+  font-weight: 500;
+  color: #2b2a2a;
+  border-bottom: 1px #2b2a2a solid !important;
+}
+
+.collectionTotalAmount {
+  font-weight: 500;
+  color: #2b2a2a;
+  border-bottom: 1px #2b2a2a solid !important;
+}
+
 .final-total,
 .total-label,
 .name-label {
-  font-weight: 600;
+  /* font-weight: 600; */
 }
 
 .blank_row {

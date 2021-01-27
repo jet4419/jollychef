@@ -244,7 +244,7 @@
 
                     Dim collectID, cash_paid, ar_paid, custID, referenceNo
 
-                    printTototal = false
+                    printTotal = false
 
                     Dim customerTotalAmount, customerTotalCash, customerTotalCharge
                     customerTotalAmount = 0
@@ -340,29 +340,34 @@
                                 customerCount = customerCount + 1
                                 customerTotalAmount = customerTotalAmount + CDBL(rs("tot_amount"))
                             else
-                                printTototal = true
-                                customerCount = 1
+                                printTotal = true
+                                
+                                if customerCount > 1 then
 
-                                if printTototal = true then%>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td  class="totalAmountManyCollect">&#8369; <%=customerTotalAmount%></td>
-                                        <td class="totalAmountManyCollect">&#8369; <%=customerTotalCash%></td>
-                                        <td class="totalAmountManyCollect">&#8369; <%=customerTotalCharge%></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="blank_row" colspan="7"></td>
-                                    </tr>
-                                    <%
-                                    printTototal = false
-                                    customerTotalAmount = CDBL(rs("tot_amount"))
-                                    customerTotalCash = 0
-                                    customerTotalCharge = 0
-                                end if
-                        
+                                    if printTotal = true then%>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td  class="collectionTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalAmount%></td>
+                                            <td class="collectionTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalCash%></td>
+                                            <td class="collectionTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalCharge%></td>
+                                        </tr>
+                                        <%
+                                        printTotal = false
+                                        customerTotalAmount = CDBL(rs("tot_amount"))
+                                        customerTotalCash = 0
+                                        customerTotalCharge = 0
+                                    end if
+                                end if%>
+
+                                <tr>
+                                    <td class="blank_row" colspan="7"></td>
+                                </tr>
+
+                                <%
+                                customerCount = 1
                         
                             end if
 
@@ -466,9 +471,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td class='totalAmountManyCollect'>&#8369; <%=customerTotalAmount%></td>
-                                    <td class='totalAmountManyCollect'>&#8369; <%=customerTotalCash%></td>
-                                    <td class='totalAmountManyCollect'>&#8369; <%=customerTotalCharge%></td>
+                                    <td class='collectionTotalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalAmount%></td>
+                                    <td class='collectionTotalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalCash%></td>
+                                    <td class='collectionTotalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalCharge%></td>
                                 </tr>
                             <%end if%>
 
@@ -477,9 +482,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="final-total">&#8369; <%=totalSales%></td>
-                                <td class="final-total">&#8369; <%=totalCash%></td>
-                                <td class="final-total">&#8369; <%=totalCharge%></td>
+                                <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalSales%></td>
+                                <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCash%></td>
+                                <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCharge%></td>
                             </tr>  
 
                         <%end if%>   

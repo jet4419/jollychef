@@ -172,7 +172,7 @@
 
                     <tr class="final-total"> 
                         <td class="total-label">Total</td>
-                        <td class="final-total">&#8369; <%=totalBalance%></td>
+                        <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalBalance%></td>
                     </tr>      
 
                 </table>

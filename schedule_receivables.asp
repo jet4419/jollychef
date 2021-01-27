@@ -181,7 +181,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td class="totalAmount">&#8369; <%=customerTotalBalance%></td>
+                                    <td class="totalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalBalance%></td>
                                 </tr>
                                 <tr>
                                     <td class="blank_row" colspan="4"></td>
@@ -219,7 +219,7 @@
                                 <td class="text-darker name-label"><%Response.Write(rs("cust_name"))%></td> 
                             <%end if%> 
                             <td class="text-darker">
-                                <a class="text-info" target="_blank" href='receipt.asp?invoice=<%=rs("invoice_no")%>&date=<%=d%>'><%=rs("invoice_no")%>
+                                <a class="text-dark" target="_blank" href='receipt.asp?invoice=<%=rs("invoice_no")%>&date=<%=d%>'><%=rs("invoice_no")%>
                             </td>
                             <td class="text-darker">
                                 <%Response.Write(dateFormat)%>
@@ -235,7 +235,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class='totalAmount'>&#8369; <%=customerTotalBalance%></td>
+                            <td class='totalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalBalance%></td>
                         </tr>
                     <%end if%>
 
@@ -243,7 +243,7 @@
                         <td class="total-label">Total</td>
                         <td></td>
                         <td></td>
-                        <td class="final-total">&#8369; <%=totalBalance%></td>
+                        <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalBalance%></td>
                     </tr>      
 
                 </table>

@@ -36,12 +36,12 @@
                 font-family: 'Kulim Park', sans-serif;
             }
 
-            /* .totalAmount {
+            /* .salesTotalAmount {
                 font-weight: 600;
                 border-bottom: 1.5px solid #000 !important;
             } */
             
-            /* .totalAmount::before {
+            /* .salesTotalAmount::before {
                 content: "";
                 position: absolute;
                 bottom: 0;
@@ -138,11 +138,11 @@
                 display: none;
             }
             
-            .totalAmount {
+            /* .salesTotalAmount {
                 text-decoration: underline;
                 text-underline-position: under;
                 
-            }
+            } */
 
             .heading-print {
                 font-family: monospace !important;
@@ -390,8 +390,8 @@
                                             <td></td>   
                                             <td></td>   
                                             <td></td>   
-                                            <td class="totalAmount"><%=totalQty%></td>   
-                                            <td class="totalAmount">&#8369; <%=totalSales%></tr>
+                                            <td class="salesTotalAmount"><%=totalQty%></td>   
+                                            <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=totalSales%></tr>
                                         </tr>
                                         <tr>
                                             <td class="blank_row" colspan="7"></td>
@@ -417,7 +417,7 @@
                                     <%if customerCount > 1 then%>
                                         <td></td> 
                                     <%else%>
-                                        <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
+                                        <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
                                     <%end if%> 
                                     <td class="text-darker">
                                         <%if invoiceCounter < 2 then%>
@@ -449,8 +449,8 @@
                                         <td></td>   
                                         <td></td>   
                                         <td></td>   
-                                        <td class="totalAmount"><%=totalQty%></td>      
-                                        <td class="totalAmount">&#8369; <%=totalSales%></tr>
+                                        <td class="salesTotalAmount"><%=totalQty%></td>      
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=totalSales%></tr>
                                     </tr>
                                 <%end if%>
                             <%end if%>

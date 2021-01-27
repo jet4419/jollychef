@@ -36,12 +36,12 @@
                 font-family: 'Kulim Park', sans-serif;
             }
 
-            /* .totalAmount {
+            /* .salesTotalAmount {
                 font-weight: 600;
                 border-bottom: 1.5px solid #000 !important;
             } */
             
-            /* .totalAmount::before {
+            /* .salesTotalAmount::before {
                 content: "";
                 position: absolute;
                 bottom: 0;
@@ -134,7 +134,7 @@
                 display: none;
             }
             
-            .totalAmount {
+            .salesTotalAmount {
                 text-decoration: underline;
                 text-underline-position: under;
                 
@@ -372,26 +372,27 @@
                                         customerCount = customerCount + 1
                                         totalSales = totalSales + CDBL(rs("prodamount"))
                                     else
-                                        customerCount = 1
                                         isTotalPrinted = true
-                                        %>
-                                        <tr> 
-                                            <td></td>   
-                                            <td></td>   
-                                            <td></td>   
-                                            <td class="totalAmount">&#8369; <%=totalSales%></td>      
-                                            <td class="totalAmount">&#8369; <%=totalCash%></td>   
-                                            <td class="totalAmount">&#8369; <%=totalCredit%></td>
-                                        </tr>
+
+                                        if customerCount > 1 then%>
+                                            <tr> 
+                                                <td></td>   
+                                                <td></td>   
+                                                <td></td>   
+                                                <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=totalSales%></td>      
+                                                <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=totalCash%></td>   
+                                                <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=totalCredit%></td>
+                                            </tr>
+                                        <%end if%>
                                         <tr>
                                             <td class="blank_row" colspan="7"></td>
                                         </tr>
-
                                     <%
                                         totalSales = CDBL(rs("prodamount"))
                                         totalCash = 0
                                         totalCredit = 0
                                         isTotalPrinted = false
+                                        customerCount = 1
                                     end if
 
                                     paymentType = Trim(CSTR(rs("payment")))
@@ -409,7 +410,7 @@
                                         <%if customerCount > 1 then%>
                                             <td></td> 
                                         <%else%>
-                                            <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
+                                            <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
                                         <%end if%> 
                                         <td class="text-darker">
                                             <%if invoiceCounter < 2 then%>
@@ -441,9 +442,9 @@
                                         <td></td>   
                                         <td></td>   
                                         <td></td>   
-                                        <td class="totalAmount">&#8369; <%=totalSales%></td>      
-                                        <td class="totalAmount">&#8369; <%=totalCash%></td>   
-                                        <td class="totalAmount">&#8369; <%=totalCredit%></td>
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=totalSales%></td>      
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=totalCash%></td>   
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=totalCredit%></td>
                                     </tr>
                                 <%end if%>
                             <%end if%>
