@@ -249,7 +249,7 @@
 
                 <div class="print-main-heading">
                     <p class="print-heading-company">JollyChef Inc.</p> 
-                    <p class="heading-print"> Sales Report per Order: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span>
+                    <p class="heading-print"> Sales Report per Customer/Order: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span>
                     </p>
                 </div>
 
@@ -417,7 +417,7 @@
                                     <%if customerCount > 1 then%>
                                         <td></td> 
                                     <%else%>
-                                        <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
+                                        <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
                                     <%end if%> 
                                     <td class="text-darker">
                                         <%if invoiceCounter < 2 then%>

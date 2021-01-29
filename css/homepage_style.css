@@ -329,10 +329,17 @@ a.main-menus--items.customers-icon {
 }
 
 .currency-sign {
-  color: #438a5e;
+  /* color: #438a5e; */
   color: #608c71;
   font-weight: 500;
   /* display: none; */
+}
+
+@media screen {
+  .screen-final-total {
+    border: none;
+    font-weight: 600;
+  }
 }
 
 @media screen and (max-height: 450px) {

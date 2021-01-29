@@ -341,6 +341,13 @@ input[type='number'] {
   color: #f4ea8e;
 }
 
+.currency-sign {
+  /* color: #438a5e; */
+  color: #608c71;
+  font-weight: 500;
+  /* display: none; */
+}
+
 /* .user-logout-btn:focus{background-color:red;} */
 /* 
 .fa-sign-out-alt:hover {

@@ -5,7 +5,7 @@
 <html>
     <head>
         
-        <title>Detailed Sales Report</title>
+        <title>Daily Sales Report</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/homepage_style.css">
@@ -36,12 +36,12 @@
                 font-family: 'Kulim Park', sans-serif;
             }
 
-            /* .totalAmount {
+            /* .salesTotalAmount {
                 font-weight: 600;
                 border-bottom: 1.5px solid #000 !important;
             } */
             
-            /* .totalAmount::before {
+            /* .salesTotalAmount::before {
                 content: "";
                 position: absolute;
                 bottom: 0;
@@ -134,7 +134,7 @@
                 display: none;
             }
             
-            .totalAmount {
+            .salesTotalAmount {
                 text-decoration: underline;
                 text-underline-position: under;
                 
@@ -195,13 +195,12 @@
                     <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
-                    <a href="sales_report_detailed.asp" class="btn btn-sm btn-outline-dark">Sales Report by Order</a>
-                    <a href="sales_report_sum.asp" class="btn btn-sm btn-outline-dark">Sales Report Summary</a>
+                    <a href="collections_report_daily.asp" class="btn btn-sm btn-outline-dark">Daily Collections Report</a>
                 </p>
             </div>
             
 
-            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Daily Sales Report <p><%=displayDate%></p>
+            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Daily Sales Report <p class="report-type"><%=displayDate%></p>
             </h1>
 
             <div>
@@ -264,10 +263,7 @@
                     salesOrderPath = folderPath & salesOrderFile
 
                     
-                    Do 
-
-                        if fs.FolderExists(folderPath) <> true then EXIT DO
-                        if fs.FileExists(salesOrderPath) <> true then EXIT DO
+                    if fs.FileExists(salesOrderPath) = true then
 
                         'Displaying reports'
                         rs.Open "SELECT cust_id, cust_name, invoice_no, date, prod_gen, prod_price, prod_qty, SUM(prodamount) AS prodamount, payment FROM "&salesOrderPath&" WHERE duplicate!='yes' and date = CTOD('"&queryDate&"') GROUP BY invoice_no ORDER BY cust_name, cust_id, invoice_no", CN2
@@ -298,9 +294,9 @@
                                     <tr> 
                                         <td></td>   
                                         <td></td>     
-                                        <td class="totalAmount">&#8369; <%=customerTotalSales%></td>      
-                                        <td class="totalAmount">&#8369; <%=customerTotalCash%></td>   
-                                        <td class="totalAmount">&#8369; <%=customerTotalCharge%></td>
+                                        <td class="salesTotalAmount">&#8369; <%=customerTotalSales%></td>      
+                                        <td class="salesTotalAmount">&#8369; <%=customerTotalCash%></td>   
+                                        <td class="salesTotalAmount">&#8369; <%=customerTotalCharge%></td>
                                     </tr>
                                     <tr>
                                         <td class="blank_row" colspan="7"></td>
@@ -362,17 +358,17 @@
                                     <tr> 
                                         <td></td>   
                                         <td></td>      
-                                        <td class="totalAmount">&#8369; <%=customerTotalSales%></td>      
-                                        <td class="totalAmount">&#8369; <%=customerTotalCash%></td>   
-                                        <td class="totalAmount">&#8369; <%=customerTotalCharge%></td>
+                                        <td class="salesTotalAmount">&#8369; <%=customerTotalSales%></td>      
+                                        <td class="salesTotalAmount">&#8369; <%=customerTotalCash%></td>   
+                                        <td class="salesTotalAmount">&#8369; <%=customerTotalCharge%></td>
                                     </tr>
                                 <%end if%>
                             <%end if
-                    Loop While False%>    
+                    end if%>    
 
                     <tr> 
-                        <td class="total-label">Total</td>   
-                        <td></td>      
+                        <td class="final-total">Total</td>   
+                        <td class="final-total"></td>      
                         <td class="final-total">&#8369; <%=totalSales%></td>      
                         <td class="final-total">&#8369; <%=totalCash%></td>   
                         <td class="final-total">&#8369; <%=totalCharge%></td>

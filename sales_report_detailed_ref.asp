@@ -243,7 +243,7 @@
 
                 <div class="print-main-heading">
                     <p class="print-heading-company">JollyChef Inc.</p> 
-                    <p class="heading-print"> Sales Report per Reference: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span>
+                    <p class="heading-print"> Sales Report per Customer/Reference: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span>
                     </p>
                 </div>
 
@@ -410,7 +410,7 @@
                                         <%if customerCount > 1 then%>
                                             <td></td> 
                                         <%else%>
-                                            <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
+                                            <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
                                         <%end if%> 
                                         <td class="text-darker">
                                             <%if invoiceCounter < 2 then%>
@@ -484,5 +484,12 @@
 <script src="js/main.js"></script>   
 <script src="./js/print.js"></script> 
 
+<!-- Preventing the PopUp Resubmit Form
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+-->
 </body>
 </html>

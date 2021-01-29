@@ -53,7 +53,7 @@ set rs=Server.CreateObject("ADODB.recordset")
    systemDate = CDate(FormatDateTime(systemDate,2))
    ' Application("test_global_asa") = "Global Asa is running"
 
-   sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
+   sqlQuery = "SELECT TOP 1 * FROM store_schedule ORDER BY sched_id DESC" 
    set objAccess = cnroot.execute(sqlQuery)
 
       currDate = systemDate

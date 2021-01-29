@@ -1,140 +1,147 @@
 <!--#include file="dbConnect.asp"-->
 
 <%
-	Dim custID 
-	custID = CLng(Request.Form("custID"))
+	if TRIM(isStoreClosed) = "open" then
 
-	productID = CInt(Request.Form("prodID"))
-	salesQty = CInt(Request.Form("prodQty"))
-	status= "Pending"
+		Dim custID 
+		custID = CLng(Request.Form("custID"))
+
+		productID = CInt(Request.Form("prodID"))
+		salesQty = CInt(Request.Form("prodQty"))
+		status= "Pending"
 
 
-	Dim yearPath, monthPath
+		Dim yearPath, monthPath
 
-	yearPath = CStr(Year(systemDate))
-	monthPath = CStr(Month(systemDate))
+		yearPath = CStr(Year(systemDate))
+		monthPath = CStr(Month(systemDate))
 
-	if Len(monthPath) = 1 then
-		monthPath = "0" & monthPath
-	end if
-
-	Dim folderPath, holderCurrQty
-
-	folderPath = mainPath & yearPath & "-" & monthPath
-
-	Dim ordersHolderFile, ordersHolderPath
-
-	ordersHolderFile = "\orders_holder.dbf"
-	ordersHolderPath = folderPath & ordersHolderFile
-
-	rs.open "SELECT daily_meals.prod_name, daily_meals.qty - SUM(orders_holder.qty) AS qty FROM daily_meals INNER JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id WHERE daily_meals.prod_id ="&productID, CN2
-
-	if not rs.EOF then
-
-		holderCurrQty = CInt(rs("qty"))
-
-	else 
-
-		getQty = "SELECT qty FROM daily_meals WHERE prod_id = "&productID
-		set objAccess = cnroot.execute(getQty)
-
-		if not objAccess.EOF then
-
-			holderCurrQty = CInt(objAccess("qty"))
-
+		if Len(monthPath) = 1 then
+			monthPath = "0" & monthPath
 		end if
 
-	end if
+		Dim folderPath, holderCurrQty
 
-	rs.close
+		folderPath = mainPath & yearPath & "-" & monthPath
 
-	Dim isValidQty, currentQty
-	isValidQty = true
+		Dim ordersHolderFile, ordersHolderPath
 
-	currentQty = holderCurrQty - salesQty
+		ordersHolderFile = "\orders_holder.dbf"
+		ordersHolderPath = folderPath & ordersHolderFile
 
-	if currentQty <  0 then
+		rs.open "SELECT daily_meals.prod_name, daily_meals.qty - SUM(orders_holder.qty) AS qty FROM daily_meals INNER JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id WHERE daily_meals.prod_id ="&productID, CN2
 
-		isValidQty = false
-		Response.Write "invalid qty"
-
-	end if
-
-
-	if isValidQty = true then
-
-		rs.Open "SELECT prod_brand, prod_name, prod_price, orig_price FROM daily_meals WHERE prod_id="&productID, CN2
-		
 		if not rs.EOF then
 
-			productBrand = rs("prod_brand")
-			productName = rs("prod_name")
-			price = CDbl(rs("prod_price"))
-			origPrice = CDbl(rs("orig_price"))
+			holderCurrQty = CInt(rs("qty"))
 
-		end if
-
-		if custID = "" then
-			custID = 0
-		end if
-
-		sqlGetInfo = "SELECT * FROM customers WHERE cust_id="&custID
-		set objAccess = cnroot.execute(sqlGetInfo)
-
-		if not objAccess.EOF then
-			custFname = CStr(Trim(objAccess("cust_fname")))
-			custLname = CStr(Trim(objAccess("cust_lname")))
-			fullName = custFname & " " & custLname
-			department = objAccess("department")
 		else 
-			fullName = ""
-			department = ""
+
+			getQty = "SELECT qty FROM daily_meals WHERE prod_id = "&productID
+			set objAccess = cnroot.execute(getQty)
+
+			if not objAccess.EOF then
+
+				holderCurrQty = CInt(objAccess("qty"))
+
+			end if
+
+		end if
+
+		rs.close
+
+		Dim isValidQty, currentQty
+		isValidQty = true
+
+		currentQty = holderCurrQty - salesQty
+
+		if currentQty <  0 then
+
+			isValidQty = false
+			Response.Write "invalid qty"
+
 		end if
 
 
-		amount = price * salesQty	
-		profit = (price - origPrice) * salesQty
-		uniqueNum = 0
-		
-		rs.close
+		if isValidQty = true then
 
-		rs.open "SELECT MAX(id) FROM "&ordersHolderPath&"", CN2
-			do until rs.EOF
-			for each x in rs.Fields
-				maxID = x.value
-			next
-			rs.MoveNext
-		loop
-		rs.close
-		maxID= CInt(maxID) + 1
+			rs.Open "SELECT prod_brand, prod_name, prod_price, orig_price FROM daily_meals WHERE prod_id="&productID, CN2
+			
+			if not rs.EOF then
 
-		Dim salesOrderFile, salesOrderPath
+				productBrand = rs("prod_brand")
+				productName = rs("prod_name")
+				price = CDbl(rs("prod_price"))
+				origPrice = CDbl(rs("orig_price"))
 
-		salesOrderFile = "\sales_order.dbf"
-		salesOrderPath = folderPath & salesOrderFile
+			end if
 
-		rs.open "SELECT MAX(transactid) FROM "&salesOrderPath&"", CN2
-			do until rs.EOF
+			if custID = "" then
+				custID = 0
+			end if
+
+			sqlGetInfo = "SELECT * FROM customers WHERE cust_id="&custID
+			set objAccess = cnroot.execute(sqlGetInfo)
+
+			if not objAccess.EOF then
+				custFname = CStr(Trim(objAccess("cust_fname")))
+				custLname = CStr(Trim(objAccess("cust_lname")))
+				fullName = custFname & " " & custLname
+				department = objAccess("department")
+			else 
+				fullName = ""
+				department = ""
+			end if
+
+
+			amount = price * salesQty	
+			profit = (price - origPrice) * salesQty
+			uniqueNum = 0
+			
+			rs.close
+
+			rs.open "SELECT MAX(id) FROM "&ordersHolderPath&"", CN2
+				do until rs.EOF
 				for each x in rs.Fields
-					maxTransactID = x.value
+					maxID = x.value
 				next
 				rs.MoveNext
 			loop
-		rs.close
-		salesOrderID = CInt(maxTransactID) + 1
+			rs.close
+			maxID= CInt(maxID) + 1
 
-		rs.Open "SELECT * FROM "&ordersHolderPath&"", CN2
-		sqlAdd = "INSERT INTO "&ordersHolderPath&""&_ 
-		"(id, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, qty, amount, profit, status, date)"&_
-		"VALUES ("&maxID&", "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&salesQty&", "&amount&", "&profit&", '"&status&"', ctod(["&systemDate&"]))"
-		set objAccess = cnroot.execute(sqlAdd)
-		set objAccess = nothing
-		rs.close
+			Dim salesOrderFile, salesOrderPath
 
-		CN2.close
+			salesOrderFile = "\sales_order.dbf"
+			salesOrderPath = folderPath & salesOrderFile
+
+			rs.open "SELECT MAX(transactid) FROM "&salesOrderPath&"", CN2
+				do until rs.EOF
+					for each x in rs.Fields
+						maxTransactID = x.value
+					next
+					rs.MoveNext
+				loop
+			rs.close
+			salesOrderID = CInt(maxTransactID) + 1
+
+			rs.Open "SELECT * FROM "&ordersHolderPath&"", CN2
+			sqlAdd = "INSERT INTO "&ordersHolderPath&""&_ 
+			"(id, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, qty, amount, profit, status, date)"&_
+			"VALUES ("&maxID&", "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&salesQty&", "&amount&", "&profit&", '"&status&"', ctod(["&systemDate&"]))"
+			set objAccess = cnroot.execute(sqlAdd)
+			set objAccess = nothing
+			rs.close
+
+			CN2.close
 
 
-		Response.Write "valid qty"
+			Response.Write "valid qty"
 
+		end if
+
+	else
+		Response.Write "store closed"
 	end if
+
 %>

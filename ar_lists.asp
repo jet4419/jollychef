@@ -365,12 +365,16 @@
                             <th>Payment</th>
                         </thead>
 
-                        <% Dim totalBalance 
+                        <% Dim totalBalance, counter 
                         totalBalance = 0.00 
+                        counter = 0
                         %>
                         <%do until rs.EOF%>
                         <tr>
-                            <%invoice = rs("invoice_no").value%>
+                            <%
+                                invoice = rs("invoice_no").value
+                                counter = counter + 1
+                            %>
                             <% 
                                 myDate = CDATE(rs("date_owed"))
                                 myYear = Year(myDate)
@@ -443,7 +447,9 @@
                     <div class="d-flex justify-content-center">
                         <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
                         <input type="hidden" name="credit_date">
-                        <button type="submit" class="btn btn-primary btn-sm" id="myBtn">Submit Payment</button>
+                        <%if counter > 0 then%>
+                            <button type="submit" class="btn btn-primary btn-sm" id="myBtn">Submit Payment</button>
+                        <%end if%>
                     </div>
 
                 </div>

@@ -149,7 +149,7 @@ function printDiv() {
             }
 
             .final-total {
-                font-weight: 500;
+                font-weight: 600 !important;
                 font-size: 13pt;
                 border-top: #000 1px solid !important;
                 border-bottom: #000 1px solid !important;

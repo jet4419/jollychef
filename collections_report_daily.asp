@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Collections Report</title>
+        <title>Daily Collections Report</title>
         <link rel="stylesheet" href="css/homepage_style.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
@@ -68,11 +68,11 @@
                 display: none;
             }
 
-            .final-total {
+            /* .final-total {
                 font-weight: 600;
                 font-size: 13pt;
                 border-bottom: #000 1px solid !important;
-            }
+            } */
 /* 
             thead { display: table-header-group !important}
             tfoot { display: table-row-group !important}
@@ -148,38 +148,22 @@
 
     <%
 
-    Dim startDate, endDate
+    Dim collectionsReportDate
 
-    startDate = Request.Form("startDate")
-    endDate = Request.Form("endDate")
+    collectionsReportDate = Request.Form("startDate")
 
-        if startDate="" then
+        if collectionsReportDate="" then
             
-            queryDate1 = CDate(FormatDateTime(systemDate, 2))
-            displayDate1 = MonthName(Month(systemDate)) & " " & Day(systemDate) & ", " & Year(systemDate)
+            queryDate = CDate(FormatDateTime(systemDate, 2))
+            displayDate = MonthName(Month(systemDate)) & " " & Day(systemDate) & ", " & Year(systemDate)
 
         else
 
-            queryDate1 = CDate(FormatDateTime(startDate, 2))
-            displayDate1 = MonthName(Month(queryDate1)) & " " & Day(queryDate1) & ", " & Year(queryDate1)
+            queryDate = CDate(FormatDateTime(collectionsReportDate, 2))
+            displayDate = MonthName(Month(queryDate)) & " " & Day(queryDate) & ", " & Year(queryDate)
 
         end if   
-        
-        if endDate="" then
 
-            queryDate2 = CDate(FormatDateTime(systemDate, 2))
-            displayDate2 = MonthName(Month(systemDate)) & " " & Day(systemDate) & ", " & Year(systemDate)
-
-        else 
-
-            queryDate2 = CDate(FormatDateTime(endDate, 2))
-            displayDate2 = MonthName(Month(endDate)) & " " & Day(endDate) & ", " & Year(endDate)
-
-        end if 
-
-        Dim monthsDiff
-
-        monthsDiff = DateDiff("m",queryDate1,queryDate2) 
 %>
 
 <div id="main">
@@ -188,30 +172,27 @@
 
         <div class="container">
             <div class="mt-3 mb-3 d-flex justify-content-between">
-                <form action="collections_report_per_ref.asp" method="POST" id="allData" class="">
+
+                <form action="collections_report_daily.asp" method="POST" id="allData" class="">
                     
-                    <label>Start</label>
-                    <input class="form-control form-control-sm d-inline col-2" name="startDate" id="startDate" type="date" required> 
-                
-                    <label class="ml-3">End&nbsp;</label>
-                    <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date"> 
+                    <label>Select Date</label>
+                    <input class="form-control form-control-sm d-inline col-4" name="startDate" id="startDate" type="date" max="<%=systemDate%>" required> 
                     
                     <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
+
                 <p>
-                    <a href="collections_report_per_date.asp" class="btn btn-sm btn-outline-dark">Collections Report by Date</a>
-                    <a href="collections_report_sum.asp" class="btn btn-sm btn-outline-dark">Collections Report Summary</a>
+                    <a href="sales_report_daily_format.asp" class="btn btn-sm btn-outline-dark">Daily Sales Report</a>
                 </p>
             </div>
 
-            <h1 class="h2 text-center mb-4 mt-3 main-heading" style="font-weight: 400">Collections Report <p class="report-type">per Reference</p></h1>
+            <h1 class="h2 text-center mb-4 mt-3 main-heading" style="font-weight: 400">Daily Collections Report <p class="report-type"><%=displayDate%></p></h1>
 
             <div>
                 <%
         
                     Response.Write("<p class='float-left'><strong> Date: </strong>")
-                    Response.Write(displayDate1 & " - ")
-                    Response.Write(displayDate2)
+                    Response.Write(displayDate)
                     Response.Write "</p>"
                         
                 %>
@@ -222,7 +203,7 @@
 
                 <div class="print-main-heading">
                     <p class="print-heading-company">JollyChef Inc.</p> 
-                    <p class="heading-print"> Collections Report per Customer/Reference: <span class="date-range-print"> <%=displayDate1 & " to " & displayDate2 %></span>
+                    <p class="heading-print">Daily Collections Report: <span class="date-range-print"> <%=displayDate%></span>
                     </p>
                 </div>
 
@@ -231,8 +212,6 @@
                         <tr>
                             <th>Customer Name</th>
                             <th>Reference Number</th>
-                            <th>Date</th>
-                            <th>Ref No Invoice</th>
                             <th>Amount</th>
                             <th>Cash</th>
                             <th>Charge</th>
@@ -241,6 +220,18 @@
                 <%
                     Dim fs
                     set fs=Server.CreateObject("Scripting.FileSystemObject")
+
+                    Dim monthLength, monthPath, yearPath
+
+                    monthLength = Month(queryDate)
+
+                    if Len(monthLength) = 1 then
+                        monthPath = "0" & CStr(Month(queryDate))
+                    else
+                        monthPath = Month(queryDate)
+                    end if
+
+                    yearPath = Year(queryDate)
 
                     Dim collectID, cash_paid, ar_paid, custID, referenceNo
 
@@ -251,82 +242,20 @@
                     customerTotalCash = 0
                     customerTotalCharge = 0
 
-                    Dim collectionsReportFile, prevCollectionsReportPath, collectionsReportPath
+                    Dim collectionsReportFile, collectionsReportPath
 
-                    collectionsReportFile = "collections_report_container.dbf"
-                    prevCollectionsReportPath = mainPath & "tbl_blank\" & collectionsReportFile
-                    collectionsReportPath = tempFolderPath & collectionsReportFile
+                    collectionsReportFile = "\collections.dbf"
+                    collectionsReportPath = mainPath & yearPath & "-" & monthPath &collectionsReportFile
 
-                    if fs.FolderExists(tempFolderPath) <> true then
-                        fs.CreateFolder(tempFolderPath)
-                    end if
-
-                    Dim userSessionID
-                    userSessionID = CDBL(Session.SessionID)
-
-                    On Error Resume Next
-
-                        if fs.FileExists(collectionsReportPath) then
-
-                            fs.DeleteFile(collectionsReportPath)
-                            
-                        end if
-
-                        if fs.FileExists(collectionsReportPath) <> true then 
-
-                            fs.CopyFile prevCollectionsReportPath, collectionsReportPath
-                        
-                        end if
-
-                    On Error GoTo 0
-
-                    for i=0 to monthsDiff
-
-                        monthLength = Month(DateAdd("m",i,queryDate1))
-                        if Len(monthLength) = 1 then
-                            monthPath = "0" & CStr(Month(DateAdd("m",i,queryDate1)))
-                        else
-                            monthPath = Month(DateAdd("m",i,queryDate1))
-                        end if
-
-                        yearPath = Year(DateAdd("m",i,queryDate1))
-
-                        collectionsFile = "\collections.dbf"
-                        folderPath = mainPath & yearPath & "-" & monthPath
-                        collectionsPath = folderPath & collectionsFile
-            
-                        Do 
-
-                            if fs.FolderExists(folderPath) <> true then EXIT DO
-                            if fs.FileExists(collectionsPath) <> true then EXIT DO
-
-                            rs.Open "SELECT * FROM "&collectionsPath&" WHERE duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY id, cust_id ORDER BY cust_name, cust_id", CN2
-                    
-                            do until rs.EOF
-
-                                insertCollections = insertCollections & "INSERT INTO "&collectionsReportPath&" (id, cust_id, cust_name, department, invoice, ref_no, date, tot_amount, cash, balance, p_method, duplicate, session_id) "&_
-                                "VALUES ("&rs("id")&", "&rs("cust_id")&", '"&rs("cust_name")&"', '"&rs("department")&"', "&rs("invoice")&", '"&rs("ref_no")&"', ctod(["&rs("date")&"]), "&rs("tot_amount")&", "&rs("cash")&", "&rs("balance")&", '"&rs("p_method")&"', '"&rs("duplicate")&"', "&userSessionID&");"
-
-                                rs.MoveNext
-
-                            loop
-
-                            rs.close
-
-                        Loop While False  
-                            
-                    next  
-
-                    'INSERTING Collections RECORDS'
-                    if insertCollections <> "" then
-                        cnroot.execute(insertCollections)
-                    end if
-
+                    Dim totalSales, totalCash, totalCharge
+                    totalSales = 0
+                    totalCash = 0
+                    totalCharge = 0
 
                     if fs.FileExists(collectionsReportPath) = true then
 
                         'Displaying reports'
-                        rs.Open "SELECT * FROM "&collectionsReportPath&" WHERE session_id="&userSessionID&" and duplicate!='yes' and date between CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') GROUP BY id, cust_id ORDER BY cust_name, cust_id", CN2
+                        rs.Open "SELECT * FROM "&collectionsReportPath&" WHERE duplicate!='yes' and date = CTOD('"&queryDate&"') GROUP BY id, cust_id ORDER BY cust_name, cust_id", CN2
 
                         do until rs.EOF 
 
@@ -346,8 +275,6 @@
 
                                     if printTotal = true then%>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td  class="collectionTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalAmount%></td>
@@ -400,26 +327,6 @@
                                     <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
                                 <%end if%> 
 
-                                <% if Trim(rs("p_method").value) <> Trim("cash") then %>
-                                    <td class="text-darker">
-                                        <a class="text-dark" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=d%>'>
-                                            <%Response.Write(rs("ref_no"))%>
-                                        </a>
-                                    </td> 
-                                <% else %>
-                                    <td class="text-darker">
-                                        <a class="text-dark" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'>
-                                            <%Response.Write(rs("ref_no"))%>
-                                        </a>
-                                    </td>
-                                <% end if %>
-
-                                <% referenceNo = rs("ref_no").value %>
-
-                                <td class="text-darker">
-                                    <%Response.Write(dateFormat)%>
-                                </td> 
-
                                 <td class="text-darker">
                                     <%Response.Write(rs("invoice"))%>
                                 </td> 
@@ -469,43 +376,29 @@
                                 <tr> 
                                     <td></td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
                                     <td class='collectionTotalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalAmount%></td>
                                     <td class='collectionTotalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalCash%></td>
                                     <td class='collectionTotalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalCharge%></td>
                                 </tr>
                             <%end if%>
 
-                            <tr class="final-total"> 
-                                <td>Total</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalSales%></td>
-                                <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCash%></td>
-                                <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCharge%></td>
-                            </tr>  
-
                         <%end if%>   
+
+                        <tr> 
+                            <td class="final-total screen-final-total">Total</td>
+                            <td class="final-total"></td>
+                            <td class="final-total"><span>&#8369;</span> <%=totalSales%></td>
+                            <td class="final-total"><span>&#8369;</span> <%=totalCash%></td>
+                            <td class="final-total"><span>&#8369;</span> <%=totalCharge%></td>
+                        </tr>  
 
                     <%end if%>      
 
                 </table>
 
-                <!-- DELETING sales_report_container -->
                 <%  
-                    if fs.FileExists(collectionsReportPath) = true then
-
-                        deleteReport = "DELETE FROM "&collectionsReportPath&" WHERE session_id="&userSessionID
-                        set objAccess = cnroot.execute(deleteReport)
-                        set objAccess = nothing
-
-                    end if
-
                     set rs = nothing
-                    CN2.close
-                    
+                    CN2.close    
                 %>
 
 

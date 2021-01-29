@@ -328,7 +328,7 @@
                             <% totalCashPaid = totalCashPaid + CDbl(rs("credit").value) %>
                         <% else %>
                             <td class="text-darker">
-                                <span class="text-primary">&#8369;</span><%=rs("debit")%>
+                                <span class="currency-sign">&#8369; </span><%=rs("debit")%>
                                 <% totalCashPaid = totalCashPaid + CDbl(rs("debit").value) %>
                             </td>
                         <% end if %>    

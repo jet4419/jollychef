@@ -85,6 +85,7 @@
     </head>
 <body>
 
+<% Response.Write isStoreClosed %>
 <%if systemDate >= dateClosed then%>
 
     <%if ASC(isStoreClosed) <> ASC("closed") then%>
@@ -389,6 +390,7 @@
                 // console.log(data);
                 //console.log(custID, prodID, prodQty);
                 if (data !== 'invalid qty') location.reload();
+                else if (data == 'store closed') alert('Sorry, the store is closed.');
                 else alert('Error: Insufficient quantity stocks');    
             })
             .fail(function() {
