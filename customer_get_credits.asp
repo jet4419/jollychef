@@ -42,13 +42,13 @@
 
             oJSON.Collection()
 
-    do until isArFolderExist = false
+   'do until isArFolderExist = false
 
         isArFileExist = fs.FileExists(arPath)
 
         if isArFileExist = true then
 
-            getCredits = "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and duplicate!='yes' and balance > 0 ORDER BY date_owed DESC, invoice_no DESC GROUP BY invoice_no"
+            getCredits = "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and balance > 0 ORDER BY date_owed DESC, invoice_no DESC GROUP BY invoice_no"
             set objAccess = cnroot.execute(getCredits)
 
             do until objAccess.EOF
@@ -70,29 +70,29 @@
 
         end if
 
-        if isArFolderExist <> false then
+    '     if isArFolderExist <> false then
 
-            arMonthPath = CInt(arMonthPath) - 1
+    '         arMonthPath = CInt(arMonthPath) - 1
 
-            if arMonthPath = 0 then
-                    arMonthPath = 12
-                    arYearPath = CInt(arYearPath) - 1
-            end if
+    '         if arMonthPath = 0 then
+    '                 arMonthPath = 12
+    '                 arYearPath = CInt(arYearPath) - 1
+    '         end if
 
-            if Len(arMonthPath) = 1 then
-                    arMonthPath = "0" & arMonthPath
-            end if
+    '         if Len(arMonthPath) = 1 then
+    '                 arMonthPath = "0" & arMonthPath
+    '         end if
 
-            arPath = mainPath & arYearPath & "-" & arMonthPath & arFile
-            arFolderPath = mainPath & arYearPath & "-" & arMonthPath
+    '         arPath = mainPath & arYearPath & "-" & arMonthPath & arFile
+    '         arFolderPath = mainPath & arYearPath & "-" & arMonthPath
 
-            if fs.FolderExists(arFolderPath) <> true then 
-                isArFolderExist = false
-            end if
+    '         if fs.FolderExists(arFolderPath) <> true then 
+    '             isArFolderExist = false
+    '         end if
 
-        end if   
+    '     end if   
 
-    loop
+    ' loop
 
             End With
 

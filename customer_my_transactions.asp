@@ -197,6 +197,9 @@
         lastDayOfEndDate = DateAdd("m", 1, endDate ) - 1
         endDate = DateAdd("m", 1, endDate ) - 1
 
+        Dim previousDate
+        previousDate = startDate - 1
+
         if endDate > systemDate then
             endDate = systemDate   
         end if
@@ -257,75 +260,37 @@
         Dim isValidPath
         isValidPath = fs.FolderExists(folderPath)
 
+        Dim ebID, endingCredit, endingDebit
+        endingCredit = 0.00
+
         if isValidPath = true then
 
-            obFile = "\ob_test.dbf"
-            obPath = folderPath & obFile
+            Dim ebFile, ebPath, ebMonthPath, ebYearPath
+            ebFile = "\eb_test.dbf"
 
-            Dim ebID, endingCredit, endingDebit, creditBal, debitBal
-            endingCredit = 0.00
-
-            rs.open "SELECT TOP 1 status FROM "&obPath&" WHERE cust_id="&custID&" and status='completed' and date BETWEEN CTOD('"&exactStartDate&"') AND CTOD('"&lastDayExactDate&"') ORDER BY id", CN2
-
-            ' Response.Write "<br> Last Exact Date: " & lastDayExactDate & "<br>"
-
-            if not rs.EOF then
-
-                'Getting the eb ID of a customer to get the previous ending balance'
-                sqlQuery = "SELECT id FROM eb_test WHERE cust_id="&custID&" and end_date=CTOD('"&lastDayExactDate&"')"
-                set objAccess = cnroot.execute(sqlQuery)
-
-                if not objAccess.EOF then
-                    ebID = CInt(objAccess("id").value)
-                end if    
-                set objAccess = nothing
-
-                'If ebID = 1, it means it is the first month of transactions'
-                'So there is no beginning balance that we can get'
-                if ebID=1 then
-
-                    endingCredit = 0
-                    endingDebit = 0
-
-                else 
-                    'Getting the previous month balance of a customer using the ebID'
-                    'endingCredit is the beginning balance'
-                    sqlPrevRow = "SELECT * FROM eb_test WHERE id = (select max(id) from eb_test where id < "&ebID&" and cust_id="&custID&")"
-                    set objAccess = cnroot.execute(sqlPrevRow)
-                        if not objAccess.EOF then
-                            endingCredit = CDbl(objAccess("credit_bal"))
-                            endingDebit = CDbl(objAccess("debit_bal"))
-                        else
-                            endingCredit = 0
-                            endingDebit = 0
-                        end if
-                    set objAccess = nothing
-
-                end if
-                
-                ' Response.Write "Completed Ending Balance"
-
-            else
-
-                endingDebit = 0.00
-                endingCredit = 0.00
-                set objAccess = nothing
-
-                getBeginBal = "SELECT MAX(id) AS max_eb_id, credit_bal, debit_bal FROM eb_test WHERE cust_id="&custID
-                set objAccess = cnroot.execute(getBeginBal)
-
-                if not objAccess.EOF then
-                    endingCredit = CDbl(objAccess("credit_bal"))
-                    endingDebit = CDbl(objAccess("debit_bal"))
-                end if
-
-                set objAccess = nothing
-                
-                ' Response.Write "Uncompleted Ending Balance"
-
+            ebMonthPath = Month(previousDate)
+            if Len(ebMonthPath) = 1 then
+                ebMonthPath = "0" & ebMonthPath
             end if
 
-            rs.close
+            ebYearPath = Year(previousDate)
+
+            ebPath = mainPath & ebYearPath & "-" & ebMonthPath & ebFile
+
+            if fs.FileExists(ebPath) = true then
+
+                'Getting the beginning balance'
+                rs.open "SELECT credit_bal FROM "&ebPath&" WHERE cust_id="&custID&" and end_date=CTOD('"&previousDate&"')", CN2
+
+                if not rs.EOF then
+                    endingCredit = CDbl(rs("credit_bal"))
+                end if
+
+                rs.close
+
+            else
+                endingCredit = 0
+            end if
 
         end if
         'End of isValidPath condition'
