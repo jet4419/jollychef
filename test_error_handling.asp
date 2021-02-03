@@ -49,19 +49,16 @@
     d1 = Request.Form("startDate")
     d1 = CInt(1000000000)
 
-    Response.Write err.description(0)
-    Response.Write err.description
+    Response.Write err.description(0) & "<br>"
+    Response.Write err.description & "<br>"
 
     if err.number <> 0 then
 
-        for each x in err
-
-            Response.Write "<span> Error Number: " & x.Number & "</span> <br>"
-            Response.Write "<span color='red'> Error Description: " & x.Description & "</span> <br>"
-            Response.Write "<span color='red'> Error Source: " & x.Source & "</span> <br>"
-            Response.Write "<span color='red'> Error Line: " & x.Line & "</span> <br>"
-
-        next
+        Response.Write "<span> Error Number: " & err.Number & "</span> <br>"
+        Response.Write "<span color='red'> Error Description: " & err.Description & "</span> <br>"
+        Response.Write "<span color='red'> Error Raise: " & err.Raise & "</span> <br>"
+        Response.Write "<span color='red'> Error Source: " & err.Source & "</span> <br>"
+        Response.Write "<span color='red'> Error Line: " & err.Line & "</span> <br>"
 
     end if
 %>

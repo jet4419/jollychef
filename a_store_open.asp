@@ -16,11 +16,7 @@
             fs.DeleteFile(tempSalesReportTbl)
 
         On Error GoTo 0
-        ' if Err.Number = 0 then
-        ' Response.Write "File was deleted"
-        ' else
-        ' Response.Write "<br> No permission to delete. Error: " & Err.description & "<br>"
-        ' end if
+
     end if
 
     if fs.FileExists(tempSalesReportTbl) then

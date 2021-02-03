@@ -38,17 +38,26 @@
     <div class="container pt-5">
 
         <div class="container border rounded" style="max-width: 500px;">
+
             <h3 class="text-center py-3">Reset Password </h3>
             <form id="form-reset-pass">
+
                 <div class="form-group">
                     <input type="email" id="staffEmail" name="staffEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" readonly required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
+
                 <div class="form-group">
-                    <input type="password" id="password1" name="password1" class="form-control form-control-sm" placeholder="Password" required>
+                    <input type="password" id="currentPassword" name="currentPassword" class="form-control form-control-sm" placeholder="Current Password" required>
                 </div>
+                <span class="current-password-warning mb-3" style="display: none; color: red"></span>
+
                 <div class="form-group">
-                    <input type="password" id="password2" name="password2" class="form-control form-control-sm" placeholder="Confirm Password" required>
+                    <input type="password" id="password1" name="password1" class="form-control form-control-sm" placeholder="New Password" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="password2" name="password2" class="form-control form-control-sm" placeholder="Confirm New Password" required>
                 </div>
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
         
@@ -70,11 +79,12 @@ document.getElementById('staffEmail').value = staffEmail;
 const formResetPass = document.getElementById('form-reset-pass');
     
     $('.btn-main').click(function(e){
-        
-        e.preventDefault();
 
         if(formResetPass.checkValidity()) {
-        
+
+            e.preventDefault();
+
+            let currentPassword = $("#currentPassword").val();
             let password1 = $("#password1").val();
             let password2 = $("#password2").val();
             let userType = $("#user-type").val();
@@ -82,8 +92,13 @@ const formResetPass = document.getElementById('form-reset-pass');
             let emailWarning = "";
             let passwordWarning = "";
             const emailInput = document.querySelector("#staffEmail");
+
+            const currPassInput = document.querySelector("#currentPassword");
+            const currPasswordWarning = document.querySelector(".current-password-warning");
+
             const passwordInput1 = document.querySelector("#password1");
             const passwordInput2 = document.querySelector("#password2");
+
             const emailWarningContainer = document.querySelector(".email-warning");
             const passwordWarningContainer = document.querySelector(".password-warning");
 
@@ -92,7 +107,7 @@ const formResetPass = document.getElementById('form-reset-pass');
                 url: "reset_pass_staff_c.asp",
                 type: "POST",
                 data: {
-                        email: staffEmail, password1: password1, password2: password2
+                        email: staffEmail, currentPassword: currentPassword, password1: password1, password2: password2
                 },
                 success: function(data) {
 
@@ -105,18 +120,23 @@ const formResetPass = document.getElementById('form-reset-pass');
                         passwordInput2.classList.remove("warning-border");
                     }
 
+                    else if (data === 'invalid current password') {
+                        invalidCurrPassFunc();
+                        emailWarningContainer.innerHTML = "";
+                        emailInput.classList.remove("warning-border");
+                        passwordWarningContainer.innerHTML = "";
+                        passwordInput1.classList.remove("warning-border");
+                        passwordInput2.classList.remove("warning-border");
+                    }
+
                     else if (data === 'invalid password') {
 
                         invalidPassFunc();
                         emailWarningContainer.innerHTML = "";
                         emailInput.classList.remove("warning-border");
+                        currPasswordWarning.style.display = "none";
+                        currPassInput.classList.remove("warning-border");
 
-                    }
-
-                    else if (data === 'invalid email and password') {
-                        
-                        invalidEmailFunc();
-                        invalidPassFunc();
                     }
 
                     else {
@@ -134,6 +154,14 @@ const formResetPass = document.getElementById('form-reset-pass');
                 emailWarning = "Can't find your account";
                 emailWarningContainer.innerHTML = emailWarning;
                 emailInput.classList.add("warning-border");
+            }
+
+            function invalidCurrPassFunc() {
+                passwordWarning = "Current password doesn\'t match";
+                currPasswordWarning.innerHTML = passwordWarning;
+                currPasswordWarning.style.display = "inline-block";
+                currPassInput.classList.add("warning-border");
+        
             }
 
             function invalidPassFunc() {

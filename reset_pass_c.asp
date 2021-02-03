@@ -4,32 +4,44 @@
     Dim isValidEmail, isValidPassword
 
     custEmail = Trim(Request.Form("email"))
+    currentPassword = Trim(CStr(Request.Form("currentPassword")))
+
+    'Encryption of Password
+    salt = "2435uhu34hi34"
+    currentPassword = sha256(currentPassword&salt)
+
     userPassword = Trim(Request.Form("password1"))
     confirmPassword = Trim(Request.Form("password2"))
     isValid = true
 
-    rs.open "SELECT email FROM customers WHERE email='"&custEmail&"'", CN2
+    rs.open "SELECT email, password FROM customers WHERE email='"&custEmail&"'", CN2
 
     if rs.EOF then
 
         isValidEmail = false
         Response.Write "invalid email"
 
-        if CStr(userPassword) <> CStr(confirmPassword) then
-            
-            Response.Write " and password"
+    else
+    
+        isValidEmail = true
+        savedPassword = Trim(CStr(rs("password")))
+
+        if savedPassword = currentPassword then
+
+            isValidCurrPassword = true
+
+        else
+
+            isValidCurrPassword = false
+            Response.Write "invalid current password"
 
         end if
-
-    else
-
-        isValidEmail = true
 
     end if 
 
     rs.close
 
-    if isValidEmail = true then
+    if isValidEmail = true and isValidCurrPassword = true then
 
         if userPassword <> confirmPassword then
             
@@ -49,7 +61,6 @@
     if isValidEmail = true and isValidPassword = true then
 
         'Encryption of Password
-        salt = "2435uhu34hi34"
         userPassword = sha256(userPassword&salt)
 
         sqlUpdate = "UPDATE customers SET password = '"&userPassword&"' WHERE email = '"&custEmail&"'"
