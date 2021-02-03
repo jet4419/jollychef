@@ -149,6 +149,12 @@ input[type='number'] {
   text-transform: uppercase;
 }
 
+.icon-customer-text {
+  font-weight: 500;
+  text-transform: uppercase;
+  padding-left: 7px;
+}
+
 .sidebar-icons {
   padding-bottom: 3px;
   width: 60px;
@@ -284,10 +290,10 @@ a.main-menus--items.customers-icon {
   margin: 0;
 }
 
-/* #myTable {
-  font-family: monospace;
-  font-size: 16px;
-} */
+#myTable {
+  /* font-family: monospace;
+  font-size: 16px; */
+}
 
 .thead-bg {
   /* background-color: #438a5e;
@@ -299,15 +305,15 @@ a.main-menus--items.customers-icon {
   border-color: #000;
 }
 
-.totalAmount,
+/* .totalAmount,
 .totalAmountCollect,
 .totalAmountManyCollect {
   /* font-weight: 600; */
-  /* color: #9e8f00;
+/* color: #9e8f00;
   color: #ab9b0a; */
-  /* color: #7b6f00; */
-  /* border-bottom: 1.5px solid rgb(88, 82, 82) !important; */
-}
+/* color: #7b6f00; */
+/* border-bottom: 1.5px solid rgb(88, 82, 82) !important; 
+} */
 
 .totalAmount {
   font-weight: 600;

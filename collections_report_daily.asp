@@ -171,7 +171,7 @@
     <div id="content">
 
         <div class="container">
-            <div class="mt-3 mb-3 d-flex justify-content-between">
+            <div class="mt-4 mb-2 d-flex justify-content-between">
 
                 <form action="collections_report_daily.asp" method="POST" id="allData" class="">
                     
@@ -186,7 +186,7 @@
                 </p>
             </div>
 
-            <h1 class="h2 text-center mb-4 mt-3 main-heading" style="font-weight: 400">Daily Collections Report <p class="report-type"><%=displayDate%></p></h1>
+            <h1 class="h2 text-center pb-2 mt-4 main-heading" style="font-weight: 400">Daily Collections Report <p class="report-type"><%=displayDate%></p></h1>
 
             <div>
                 <%

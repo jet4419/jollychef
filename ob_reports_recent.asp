@@ -79,6 +79,8 @@
 
     obDate = CDate(Request.Form("date_records"))
 
+    'Don't mind the if statement because obDate should never be null'
+    'Only look for the else statement'
     if obDate = "" then
 
         if startDate="" then
@@ -117,7 +119,15 @@
         startDate = CDate(Year(obDate) & "-" & Month(obDate))
         endDate = DateAdd("m", 1, startDate) - 1
 
-        displayDate1 = MonthName(Month(startDate)) & " " & Day(startDate) & ", " & Year(startDate)
+        if obDate = systemDate then
+
+            displayDate1 = MonthName(Month(obDate)) & " " & Day(obDate) & ", " & Year(obDate)
+
+        else
+
+            displayDate1 = MonthName(Month(startDate)) & " " & Day(startDate) & ", " & Year(startDate)
+
+        end if
 
         displayDate2 = MonthName(Month(endDate)) & " " & Day(endDate) & ", " & Year(endDate)
 

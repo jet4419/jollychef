@@ -216,7 +216,7 @@
             </p>
             </div>
             
-            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Sales Report Summary by Day</h1>
+            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Sales Report <p class="report-type">Summary per Day</p></h1>
 
             <div>
                 <%

@@ -271,7 +271,7 @@
                 </div>
             </div>
         </div> 
-      <!-- END OF Update User MODAL -->    
+      <!-- END OF Delete Product Modal -->    
         </div>
 
 <!-- FOOTER -->
@@ -382,7 +382,7 @@ document.querySelector('#userType').value = userType;
 
         event.preventDefault();
 
-        let result = confirm("Want to delete?");
+        let result = confirm("Are you sure to delete?");
 
         if(result) {
             $.ajax({

@@ -23,7 +23,17 @@
 
         <style>
 
-            .container-rounded { border-radius: 1rem;}
+            .container-rounded { 
+                border-radius: 1rem; 
+                background-color: rgb(249, 249, 249);
+
+                background: rgba( 249, 249, 249, 0.50 );
+                box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+                backdrop-filter: blur( 4px );
+                -webkit-backdrop-filter: blur( 4px );
+                border-radius: 10px;
+                border: 1px solid rgba( 249, 249, 249, 0.18 );
+            }
             
             .warning-border { border-color: red !important; }
 
@@ -58,9 +68,8 @@
 
     <div class="container mb-5 pt-5">
 
-        <div class="container border container-rounded" style="max-width: 500px; background: #eee;">
-            <h3 class="h3 text-center pt-3 m-0">Employees </h3>
-            <h3 class="h3 text-center pt-1 pb-3">Registration </h3>
+        <div class="container border container-rounded" style="max-width: 500px;">
+            <h3 class="h3 text-center py-4 m-0 main-heading">Customer Registration </h3>
             
             <form>
 
@@ -89,11 +98,11 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <input type="text" id="department" name="department" class="form-control form-control-sm" placeholder="Department">
+                    <input type="text" id="department" name="department" class="form-control form-control-sm" placeholder="Department" required>
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <input type="submit" name="btnRegister" value="Register" class="btn-main btn btn-dark mb-2">
+                    <input type="submit" name="btnRegister" value="Register" class="btn-main btn btn-sm btn-primary mb-2">
                 </div>
 
             </form>
@@ -113,14 +122,14 @@
 
 <script>
     
-    $('.btn-main').click(function(e){
+    $('.btn-main').click(function(event){
         
-        event.preventDefault();
+        // event.preventDefault();
 
         console.log($("form"))
         if($("form")[1].checkValidity()) {
             //your form execution code
-        event.preventDefault();
+        // event.preventDefault();
 
         let firstname = $("#firstname").val();
         let lastname = $("#lastname").val();

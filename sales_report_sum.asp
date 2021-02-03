@@ -224,7 +224,7 @@
             </div>
             
 
-            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Sales Report Summary by Customer</h1>
+            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Sales Report <p class="report-type">Summary per Customer</p></h1>
 
             <div>
                 <%

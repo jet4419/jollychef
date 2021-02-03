@@ -218,7 +218,7 @@
                 </p>
             </div>
 
-            <h1 class="h2 text-center mb-4 mt-3 main-heading" style="font-weight: 400">Collections Report <p class="report-type">Summary</p></h1>
+            <h1 class="h2 text-center pb-2 mt-4 main-heading" style="font-weight: 400">Collections Report <p class="report-type">Summary</p></h1>
 
             <div>
                 <%
