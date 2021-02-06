@@ -10,7 +10,7 @@
         <!--<a class="main-menus--items"><i class="fas fa-chart-bar"></i> Reports</a> -->
         <div class="checked-items">
             <!--<a href="bootTopSeller.asp">Top Selling Products</a>-->
-            <a href="inventory_reports.asp">Inventory Reports</a>
+            <!--<a href="inventory_reports.asp">Inventory Reports</a>-->
             <a href="sales_report.asp">Sales Reports</a>
             <!--<a href="bootOrdersReport.asp">Orders Reports</a>-->
             <a href="sales_report_daily.asp">Daily Reports</a>

@@ -371,7 +371,7 @@
                                 totalProfit = 0.00
                                 hasOrdered = true
                         
-                                rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""Pending"" and cust_id=0", CN2
+                                rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""On Process"" and cust_id=0", CN2
         
                             %>
 

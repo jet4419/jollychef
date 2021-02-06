@@ -31,7 +31,7 @@
             min-height: 5rem;
             width: 100%;
             text-align: center;
-            padding: 3rem 0;
+            padding: 2rem 0;
             color: #fff;
             border-radius: inherit;
         }
@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="text-center">
-                    <button type="submit" class="btn-main btn btn-success" name="btn-signup" value="signup">Register</button>   
+                    <button type="submit" class="btn-main btn btn-primary" name="btn-signup" value="signup">Register</button>   
                 </div>    
             </form>
         </div>

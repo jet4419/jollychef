@@ -8,7 +8,7 @@
 		'invoiceNumber = Request.Form("invoiceNumber")
 		productID = CInt(Request.Form("productID"))
 		salesQty = CInt(Request.Form("salesQty"))
-		status= "Pending"
+		status= "On Process"
 		
 		Dim yearPath, monthPath
 

@@ -40,6 +40,7 @@
     referenceNo = CStr(Request.Form("referenceNo"))
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
     'currDate = CDate(Date)
+    status = "On Process"
 
     email = userEmail
     'Set the user type of the cashier's currently logged in'
@@ -134,7 +135,7 @@
 
         ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
-        sqlGetAmount = "SELECT SUM(amount) AS amount FROM "&ordersHolderPath&" WHERE status=""Pending"" and cust_id=0"
+        sqlGetAmount = "SELECT SUM(amount) AS amount FROM "&ordersHolderPath&" WHERE status='"&status&"' and cust_id=0"
         set objAccess = cnroot.execute(sqlGetAmount)
 
         if not objAccess.EOF then
@@ -178,7 +179,7 @@
             else
 
                 rs.Open "SELECT * FROM products", CN2
-                sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status=""Pending"" and cust_id=0 GROUP BY prod_id" 
+                sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status='"&status&"' and cust_id=0 GROUP BY prod_id" 
                 set objAccess  = cnroot.execute(sqlAccess)
 
 
@@ -288,7 +289,7 @@
 
                     'rs.Open "SELECT MAX(transactid) AS id FROM sales_order", CN2
                     'salesDate = CDate(Date)
-                    rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""Pending"" and cust_id=0", CN2
+                    rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status='"&status&"' and cust_id=0", CN2
 
                     do until rs.EOF
                     maxOHid = maxOHid + 1

@@ -126,17 +126,17 @@
                     <tfoot>
                         <tr>
                             <td colspan="3"><strong><span class="tfooter-total-text">Total</span></strong></td>
-                            <td colspan="1""><span class="tfooter-amount-text"><strong>&#8369;<%Response.Write(totalAmount)%></strong></span> </td>
+                            <td colspan="1"><span class="tfooter-amount-text"><strong>&#8369; <%Response.Write(totalAmount)%></strong></span> </td>
                         </tr>
 
                         <tr>
                             <td colspan="3"><strong><span>Cash</span></strong></td>
-                            <td colspan="1""><span>&#8369;<%Response.Write(cashPaid)%></span> </td>
+                            <td colspan="1"><span>&#8369; <%Response.Write(cashPaid)%></span> </td>
                         </tr>
 
                         <tr>
                             <td colspan="3"><strong><span>Change</span></strong></td>
-                            <td colspan="1""><span>&#8369;<%Response.Write(change)%></span> </td>
+                            <td colspan="1"><span>&#8369; <%Response.Write(change)%></span> </td>
                         </tr>
                     </tfoot>
                   </table>
