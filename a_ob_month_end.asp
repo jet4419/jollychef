@@ -68,7 +68,7 @@
     adReferenceNoPath = mainPath & yearPath & "-" & monthPath & adReferenceNoFile
 
     'Check if there is pending orders'
-    rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" OR status=""Pending"" GROUP BY unique_num", CN2
+    rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" GROUP BY unique_num", CN2
 
     'Month End won't process when there are a pending orders.'
     if not rs.EOF then
