@@ -92,7 +92,7 @@
 
             <%if fs.FileExists(ordersHolderPath) = true then %>
 
-                <% rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" GROUP BY unique_num", CN2 %>
+                <% rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" and cust_id!=0 GROUP BY unique_num", CN2 %>
                 <table class="table table-hover table-bordered table-sm" id="myTable">
                 <caption>List of orders</caption>
                     <thead class="thead-bg">

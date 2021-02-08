@@ -77,7 +77,7 @@ if isProcessed = true then
     maxUniqueNum = CInt(maxUniqueNum) + 1
 
     'SENDING ORDERS TO CASHIER'
-    sqlHolderUpdate = "UPDATE "&ordersHolderPath&" SET status=""On Process"", unique_num="&maxUniqueNum&" WHERE cust_id="&customerID&" and status=""Pending"""
+    sqlHolderUpdate = "UPDATE "&ordersHolderPath&" SET status=""On Process"", unique_num="&maxUniqueNum&", date = CTOD('"&systemDate&"') WHERE cust_id="&customerID&" and status=""Pending"""
     set objAccess = cnroot.execute(sqlHolderUpdate)
     set objAccess = nothing
     'END OF SENDING ORDERS TO CASHIER'
