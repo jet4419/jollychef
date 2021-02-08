@@ -365,7 +365,7 @@
                                     <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
                                     <input id="balance" value = "<%=rs("balance").value%>" hidden>
                                     <input id="transact_date" value="<%=transactDate%>" hidden>
-                                    <input onblur="findTotal()" type="number" id="<%=invoice%>" name="adjustment_value" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=CDbl(rs("receivable")) - CDbl(rs("balance"))%>">
+                                    <input onblur="findTotal()" type="number" id="<%=invoice%>" name="adjustment_value" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=CDbl(rs("balance"))%>">
                                 </div>
                             </td>
 
@@ -541,6 +541,11 @@
                     if (data=='false') {
                         
                         alert('Error: Reference already exist!');
+                        location.reload();
+                    }
+
+                    else if (data=='invalid adjustment') {
+                        alert('Error: Invalid Adjustment');
                         location.reload();
                     }
 

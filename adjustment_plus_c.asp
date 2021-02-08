@@ -77,22 +77,44 @@
 
     set objAccess = nothing
 
-    if isValidRef = true then
+    Dim arFile
+    arFile = "\accounts_receivables.dbf"
+
+    Dim arPath, invoiceTotalAmount, invoiceAmount, invoiceCheckTotal, isValidAdjustment
+    arPath = mainPath & yearPath & "-" & monthPath & arFile
+    
+    'Check if the adjustment is valid'
+    getArInvoice = "SELECT receivable, balance FROM "&arPath&" WHERE invoice_no="&invoice
+    set objAccess = cnroot.execute(getArInvoice)
+
+    if not objAccess.EOF then
+
+        invoiceTotalAmount = CDbl(objAccess("receivable"))
+        invoiceAmount = CDbl(objAccess("balance"))
+
+        invoiceCheckTotal = invoiceAmount + adjustmentValue
+
+        if invoiceCheckTotal > invoiceTotalAmount or invoiceCheckTotal < 0 then
+            isValidAdjustment = false
+        else
+            isValidAdjustment = true
+        end if
+
+    end if
+
+    if isValidRef = true AND isValidAdjustment = true then
 
         if Len(arMonthPath) = 1 then
             arMonthPath = "0" & arMonthPath
         end if
 
-        Dim arFile, transactionsFile, adjustmentFile
+        Dim transactionsFile, adjustmentFile
 
-        arFile = "\accounts_receivables.dbf"
         transactionsFile = "\transactions.dbf"
         adjustmentFile = "\adjustments.dbf"
 
-        Dim arPath, transactionsPath, adjustmentPath
+        Dim transactionsPath, adjustmentPath
 
-        'arOrigPath = mainPath & arYearPath & "-" & arMonthPath & arFile
-        arPath = mainPath & yearPath & "-" & monthPath & arFile
         transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
         adjustmentPath = mainPath & yearPath & "-" & monthPath & adjustmentFile
 
@@ -214,5 +236,7 @@
 
         'To send the referenceNo to the Adjustment receipt'
         Response.Write(referenceNo)
+    else
+        Response.Write "invalid adjustment"
     end if
 %>

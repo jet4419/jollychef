@@ -95,9 +95,8 @@
         Dim isValidTransact, invoiceBalance
         isValidTransact = true
 
+        'To prevent negative values'
         for i=0 to Ubound(invoices) - 1
-
-            'counter = counter + 1
 
             sqlGetAr = "SELECT balance FROM "&arPath&" WHERE invoice_no = "&invoices(i)&" GROUP BY invoice_no"
             set objAccess = cnroot.execute(sqlGetAr)
@@ -118,6 +117,7 @@
 
         next
 
+        'if no negative values payment will be processed'
         if isValidTransact = true then
 
             Dim maxID, maxOBtestID, transact_type, credit, currDate, invoice, status

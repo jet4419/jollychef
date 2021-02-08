@@ -475,6 +475,11 @@ $(document).ready( function () {
                         location.reload();
                     }
 
+                    else if (data == 'invalid adjustment') {
+                         alert('Error: Invalid Adjustment');
+                        location.reload();
+                    }
+
                     else {
 
                         alert("Adjustment Submitted Successfully!");
