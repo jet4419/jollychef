@@ -682,6 +682,11 @@ $(document).ready( function () {
                         location.reload();
                     }
 
+                    else if (data=='invalid transactions') {
+                        alert('Error: Invalid Payment');
+                        location.reload();
+                    }
+
                     else {
 
                         alert("Payment Transfer Successfully!");
