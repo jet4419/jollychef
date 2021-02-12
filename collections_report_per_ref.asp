@@ -199,8 +199,8 @@
                     <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
-                    <a href="collections_report_per_date.asp" class="btn btn-sm btn-outline-dark">Collections Report by Date</a>
-                    <a href="collections_report_sum.asp" class="btn btn-sm btn-outline-dark">Collections Report Summary</a>
+                    <a href="collections_report_per_date.asp" class="btn btn-sm btn-outline-dark">Report by Date</a>
+                    <a href="collections_report_sum.asp" class="btn btn-sm btn-outline-dark">Report Summary</a>
                 </p>
             </div>
 

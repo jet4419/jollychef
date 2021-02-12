@@ -84,7 +84,7 @@
 
             .final-total {
                 font-weight: 600;
-                font-size: 13pt;
+                color: #000;
                 border-bottom: #000 1px solid !important;
             }
 /* 
@@ -213,8 +213,8 @@
                     <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
-                    <a href="collections_report_per_ref.asp" class="btn btn-sm btn-outline-dark">Collections Report by Ref</a>
-                    <a href="collections_report_per_date.asp" class="btn btn-sm btn-outline-dark">Collections Report by Date</a>
+                    <a href="collections_report_per_ref.asp" class="btn btn-sm btn-outline-dark">Report by Ref</a>
+                    <a href="collections_report_per_date.asp" class="btn btn-sm btn-outline-dark">Report by Date</a>
                 </p>
             </div>
 
@@ -393,7 +393,7 @@
                                     printTototal = false
                                     dayTotalCollections = CDBL(rs("tot_amount"))
                                     dayTotalCash = 0
-                                    dayTotalCredit = 0
+                                    dayTotalCharge = 0
                                 end if
                         
                         

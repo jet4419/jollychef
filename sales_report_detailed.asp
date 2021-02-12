@@ -225,8 +225,8 @@
                     <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
-                    <a href="sales_report_detailed_ref.asp" class="btn btn-sm btn-outline-dark">Sales Report by Reference</a>
-                    <a href="sales_report_sum.asp" class="btn btn-sm btn-outline-dark">Sales Report Summary</a>
+                    <a href="sales_report_detailed_ref.asp" class="btn btn-sm btn-outline-dark">Report by Reference</a>
+                    <a href="sales_report_sum.asp" class="btn btn-sm btn-outline-dark">Report Summary</a>
                 </p>
             </div>
 

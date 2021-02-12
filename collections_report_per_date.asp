@@ -208,8 +208,8 @@
                     <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
-                    <a href="collections_report_per_ref.asp" class="btn btn-sm btn-outline-dark">Collections Report by Ref</a>
-                    <a href="collections_report_sum.asp" class="btn btn-sm btn-outline-dark">Collections Report Summary</a>
+                    <a href="collections_report_per_ref.asp" class="btn btn-sm btn-outline-dark">Report by Ref</a>
+                    <a href="collections_report_sum.asp" class="btn btn-sm btn-outline-dark">Report Summary</a>
                 </p>
             </div>
 
