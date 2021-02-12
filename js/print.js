@@ -14,6 +14,10 @@ function printDiv() {
                 
             }
 
+            a {
+                text-decoration: none !important;
+            }
+
             #myTable {
                 background-color: transparent;
                 width: 100%;

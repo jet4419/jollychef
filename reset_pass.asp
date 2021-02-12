@@ -19,9 +19,10 @@
         <!-- Bootstrap JS -->
         <script src="./bootstrap/js/bootstrap.min.js"></script>  
 
+        <title>Reset Password</title>
 
         <style>
-            .warning-border { border-color: red !important; }
+            .warning-border { border-color: #d32c3e !important; }
         </style>
     </head>
    
