@@ -82,7 +82,6 @@
             }
 
 
-
             /* .blank_row {
                 height: 31.6px !important;
                 background-color: #FFFFFF;
@@ -222,7 +221,7 @@
                     <label class="ml-3">End&nbsp;</label>
                     <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date"> 
                     
-                    <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
+                    <button type="submit" class="btn btn-sm btn-outline-dark mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
                     <a href="sales_report_detailed_ref.asp" class="btn btn-sm btn-outline-dark">Report by Reference</a>
@@ -398,9 +397,11 @@
                                         </tr>
                                         <%isTotalPrinted = true%>
                                     <%else%>
-                                        <tr>
-                                            <td class="blank_row" colspan="7"></td>
-                                        </tr>
+                                        <%if invoiceCounter > 1 then%>
+                                            <tr>
+                                                <td class="blank_row" colspan="7"></td>
+                                            </tr>
+                                        <%end if%>
                                     <%end if%>
                                     <%
                                     totalSales = CDBL(rs("prodamount"))
@@ -417,7 +418,7 @@
                                     <%if customerCount > 1 then%>
                                         <td></td> 
                                     <%else%>
-                                        <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
+                                        <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
                                     <%end if%> 
                                     <td class="text-darker">
                                         <%if invoiceCounter < 2 then%>

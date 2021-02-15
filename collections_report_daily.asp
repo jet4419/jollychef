@@ -178,7 +178,7 @@
                     <label>Select Date</label>
                     <input class="form-control form-control-sm d-inline col-4" name="startDate" id="startDate" type="date" max="<%=systemDate%>" required> 
                     
-                    <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
+                    <button type="submit" class="btn btn-outline-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
 
                 <p>
@@ -324,7 +324,7 @@
                                 <%if customerCount > 1 then%>
                                     <td></td> 
                                 <%else%>
-                                    <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
+                                    <td class="text-darker name-label"><%Response.Write(rs("cust_name"))%></td> 
                                 <%end if%> 
 
                                 <td class="text-darker">
@@ -387,9 +387,9 @@
                         <tr> 
                             <td class="final-total screen-final-total">Total</td>
                             <td class="final-total"></td>
-                            <td class="final-total"><span>&#8369;</span> <%=totalSales%></td>
-                            <td class="final-total"><span>&#8369;</span> <%=totalCash%></td>
-                            <td class="final-total"><span>&#8369;</span> <%=totalCharge%></td>
+                            <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalSales%></td>
+                            <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCash%></td>
+                            <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCharge%></td>
                         </tr>  
 
                     <%end if%>      

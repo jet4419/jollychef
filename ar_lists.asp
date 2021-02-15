@@ -547,7 +547,7 @@ loadingImg.classList.add('hidden');
 
 $(document).ready( function () {
     $('#myTable').DataTable({
-        scrollY: "27.8vh",
+        scrollY: "23vh",
         scroller: true,
         "paging": false,
         scrollCollapse: true,

@@ -346,7 +346,7 @@
                 <div class="users-info--divider">
 
                     <span class="p-0 m-0 d-block">
-                        <button type="button" class="btn btn-dark btn-sm d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Date Reports</button>
+                        <button type="button" class="btn btn-outline-dark btn-sm d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Date Reports</button>
                     </span>
 
                 </div>

@@ -102,7 +102,7 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <input type="submit" name="btnRegister" value="Register" class="btn-main btn btn-sm btn-primary mb-2">
+                    <input type="submit" name="btnRegister" value="Register" class="btn-main btn btn-sm btn-danger mb-2">
                 </div>
 
             </form>

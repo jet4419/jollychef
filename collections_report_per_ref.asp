@@ -196,7 +196,7 @@
                     <label class="ml-3">End&nbsp;</label>
                     <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date"> 
                     
-                    <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
+                    <button type="submit" class="btn btn-outline-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
                     <a href="collections_report_per_date.asp" class="btn btn-sm btn-outline-dark">Report by Date</a>
@@ -397,7 +397,7 @@
                                 <%if customerCount > 1 then%>
                                     <td></td> 
                                 <%else%>
-                                    <td class="text-darker bold-text"><%Response.Write(rs("cust_name"))%></td> 
+                                    <td class="text-darker name-label"><%Response.Write(rs("cust_name"))%></td> 
                                 <%end if%> 
 
                                 <% if Trim(rs("p_method").value) <> Trim("cash") then %>

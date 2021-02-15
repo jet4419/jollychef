@@ -67,6 +67,10 @@ input[type='number'] {
   z-index: 1;
   top: 0;
   left: 0;
+
+  -webkit-box-shadow: 14px 14px 5px -13px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 14px 14px 5px -13px rgba(0, 0, 0, 0.75);
+  box-shadow: 14px 14px 5px -13px rgba(0, 0, 0, 0.75);
   /* background: #438a5e;
   background-color: #1a5b92;
   background-color: #385065;
@@ -75,7 +79,8 @@ input[type='number'] {
   /* background-color: #30536f; */
   /* background-color: #205288;
   background-color: #117a8b; */
-  background-color: #2d717d;
+  /* background-color: #2d717d; */
+  background-color: #168860;
   transition: 0.5s;
   overflow: hidden;
   padding-top: 35px;
@@ -281,7 +286,7 @@ a.main-menus--items.customers-icon {
 
 .main-heading {
   font-family: monospace !important;
-  font-size: 32px !important;
+  font-size: 36px !important;
   margin-top: 20px !important;
   margin-bottom: 30px;
 }
@@ -331,7 +336,7 @@ a.main-menus--items.customers-icon {
 
 .report-type,
 .report-date {
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .currency-sign {
@@ -514,7 +519,7 @@ a.main-menus--items.customers-icon {
 }
 
 .footer .email {
-  color: #64dfdf;
+  color: #8cc3b0;
   font-weight: 600;
   font-size: 16px;
   transition: 0.5s all;
@@ -523,7 +528,7 @@ a.main-menus--items.customers-icon {
 }
 
 .footer .email:hover {
-  color: #fff;
+  color: #3fffc5;
   cursor: pointer;
 }
 
@@ -553,19 +558,25 @@ a.main-menus--items.customers-icon {
 
 @keyframes rotate {
   0% {
-    color: aqua;
+    /* color: aqua; */
+    color: #3cffbd;
+
     transform: rotate(0deg);
   }
   50% {
-    color: aquamarine;
+    /* color: aquamarine; */
+    color: #43ffcb;
+
     transform: rotate(0deg);
   }
   60% {
-    color: aquamarine;
+    /* color: aquamarine; */
+    color: #45e6ad;
     transform: rotate(360deg);
   }
   100% {
-    color: aqua;
+    /* color: aqua; */
+    color: #3fffc5;
     transform: rotate(360deg);
   }
 }
@@ -593,4 +604,16 @@ a.main-menus--items.customers-icon {
 
 .hidden {
   display: none;
+}
+
+/* Datatables */
+
+.page-item.active .page-link {
+  background-color: #1db47f !important;
+  border-color: #1db47f !important;
+  color: #fff !important;
+}
+
+.page-link {
+  color: #1db47f !important;
 }

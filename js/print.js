@@ -48,6 +48,7 @@ function printDiv() {
                 border-color: #32383e;
                 vertical-align: bottom;
                 padding: .3rem;
+                padding-bottom: 1rem !important;
                 // border: 0.1px #e9ecef solid;
                 // font-size: 13px;
                 font-size: 12pt;
@@ -159,8 +160,12 @@ function printDiv() {
                 border-bottom: #000 1px solid !important;
             }
 
-            .total-label, .name-label {
+            .total-label {
                 font-weight: 600;
+            }
+
+            .name-label {
+                font-weight: normal !important;
             }
 
             .currency-sign {display: none !important}

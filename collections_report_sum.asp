@@ -210,7 +210,7 @@
                     <label class="ml-3">End&nbsp;</label>
                     <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date"> 
                     
-                    <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
+                    <button type="submit" class="btn btn-outline-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
                     <a href="collections_report_per_ref.asp" class="btn btn-sm btn-outline-dark">Report by Ref</a>

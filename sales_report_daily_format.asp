@@ -192,7 +192,7 @@
                     <label for="startDate">Select Date</label>
                     <input class="form-control form-control-sm d-inline col-4" name="startDate" id="startDate" type="date" max="<%=systemDate%>" required> 
                     
-                    <button type="submit" class="btn btn-dark btn-sm mb-1" id="generateReport">Generate</button>
+                    <button type="submit" class="btn btn-outline-dark btn-sm mb-1" id="generateReport">Generate</button>
                 </form>
                 <p>
                     <a href="collections_report_daily.asp" class="btn btn-sm btn-outline-dark">Daily Collections Report</a>
@@ -288,16 +288,18 @@
                                     customerCount = customerCount + 1
                                     customerTotalSales = customerTotalSales +  CDBL(rs("prodamount"))
                                 else
-                                    customerCount = 1
+                                    
                                     isTotalPrinted = true
-                                    %>
+                                    
+                                    if customerCount > 1 then%>
                                     <tr> 
                                         <td></td>   
                                         <td></td>     
-                                        <td class="salesTotalAmount">&#8369; <%=customerTotalSales%></td>      
-                                        <td class="salesTotalAmount">&#8369; <%=customerTotalCash%></td>   
-                                        <td class="salesTotalAmount">&#8369; <%=customerTotalCharge%></td>
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalSales%></td>      
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalCash%></td>   
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalCharge%></td>
                                     </tr>
+                                    <%end if%>
                                     <tr>
                                         <td class="blank_row" colspan="7"></td>
                                     </tr>
@@ -307,6 +309,7 @@
                                     customerTotalCash = 0
                                     customerTotalCharge = 0
                                     isTotalPrinted = false
+                                    customerCount = 1
                                 end if
 
                                 totalSales = totalSales + CDBL(rs("prodamount"))
@@ -339,11 +342,11 @@
                                     <%invoiceAmount = CDBL(rs("prodamount"))%>
 
                                     <%if paymentType = "Credit" then%>
-                                        <td></td>
+                                        <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; 0</span>")%></td>
                                         <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
                                     <%else%>
                                         <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prodamount"))%></td>
-                                        <td></td>
+                                        <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; 0</span>")%></td>
                                     <%end if%>
 
                                 </tr>
@@ -358,9 +361,9 @@
                                     <tr> 
                                         <td></td>   
                                         <td></td>      
-                                        <td class="salesTotalAmount">&#8369; <%=customerTotalSales%></td>      
-                                        <td class="salesTotalAmount">&#8369; <%=customerTotalCash%></td>   
-                                        <td class="salesTotalAmount">&#8369; <%=customerTotalCharge%></td>
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalSales%></td>      
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalCash%></td>   
+                                        <td class="salesTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalCharge%></td>
                                     </tr>
                                 <%end if%>
                             <%end if
@@ -369,9 +372,9 @@
                     <tr> 
                         <td class="final-total">Total</td>   
                         <td class="final-total"></td>      
-                        <td class="final-total">&#8369; <%=totalSales%></td>      
-                        <td class="final-total">&#8369; <%=totalCash%></td>   
-                        <td class="final-total">&#8369; <%=totalCharge%></td>
+                        <td class="final-total"><span class="currency-sign">&#8369; </span> <%=totalSales%></td>      
+                        <td class="final-total"><span class="currency-sign">&#8369; </span> <%=totalCash%></td>   
+                        <td class="final-total"><span class="currency-sign">&#8369; </span><%=totalCharge%></td>
                     </tr>  
 
                 </table>

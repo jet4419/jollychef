@@ -109,7 +109,7 @@
                     </td>  
 
                     <td>
-                        <button type="button" id="<%=rs("prod_id")%>" class="btn btn-sm btn-danger mb-2 deleteProduct"  data-toggle="modal" data-target="#deleteProductModal">
+                        <button type="button" id="<%=rs("prod_id")%>" class="btn btn-sm btn-outline-dark mb-2 deleteProduct"  data-toggle="modal" data-target="#deleteProductModal">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>
