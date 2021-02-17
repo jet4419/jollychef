@@ -274,9 +274,9 @@
         %>
 
         <div id="main">
-            <div class="container p-3">
+            <div class="container p-3 mb-5">
               
-                <div class="users-info mb-5">
+                <div class="users-info mb-5 pt-4">
                     <h1 class="h1 text-center main-heading my-0"> <strong><span class="order_of">Order of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
                     <h1 class="h3 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
                 </div>
@@ -304,70 +304,70 @@
 
                                     <optgroup label="Lunch">
                                         <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                         </option>   
                                     </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "breakfast" then%>       
                                         <optgroup label="Breakfast">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "rice" then%>       
                                         <optgroup label="Rice">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "drinks" then%>       
                                         <optgroup label="Drinks">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "dessert" then%>       
                                         <optgroup label="Dessert">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "snacks" then%>       
                                         <optgroup label="Snacks">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "candies" then%>       
                                         <optgroup label="Candies">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "groceries" then%>       
                                         <optgroup label="Groceries">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "fresh-meat" then%>       
                                         <optgroup label="Fresh Meat">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "others" then%>       
                                         <optgroup label="Others">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369;</span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
                                     <%end if%>
@@ -507,7 +507,7 @@
                                             <label class="ml-1" style="font-weight: 500"> Cash Payment </label>
                                             <div class="input-group mb-3">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text bg-primary text-light">&#8369;</span>
+                                                    <span class="input-group-text bg-success text-light">&#8369;</span>
                                                 </div>
                                                 <!--<input type="hidden" name="invoiceNumber" value="<'%=invoice%>"> -->
                                                 <input type="number" name="totalProfit" value="<%=totalProfit%>" hidden>
@@ -521,7 +521,7 @@
                                 </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary btn-dark" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Proceed</button>
+                                            <button type="submit" class="btn btn-success">Proceed</button>
                                         </div>
                                     </form>  
                             </div>
@@ -561,7 +561,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Proceed</button>
+                                    <button type="submit" class="btn btn-success">Proceed</button>
                                 </div>
                                 </div>
                             </form>

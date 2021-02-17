@@ -62,9 +62,11 @@
                     <input type="password" id="password2" name="password2" class="form-control form-control-sm" placeholder="Confirm New Password" required>
                 </div>
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
-        
-                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-dark btn-block mb-2">
-                
+
+                <div class="w-50" style="margin: auto">
+                    <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-danger btn-block mb-2">
+                </div>
+
             </form>
         </div>
 

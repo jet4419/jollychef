@@ -40,8 +40,8 @@
                         </button>
                     </div>
                     <div class="modal-body d-flex flex-column ">
-                        <a href="reset_pass_staff.asp"><button class="btn btn-sm btn-dark mb-4 w-100">Change Password</button></a>
-                        <button id="btnLogout" class="btn btn-sm btn-dark w-100" data-toggle="modal"  data-target="#user-logout">Logout</button>
+                        <a href="reset_pass_staff.asp"><button class="btn btn-sm btn-outline-dark mb-4 w-100">Change Password</button></a>
+                        <button id="btnLogout" class="btn btn-sm btn-outline-dark w-100" data-toggle="modal"  data-target="#user-logout">Logout</button>
                     </div>
                     <div class="modal-footer">
 
@@ -85,5 +85,12 @@
 
         $("#user-logout").modal("show");
     });
+
+    document.getElementById('user-logout').addEventListener('click', () => {
+        
+        document.querySelector('.modal-backdrop').style.display = 'none';
+        // $(".modal-backdrop").modal("hide");
+    });
+    
 
 </script>

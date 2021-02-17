@@ -65,7 +65,7 @@
 
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
         
-                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-dark btn-block mb-2">
+                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-danger btn-block mb-2">
                 
             </form>
         </div>

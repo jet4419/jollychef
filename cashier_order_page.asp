@@ -238,6 +238,7 @@
             <div class="container mb-5">
 
                 <p class=" mb-5 pb-3 pt-5 h1 p-0 text-center" style="font-weight: 400">Ordering Page 
+                    <img class="order-icon" src="./img/shop.svg">
                 <!--<i class="fas fa-store store-icon"></i>--> 
                 </p>
                 <%
@@ -262,70 +263,70 @@
 
                                     <optgroup label="Lunch">
                                         <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                         </option>   
                                     </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "breakfast" then%>       
                                         <optgroup label="Breakfast">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "rice" then%>       
                                         <optgroup label="Rice">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "drinks" then%>       
                                         <optgroup label="Drinks">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "dessert" then%>       
                                         <optgroup label="Dessert">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "snacks" then%>       
                                         <optgroup label="Snacks">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "candies" then%>       
                                         <optgroup label="Candies">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "groceries" then%>       
                                         <optgroup label="Groceries">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "fresh-meat" then%>       
                                         <optgroup label="Fresh Meat">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "others" then%>       
                                         <optgroup label="Others">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
                                             </option>
                                         </optgroup>
                                     <%end if%>
@@ -382,9 +383,9 @@
                                         <tr>
                                             <td><%=rs("prod_brand")%> </td>
                                             <td><%=rs("prod_name")%> </td>
-                                            <td><%="<span class='text-primary' >&#8369; </span>"&rs("price")%> </td>
+                                            <td><%="<span class='currency-sign' >&#8369; </span>"&rs("price")%> </td>
                                             <td><%=rs("qty")%> </td>
-                                            <td><%="<span class='text-primary' >&#8369; </span>"&rs("amount")%> </td>
+                                            <td><%="<span class='currency-sign' >&#8369; </span>"&rs("amount")%> </td>
                                             <!--<td><'%=rs("profit")%> </td>-->
                                             <td width="90">
                                                 <button onClick="delete_order(<%=CDbl(rs("id"))%>)" class="btn btn-sm btn-warning"> Cancel </button>
@@ -402,7 +403,7 @@
                                 
                                         <tr>
                                             <!--<td colspan="3"><h1 class="lead"><strong>Total Profit</h1></strong> <h4>  &#8369; <'%=totalProfit%></h4> </td> -->
-                                            <td colspan="6"><h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="text-primary">&#8369;</span> <%=totalAmount%></h4> </td>
+                                            <td colspan="6"><h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> <%=totalAmount%></h4> </td>
                                         </tr>
                             <%else
                                 hasOrdered = false

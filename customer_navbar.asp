@@ -13,7 +13,8 @@
     .fas.fa-calendar-check {
         font-size: 1.5rem;
         padding-right: 10px;
-        color: #f4ea8e;
+        /* color: #f4ea8e; */
+        color: #a3deb1;
     }
 
     .brand-name {
@@ -28,7 +29,8 @@
 
     .jollychef-text {
         /* color: #f4ea8e; */
-        color: #fff490;
+        /* color: #fff490; */
+        color: #a3deb1;
     }
 
     .navbar--user-info {

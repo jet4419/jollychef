@@ -393,14 +393,14 @@
                                 d = FormatDateTime(d, 2)
                             %>
                             <td class="text-darker"><%Response.Write(dateFormat)%></td>
-                            <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>' class="text-info"><%Response.Write(rs("invoice_no"))%></a></td>
+                            <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>' class="text-dark"><%Response.Write(rs("invoice_no"))%></a></td>
                             <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("receivable"))%></td>
                             <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("balance"))%></td>
                             <% totalBalance = totalBalance + CDbl(rs("balance").value) %>
                             <td>
                             <div class="input-group input-group-sm py-1">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text bg-info text-light currency-sign" id="inputGroup-sizing-sm">&#8369;</span>
+                                    <span class="input-group-text bg-success text-light currency-sign" id="inputGroup-sizing-sm">&#8369;</span>
                                 </div>
                                 <input onblur="findTotal()" type="number" id="<%=invoice%>" name="sub_total" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=rs("balance")%>">
                             </div>
@@ -448,7 +448,7 @@
                         <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
                         <input type="hidden" name="credit_date">
                         <%if counter > 0 then%>
-                            <button type="submit" class="btn btn-primary btn-sm" id="myBtn">Submit Payment</button>
+                            <button type="submit" class="btn btn-danger " id="myBtn">Submit</button>
                         <%end if%>
                     </div>
 

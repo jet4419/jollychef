@@ -11,17 +11,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <!--<label for="email">Email</label>-->
                         <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <!--<label for="password">Password</label>-->
                         <input type="password" class="form-control" name="password" id="loginPassword" placeholder="Password" required>
                         <p class="wrong-password-text" style="padding-top: 10px; color: red; font-size: 11px; text-align: center;"></p>
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn-main btn btn-sm btn-info" name="btn-login" value="login" >Login</button>
+                    <button type="submit" class="btn-main btn btn-sm btn-success" name="btn-login" value="login" >Login</button>
                 </div>
             </div>
         </form>
@@ -40,8 +40,8 @@
                         </button>
                     </div>
                     <div class="modal-body d-flex flex-column ">
-                        <a href="reset_pass.asp"><button class="btn btn-sm btn-dark mb-4 w-100">Change Password</button></a>
-                        <button id="btnLogout" class="btn btn-sm btn-dark w-100" data-toggle="modal"  data-target="#user-logout">Logout</button>
+                        <a href="reset_pass.asp"><button class="btn btn-sm btn-outline-dark mb-4 w-100">Change Password</button></a>
+                        <button id="btnLogout" class="btn btn-sm btn-outline-dark w-100" data-toggle="modal"  data-target="#user-logout">Logout</button>
                     </div>
                     <div class="modal-footer">
 
@@ -82,6 +82,12 @@
         $("#logout").modal("hide");
 
         $("#user-logout").modal("show");
+    });
+
+    document.getElementById('user-logout').addEventListener('click', () => {
+        
+        document.querySelector('.modal-backdrop').style.display = 'none';
+
     });
 
 </script>

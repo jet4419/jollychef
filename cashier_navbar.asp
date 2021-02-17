@@ -26,7 +26,8 @@
     .fas.fa-calendar-check {
         font-size: 1.5rem;
         padding-right: 10px;
-        color: #f4ea8e;
+        /* color: #f4ea8e; */
+        color: #a3deb1;
     }
 
     .brand-name {
@@ -41,7 +42,8 @@
 
     .jollychef-text {
         /* color: #f4ea8e; */
-        color: #fff490;
+        /* color: #fff490; */
+        color: #a3deb1;
     }
 
     .navbar--user-info {
@@ -82,10 +84,10 @@
             Dim cutoff
             
             if (Month(systemDate) <> Month(systemDate + 1)) then
-                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-outline-warning float-right' onClick='monthEnd()'>Month End</button></div>"
+                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-outline-success float-right' onClick='monthEnd()'>Month End</button></div>"
 
             else
-                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-outline-warning ' data-toggle='modal' data-target='#confirmDayEnd'>Day End</button></div>"
+                cutoff = "<div class='mr-5 pr-5' ><button class='btn-end-date btn btn-sm btn-outline-success ' data-toggle='modal' data-target='#confirmDayEnd'>Day End</button></div>"
             end if
         %>
 

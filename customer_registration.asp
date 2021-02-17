@@ -37,6 +37,19 @@
             
             .warning-border { border-color: red !important; }
 
+            .img-container {
+                padding-top: 1rem;
+                padding-bottom: 0;
+                margin: auto;
+                text-align: center;
+            }
+
+            .img-container img {
+                padding: 0;
+                padding-bottom: .5rem;
+                height: 3rem;
+            }
+
         </style>
 
     </head>
@@ -69,7 +82,10 @@
     <div class="container mb-5 pt-5">
 
         <div class="container border container-rounded" style="max-width: 500px;">
-            <h3 class="h3 text-center py-4 m-0 main-heading">Customer Registration </h3>
+            <div class="img-container">
+                <img class="order-icon" src="./img/add_user.svg"> 
+            </div>
+            <p class=" text-center pb-4 m-0 main-heading">Customer Registration</p>
             
             <form>
 

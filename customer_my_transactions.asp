@@ -115,9 +115,9 @@
                 width: 150px;
             }
 
-            .main-heading {
+            /* .main-heading {
                 font-family: 'Kulim Park', sans-serif;
-            }
+            } */
 
             input {
                 background: #eee;
@@ -152,9 +152,9 @@
                 color: #463535;
             }
 
-            .department_lbl {
+            /* .department_lbl {
                 color: #7d7d7d;
-            }
+            } */
 
             .total-value, .total-text {
                 font-size: 18px;
@@ -412,20 +412,20 @@
                                         <tr>
                                             <%if Trim(CStr(rs("t_type").value)) = "A-plus" or Trim(CStr(rs("t_type").value)) = "A-minus" then%>
                                                 <td>
-                                                    <a class="link-or" target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
+                                                    <a  target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
                                                 </td>
                                             <%else%>
                                                 <td>
-                                                    <a class="link-or" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
+                                                    <a  target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
                                                 </td>
                                             <%end if%>    
-                                            <td class="text-info"><%=rs("t_type")%></td>
+                                            <td><%=rs("t_type")%></td>
 
                                             <% if CInt(rs("invoice")) <= 0 then%>
                                                 <td class="text-darker"><%="none"%></td> 
                                             <% else %>    
                                                 <td>
-                                                    <a class="link-or" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=transactDate%>''><%=rs("invoice")%></a>
+                                                    <a  target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=transactDate%>''><%=rs("invoice")%></a>
                                                 </td> 
                                             <% end if %>    
                                             <% if CDbl(rs("debit")) <= 0 then %>

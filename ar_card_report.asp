@@ -153,13 +153,13 @@
                 color: #463535;
             }
 
-            .department_lbl {
-                color: #7d7d7d;
-            }
-
             .total-value, .total-text {
                 font-size: 18px;
                 font-weight: 500;
+            }
+
+            .main-heading {
+                font-family: 'Kulim Park', sans-serif;
             }
 
             /* .no-cell {
@@ -335,8 +335,14 @@
     <div id="content">
         <div class="container mb-5">
             <div class="users-info mt-0 mb-2">
-                <h1 class="h2 text-center main-heading mt-3"> <strong><span class="order_of">Receivable Card of</span> <span class="cust_name"><%=custName%></span></strong> </h1>
-                <h1 class="h4 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
+                <h1 class="h2 text-center main-heading mt-3"> 
+                    <span class="order_of">Receivable Card of</span> 
+                    <span class="customer-name"><%=custName%></span> 
+                </h1>
+
+                <h1 class="h4 text-center main-heading my-0"> 
+                    <span class="department_lbl"><%=department%></span> 
+                </h1>
             </div>
 
         <% 
@@ -444,20 +450,20 @@
                                         <tr>
                                             <%if Trim(CStr(rs("t_type").value)) = "A-plus" or Trim(CStr(rs("t_type").value)) = "A-minus" then%>
                                                 <td>
-                                                    <a class="link-or" target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
+                                                    <a class="text-dark" target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
                                                 </td>
                                             <%else%>
                                                 <td>
-                                                    <a class="link-or" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
+                                                    <a class="text-dark" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=transactDate%>'><%Response.Write(Trim(rs("ref_no")))%></a>
                                                 </td>
                                             <%end if%>    
-                                            <td class="text-info"><%=rs("t_type")%></td>
+                                            <td><%=rs("t_type")%></td>
 
                                             <% if CInt(rs("invoice")) <= 0 then%>
                                                 <td class="text-darker link-or"><%="none"%></td> 
                                             <% else %>    
                                                 <td>
-                                                    <a class="link-or" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=transactDate%>''><%=rs("invoice")%></a>
+                                                    <a class="text-dark" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=transactDate%>''><%=rs("invoice")%></a>
                                                 </td> 
                                             <% end if %>    
                                             <% if CDbl(rs("debit")) <= 0 then %>
@@ -497,7 +503,7 @@
                                 <td>
                                     <h3 class="lead">
                                         <strong class="text-darker total-value">
-                                            <span class="text-darker">&#8369; <%=totalDebit%></span>
+                                            <span class="currency-sign">&#8369; </span><%=totalDebit%>
                                         </strong>    
                                     </h3>
                                 </td>
@@ -505,7 +511,7 @@
                                 <td>
                                     <h3 class="lead">
                                         <strong class="text-darker total-value">
-                                            <span class="text-darker">&#8369; <%=totalCredit%></span>
+                                            <span class="currency-sign">&#8369; </span><%=totalCredit%>
                                         </strong>    
                                     </h3>
                                 </td>
@@ -513,7 +519,7 @@
                                 <td>
                                     <h3 class="lead">
                                         <strong class="text-darker total-value">
-                                            <span class="text-darker">&#8369; <%=balance%></span>
+                                            <span class="currency-sign">&#8369; </span> <%=balance%>
                                         </strong>
                                     </h3>
                                 </td>

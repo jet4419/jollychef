@@ -60,14 +60,10 @@
                 font-size: 32px;
             }
 
-            .department_lbl {
-                color: #7d7d7d;
-            }
-
-            .order_of {
+            /* .order_of {
                 font-weight: 400;
                 color: #333;
-            }
+            } */
 
             .no-records {
                 height: 85vh;
@@ -111,7 +107,7 @@
             }
 
             .main-heading {
-                font-family: 'Kulim Park', sans-serif;
+                /* font-family: 'Kulim Park', sans-serif; */
             }
 
             .total-text {
@@ -260,8 +256,14 @@
         <div class="container mb-5">
 
             <div class="users-info mt-4">
-                <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">(+) Adjustment for</span> <span class="cust_name"><%=custName%></span></strong> </h1>
-                <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
+                <h1 class="h2 text-center main-heading my-0"> 
+                    <span class="order_of">(+) Adjustment for</span>
+                    <span class="customer-name"><%=custName%></span>
+                </h1>
+
+                <h1 class="h5 text-center main-heading my-0"> 
+                    <span class="department_lbl"><%=department%></span> 
+                </h1>
             </div>  
 
             <% 
@@ -352,7 +354,7 @@
                             <td>
                                 <div class="input-group input-group-sm py-1">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text bg-info text-light" id="inputGroup-sizing-sm">&#8369;</span>
+                                        <span class="input-group-text bg-success text-light" id="inputGroup-sizing-sm">&#8369;</span>
                                     </div>
                                     <input id="receivable" value = "<%=rs("receivable").value%>" hidden>
                                     <input id="balance" value = "<%=rs("balance").value%>" hidden>
@@ -394,7 +396,7 @@
 
                         <div class="d-flex justify-content-center mt-3">
                             <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
-                            <button type="submit" class="btn btn-dark" id="myBtn">Submit Adjustment</button>
+                            <button type="submit" class="btn btn-danger" id="myBtn">Submit</button>
                         </div>
                 </div>
             </form>

@@ -315,12 +315,12 @@
                     %>
                     <tr>
                         <td class="text-darker">
-                            <a target="_blank" class="link-or" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%Response.Write(rs("ref_no"))%></a>
+                            <a target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%Response.Write(rs("ref_no"))%></a>
                             </td>
-                        <td class="text-info"><%=rs("t_type")%></td>
+                        <td><%=rs("t_type")%></td>
 
                         <td class="text-darker">
-                            <a target="_blank" class="link-or" href='ob_invoice_records.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%=rs("invoice")%></a>
+                            <a target="_blank" href='ob_invoice_records.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%=rs("invoice")%></a>
                         </td>    
 
                         <% if CDbl(rs("debit")) < 0 then %>

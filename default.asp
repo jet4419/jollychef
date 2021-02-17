@@ -48,7 +48,7 @@
 <!--#include file="customer_navbar.asp"-->
 <!--#include file="customer_sidebar.asp"-->
 
-<main id="main" class="main--main-page default">
+<main id="main" class="main--main-page default homepage">
 
     <h1 class="home-main-heading"> 
     	
@@ -57,6 +57,7 @@
             <span class="letter-c">Inc.</span>
         </span> 
         <span class="home-main-heading-text home-main-heading--text-2">We serve passion</span> 
+        <div class="background-image"></div>
     </h1>
     
 </main>

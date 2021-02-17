@@ -28,7 +28,7 @@
 <!--#include file="cashier_sidebar.asp"-->
 
 
-<main id="main" class="main--main-page">
+<main id="main" class="main--main-page homepage">
 
     <!--#include file="cashier_login_logout.asp"-->
 
@@ -41,7 +41,10 @@
             <span class="letter-c">Inc.</span>
         </span> 
         <span class="home-main-heading-text home-main-heading--text-2">We serve passion</span> 
+        <div class="background-image"></div>
     </h1>
+
+    
     
 </main>
 

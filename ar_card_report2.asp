@@ -149,10 +149,6 @@
                 color: #463535;
             }
 
-            .department_lbl {
-                color: #7d7d7d;
-            }
-
             .total-value, .total-text {
                 font-size: 18px;
                 font-weight: 500;
@@ -339,8 +335,14 @@
     <div id="content">
         <div class="container mb-5">
             <div class="users-info mb-3">
-                <h1 class="h2 text-center main-heading mt-3"> <strong><span class="order_of">Receivable Card of</span> <span class="cust_name"><%=custName%></span></strong> </h1>
-                <h1 class="h4 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
+                <h1 class="h2 text-center main-heading mt-3">
+                    <span class="order_of">Receivable Card of</span> 
+                    <span class="customer-name"><%=custName%></span> 
+                </h1>
+
+                <h1 class="h4 text-center main-heading my-0"> 
+                    <span class="department_lbl"><%=department%></span> 
+                </h1>
             </div>
 
            <% 
@@ -358,10 +360,10 @@
                 <div class="users-info--divider">
                     <span class="p-0 m-0 d-block">
                         <strong class='text-danger'>Adjustments</strong>
-                        <button class="btn btn-dark btn-sm btn-adjustment btn-adjustment-plus" id="<%=rs("cust_id")%>" title="Adjustment plus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_plus">
+                        <button class="btn btn-success btn-sm btn-adjustment btn-adjustment-plus" id="<%=rs("cust_id")%>" title="Adjustment plus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_plus">
                             <i class="fas fa-plus"></i>
                         </button>
-                        <button class="btn btn-dark btn-sm btn-adjustment btn-adjustment-minus" id="<%=rs("cust_id")%>" title="Adjustment minus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_minus">
+                        <button class="btn btn-success btn-sm btn-adjustment btn-adjustment-minus" id="<%=rs("cust_id")%>" title="Adjustment minus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_minus">
                             <i class="fas fa-minus"></i>
                         </button>
                     </span>
@@ -443,20 +445,20 @@
                         <tr>
                             <%if Trim(CStr(rs("t_type").value)) = "A-plus" or Trim(CStr(rs("t_type").value)) = "A-minus" then%>
                                 <td>
-                                    <a class="link-or" target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=d%>'><%Response.Write(Trim(rs("ref_no")))%></a>
+                                    <a class="text-dark" target="_blank" href='receipt_adjustment.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=d%>'><%Response.Write(Trim(rs("ref_no")))%></a>
                                 </td>
                             <%else%>    
                                 <td>
-                                    <a class="link-or" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=d%>'><%Response.Write(rs("ref_no"))%></a>
+                                    <a class="text-dark" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=d%>'><%Response.Write(rs("ref_no"))%></a>
                                 </td>
                             <%end if%>
-                            <td class="text-info"><%=rs("t_type")%></td>
+                            <td><%=rs("t_type")%></td>
  
                             <% if CInt(rs("invoice")) <= 0 then%>
                                 <td class="text-darker link-or"><%="none"%></td> 
                             <% else %>    
                                 <td >
-                                    <a class="link-or" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%=rs("invoice")%></a>
+                                    <a class="text-dark" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=d%>'><%=rs("invoice")%></a>
                                 </td> 
                             <% end if %>    
                             <% if CDbl(rs("debit")) <= 0 then %>
