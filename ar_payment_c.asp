@@ -44,10 +44,10 @@
         isValidRef = false
         Response.Write("false")
 
-    end if
+    else
 
-    sqlCheckRef = "SELECT ref_no FROM "&referenceNoPath&" WHERE ref_no='"&referenceNo&"'"
-    set objAccess = cnroot.execute(sqlCheckRef)
+        sqlCheckRef = "SELECT ref_no FROM "&referenceNoPath&" WHERE ref_no='"&referenceNo&"'"
+        set objAccess = cnroot.execute(sqlCheckRef)
 
         if not objAccess.EOF then
 
@@ -55,6 +55,8 @@
             Response.Write("false")
 
         end if
+
+    end if
 
     if isValidRef = true then
 

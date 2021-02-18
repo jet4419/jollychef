@@ -376,7 +376,7 @@
 
                             <div class="item item-left form-group ">
                                 <label class="d-block total-text text-center">Reference No</label>
-                                <input class="form-control form-control-sm" style="font-weight: 600;" type="number" id="reference_no" name="reference_no" min="<%=minAdRefNo%>" value="<%=maxAdRefNo%>" pattern="[0-9]{9}" required/>
+                                <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" min="<%=minAdRefNo%>" value="<%=maxAdRefNo%>" pattern="[0-9]{9}" required/>
                             </div>
                             
                             <div class="item item-left form-group">

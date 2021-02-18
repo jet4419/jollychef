@@ -194,14 +194,14 @@
 
                     else if (data === 'invalid email and password') {
                         
-                        emailWarning = "Email already exist"
+                        emailWarning = "Email already exist";
                         emailWarningContainer.innerHTML = emailWarning;
-                        emailInput.classList.add("warning-border")
+                        emailInput.classList.add("warning-border");
 
-                        passwordWarning = "Password does not match"
+                        passwordWarning = "Password does not match";
                         passwordWarningContainer.innerHTML = passwordWarning;
-                        passwordInput1.classList.add("warning-border")
-                        passwordInput2.classList.add("warning-border")
+                        passwordInput1.classList.add("warning-border");
+                        passwordInput2.classList.add("warning-border");
                     }
 
                     else {

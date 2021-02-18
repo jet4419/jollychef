@@ -63,41 +63,43 @@
         isValidRef = false
         Response.Write("false")
 
-    end if
+    else
 
-    sqlCheckRef = "SELECT ref_no FROM "&adReferenceNoPath&" WHERE ref_no='"&referenceNo&"'"
-    set objAccess = cnroot.execute(sqlCheckRef)
+        sqlCheckRef = "SELECT ref_no FROM "&adReferenceNoPath&" WHERE ref_no='"&referenceNo&"'"
+        set objAccess = cnroot.execute(sqlCheckRef)
+
+            if not objAccess.EOF then
+
+                isValidRef = false
+                Response.Write("false")
+
+            end if
+
+        set objAccess = nothing
+
+        Dim arFile
+        arFile = "\accounts_receivables.dbf"
+
+        Dim arPath, invoiceTotalAmount, invoiceAmount, invoiceCheckTotal, isValidAdjustment
+        arPath = mainPath & yearPath & "-" & monthPath & arFile
+        
+        'Check if the adjustment is valid'
+        getArInvoice = "SELECT receivable, balance FROM "&arPath&" WHERE invoice_no="&invoice
+        set objAccess = cnroot.execute(getArInvoice)
 
         if not objAccess.EOF then
 
-            isValidRef = false
-            Response.Write("false")
+            invoiceTotalAmount = CDbl(objAccess("receivable"))
+            invoiceAmount = CDbl(objAccess("balance"))
 
-        end if
+            invoiceCheckTotal = invoiceAmount + adjustmentValue
 
-    set objAccess = nothing
+            if invoiceCheckTotal > invoiceTotalAmount or invoiceCheckTotal < 0 then
+                isValidAdjustment = false
+            else
+                isValidAdjustment = true
+            end if
 
-    Dim arFile
-    arFile = "\accounts_receivables.dbf"
-
-    Dim arPath, invoiceTotalAmount, invoiceAmount, invoiceCheckTotal, isValidAdjustment
-    arPath = mainPath & yearPath & "-" & monthPath & arFile
-    
-    'Check if the adjustment is valid'
-    getArInvoice = "SELECT receivable, balance FROM "&arPath&" WHERE invoice_no="&invoice
-    set objAccess = cnroot.execute(getArInvoice)
-
-    if not objAccess.EOF then
-
-        invoiceTotalAmount = CDbl(objAccess("receivable"))
-        invoiceAmount = CDbl(objAccess("balance"))
-
-        invoiceCheckTotal = invoiceAmount + adjustmentValue
-
-        if invoiceCheckTotal > invoiceTotalAmount or invoiceCheckTotal < 0 then
-            isValidAdjustment = false
-        else
-            isValidAdjustment = true
         end if
 
     end if
@@ -236,7 +238,6 @@
 
         'To send the referenceNo to the Adjustment receipt'
         Response.Write(referenceNo)
-    else
-        Response.Write "invalid adjustment"
+
     end if
 %>

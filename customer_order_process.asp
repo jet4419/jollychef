@@ -500,7 +500,7 @@
                                         <input type="text" name="cust_dept" value="<%=department%>" hidden>
                                         <div class="form-group mb-3">    
                                             <label class="ml-1" style="font-weight: 500"> Reference No. </label>
-                                            <input type="number" style="color: #ec7b1c; font-weight: 600;" pattern="[0-9]{9}" class="form-control" name="referenceNo" id="referenceNo" min="<%=minRefNo%>" value="<%=maxRefNo%>" required>
+                                            <input type="text" style="color: #ec7b1c; font-weight: 600;" pattern="[0-9]{9}" class="form-control" name="referenceNo" id="referenceNo" min="<%=minRefNo%>" value="<%=maxRefNo%>" required>
                                         </div>
                                         
                                         <div class="form-group">
@@ -556,7 +556,7 @@
                                     -->
                                     <div class="form-group mb-3">    
                                         <label class="ml-1" style="font-weight: 500"> Reference No. </label>
-                                        <input type="number" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="arReferenceNo" id="arReferenceNo" min="<%=minArRefNo%>" value="<%=maxArRefNo%>" pattern="[0-9]{9}" required>
+                                        <input type="text" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="arReferenceNo" id="arReferenceNo" min="<%=minArRefNo%>" value="<%=maxArRefNo%>" pattern="[0-9]{9}" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

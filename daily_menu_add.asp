@@ -70,7 +70,7 @@
                 <p>
                     <a href="daily_menu_list.asp" class="btn btn-outline-dark"> Menu List </a>
                 </p>
-                <span class="h1 main-heading" style="font-weight: 400">Choose Products</span> 
+                <span class="h1 main-heading py-0" style="font-weight: 400">Choose Products</span> 
                 <p><button class="btn btn-outline-dark"> <span class="pr-1">Submit</span> <i class="fas fa-share-square"></i></button></p>
                 
                 <!--<a href="bootDailyMeal.asp" id="btnAddDailyMeal" class="btn btn-success float-right">

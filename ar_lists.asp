@@ -425,7 +425,7 @@
 
                         <div class="item item-left form-group ">
                             <span class="total-text">Reference No</span>
-                            <input class="form-control form-control-sm" style="font-weight: 600;" type="number" id="reference_no" name="reference_no" min="<%=minRefNo%>" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
+                            <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" min="<%=minRefNo%>" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
                         </div>
                         
                         <div class="item item-left form-group">
@@ -676,15 +676,17 @@ $(document).ready( function () {
                 /* Progress Bar
                 loadingImg.classList.add('hidden')
                 */
+                    console.log(`Data value: ${data}. Is data equal to false? ${data=='false'}`)
+                    
                     if (data=='false') {
                         
                         alert('Error: Reference already exist!');
-                        location.reload();
+                        // location.reload();
                     }
 
                     else if (data=='invalid transactions') {
                         alert('Error: Invalid Payment');
-                        location.reload();
+                        // location.reload();
                     }
 
                     else {
@@ -692,7 +694,7 @@ $(document).ready( function () {
                         alert("Payment Transfer Successfully!");
                         //location.reload();
                         //alert(data)
-                        location.replace("receipt_ar.asp?ref_no="+data);
+                        // location.replace("receipt_ar.asp?ref_no="+data);
 
 
                         //window.location.href= "editAR.asp?#";

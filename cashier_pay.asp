@@ -99,28 +99,30 @@
             Response.Write("</script>")
         end if
 
-    end if
+    else
 
+        sqlCheckRef = "SELECT ref_no FROM "&referenceNoPath&" WHERE ref_no='"&referenceNo&"'"
+        set objAccess = cnroot.execute(sqlCheckRef)
 
-    sqlCheckRef = "SELECT ref_no FROM "&referenceNoPath&" WHERE ref_no='"&referenceNo&"'"
-    set objAccess = cnroot.execute(sqlCheckRef)
+        if not objAccess.EOF then
 
-    if not objAccess.EOF then
-
-        isValidRef = false
-        Response.Write("<script language=""javascript"">")
-        Response.Write("alert('Error: Reference already exist!')")
-        Response.Write("</script>")
-
-        if isValidRef = false then
+            isValidRef = false
             Response.Write("<script language=""javascript"">")
-            Response.Write("window.location.href=""cashier_order_page.asp"";")
+            Response.Write("alert('Error: Reference already exist!')")
             Response.Write("</script>")
+
+            if isValidRef = false then
+                Response.Write("<script language=""javascript"">")
+                Response.Write("window.location.href=""cashier_order_page.asp"";")
+                Response.Write("</script>")
+            end if
+
         end if
 
-    end if
+        set objAccess = nothing
 
-    set objAccess = nothing
+    end if
+    
 
     if isValidRef = true then
 

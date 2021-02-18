@@ -67,7 +67,7 @@
 <div id="main">
 
     <div class="main-heading--container mb-4">
-        <h1 class="h2 text-center pt-5 mb-3 pb-3 main-heading" style="font-weight: 400">  Customers List </h1>
+        <h1 class="h2 text-center pt-4 mb-3 pb-3 main-heading" style="font-weight: 400">  Customers List </h1>
     </div>
     <div id="content">
     <div class="container pt-1 mb-5">
