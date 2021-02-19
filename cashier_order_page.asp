@@ -110,9 +110,9 @@
                 flex-direction: column;
             }
 
-            .footer {
+            /* .footer {
                 margin-top: auto;
-            }
+            } */
 
         </style>
 

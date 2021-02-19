@@ -4,7 +4,8 @@
 <style>
 
     .navbar-date {
-        margin-right: 40px;
+        /* margin-right: 40px; */
+        margin-right: 13px;
         font-size: .90rem;
         color: #fff;
         font-weight: 600;
@@ -30,6 +31,7 @@
     .jollychef-text {
         /* color: #f4ea8e; */
         /* color: #fff490; */
+        padding-left: 2rem;
         color: #a3deb1;
     }
 
@@ -47,6 +49,36 @@
         background-color: #000;
     }
 
+    .menu-icon-bar {
+        margin-top: 20px;
+    }
+
+    .line {
+        height: 2px;
+        width: 25px;
+        background-color: #fff;
+        margin-bottom: 6px;
+    }
+
+    .line-1,
+    .line-3 {
+        width: 18px;
+        transition: all .5s;
+    }
+
+    .menu-icon-bar:hover .line-1,
+    .menu-icon-bar:hover .line-3 {
+        width: 25px;
+    }
+
+    .brand-name {
+        height: 100%;
+        margin-left: .8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     /* .dataTables_paginate paging_simple_numbers {
         background: #28a745 !important;
         color: #28a745 !important;
@@ -54,23 +86,21 @@
 
 </style>
 
-<nav class="navigation">
+<nav class="navigation  d-flex justify-content-between">
 
         <div class="menu-1">
 
-            <input type="checkbox" class="checkbox" id="btn-collapsible-bar" hidden>
-            <label for="btn-collapsible-bar" hidden>
-                <div class="menu-icon-bar" id="burger-btn">
-                    <div class="line line-1"></div>
-                    <div class="line line-2"></div>
-                    <div class="line line-3"></div> 
-                </div>
-            </label>  
             <div class="brand-name">
-                <a href="default.asp"><span class="jollychef-text">JollyChef </span></a>
-                Inc.
+                <label for="btn-collapsible-bar" id="btn-collapsible-bar">
+                    <div class="menu-icon-bar" id="burger-btn">
+                        <div class="line line-1"></div>
+                        <div class="line line-2"></div>
+                        <div class="line line-3"></div> 
+                    </div>
+                </label>  
+                <a href="default.asp"><span class="jollychef-text">JollyChef </span>
+                Inc.</a>
             </div>
-
             
         </div>
 
@@ -82,12 +112,13 @@
        
         </div>
 
+        <div class="user-logout-container"></div>
         
 </nav>
 
 <script>
 
-    const userInfo = document.querySelector('.user-info');
+    const userInfo = document.querySelector('.user-logout-container');
 
     if (localStorage.getItem('cust_id')) {
         

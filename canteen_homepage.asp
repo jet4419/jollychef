@@ -104,5 +104,27 @@
 
 </script>
 <script src="js/main.js"></script>  
+<script> 
+    // const btnNav = document.getElementById('btn-collapsible-bar');
+    
+    // btnNav.addEventListener('click', () => {
+    //     console.log('hey')
+
+    //     const mySidebar = document.getElementById('mySidebar');
+    //     const mainElement = document.getElementById("main");
+    //     const footerElement = document.querySelector('.footer');
+     
+    //     mySidebar.classList.toggle('scale-up-width');
+    //     mainElement.classList.toggle('scale-up-margin');
+
+    //     if (footerElement) {
+
+    //         footerElement.classList.toggle('scale-up-margin');
+    //     }
+                
+    // })
+
+</script>
+
 </body>
 </html>

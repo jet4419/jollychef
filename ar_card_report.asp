@@ -154,7 +154,7 @@
             }
 
             .total-value, .total-text {
-                font-size: 18px;
+                /* font-size: 18px; */
                 font-weight: 500;
             }
 
@@ -497,31 +497,31 @@
                         
                         <tfoot>
                             <tr>
-                                <td><h3 class="lead"><strong class="text-darker total-text total-darker">Total</strong></h3></td>
+                                <td><strong class="text-darker total-text total-darker">Total</strong></td>
                                 <td class="no-cell"></td>
                                 <td class="no-cell"></td>
                                 <td>
-                                    <h3 class="lead">
+                                    
                                         <strong class="text-darker total-value">
                                             <span class="currency-sign">&#8369; </span><%=totalDebit%>
                                         </strong>    
-                                    </h3>
+                                    
                                 </td>
 
                                 <td>
-                                    <h3 class="lead">
+                                    
                                         <strong class="text-darker total-value">
                                             <span class="currency-sign">&#8369; </span><%=totalCredit%>
                                         </strong>    
-                                    </h3>
+                                    
                                 </td>
 
                                 <td>
-                                    <h3 class="lead">
+                                    
                                         <strong class="text-darker total-value">
                                             <span class="currency-sign">&#8369; </span> <%=balance%>
                                         </strong>
-                                    </h3>
+                                    
                                 </td>
                                 <td></td>
                             </tr>

@@ -150,7 +150,7 @@
             }
 
             .total-value, .total-text {
-                font-size: 18px;
+                /* font-size: 18px; */
                 font-weight: 500;
             }
 
@@ -487,29 +487,24 @@
                     <%rs.close%>
                     <tfoot>
                         <tr>
-                            <td colspan="3"><h3 class="lead"><strong class="text-darker total-text total-darker">Total</strong></h3></td>
+                            <td colspan="3"><strong class="text-darker total-text total-darker">Total</strong>
+                            </td>
                             <td>
-                                <h3 class="lead">
-                                    <strong class="text-darker">
-                                        <span class="total-value total-darker"><%=totalDebit%></span>
-                                    </strong>    
-                                </h3>
+                                <strong class="text-darker">
+                                    <span class="total-value total-darker"><%=totalDebit%></span>
+                                </strong>    
                             </td>
 
                             <td>
-                                <h3 class="lead">
-                                    <strong class="text-darker">
-                                        <span class="total-value total-darker"><%=totalCredit%></span>
-                                    </strong>    
-                                </h3>
+                                <strong class="text-darker">
+                                    <span class="total-value total-darker"><%=totalCredit%></span>
+                                </strong>    
                             </td>
 
                             <td>
-                                <h3 class="lead">
-                                    <strong class="text-darker">
-                                        <span class="total-value total-darker"><%=currCredit%></span>
-                                    </strong>
-                                </h3>
+                                <strong class="text-darker">
+                                    <span class="total-value total-darker"><%=currCredit%></span>
+                                </strong>
                             </td>
                             <td></td>
                         </tr>
