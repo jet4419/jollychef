@@ -584,6 +584,10 @@ document.querySelector('#userEmail').value = userEmail;
         }
 
     }
+    /*
+    const idRef = document.getElementById('referenceNo')
+    idRef.value = idRef.value.padStart(9, '0')
+    */
 
 </script> 
 </html>   

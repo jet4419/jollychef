@@ -85,7 +85,6 @@
     </head>
 <body>
 
-<% Response.Write isStoreClosed %>
 <%if systemDate >= dateClosed then%>
 
     <%if ASC(isStoreClosed) <> ASC("closed") then%>

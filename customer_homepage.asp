@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Homepage</title>
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="css/customer_style.css">
         <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
     ' end if
 %>
 
-<!--#include file="default_navbar.asp"-->
+<!--#include file="customer_navbar.asp"-->
 <!--#include file="customer_sidebar.asp"-->
 
 <main id="main" class="main--main-page default homepage">

@@ -1,6 +1,7 @@
 body {
   min-height: 100vh;
-  font-family: 'Montserrat', sans-serif;
+  /* font-family: 'Montserrat', sans-serif; */
+  font-family: 'Segoe UI', 'Roboto', 'sans-serif';
   /* letter-spacing: 1px; */
   /* color: #fff; */
   display: flex;
@@ -82,6 +83,7 @@ input[type='number'] {
   z-index: 1;
   top: 0;
   left: 0;
+  font-family: 'Segoe UI', 'Roboto', 'sans-serif';
   /* background: #438a5e; */
 
   /* -webkit-box-shadow: 14px 14px 5px -13px rgba(0, 0, 0, 0.75);
@@ -173,17 +175,17 @@ input[type='number'] {
 }
 
 .home-main-heading--text-1 {
-  font-size: 5rem;
+  font-size: 5.5rem;
   font-weight: 400;
-  animation: popupDelay 1s ease-in 1s;
+  animation: popupDelay 0.8s ease-in 1s;
   animation-fill-mode: backwards;
 }
 
 .home-main-heading--text-2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 400;
   font-family: 'Courier New', Courier, monospace;
-  animation: popupDelay 1.3s ease-in 1.5s;
+  animation: popupDelay 1s ease-in 1.5s;
   animation-fill-mode: backwards;
   /* color: #eee; */
   color: #1c1c1c;
@@ -193,7 +195,7 @@ input[type='number'] {
   margin-top: 1.2rem;
   height: 12rem;
   background: url('../img/eating3.svg') no-repeat center / contain;
-  animation: popupDelay 1.7s ease-in 1.5s;
+  animation: popupDelay 1.2s ease-in 1.5s;
   animation-fill-mode: backwards;
 }
 
@@ -295,7 +297,7 @@ input[type='number'] {
   margin-left: 50px;
   padding-top: 100px;
   transition: all 0.5s;
-
+  /* background-image: linear-gradient(to top, #c1dfc4 0%, #deecdd 100%); */
   /* height: calc(100vh - 50px); */
   /* display: flex;
 	justify-content: center;

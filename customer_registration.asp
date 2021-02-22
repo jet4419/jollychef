@@ -50,6 +50,10 @@
                 height: 3rem;
             }
 
+            .main-heading {
+                font-family: 'Segoe UI', 'Roboto', 'sans-serif';
+            }
+
         </style>
 
     </head>

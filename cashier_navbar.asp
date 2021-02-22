@@ -106,7 +106,7 @@
                     <div class="line line-3"></div> 
                 </div>
             </label>  
-            <a href="canteen_homepage.asp"><span class="jollychef-text">JollyChef</span> Inc.</a>
+            <a href="canteen_homepage.asp" class="logo-text"><span class="jollychef-text">JollyChef</span> Inc.</a>
         </div>
         
     </div>
