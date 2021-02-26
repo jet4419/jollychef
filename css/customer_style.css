@@ -177,7 +177,7 @@ input[type='number'] {
 .home-main-heading--text-1 {
   font-size: 5.5rem;
   font-weight: 400;
-  animation: popupDelay 0.8s ease-in 1s;
+  animation: popupDelay 0.8s ease-in 0.5s;
   animation-fill-mode: backwards;
 }
 
@@ -185,7 +185,7 @@ input[type='number'] {
   font-size: 2.2rem;
   font-weight: 400;
   font-family: 'Courier New', Courier, monospace;
-  animation: popupDelay 1s ease-in 1.5s;
+  animation: popupDelay 1s ease-in 1s;
   animation-fill-mode: backwards;
   /* color: #eee; */
   color: #1c1c1c;

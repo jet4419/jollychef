@@ -104,8 +104,9 @@ input[type='number'] {
 
 .sidebar .main-menus--items {
   /* padding: 8px 8px 8px 32px; */
-  padding-left: 13px;
-  padding-bottom: 25px;
+  /* padding-left: 13px; */
+  margin-left: 0.55rem;
+  padding-bottom: 28px;
   text-decoration: none;
   font-size: 16px;
   color: #f6f6f6;
@@ -152,6 +153,11 @@ input[type='number'] {
   vertical-align: middle;
 }
 
+.icon-container {
+  display: inline-block;
+  width: 60px;
+}
+
 .icon-text {
   font-weight: 500;
   text-transform: uppercase;
@@ -160,17 +166,17 @@ input[type='number'] {
 .icon-customer-text {
   font-weight: 500;
   text-transform: uppercase;
-  padding-left: 7px;
+  /* padding-left: 7px; */
 }
 
 .sidebar-icons {
   padding-bottom: 3px;
   width: 60px;
-  font-size: 20px;
+  font-size: 1.3rem;
   padding-left: 2px;
 }
 
-.cart-icon {
+/* .cart-icon {
   padding-left: 0;
 }
 
@@ -183,8 +189,9 @@ input[type='number'] {
 }
 
 a.main-menus--items.customers-icon {
-  padding-left: 10px;
-}
+   padding-left: 10px;
+} 
+*/
 
 .container p.display-4.text-center {
   font-size: 3rem;

@@ -1,11 +1,29 @@
 <div id="mySidebar" class="sidebar">
-    <a href="products.asp" class="main-menus--items"><i class="fab fa-product-hunt sidebar-icons fa-lg"></i> <span class="icon-text">Products</span></a>
-    <a href="cashier_order_page.asp" class="main-menus--items"><i class="fas fa-dollar-sign sidebar-icons dollar-sign fa-lg"></i> <span class="icon-text">Order</span></a>
-    <a href="customers_order.asp" class="main-menus--items"><i class="fa fa-shopping-cart sidebar-icons cart-icon fa-lg"></i> <span class="icon-text">Cart</span></a>
+    <a href="products.asp" class="main-menus--items">
+        <span class="icon-container">
+            <i class="fab fa-product-hunt sidebar-icons fa-fw"></i> 
+        </span><span class="icon-text">Products</span>
+    </a>
+
+    <a href="cashier_order_page.asp" class="main-menus--items">
+        <span class="icon-container">
+            <i class="fas fa-dollar-sign sidebar-icons dollar-sign fa-fw"></i> 
+        </span><span class="icon-text">Order</span>
+    </a>
+
+    <a href="customers_order.asp" class="main-menus--items">
+        <span class="icon-container">
+            <i class="fa fa-shopping-cart sidebar-icons cart-icon fa-fw"></i> 
+        </span><span class="icon-text">Cart</span>
+    </a>
 
         <input class="checkbox" type="checkbox" id="reports">
         <label class="sidebar-label" for="reports" id="reports-container">
-            <a class="main-menus--items reports-container"><i class="fas fa-chart-bar sidebar-icons fa-lg"></i> <span class="icon-text">Reports</span> <i id="arrow-down" class="fas fa-chevron-circle-down fa-lg" style="visibility: hidden;"></i></a>
+            <a class="main-menus--items reports-container">
+                <span class="icon-container">
+                    <i class="fas fa-chart-bar sidebar-icons fa-fw"></i>
+                </span><span class="icon-text">Reports</span> <i id="arrow-down" class="fas fa-chevron-circle-down fa-fw" style="visibility: hidden;"></i>
+            </a>
         </label>
         <!--<a class="main-menus--items"><i class="fas fa-chart-bar"></i> Reports</a> -->
         <div class="checked-items">
@@ -23,7 +41,11 @@
     <!--<a href="t_ob_main.asp" class="main-menus--items"><i class="fas fa-layer-group sidebar-icons"></i> <span class="icon-text">Receivables</span></a>-->
     <input class="checkbox-receivables" type="checkbox" id="reports2">
         <label class="sidebar-label" for="reports2" id="reports-container2">    
-            <a class="main-menus--items"><i class="fas fa-layer-group sidebar-icons fa-lg"></i> <span class="icon-text">Receivables</span></a>
+            <a class="main-menus--items">
+                <span class="icon-container">
+                    <i class="fas fa-layer-group sidebar-icons fa-fw"></i>
+                </span><span class="icon-text">Receivables</span>
+            </a>
         </label>
         <div class="checked-items--receivables">
             <a href="schedule_receivables.asp">Schedule of Receivables</a>
@@ -52,14 +74,18 @@
     
     addCustomerList.className = 'main-menus--items customers-icon';
 
+    const iconCustomerContainer = document.createElement('span');
+    iconCustomerContainer.className = 'icon-container';
+
     const iconCustomerList = document.createElement('i');
-    iconCustomerList.className = 'fas fa-users sidebar-icons';
+    iconCustomerList.className = 'fas fa-users sidebar-icons fa-fw';
 
     const iconTextCustomerList = document.createElement('span');
     iconTextCustomerList.textContent = 'Customers';
-    iconTextCustomerList.className = 'icon-customer-text';
+    iconTextCustomerList.className = 'icon-text';
 
-    addCustomerList.appendChild(iconCustomerList);
+    iconCustomerContainer.appendChild(iconCustomerList);
+    addCustomerList.appendChild(iconCustomerContainer);
     addCustomerList.appendChild(iconTextCustomerList); 
 
     sidebar.appendChild(addCustomerList);
@@ -72,14 +98,18 @@
         addCustomerLink.setAttribute('href', 'customer_registration.asp');
         addCustomerLink.className = 'main-menus--items customers-icon';
 
+        const iconAddCustContainer = document.createElement('span');
+        iconAddCustContainer.className = 'icon-container';
+
         const icon = document.createElement('i');
-        icon.className = 'fas fa-user-plus sidebar-icons';
+        icon.className = 'fas fa-user-plus sidebar-icons fa-fw';
 
         const iconText = document.createElement('span');
         iconText.textContent = 'Add Customer';
-        iconText.className = 'icon-customer-text';
+        iconText.className = 'icon-text';
 
-        addCustomerLink.appendChild(icon);
+        iconAddCustContainer.appendChild(icon);
+        addCustomerLink.appendChild(iconAddCustContainer);
         addCustomerLink.appendChild(iconText); 
 
         sidebar.appendChild(addCustomerLink);
