@@ -173,23 +173,31 @@
                             custName = TRIM(CSTR(rs("cust_name")))
                             customerTotalBalance = customerTotalBalance + CDBL(rs("balance"))
                         else
-                            customerCount = 1
-                            printTototal = true
+                            
+                            printTotal = true
 
-                            if printTototal = true then%>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="totalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalBalance%></td>
-                                </tr>
-                                <tr>
-                                    <td class="blank_row" colspan="4"></td>
-                                </tr>
-                                <%
-                                printTototal = false
-                                customerTotalBalance = CDBL(rs("balance"))
-                            end if
+                            if customerCount > 1 then
+
+                                if printTotal = true then%>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="creditsTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalBalance%></td>
+                                    </tr>
+                                    <%
+                                end if
+
+                            end if%>
+
+                            <tr>
+                                <td class="blank_row" colspan="4"></td>
+                            </tr>
+
+                            <%
+                            customerCount = 1
+                            printTotal = false
+                            customerTotalBalance = CDBL(rs("balance"))
 
                         end if
                         
@@ -235,7 +243,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class='totalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalBalance%></td>
+                            <td class='creditsTotalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalBalance%></td>
                         </tr>
                     <%end if%>
 

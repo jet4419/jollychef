@@ -449,6 +449,23 @@ input[type='number'] {
   margin-bottom: 0.5rem;
 }
 
+/*
+  Password Inputs, Warning Borders
+*/
+
+.email-warning,
+.password-warning {
+  display: inline-block;
+  margin-top: 0.4em;
+  color: red;
+}
+
+.warning-border {
+  border-color: #d32c3e !important;
+}
+
+/* **************************** */
+
 .footer {
   color: #fff;
   background-color: #252f3a;
@@ -471,7 +488,7 @@ input[type='number'] {
 }
 
 .footer .email {
-  color: #8cc3b0;
+  color: #ace0ce;
   font-weight: 600;
   font-size: 16px;
   transition: 0.5s all;

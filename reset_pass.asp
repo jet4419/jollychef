@@ -21,9 +21,6 @@
 
         <title>Reset Password</title>
 
-        <style>
-            .warning-border { border-color: #d32c3e !important; }
-        </style>
     </head>
    
 <body>
@@ -46,26 +43,26 @@
             <form id="form-reset-pass">
 
                 <div class="form-group">
-                    <input type="email" id="custEmail" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" readonly required>
+                    <input type="email" id="custEmail" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" maxlength="30" readonly required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" id="currentPassword" name="currentPassword" class="form-control form-control-sm" placeholder="Current Password" required>
+                    <input type="password" id="currentPassword" name="currentPassword" class="form-control form-control-sm" placeholder="Current Password" minlength="4" maxlength="25" required>
                 </div>
                 <span class="current-password-warning mb-3" style="display: none; color: red"></span>
 
                 <div class="form-group">
-                    <input type="password" id="password1" name="password1" class="form-control form-control-sm" placeholder="New Password" required>
+                    <input type="password" id="password1" name="password1" class="form-control form-control-sm" placeholder="New Password" minlength="4" maxlength="25" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" id="password2" name="password2" class="form-control form-control-sm" placeholder="Confirm New Password" required>
+                    <input type="password" id="password2" name="password2" class="form-control form-control-sm" placeholder="Confirm New Password" minlength="4" maxlength="25" required>
                 </div>
 
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
         
-                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-danger btn-block mb-2">
+                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-primary btn-block mb-2">
                 
             </form>
         </div>
@@ -82,11 +79,11 @@ document.getElementById('custEmail').value = custEmail;
 
 const formResetPass = document.getElementById('form-reset-pass');
     
-    $('.btn-main').click(function(e){
+    $('.btn-main').click(function(event){
 
         if(formResetPass.checkValidity()) {
 
-            e.preventDefault();
+            event.preventDefault();
 
             let currentPassword = $("#currentPassword").val();
             let password1 = $("#password1").val();
@@ -171,8 +168,6 @@ const formResetPass = document.getElementById('form-reset-pass');
             }
 
         }
-
-        else console.log("invalid form");
     });
 
 </script>

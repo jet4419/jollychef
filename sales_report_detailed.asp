@@ -32,10 +32,6 @@
                 text-align: left;
             }   
 
-            .main-heading {
-                font-family: 'Kulim Park', sans-serif;
-            }
-
             /* .salesTotalAmount {
                 font-weight: 600;
                 border-bottom: 1.5px solid #000 !important;
@@ -397,11 +393,11 @@
                                         </tr>
                                         <%isTotalPrinted = true%>
                                     <%else%>
-                                        <%if invoiceCounter > 1 then%>
+                                        <%'if invoiceCounter > 1 then%>
                                             <tr>
                                                 <td class="blank_row" colspan="7"></td>
                                             </tr>
-                                        <%end if%>
+                                        <%'end if%>
                                     <%end if%>
                                     <%
                                     totalSales = CDBL(rs("prodamount"))

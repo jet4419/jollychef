@@ -94,6 +94,13 @@ function printDiv() {
             header, footer, aside, nav, form, iframe, .menu, .hero, .adslot {
                 display: none;
             }
+
+            .creditsTotalAmount {
+                font-weight: 500;
+                color: #2b2a2a;
+                border-top: 1px #2b2a2a solid !important;
+                border-bottom: 1px #2b2a2a solid !important;
+            }
             
             .salesTotalAmount {
                 // text-decoration: underline;

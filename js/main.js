@@ -27,6 +27,9 @@
 //     }
 
 const mySidebar = document.getElementById('mySidebar');
+mySidebar.addEventListener('mouseover', toggleSidebar);
+mySidebar.addEventListener('mouseout', unToggleSidebar);
+
 const mainElement = document.getElementById('main');
 const footerElement = document.querySelector('.footer');
 
@@ -48,3 +51,31 @@ btnNav.addEventListener('click', () => {
     footerElement.classList.toggle('scale-up-margin');
   }
 });
+
+function toggleSidebar() {
+
+  line1.classList.add('line-1-anim');
+  line2.classList.add('line-2-anim');
+  line3.classList.add('line-3-anim');
+
+  mySidebar.classList.add('scale-up-width');
+  mainElement.classList.add('scale-up-margin');
+
+  if (footerElement) {
+    footerElement.classList.add('scale-up-margin');
+  }
+}
+
+function unToggleSidebar() {
+
+  line1.classList.remove('line-1-anim');
+  line2.classList.remove('line-2-anim');
+  line3.classList.remove('line-3-anim');
+
+  mySidebar.classList.remove('scale-up-width');
+  mainElement.classList.remove('scale-up-margin');
+
+  if (footerElement) {
+    footerElement.classList.remove('scale-up-margin');
+  }
+}

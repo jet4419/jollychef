@@ -20,9 +20,6 @@
 
         <title>Reset Password</title>
 
-        <style>
-            .warning-border { border-color: #d32c3e !important; }
-        </style>
     </head>
    
 <body>
@@ -43,18 +40,18 @@
             <h3 class="text-center py-3">Customer Reset Password </h3>
             <form id="form-reset-pass">
                 <div class="form-group">
-                    <input type="email" id="custEmail" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <input type="email" id="custEmail" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" maxlength="30" required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password1" name="password1" class="form-control form-control-sm" placeholder="Password" required>
+                    <input type="password" id="password1" name="password1" class="form-control form-control-sm" placeholder="Password" minlength="4" maxlength="25" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password2" name="password2" class="form-control form-control-sm" placeholder="Confirm Password" required>
+                    <input type="password" id="password2" name="password2" class="form-control form-control-sm" placeholder="Confirm Password" minlength="4" maxlength="25" required>
                 </div>
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
         
-                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-danger btn-block mb-2">
+                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-primary btn-block mb-2">
                 
             </form>
         </div>
@@ -68,11 +65,11 @@
 
 const formResetPass = document.getElementById('form-reset-pass');
     
-    $('.btn-main').click(function(e){
+    $('.btn-main').click(function(event){
         
-        e.preventDefault();
-
         if(formResetPass.checkValidity()) {
+
+            event.preventDefault();
 
             const custEmail = $("#custEmail").val();
             const password1 = $("#password1").val();
@@ -89,7 +86,7 @@ const formResetPass = document.getElementById('form-reset-pass');
 
             $.ajax({
 
-                url: "reset_pass_c.asp",
+                url: "reset_pass_prog_cust_c.asp",
                 type: "POST",
                 data: {
                         email: custEmail, password1: password1, password2: password2
@@ -139,7 +136,6 @@ const formResetPass = document.getElementById('form-reset-pass');
 
         }
 
-        else console.log("invalid form");
     });
 
 </script>

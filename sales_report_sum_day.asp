@@ -32,9 +32,9 @@
                 text-align: left;
             }   
 
-            .main-heading {
+            /* .main-heading {
                 font-family: 'Kulim Park', sans-serif;
-            }
+            } */
             
             /* .totalAmount::before {
                 content: "";

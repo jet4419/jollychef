@@ -23,19 +23,22 @@
 
         <style>
 
+            .signup-container {
+                padding-top: 2.5rem;
+            }
+
             .container-rounded { 
                 border-radius: 1rem; 
                 background-color: rgb(249, 249, 249);
 
                 background: rgba( 249, 249, 249, 0.50 );
-                box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+                /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+                box-shadow: 10px 10px 10px 0 rgba( 31, 38, 135, 0.2 );
                 backdrop-filter: blur( 4px );
                 -webkit-backdrop-filter: blur( 4px );
                 border-radius: 10px;
                 border: 1px solid rgba( 249, 249, 249, 0.18 );
             }
-            
-            .warning-border { border-color: red !important; }
 
             .img-container {
                 padding-top: 1rem;
@@ -83,7 +86,7 @@
 
 <div id="main">
 
-    <div class="container mb-5 pt-5">
+    <div class="container mb-5 signup-container">
 
         <div class="container border container-rounded" style="max-width: 500px;">
             <div class="img-container">
@@ -94,31 +97,31 @@
             <form>
 
                 <div class="form-group d-flex justify-space-evenly">
-                    <input type="text" id="firstname" name="firstname" class="form-control form-control-sm " placeholder="First Name" required>
-                    <input type="text" id="lastname" name="lastname" class="form-control form-control-sm ml-3" placeholder="Last Name" required>
+                    <input type="text" id="firstname" name="firstname" class="form-control form-control-sm " placeholder="First Name" maxlength="30" required>
+                    <input type="text" id="lastname" name="lastname" class="form-control form-control-sm ml-3" placeholder="Last Name" maxlength="30" required>
                 </div>
     
                 <div class="form-group">
-                    <input type="email" id="custEmail" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
-                    <span class="email-warning" style="color: red"></span>
+                    <input type="email" id="custEmail" name="custEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" maxlength="30" required>
+                    <span class="email-warning"></span>
                 </div>
 
                 <div class="form-group d-flex justify-space-evenly m-0">
-                    <input type="password" id="password1" name="password1" class="form-control form-control-sm"  placeholder="Password" required>
-                    <input type="password" id="password2" name="password2" class="form-control form-control-sm ml-3"  placeholder="Confirm Password" required>
+                    <input type="password" id="password1" name="password1" class="form-control form-control-sm"  placeholder="Password" minlength="4" maxlength="25" required>
+                    <input type="password" id="password2" name="password2" class="form-control form-control-sm ml-3"  placeholder="Confirm Password" minlength="4" maxlength="25" required>
                 </div>
-                <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
+                <span class="password-warning mb-3"></span>
 
                 <div class="form-group">
-                    <input type="text" id="address" name="address" class="form-control form-control-sm" placeholder="Address">
+                    <input type="text" id="address" name="address" class="form-control form-control-sm" maxlength="50" placeholder="Address">
                 </div>
 
                 <div class="form-group">
-                    <input type="text" id="contact_no" name="contact_no" class="form-control form-control-sm" pattern="[0-9]{11}" placeholder="Contact No">
+                    <input type="text" id="contact_no" name="contact_no" class="form-control form-control-sm" pattern="[0-9]{11}" placeholder="Contact No" minlength="11" maxlength="11">
                 </div>
 
                 <div class="form-group mb-3">
-                    <input type="text" id="department" name="department" class="form-control form-control-sm" placeholder="Department" required>
+                    <input type="text" id="department" name="department" class="form-control form-control-sm" placeholder="Department" maxlength="30" required>
                 </div>
 
                 <div class="d-flex justify-content-center">
@@ -146,10 +149,9 @@
         
         // event.preventDefault();
 
-        console.log($("form"))
         if($("form")[1].checkValidity()) {
             //your form execution code
-        // event.preventDefault();
+        event.preventDefault();
 
         let firstname = $("#firstname").val();
         let lastname = $("#lastname").val();
@@ -161,7 +163,7 @@
         let department = $("#department").val();
         let emailWarning = "";
         let passwordWarning = "";
-        const emailInput = document.querySelector("#email");
+        const emailInput = document.querySelector("#custEmail");
         const passwordInput1 = document.querySelector("#password1");
         const passwordInput2 = document.querySelector("#password2");
         const emailWarningContainer = document.querySelector(".email-warning");
@@ -217,8 +219,6 @@
                 }
             })
         }
-
-        else console.log("invalid form");
     });
 
 </script>

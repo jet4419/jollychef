@@ -46,9 +46,9 @@
                 text-align: left;
             }   
 
-            .main-heading {
+            /* .main-heading {
                 font-family: 'Kulim Park', sans-serif;
-            }
+            } */
 
             th {
                 display: table-cell !important;

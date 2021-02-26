@@ -392,7 +392,7 @@
                         "FROM "&collectionsPath&" "&_
                         "INNER JOIN "&obPath&" ON Collections.ref_no = Ob_Test.ref_no "&_
                         "INNER JOIN "&arPath&" On Collections.invoice = Accounts_Receivables.invoice_no "&_
-                        "WHERE Collections.ref_no='"&referenceNo&"'", CN2 
+                        "WHERE Collections.ref_no='"&referenceNo&"' ORDER BY Accounts_Receivables.invoice_no DESC", CN2 
             %>  
                           
             <form id="myForm" class="my-4" method="POST">
@@ -448,7 +448,7 @@
                             d = CDate(rs("date"))
                         %>
                         <td class="text-darker"><%Response.Write(dateFormat)%></td>
-                        <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=transactDate%>'><%Response.Write(rs("invoice"))%></a></td>
+                        <td class="text-darker"><a target="_blank" class="text-dark" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=transactDate%>'><%Response.Write(rs("invoice"))%></a></td>
                         <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("receivable"))%></td>
                         <td class="text-darker"><span class="currency-sign">&#8369;</span><%Response.Write(rs("balance"))%></td>
                         <% dateOwed = CDate(rs("date_owed")) %>
@@ -461,7 +461,7 @@
                         <td>
                         <div class="input-group input-group-sm py-1">
                             <div class="input-group-prepend">
-                                <span class="input-group-text bg-primary text-light" id="inputGroup-sizing-sm">&#8369;</span>
+                                <span class="input-group-text bg-success text-light" id="inputGroup-sizing-sm">&#8369;</span>
                             </div>
                             <input onblur="findTotal()" value="<%=rs("cash")%>" type="number" id="<%=invoice%>" name="new_payment" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0" max="<%=maxInputVal%>" required>
                         </div>
@@ -478,7 +478,7 @@
 
                 
 
-                <div class="total-payment-container mt-4">
+                <div class="total-payment-container mt-2">
 
                     <div class="form-group">
                         <label class="total-text">Reference No</label>
@@ -496,7 +496,7 @@
                         <span class="total-text">Cash
                             <span class="currency-sign">&#8369;</span>
                         </span>
-                        <input class="input-total cash-input form-control form-control-sm" type="number" value="<%=recentCashPaid%>" name="cash_payment" step="any"  id="cash_payment" min="0" step="any" required/>
+                        <input class="input-total cash-input form-control form-control-sm" type="number" value="<%=recentCashPaid%>" name="cash_payment" step="any"  id="cash_payment" min="<%=totalRecentPayment%>" step="any" required/>
                     </div>
 
                     <!-- Getting the arPath to update the AR tbl -->
@@ -507,7 +507,7 @@
                 <div class="d-flex justify-content-center mb-3">
                     <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
                     <input type="hidden" name="transact_date" id="transact_date" value="<%=transactDate%>">
-                    <button type="submit" class="btn btn-dark btn-sm" id="myBtn">Submit Payment</button>
+                    <button type="submit" class="btn btn-primary" id="myBtn">Submit</button>
                 </div>
 
             </form>
@@ -548,7 +548,7 @@
                     </div>    
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary btn-sm mb-1 bg-dark" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary btn-sm mb-1" id="generateReport2">Generate Report</button>
+                                <button type="submit" class="btn btn-primary mb-1" id="generateReport2">Generate Report</button>
                             </div>        
                     </form>
                         
@@ -563,7 +563,7 @@
 <script>  
 $(document).ready( function () {
     $('#myTable').DataTable({
-        scrollY: "29vh",
+        scrollY: "23vh",
         scroller: true,
         "paging": false,
         scrollCollapse: true,

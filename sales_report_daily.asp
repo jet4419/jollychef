@@ -51,7 +51,7 @@
             }   
 
             .main-heading {
-                font-family: 'Kulim Park', sans-serif;
+                /* font-family: 'Kulim Park', sans-serif; */
                 display: flex;
                 justify-content: space-between;
             }

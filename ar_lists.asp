@@ -448,7 +448,7 @@
                         <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
                         <input type="hidden" name="credit_date">
                         <%if counter > 0 then%>
-                            <button type="submit" class="btn btn-danger " id="myBtn">Submit</button>
+                            <button type="submit" class="btn btn-primary " id="myBtn">Submit</button>
                         <%end if%>
                     </div>
 

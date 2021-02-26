@@ -153,14 +153,14 @@
                 </td> 
                 <% if Trim(rs("p_method").value) <> Trim("cash") then %>
                 <td class="text-darker">
-                    <a class="text-info" target="_blank" href='ob_invoice_records.asp?invoice=<%=rs("invoice")%>&date=<%=FormatDateTime(d, 2)%>'>
+                    <a class="text-dark" target="_blank" href='ob_invoice_records.asp?invoice=<%=rs("invoice")%>&date=<%=FormatDateTime(d, 2)%>'>
                         <%=rs("invoice")%>
                         <%arInvoice = CDbl(rs("invoice").value)%> 
                     </a>
                 </td>
                 <% else %>
                 <td class="text-darker">
-                    <a class="text-info" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=FormatDateTime(d, 2)%>'>
+                    <a class="text-dark" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=FormatDateTime(d, 2)%>'>
                         <%=rs("invoice")%> 
                     </a>
                 </td>
@@ -168,13 +168,13 @@
 
                 <% if Trim(rs("p_method").value) <> Trim("cash") then %>
                 <td class="text-darker">
-                    <a class="text-info" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=FormatDateTime(d, 2)%>'>
+                    <a class="text-dark" target="_blank" href='receipt_ar_reports.asp?ref_no=<%=Trim(rs("ref_no"))%>&date=<%=FormatDateTime(d, 2)%>'>
                         <%Response.Write(rs("ref_no"))%>
                     </a>
                 </td> 
                 <% else %>
                 <td class="text-darker">
-                    <a class="text-info" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=FormatDateTime(d, 2)%>'>
+                    <a class="text-dark" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=FormatDateTime(d, 2)%>'>
                         <%Response.Write(rs("ref_no"))%>
                     </a>
                 </td>

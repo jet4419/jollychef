@@ -40,7 +40,22 @@
             font-weight: 500;
         }
 
-        .warning-border { border-color: red !important; }
+        /*
+        Password Inputs, Warning Borders
+        */
+
+        .email-warning,
+        .password-warning {
+            display: inline-block;
+            margin-top: 0.4em;
+            color: red;
+        }
+
+        .warning-border {
+            border-color: #d32c3e !important;
+        }
+
+        /* **************************** */
 
     </style>
 
@@ -56,18 +71,18 @@
         <div class="signup__body bg-white p-4 border rounded">
             <form id="staff-reg-form">
                 <div class="form-group d-flex justify-space-evenly">
-                    <input type="text" name="fname" id="firstname" class="form-control form-control-sm " placeholder="First Name" required>
-                    <input type="text" name="lname" id="lastname" class="form-control form-control-sm ml-3" placeholder="Last Name" required>
+                    <input type="text" name="fname" id="firstname" class="form-control form-control-sm " placeholder="First Name" maxlength="30" required>
+                    <input type="text" name="lname" id="lastname" class="form-control form-control-sm ml-3" placeholder="Last Name" maxlength="30" required>
                 </div>
             
                 <div class="form-group">
-                    <input type="email" name="email" id="staffEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" required>
+                    <input type="email" name="email" id="staffEmail" class="form-control form-control-sm" autocomplete="off" placeholder="Email" maxlength="30" required>
                     <span class="email-warning" style="color: red"></span>
                 </div>
 
-                <div class="form-group d-flex justify-space-evenly">
-                    <input type="password" name="password1" class="form-control form-control-sm"  placeholder="Password" id="password1" required>
-                    <input type="password" name="password2" class="form-control form-control-sm ml-3"  placeholder="Confirm Password" id="password2" required>
+                <div class="form-group d-flex justify-space-evenly mb-0">
+                    <input type="password" name="password1" class="form-control form-control-sm"  placeholder="Password" id="password1" minlength="4" maxlength="25" required>
+                    <input type="password" name="password2" class="form-control form-control-sm ml-3"  placeholder="Confirm Password" id="password2" minlength="4" maxlength="25" required>
                 </div>
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
 
@@ -93,11 +108,11 @@
     
     const staffRegForm = document.getElementById('staff-reg-form');
 
-    $('.btn-main').click(function(e){
-
-        e.preventDefault();
+    $('.btn-main').click(function(event){
 
         if(staffRegForm.checkValidity()) {
+
+            event.preventDefault();
 
             let firstname = $("#firstname").val();
             let lastname = $("#lastname").val();
@@ -108,7 +123,7 @@
 
             let emailWarning = "";
             let passwordWarning = "";
-            const emailInput = document.querySelector("#email");
+            const emailInput = document.querySelector("#staffEmail");
             const passwordInput1 = document.querySelector("#password1");
             const passwordInput2 = document.querySelector("#password2");
             const emailWarningContainer = document.querySelector(".email-warning");
@@ -123,7 +138,7 @@
                         password2: password2, userType: userType
                 },
                 success: function(data) {
-                    console.log(data, password1, password2)
+               
                     if (data==='invalid email') {
                         emailWarning = "Email already exist"
                         emailWarningContainer.innerHTML = emailWarning;
@@ -165,7 +180,6 @@
             })
         }
 
-        else console.log("invalid form");
     });
 
 </script>

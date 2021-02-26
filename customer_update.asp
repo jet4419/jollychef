@@ -22,32 +22,32 @@
 
     <div class="form-group mb-1">    
         <label class="ml-1" style="font-weight: 500"> First Name </label>
-        <input type="text" class="form-control form-control-sm" name="firstName" id="firstName" value="<%=firstName%>" required>
+        <input type="text" class="form-control form-control-sm" name="firstName" id="firstName" value="<%=firstName%>" maxlength="30" required>
     </div>
 
     <div class="form-group mb-1">    
         <label class="ml-1" style="font-weight: 500"> Last Name </label>
-        <input type="text" class="form-control form-control-sm" name="lastName" id="lastName" value="<%=lastName%>" required>
+        <input type="text" class="form-control form-control-sm" name="lastName" id="lastName" value="<%=lastName%>" maxlength="30" required>
     </div>
 
     <div class="form-group mb-1">    
         <label class="ml-1" style="font-weight: 500"> Address </label>
-        <input type="text" class="form-control form-control-sm" name="address" id="address" value="<%=address%>">
+        <input type="text" class="form-control form-control-sm" name="address" id="address" value="<%=address%>" maxlength="50">
     </div>
 
     <div class="form-group mb-1">    
         <label class="ml-1" style="font-weight: 500"> Contact No </label>
-        <input type="text" id="contactNo" name="contactNo" class="form-control form-control-sm" pattern="[0-9]{11}" value="<%=contactNo%>">
+        <input type="text" id="contactNo" name="contactNo" class="form-control form-control-sm" pattern="[0-9]{11}" value="<%=contactNo%>" minlength="11" maxlength="11">
     </div>
 
     <div class="form-group mb-1">    
         <label class="ml-1" style="font-weight: 500"> Department </label>
-        <input type="text" id="department" name="department" class="form-control form-control-sm" value="<%=department%>" required>
+        <input type="text" id="department" name="department" class="form-control form-control-sm" value="<%=department%>" maxlength="30" required>
     </div>
 
     <div class="form-group mb-1">    
         <label class="ml-1" style="font-weight: 500"> Email </label>
-        <input type="email" id="email" name="email" class="form-control form-control-sm" autocomplete="off" value="<%=emailAddress%>" required>
+        <input type="email" id="email" name="email" class="form-control form-control-sm" autocomplete="off" value="<%=emailAddress%>" maxlength="30" required>
     </div>
      
 
