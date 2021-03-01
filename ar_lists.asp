@@ -81,15 +81,6 @@
                 /* border-radius: 10px; */
             }
 
-            .cust_name {
-                color: #463535;
-                font-size: 30px;
-            }
-
-            .order_of {
-                color: #333;
-            }
-
             .no-records {
                 height: 85vh;
                 display:flex;
@@ -321,7 +312,7 @@
         <div class="container pb-3 mb-2">
 
             <div class="users-info pt-4">
-                <h1 class="h2 text-center main-heading my-0" style="font-weight: 500"><span class="order_of">Credits of</span> <span id="custName" class="cust_name" style="font-weight: 600"><%=custFullName%></span></h1>
+                <h1 class="h2 text-center main-heading my-0" style="font-weight: 500"><span class="order_of">Credits of</span> <span id="custName" class="customer-name"><%=custFullName%></span></h1>
                 <h1 class="h5 text-center main-heading my-0" style="font-weight: 600"> <span id="custDepartment" class="department_lbl"><%=department%></span> </h1>
                 
             </div>
@@ -439,7 +430,7 @@
                             <span class="total-text">Cash
                                 <span class="currency-sign">&#8369;</span>
                             </span>
-                            <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" required onchange="distributePayment()"/>
+                            <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" max="999999" required onchange="distributePayment()"/>
                         </div>
 
                     </div>

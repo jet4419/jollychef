@@ -271,7 +271,7 @@
         <div class="container mb-5">
 
             <div class="users-info mb-5">
-                <h1 class="h2 text-center main-heading my-0"> 
+                <h1 class="h2 text-center main-heading mt-0"> 
                     <span class="order_of">(-) Adjustment for</span>
                     <span class="customer-name"><%=custName%></span> 
                 </h1>
@@ -403,7 +403,7 @@
 
                     <div class="d-flex justify-content-center">
                         <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
-                        <button type="submit" class="btn btn-danger" id="myBtn">Submit</button>
+                        <button type="submit" class="btn btn-primary" id="myBtn">Submit</button>
                     </div>
                 </div>
             </form>

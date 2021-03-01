@@ -10,7 +10,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="css/customer_style.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -66,20 +66,6 @@
                 border-radius: 10px;
             }
 
-            .cust_name {
-                color: #463535;
-                /* font-size: 36px; */
-            }
-
-            .department_lbl {
-                color: #7d7d7d;
-            }
-
-            .order_of {
-                font-size: 33px;
-                font-weight: 400;
-                color: #333;
-            }
 
         </style>
     </head>
@@ -125,8 +111,8 @@
         %>
 <div id="main">
 
-    <div class="users-info mt-5 mb-5">
-        <h1 class="h1 text-center main-heading my-0"> <strong><span class="order_of">Order of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
+    <div class="users-info mt-3 mb-5">
+        <h1 class="h1 text-center main-heading mt-0"> <strong><span class="order_of">Order of</span> <span class="customer-name"><%=custFullName%></span></strong> </h1>
         <h1 class="h3 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
     </div>
 

@@ -521,10 +521,15 @@ a.main-menus--items.customers-icon {
   margin-bottom: 0.5rem;
 }
 
+.order_of {
+  font-weight: 400;
+  color: #333;
+}
+
 .department_lbl {
   color: #5f5f5f;
   font-size: 25px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .creditsTotalAmount {
@@ -548,7 +553,8 @@ a.main-menus--items.customers-icon {
 .customer-name {
   font-weight: bold;
   /* color: #25616b; */
-  color: #4b736e;
+  /* color: #4b736e; */
+  color: #37615b;
 }
 
 /* .final-total,

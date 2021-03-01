@@ -1,18 +1,36 @@
 <!--#include file="dbConnect.asp"-->
-<!--#include file="session_cashier.asp"-->
+
 <%
+	if Trim(isStoreClosed) = "open" then
 
-		btnAdd = Request.Form("btnAdd")
-		
-		if btnAdd<>"" then
+		productID = CInt(Request.Form("productID"))
+		salesQty = CInt(Request.Form("salesQty"))
+		cashierType = CStr(Request.Form("cashierType"))
+		cashierEmail = CStr(Request.Form("cashierEmail"))
+		custID = Request.Form("cust_id")
+		uniqueNum = Request.Form("unique_num")
+		tokenID = Request.Form("tokenID")
 
-			productID = CInt(Request.Form("productID"))
-			salesQty = CInt(Request.Form("salesQty"))
-			userType = CStr(Request.Form("userType"))
-			custID = Request.Form("cust_id")
-			uniqueNum = Request.Form("unique_num")
+		Dim isValidCashier
 
-			salesDate = CDate(Date)
+		validateCashier = "SELECT email, user_type, token_id, log_status FROM users "&_
+						"WHERE email='"&cashierEmail&"' AND user_type='"&cashierType&"' "&_
+						"AND token_id='"&tokenID&"' AND log_status='active'"
+		set objAccess = cnroot.execute(validateCashier)
+
+		if not objAccess.EOF then
+
+			isValidCashier = true
+
+		else
+			isValidCashier = false
+			Response.Write "invalid cashier"
+
+		end if
+
+
+		if isValidCashier = true then
+
 			status= Trim("On Process")
 
 			Dim yearPath, monthPath
@@ -36,7 +54,7 @@
 
 			rs.open "SELECT daily_meals.prod_name, daily_meals.qty - SUM(orders_holder.qty) AS qty FROM daily_meals INNER JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id WHERE daily_meals.prod_id ="&productID, CN2
 
-			Dim holderCurrQty
+			Dim holderCurrQtyp
 
 			if not rs.EOF then
 
@@ -64,19 +82,21 @@
 
 			if currentQty <  0 then
 
-				Response.Write("<script language=""javascript"">")
-				Response.Write("alert(""Error: Insufficient quantity stocks"")")
-				Response.Write("</script>")
+				Response.Write "invalid quantity"
+
+				' Response.Write("<script language=""javascript"">")
+				' Response.Write("alert(""Error: Insufficient quantity stocks"")")
+				' Response.Write("</script>")
 
 				isValidQty = false
 
-				if isValidQty=false then
+				' if isValidQty=false then
 
-					Response.Write("<script language=""javascript"">")
-					Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&userType&" "";")
-					Response.Write("</script>")
+				' 	Response.Write("<script language=""javascript"">")
+				' 	Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&cashierType&" "";")
+				' 	Response.Write("</script>")
 
-				end if
+				' end if
 
 			end if
 
@@ -153,15 +173,21 @@
 				rs.close
 				CN2.close
 
-				isRedirect = true
+				Response.Write "add order completed"
 
-				if isRedirect = true then
-					Response.Write("<script language=""javascript"">")
-					Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&userType&" "";")
-					Response.Write("</script>")
-				end if
+				' isRedirect = true
+
+				' if isRedirect = true then
+				' 	Response.Write("<script language=""javascript"">")
+				' 	Response.Write("window.location.href=""customer_order_process.asp?unique_num="&uniqueNum&"&cust_id="&custID&"&userType="&cashierType&" "";")
+				' 	Response.Write("</script>")
+				' end if
 
 			end if
 
 		end if
+
+	else
+		Response.Write "store closed"
+	end if
 %>

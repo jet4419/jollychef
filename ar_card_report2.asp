@@ -176,6 +176,9 @@
                 font-weight: 600;
             }
 
+            .btn-adjustment:hover i.fa-plus, .btn-adjustment:hover i.fa-minus {
+                color: white !important;
+            }
 
 
         </style>
@@ -359,12 +362,12 @@
 
                 <div class="users-info--divider">
                     <span class="p-0 m-0 d-block">
-                        <strong class='text-danger'>Adjustments</strong>
-                        <button class="btn btn-success btn-sm btn-adjustment btn-adjustment-plus" id="<%=rs("cust_id")%>" title="Adjustment plus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_plus">
-                            <i class="fas fa-plus"></i>
+                        <strong class='text-dark'>Adjustments</strong>
+                        <button class="btn btn-outline-dark btn-sm btn-adjustment btn-adjustment-plus" id="<%=rs("cust_id")%>" title="Adjustment plus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_plus">
+                            <i class="fas fa-plus text-dark"></i>
                         </button>
-                        <button class="btn btn-success btn-sm btn-adjustment btn-adjustment-minus" id="<%=rs("cust_id")%>" title="Adjustment minus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_minus">
-                            <i class="fas fa-minus"></i>
+                        <button class="btn btn-outline-dark btn-sm btn-adjustment btn-adjustment-minus" id="<%=rs("cust_id")%>" title="Adjustment minus" data-toggle="tooltip" data-placement="top" data-toggle="modal" data-target="#adjustment_minus">
+                            <i class="fas fa-minus text-dark"></i>
                         </button>
                     </span>
                     <!--

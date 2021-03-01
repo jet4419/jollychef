@@ -225,7 +225,7 @@
                                 
                         </select>
 
-                        <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" required>
+                        <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" max="999999" required>
                         <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-success" min="1" max="100" >Add</button>
                     </form>
                     <!-- END OF ORDER FORM -->
@@ -371,7 +371,7 @@
     const products = document.querySelector('#products');
     const quantity = document.querySelector('#quantity');
 
-    $('.btnAdd').click(function() {
+    $('.btnAdd').click(function(event) {
 
         if(products.checkValidity() && quantity.checkValidity()) {
             //your form execution code
@@ -389,7 +389,7 @@
                 //data: {},
             })
             .done(function(data) { 
-                // console.log(data);
+                console.log(data);
                 //console.log(custID, prodID, prodQty);
                 if (data !== 'invalid qty') location.reload();
                 else if (data == 'store closed') alert('Sorry, the store is closed.');

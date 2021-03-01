@@ -144,11 +144,6 @@
                 color: #318fb5;
             }
 
-            .order_of {
-                font-weight: 400;
-                color: #333;
-            }
-
             .cust_name {
                 color: #463535;
             }

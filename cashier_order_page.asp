@@ -346,7 +346,7 @@
                                 
                         </select>
 
-                        <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" required>
+                        <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" max="999999" required>
                         <button name="btnAdd" value="btnAddDetails" type="submit" class="btn btn-success" min="1" max="100" >Add</button>
                     </form>
                     <!-- END OF ORDER FORM -->
@@ -588,6 +588,41 @@ document.querySelector('#userEmail').value = userEmail;
     const idRef = document.getElementById('referenceNo')
     idRef.value = idRef.value.padStart(9, '0')
     */
+
+   const products = document.getElementById('products');
+   const quantity = document.getElementById('quantity');
+
+   $('.btnAdd').click(function(event) {
+
+       if(products.checkValidity() && quantity.checkValidity()) {
+            //your form execution code
+            event.preventDefault();
+
+            var URL = 'customer_incoming.asp';
+            var custID = Number(localStorage.getItem('cust_id'));
+            var prodID = Number(document.querySelector('#products').value);
+            var prodQty = Number(document.querySelector('#quantity').value);;
+            // console.log(prodID);
+            $.ajax({
+                url: URL,
+                type: 'POST',
+                data: {custID: custID, prodID: prodID, prodQty: prodQty},
+                //data: {},
+            })
+            .done(function(data) { 
+                // console.log(data);
+                //console.log(custID, prodID, prodQty);
+                if (data !== 'invalid qty') location.reload();
+                else if (data == 'store closed') alert('Sorry, the store is closed.');
+                else alert('Error: Insufficient quantity stocks');    
+            })
+            .fail(function() {
+                console.log("Response Error");
+            });
+
+        }
+
+   })
 
 </script> 
 </html>   

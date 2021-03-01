@@ -72,15 +72,11 @@
                 color: #463535;
             }
 
-            .department_lbl {
-                color: #7d7d7d;
-            }
-
-            .order_of {
+            /* .order_of {
                 font-size: 33px;
                 font-weight: 400;
                 color: #333;
-            }
+            } */
 
             div.tail-select.no-classes {
                 width: 400px !important;
@@ -91,7 +87,7 @@
 
     <%
         Dim userType
-        userType = CStr(Request.QueryString("userType"))
+        userType = CStr(Request.Form("userType"))
 
         if userType = "" then
             Response.Redirect("canteen_login.asp")
@@ -101,16 +97,16 @@
 <% 
     Dim custID, uniqueNum, customerType, isValidOrder
 
-    if Request.QueryString("cust_id") = "" or Request.QueryString("unique_num") = "" then
+    if Request.Form("cust_id") = "" or Request.Form("unique_num") = "" then
         Response.Redirect("customers_order.asp")
     end if
 
-    if IsNumeric(Request.QueryString("cust_id")) = false or IsNumeric(Request.QueryString("unique_num")) = false then
-        Response.Redirect("customers_order.asp")
-    end if
+    ' if IsNumeric(Request.Form("cust_id")) = false or IsNumeric(Request.Form("unique_num")) = false then
+    '     Response.Redirect("customers_order.asp")
+    ' end if
 
-   custID = CLng(Request.QueryString("cust_id"))
-   uniqueNum = CLng(Request.QueryString("unique_num"))
+   custID = CLng(Request.Form("cust_id"))
+   uniqueNum = CLng(Request.Form("unique_num"))
    isValidOrder = false
 
     Dim isDayEnded
@@ -277,17 +273,19 @@
             <div class="container p-3 mb-5">
               
                 <div class="users-info mb-5 pt-4">
-                    <h1 class="h1 text-center main-heading my-0"> <strong><span class="order_of">Order of</span> <span class="cust_name"><%=custFullName%></span></strong> </h1>
+                    <h1 class="h1 text-center main-heading mt-0"> <strong><span class="order_of">Order of</span> <span class="customer-name"><%=custFullName%></span></strong> </h1>
                     <h1 class="h3 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
                 </div>
 
+                <!-- 3 important parametes --> 
+                <input type="number" name="cust_id" id="cust_id" value="<%=custID%>" hidden>
+                <input type="number" name="unique_num" id="unique_num" value="<%=uniqueNum%>" hidden>
+                <input type="text" name="userType" id="userType" value="<%=userType%>" hidden>
+                <!-- ************************************* -->
+
                 <%if userType = "admin" or userType = "programmer" then%>
                     <!-- ORDER FORM -->
-                    <form action="customer_incoming2.asp" class="form-group form-inline" method="POST">
-
-                        <input type="number" name="cust_id" id="cust_id" value="<%=custID%>" hidden>
-                        <input type="number" name="unique_num" id="unique_num" value="<%=uniqueNum%>" hidden>
-                        <input type="text" name="userType" id="userType" value="<%=userType%>" hidden>
+                    <form action="customer_incoming2.asp" id="orderFormAdmin" class="form-group form-inline" method="POST">
 
                         <select id="products" class="form-control mr-2" name="productID" style="width:650px; "class="chzn-select" required placeholder="Select Product">
                     
@@ -387,7 +385,7 @@
 
                         </select>
 
-                        <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" required>
+                        <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" max="999999" required>
                         <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-success" min="1" max="100" >Add</button>
                     </form>
                     <!-- END OF ORDER FORM -->
@@ -428,10 +426,10 @@
                                         <td> <span class="currency-sign">&#8369; </span><%=rs("amount")%> </td>
                                         <%if userType = "admin" or userType = "programmer" then%>    
                                             <td width="90">
-                                                <button onClick="delete_order(<%=CLng(rs("id"))%>, <%=uniqueNum%>, <%=custID%>)" class="btn btn-sm btn-warning"> Cancel </button>
+                                                <button value="<%=CLng(rs("id"))%>" class="btn btn-sm btn-warning btnCancel"> Cancel </button>
                                             </td>
                                         <%else%>    
-                                            <td width="90"><a href="#" hidden><button class="btn btn-sm btn-outline-dark"> Cancel </button></a></td>
+                                            <td width="90"><a href="#" hidden><button class="btn btn-sm btn-outline-dark" disabled> Cancel </button></a></td>
                                         <%end if%>
                                     </tr>
                                     <%
@@ -477,6 +475,11 @@
                     </button>
                 </div>
                 <%end if%>
+                
+                <input type="text" name="cust_name" id="cust_name" value="<%=custFullName%>" hidden>
+                <input type="text" name="cust_dept" value="<%=department%>" id="cust_dept" hidden>
+                <input type="number" name="totalProfit" value="<%=totalProfit%>" id="totalProfit" hidden>
+                <input type="number" name="totalAmount" value="<%=totalAmount%>" id="totalAmount" hidden>
 
                 <!-- Pay Cash Modal -->
                     <div class="modal fade" id="payCashModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -490,14 +493,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <!-- Modal Body (Contents) -->
-                                    <form action="customer_pay2.asp" method="POST">
-                                        <input type="number" name="custID" id="custID" value="<%=custID%>" hidden>
-                                        <input type="number" name="uniqueNum" id="uniqueNum" value="<%=uniqueNum%>" hidden>
-                                        <input type="text" name="userType" class="userType" value="<%=userType%>" hidden>
-                                        <input type="text" name="userEmail" class="userEmail" value="" hidden>
-                                        <input type="text" name="cashierName" class="cashierName" value="" hidden>
-                                        <input type="text" name="cust_name" value="<%=custFullName%>" hidden>
-                                        <input type="text" name="cust_dept" value="<%=department%>" hidden>
+                                    <form id="formPayCash">
+     
                                         <div class="form-group mb-3">    
                                             <label class="ml-1" style="font-weight: 500"> Reference No. </label>
                                             <input type="text" style="color: #ec7b1c; font-weight: 600;" pattern="[0-9]{9}" class="form-control" name="referenceNo" id="referenceNo" min="<%=minRefNo%>" value="<%=maxRefNo%>" required>
@@ -510,9 +507,7 @@
                                                     <span class="input-group-text bg-success text-light">&#8369;</span>
                                                 </div>
                                                 <!--<input type="hidden" name="invoiceNumber" value="<'%=invoice%>"> -->
-                                                <input type="number" name="totalProfit" value="<%=totalProfit%>" hidden>
-                                                <input type="number" name="totalAmount" value="<%=totalAmount%>" hidden>
-                                                <input type="number" name="customerMoney" class="form-control" aria-label="Amount (to the nearest dollar)" min="<%=totalAmount%>" required>
+                                                <input type="number" id="customerMoney" name="customerMoney" class="form-control" aria-label="Amount (to the nearest dollar)" min="<%=totalAmount%>" max="999999" required>
                         
                                             </div>
 
@@ -521,7 +516,7 @@
                                 </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary btn-dark" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-success">Proceed</button>
+                                            <button class="btn btn-success btnPayCash">Proceed</button>
                                         </div>
                                     </form>  
                             </div>
@@ -532,7 +527,7 @@
                 <!-- CREDIT PAY MODAL -->
                     <div class="modal fade" id="oweCashModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
-                            <form action="customer_order_credit_c.asp" method="POST">
+                            <form id="formPayCredit">
                                 <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">Pay In Credit</h5>
@@ -541,16 +536,8 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <input type="number" name="unique_num" value="<%=uniqueNum%>" hidden>
-                                    <input type="number" name="cust_id" value="<%=custID%>" hidden>
-                                    <input type="text" name="cust_name" value="<%=custFullName%>" hidden>
-                                    <input type="text" name="cust_dept" value="<%=department%>" hidden>
-                                    <input type="number" name="totalProfit" value="<%=totalProfit%>" hidden>
-                                    <input type="number" name="totalAmount" value="<%=totalAmount%>" hidden>
-                                    <input type="text" name="customerType" value="<%=customerType%>" hidden>
-                                    <input type="text" name="userType" class="userType" value="<%=userType%>" hidden>
-                                    <input type="text" name="userEmail" class="userEmail" value="" hidden>
-                                    <input type="text" name="isClosed" value="yes" hidden>
+
+                                    <input type="text" name="customerType" id="customerType" value="<%=customerType%>" hidden>
                                     <!--
                                     <p>Are you sure to process your order?</p>
                                     -->
@@ -561,7 +548,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-success">Proceed</button>
+                                    <button type="submit" class="btn btn-success btnPayCredit">Proceed</button>
                                 </div>
                                 </div>
                             </form>
@@ -622,24 +609,262 @@ end if%>
     const cashierType = localStorage.getItem('type');
     const cashierEmail = localStorage.getItem('email');
     const cashierName = localStorage.getItem('fullname');
-    document.querySelector('.userEmail').value = cashierEmail;
-    document.querySelector('.cashierName').value = cashierName;
+    const cashierTokenId = localStorage.getItem('tokenid');
 
     tail.select("#products", {
         search: true,
         deselect: true,    
     });
 
-    function delete_order(transactID , uniqueNum, custID) {
-
-        if(confirm('Are you sure that you want to cancel this order?'))
-        {
-            window.location.href=`customer_order_process_cancel.asp?transact_id=${transactID}&unique_num=${uniqueNum}&cust_id=${custID}&userType=${cashierType}`;
-            //window.location.href='delete.asp?delete_id='+id;
-        }
-
+    if (document.getElementById('orderFormAdmin') !== null) {
+        const productID = document.getElementById('products');
+        const quantity = document.getElementById('quantity');
     }
 
+    const custID = document.getElementById('cust_id').value;
+    const uniqueNum = document.getElementById('unique_num').value;
+    const userType = document.getElementById('userType').value;
+
+    const custName = document.getElementById('cust_name').value;
+    const custDept = document.getElementById('cust_dept').value;
+
+    const formOrder = document.createElement('form');
+    formOrder.setAttribute('action', 'customer_order_process.asp');
+    formOrder.setAttribute('method', 'POST');
+
+    const inputElCashierType = document.createElement('input');
+    inputElCashierType.setAttribute('name', 'userType');
+    inputElCashierType.setAttribute('value', cashierType);
+
+    const inputElCashierEmail = document.createElement('input');
+    inputElCashierEmail.setAttribute('name', 'cashierEmail');
+    inputElCashierEmail.setAttribute('value', cashierEmail);
+
+    const inputElUniqueNum = document.createElement('input');
+    inputElUniqueNum.setAttribute('name', 'unique_num');
+    inputElUniqueNum.setAttribute('value', uniqueNum);
+
+    const inputElCustId = document.createElement('input');
+    inputElCustId.setAttribute('name', 'cust_id');
+    inputElCustId.setAttribute('value', custID);
+
+    formOrder.appendChild(inputElCashierType);
+    formOrder.appendChild(inputElUniqueNum);
+    formOrder.appendChild(inputElCustId);
+
+    const formPayCash = document.getElementById('formPayCash');
+    const formPayCredit = document.getElementById('formPayCredit');
+
+    $('.btnAdd').click(function(event) {
+
+        if(products.checkValidity() && quantity.checkValidity()) {
+            //your form execution code
+            event.preventDefault();
+
+            var URL = 'customer_incoming2.asp';
+
+            const prodID = Number(productID.value);
+            const prodQty = Number(quantity.value);;
+
+            const inputElProdId = document.createElement('input');
+            inputElProdId.setAttribute('name', 'productID');
+            inputElProdId.setAttribute('value', prodID);
+
+            const inputElQty = document.createElement('input');
+            inputElQty.setAttribute('name', 'salesQty');
+            inputElQty.setAttribute('value', prodQty);
+
+            // console.log(prodID);
+            $.ajax({
+                url: URL,
+                type: 'POST',
+                data: {productID: prodID, salesQty: prodQty, cashierType: cashierType, cashierEmail: cashierEmail, cust_id: custID, unique_num: uniqueNum, tokenID: cashierTokenId},
+            })
+            .done(function(data) { 
+                // console.log(data);
+                //console.log(custID, prodID, prodQty);
+                if (data === 'invalid cashier') alert('Invalid Cashier');
+                else if (data === 'invalid quantity') alert('Invalid Quantity');
+                else if (data == 'store closed') alert('Sorry, the store is closed.');
+                else {
+                    document.body.appendChild(formOrder);
+                    formOrder.submit();
+                }    
+            })
+            .fail(function() {
+                console.log("Response Error");
+            });
+
+        }
+
+    });
+
+
+    $('.btnCancel').click(function(event) {
+
+        if(confirm('Are you sure that you want to cancel this order?')) {
+
+            const orderID = event.target.value;
+        
+            $.ajax({
+                url: 'customer_order_process_cancel.asp',
+                type: 'POST',
+                data: {orderID: orderID, unique_num: uniqueNum, cust_id: custID, cashierEmail: cashierEmail, cashierType: cashierType, tokenID: cashierTokenId},
+            })
+            .done(function(data) { 
+
+                if (data === 'invalid cashier') alert('Invalid Cashier');
+                else if (data === 'no update permission') alert(`Sorry, You don't have a permission for this action.`);
+                else {
+                    alert('Order has been cancelled.')
+                    document.body.appendChild(formOrder);
+                    formOrder.submit();
+                }    
+            })
+            .fail(function() {
+                console.log("Response Error");
+            });
+        }
+    });
+
+    $('.btnPayCash').click(function(event) {
+
+        if(formPayCash.checkValidity()) {
+
+            event.preventDefault();
+            
+            const totalProfit = document.getElementById('totalProfit').value;
+            const totalAmount = document.getElementById('totalAmount').value;
+            const customerMoney = document.getElementById('customerMoney').value;
+            const referenceNo = document.getElementById('referenceNo').value;
+
+            $.ajax({
+                url: 'customer_pay2.asp',
+                type: 'POST',
+                data: {custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, totalProfit: totalProfit, totalAmount: totalAmount, customerMoney: customerMoney, referenceNo: referenceNo, cashierEmail: cashierEmail, cashierName: cashierName, cashierType: cashierType, tokenID: cashierTokenId},
+            })
+            .done(function(data) { 
+
+                // console.log(data);
+                if (data === 'no cashier') {
+                    alert('No Cashier');
+                    localStorage.clear();
+                    window.location = 'canteen_login.asp';
+                }
+
+                else if (data === 'invalid cashier') {
+                    alert('Invalid Cashier');
+                    localStorage.clear();
+                    window.location.href='canteen_login.asp';
+                }
+
+                else if (data === 'invalid reference number') {
+                    alert('Invalid Reference Number');
+                }
+
+                else if (data === 'order does not exist') {
+                    alert('Order does not exist');
+                    window.location.href = 'customer_orders.asp';
+                }
+
+                else if (data === 'insufficient cash') {
+                    alert('Insufficient Cash');
+                    document.body.appendChild(formOrder);
+                    formOrder.submit();
+                }
+
+                else if (data === 'insufficient product stock') {
+                    alert('Insufficient Product Stock');
+                    document.body.appendChild(formOrder);
+                    formOrder.submit();
+                }
+
+                else {
+                    alert('Order Completed!');
+                    window.location.href = 'receipt_customer_cash.asp?invoice='+data;
+                }
+
+            })
+            .fail(function() {
+                console.log("Response Error");
+            });
+        }
+
+    });
+
+    
+    $('.btnPayCredit').click(function(event) {
+
+        const totalProfit = document.getElementById('totalProfit').value;
+        const totalAmount = document.getElementById('totalAmount').value;
+        const customerMoney = document.getElementById('customerMoney').value;
+        const customerType = document.getElementById('customerType').value;
+        const arReferenceNo = document.getElementById('arReferenceNo').value;
+        
+
+        if (formPayCredit.checkValidity()) {
+            
+            event.preventDefault();
+
+            $.ajax({
+                url: 'customer_order_credit_c.asp',
+                type: 'POST',
+                data: {arReferenceNo: arReferenceNo, custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, customerType: customerType, cashierType: cashierType, cashierEmail: cashierEmail, cashierName: cashierName,  tokenID: cashierTokenId},
+            })
+            .done(function(data) { 
+
+                // console.log(data);
+                if (data === 'no cashier') {
+                    alert('No Cashier');
+                    localStorage.clear();
+                    window.location = 'canteen_login.asp';
+                }
+
+                if (data === 'invalid cashier') {
+                    alert('Invalid Cashier');
+                    localStorage.clear();
+                    window.location.href='canteen_login.asp';
+                }
+
+                else if (data === 'invalid reference number') {
+                    alert('Invalid Reference Number');
+                }
+
+                else if (data === 'order does not exist') {
+                    alert('Order does not exist');
+                    window.location.href = 'customer_orders.asp';
+                }
+
+                else if (data === 'insufficient product stock') {
+                    alert('Insufficient Product Stock');
+                    document.body.appendChild(formOrder);
+                    formOrder.submit();
+                }
+
+                else {
+                    alert('Order Completed!');
+                    const orderData = data.split(',');
+                    window.location.href = `receipt_ar_order.asp?invoice=${orderData[0]}&date=${orderData[1]}`;
+                }
+
+            })
+            .fail(function() {
+                console.log("Response Error");
+            });
+        }
+
+
+    });
+
+    // function delete_order(transactID , uniqueNum, custID) {
+
+    //     if(confirm('Are you sure that you want to cancel this order?'))
+    //     {
+    //         window.location.href=`customer_order_process_cancel.asp?transact_id=${transactID}&unique_num=${uniqueNum}&cust_id=${custID}&userType=${cashierType}`;
+    //         //window.location.href='delete.asp?delete_id='+id;
+    //     }
+
+    // }
 
 </script> 
 

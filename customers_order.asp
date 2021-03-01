@@ -122,7 +122,7 @@
                         <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("amount"))%></td> 
                         <td class="text-darker"><%Response.Write(FormatDateTime(rs("date"), 2))%></td>
                         <td class="m-0">
-                            <button onClick="view_order(<%=rs("unique_num")%>, '<%=rs("cust_id")%>')" class="btn btn-sm btn-outline-dark mx-auto mb-2">
+                            <button id="<%=rs("unique_num")%>" value="<%=rs("cust_id")%>"  class="btn btn-sm btn-outline-dark mx-auto mb-2 btnViewOrder">
                             View
                             </button>
 
@@ -158,6 +158,7 @@
 <script>  
 
 const userType = localStorage.getItem('type');
+// const btnViewOrder = document.querySelector('.btnViewOrder');
 
  $(document).ready( function () {
     $('#myTable').DataTable({
@@ -181,6 +182,42 @@ const userType = localStorage.getItem('type');
 // 	window.location.href='a_order_process.asp?cust_id='+id;	
 	
 // }
+
+
+if (document.querySelector('.btnViewOrder') !== null) {
+
+    $('.btnViewOrder').click(function(e) {
+        
+        const uniqueNum = e.target.id;
+        const custID = e.target.value;
+
+        const formOrder = document.createElement('form');
+        formOrder.setAttribute('action', 'customer_order_process.asp');
+        formOrder.setAttribute('method', 'POST');
+
+        const inputElUniqueNum = document.createElement('input');
+        inputElUniqueNum.setAttribute('name', 'unique_num');
+        inputElUniqueNum.setAttribute('value', uniqueNum);
+
+        const inputElCustID = document.createElement('input');
+        inputElCustID.setAttribute('name', 'cust_id');
+        inputElCustID.setAttribute('value', custID);
+
+        const inputElUserType = document.createElement('input');
+        inputElUserType.setAttribute('name', 'userType');
+        inputElUserType.setAttribute('value', userType);
+
+        formOrder.appendChild(inputElUniqueNum);
+        formOrder.appendChild(inputElCustID);
+        formOrder.appendChild(inputElUserType);
+
+        // console.log(formOrder);
+        document.body.appendChild(formOrder);
+        formOrder.submit();
+    })
+}
+
+
 
 function view_order(unique_num ,custID) {
 

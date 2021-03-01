@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- <form class="d-inline" class="forms"> -->
+    <div class="container">
+        <input type="number" id="uniqueNum" value="1" hidden>
+        <input type="number" id="custID" value="5" hidden>
+        <button type="submit" id="myBtn">
+        View
+        </button>
+    </div>
+    <!-- </form> -->
+    
+    <!-- <form class="d-inline" class="forms">
+        <input type="number" id="uniqueNum2" value="10" hidden>
+        <input type="number" id="custID2" value="50" hidden>
+        <button type="submit" id="myBtn2">
+        View
+        </button>
+    </form> -->
+    
+
+    <script>
+
+        const myBtn = document.getElementById('myBtn');
+        const uniqueNum = document.getElementById('uniqueNum');
+        const custID = document.getElementById('custID');
+    
+        myBtn.addEventListener('click', (event) => {
+    
+            event.preventDefault();
+            
+            const parentElement = myBtn.parentElement;
+            console.log(parentElement.childNodes);
+            // const myForm = document.createElement('form');
+            // myForm.setAttribute('method', 'POST');
+            // myForm.setAttribute('action', 'default.asp');
+
+            // myForm.appendChild(uniqueNum);
+            // myForm.appendChild(custID);
+            
+            // document.body.appendChild(myForm);
+            // console.log(myForm);
+            // myForm.submit();
+            
+            // myForm.submit();
+            
+        })
+    
+    </script>
+</body>
+</html>
+
+
+
+

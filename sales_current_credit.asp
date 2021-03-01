@@ -496,7 +496,7 @@
                         <span class="total-text">Cash
                             <span class="currency-sign">&#8369;</span>
                         </span>
-                        <input class="input-total cash-input form-control form-control-sm" type="number" value="<%=recentCashPaid%>" name="cash_payment" step="any"  id="cash_payment" min="<%=totalRecentPayment%>" step="any" required/>
+                        <input class="input-total cash-input form-control form-control-sm" type="number" value="<%=recentCashPaid%>" name="cash_payment" step="any"  id="cash_payment" min="<%=totalRecentPayment%>" max="999999" required/>
                     </div>
 
                     <!-- Getting the arPath to update the AR tbl -->
