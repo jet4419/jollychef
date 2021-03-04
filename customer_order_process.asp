@@ -285,9 +285,9 @@
 
                 <%if userType = "admin" or userType = "programmer" then%>
                     <!-- ORDER FORM -->
-                    <form action="customer_incoming2.asp" id="orderFormAdmin" class="form-group form-inline" method="POST">
+                    <form id="orderFormAdmin" class="form-group form-inline" method="POST">
 
-                        <select id="products" class="form-control mr-2" name="productID" style="width:650px; "class="chzn-select" required placeholder="Select Product">
+                        <select id="products" class="form-control mr-2" name="product_id" style="width:650px; "class="chzn-select" placeholder="Select Product" required>
                     
                         <% 
                             rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND (orders_holder.status = 'Pending' OR orders_holder.status = 'On Process') GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name", CN2
@@ -386,7 +386,7 @@
                         </select>
 
                         <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" max="999999" required>
-                        <button name="btnAdd" value="btnAddDetails" class="btn btnAdd btn-success" min="1" max="100" >Add</button>
+                        <button name="btnAdd" type="submit" value="btnAddDetails" class="btnAdd btn  btn-success" min="1" max="100" >Add</button>
                     </form>
                     <!-- END OF ORDER FORM -->
 
@@ -616,7 +616,9 @@ end if%>
         deselect: true,    
     });
 
-    if (document.getElementById('orderFormAdmin') !== null) {
+    const formOrderAdmin = document.getElementById('orderFormAdmin');
+
+    if (formOrderAdmin !== null) {
         const productID = document.getElementById('products');
         const quantity = document.getElementById('quantity');
     }
@@ -657,13 +659,13 @@ end if%>
 
     $('.btnAdd').click(function(event) {
 
-        if(products.checkValidity() && quantity.checkValidity()) {
+        if(formOrderAdmin.checkValidity()) {
             //your form execution code
             event.preventDefault();
 
             var URL = 'customer_incoming2.asp';
 
-            const prodID = Number(productID.value);
+            const prodID = Number(document.getElementById('products').value);
             const prodQty = Number(quantity.value);;
 
             const inputElProdId = document.createElement('input');

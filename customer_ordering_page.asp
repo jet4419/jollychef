@@ -389,7 +389,7 @@
                 //data: {},
             })
             .done(function(data) { 
-                console.log(data);
+                // console.log(data);
                 //console.log(custID, prodID, prodQty);
                 if (data !== 'invalid qty') location.reload();
                 else if (data == 'store closed') alert('Sorry, the store is closed.');
@@ -456,7 +456,7 @@
                 document.querySelector('#customerID').value = Number(localStorage.getItem('cust_id'));
 
             } else {
-                console.log("no new data");
+                // console.log("no new data");
                 $('.btnPayment').attr('disabled', "");
             }
         })
