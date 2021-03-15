@@ -50,15 +50,19 @@
 
 <main id="main" class="main--main-page default homepage">
 
-    <h1 class="home-main-heading"> 
-    	
+    <div class="home-main-heading"> 
     	<span class="home-main-heading-text home-main-heading--text-1">
-        	<span class="letter-r">JollyChef</span>
+        	<span class="letter-r">
+                <span class="jolly-chef-text">JollyChef</span>
+            </span>
             <span class="letter-c">Inc.</span>
         </span> 
         <span class="home-main-heading-text home-main-heading--text-2">We serve passion</span> 
-        <div class="background-image"></div>
-    </h1>
+    </div>
+
+     <div class="home-heading-logo">
+        <img src="../img/order_food.svg">
+    </div>
     
 </main>
 
