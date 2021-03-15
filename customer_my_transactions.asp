@@ -156,15 +156,6 @@
                 color: #7d7d7d;
             } */
 
-            .total-value, .total-text {
-                font-size: 18px;
-                font-weight: 500;
-            }
-
-            .total-darker {
-                font-weight: 600;
-            }
-
         </style>
         <!--<script type="text/javascript" >
         function preventBack(){window.history.forward();}
@@ -459,31 +450,31 @@
 
                         <tfoot>
                             <tr>
-                                <td><h3 class="lead"><strong class="text-darker total-text total-darker">Total</strong></h3></td>
+                                <td><strong class="text-darker total-text total-darker">Total</strong></td>
                                 <td class="no-cell"></td>
                                 <td class="no-cell"></td>
                                 <td>
-                                    <h3 class="lead">
-                                        <strong class="text-darker total-value">
-                                            <span class="total-darker"><%=totalDebit%></span>
-                                        </strong>    
-                                    </h3>
+                                    
+                                    <strong class="text-darker total-value">
+                                        <span class="currency-sign">&#8369; </span><%=totalDebit%>
+                                    </strong>    
+                                    
                                 </td>
 
                                 <td>
-                                    <h3 class="lead">
-                                        <strong class="text-darker total-value">
-                                            <span class="total-darker"><%=totalCredit%></span>
-                                        </strong>    
-                                    </h3>
+                                    
+                                    <strong class="text-darker total-value">
+                                        <span class="currency-sign">&#8369; </span><%=totalCredit%>
+                                    </strong>    
+                                    
                                 </td>
 
                                 <td>
-                                    <h3 class="lead">
-                                        <strong class="text-darker total-value">
-                                            <span class="total-darker"><%=balance%></span>
-                                        </strong>
-                                    </h3>
+                                    
+                                    <strong class="text-darker total-value">
+                                        <span class="currency-sign">&#8369; </span><%=balance%>
+                                    </strong>
+                                    
                                 </td>
                                 <td></td>
                             </tr>

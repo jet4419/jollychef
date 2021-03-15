@@ -298,8 +298,18 @@ input[type='number'] {
 }
 
 .currency-sign {
-  color: #438a5e;
-  color: #608c71;
+  /* color: #438a5e;
+  color: #608c71; */
+  color: #333533c9;
+  font-weight: 500;
+}
+
+.total-darker {
+  font-weight: 600;
+}
+
+.total-value,
+.total-text {
   font-weight: 500;
 }
 
@@ -398,13 +408,6 @@ input[type='number'] {
   cursor: pointer;
   /* background-color: #007bff; */
   color: #f4ea8e;
-}
-
-.currency-sign {
-  /* color: #438a5e; */
-  color: #608c71;
-  font-weight: 500;
-  /* display: none; */
 }
 
 /* .user-logout-btn:focus{background-color:red;} */

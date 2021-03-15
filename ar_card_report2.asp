@@ -490,23 +490,25 @@
                     <%rs.close%>
                     <tfoot>
                         <tr>
-                            <td colspan="3"><strong class="text-darker total-text total-darker">Total</strong>
+                            <td><strong class="text-darker total-text total-darker">Total</strong>
                             </td>
+                            <td class="no-cell"></td>
+                            <td class="no-cell"></td>
                             <td>
                                 <strong class="text-darker">
-                                    <span class="total-value total-darker"><%=totalDebit%></span>
+                                    <span class="total-value total-darker"> <span class="currency-sign">&#8369; </span> <%=totalDebit%></span>
                                 </strong>    
                             </td>
 
                             <td>
                                 <strong class="text-darker">
-                                    <span class="total-value total-darker"><%=totalCredit%></span>
+                                    <span class="total-value total-darker"> <span class="currency-sign">&#8369; </span> <%=totalCredit%></span>
                                 </strong>    
                             </td>
 
                             <td>
                                 <strong class="text-darker">
-                                    <span class="total-value total-darker"><%=currCredit%></span>
+                                    <span class="total-value total-darker"> <span class="currency-sign">&#8369; </span> <%=currCredit%></span>
                                 </strong>
                             </td>
                             <td></td>

@@ -5,6 +5,8 @@ test_add_data.asp
 test_datatable.html
 test_date.asp
 test_error_handling.asp
+test_fetch.html
+test_fetch_c.asp
 test_jib.asp
 test_print.asp
 test_something.asp

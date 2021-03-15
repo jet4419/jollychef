@@ -183,6 +183,11 @@
                 width: 200px; 
             }
 
+            .no-credits {
+                margin-top: 10rem;
+                text-align: center;
+            }
+
         </style>
         <!--
         <script type="text/javascript" >
@@ -320,16 +325,7 @@
             <!--
             <button id="<'%=custID%>" class="btn btn-sm btn-dark btnDateCredit" >Select Credit Date</button>
             -->
-            <%  'sqlQuery = "SELECT MAX(sched_id) AS sched_id, status, date_time FROM store_schedule" 
-            '     set objAccess = cnroot.execute(sqlQuery)
-            '     if not objAccess.EOF then
-            '         isStoreClosed = CStr(objAccess("status"))
-            '         set objAccess = nothing
-            '     else 
-            '         isStoreClosed = "open"
-            '     end if    
-
-            '    set objAccess = nothing
+            <%  
 
                 Dim arFile, arFolderPath
 
@@ -342,110 +338,121 @@
 
             %>
 
-            <% rs.Open "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and balance > 0 ORDER BY date_owed DESC, invoice_no DESC GROUP BY invoice_no", CN2%>    
-                          
-            <form id="myForm" method="POST">
- 
-                <div class="table-responsive-sm mt-5">
-                    <table class="table table-bordered table-sm" id="myTable">
-                        <thead class="thead-bg">
-                            <th>Date</th>
-                            <th>Invoice</th>
-                            <th>Amount Credit</th>
-                            <th>Balance</th>
-                            <th>Payment</th>
-                        </thead>
+            <% rs.Open "SELECT * FROM "&arPath&" WHERE cust_id="&custID&" and balance > 0 ORDER BY date_owed DESC, invoice_no DESC GROUP BY invoice_no", CN2  
 
-                        <% Dim totalBalance, counter 
-                        totalBalance = 0.00 
-                        counter = 0
-                        %>
-                        <%do until rs.EOF%>
-                        <tr>
-                            <%
-                                invoice = rs("invoice_no").value
-                                counter = counter + 1
+
+            if not rs.EOF then%>
+
+                <input type="hidden" id="dbArRefNo" value="<%=rs("ref_no")%>"> 
+                            
+                <form id="myForm" method="POST">
+    
+                    <div class="table-responsive-sm mt-5">
+                        <table class="table table-bordered table-sm" id="myTable">
+                            <thead class="thead-bg">
+                                <th>Date</th>
+                                <th>Invoice</th>
+                                <th>Amount Credit</th>
+                                <th>Balance</th>
+                                <th>Payment</th>
+                            </thead>
+
+                            <% Dim totalBalance, counter 
+                            totalBalance = 0.00 
+                            counter = 0
                             %>
-                            <% 
-                                myDate = CDATE(rs("date_owed"))
-                                myYear = Year(myDate)
-                                myDay = Day(myDate)
-                                if Len(myDay) = 1 then
-                                    myDay = "0" & myDay
-                                end if
-
-                                myMonth = Month(myDate)
-                                if Len(myMonth) = 1 then
-                                    myMonth = "0" & myMonth
-                                end if
-
-                                dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
-                                d = CDate(rs("date_owed"))
-                                d = FormatDateTime(d, 2)
-                            %>
-                            <td class="text-darker"><%Response.Write(dateFormat)%></td>
-                            <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>' class="text-dark"><%Response.Write(rs("invoice_no"))%></a></td>
-                            <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("receivable"))%></td>
-                            <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("balance"))%></td>
-                            <% totalBalance = totalBalance + CDbl(rs("balance").value) %>
-                            <td>
-                            <div class="input-group input-group-sm py-1">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-success text-light currency-sign" id="inputGroup-sizing-sm">&#8369;</span>
-                                </div>
-                                <input onblur="findTotal()" type="number" id="<%=invoice%>" name="sub_total" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=rs("balance")%>">
-                            </div>
-                            </td>
-
-                        </tr>
-                        <%rs.MoveNext%>
-                        <%loop%>
-
-                        <%rs.close%>
-                        <%CN2.close%>
-                        <tfoot>
+                            <%do until rs.EOF%>
                             <tr>
-                                <td colspan="3"> <strong> Total Balance </strong> </td>
-                                <td colspan="2"> <strong> <%=totalBalance%> </strong> </td>
+                                <%
+                                    invoice = rs("invoice_no").value
+                                    counter = counter + 1
+                                %>
+                                <% 
+                                    myDate = CDATE(rs("date_owed"))
+                                    myYear = Year(myDate)
+                                    myDay = Day(myDate)
+                                    if Len(myDay) = 1 then
+                                        myDay = "0" & myDay
+                                    end if
+
+                                    myMonth = Month(myDate)
+                                    if Len(myMonth) = 1 then
+                                        myMonth = "0" & myMonth
+                                    end if
+
+                                    dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+                                    d = CDate(rs("date_owed"))
+                                    d = FormatDateTime(d, 2)
+                                %>
+                                <td class="text-darker"><%Response.Write(dateFormat)%></td>
+                                <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>' class="text-dark"><%Response.Write(rs("invoice_no"))%></a></td>
+                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("receivable"))%></td>
+                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("balance"))%></td>
+                                <% totalBalance = totalBalance + CDbl(rs("balance").value) %>
+                                <td>
+                                <div class="input-group input-group-sm py-1">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-success text-light currency-sign" id="inputGroup-sizing-sm">&#8369;</span>
+                                    </div>
+                                    <input onblur="findTotal()" type="number" id="<%=invoice%>" name="sub_total" step="any" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" min="0.1" max="<%=rs("balance")%>">
+                                </div>
+                                </td>
+
                             </tr>
-                        </tfoot>
-                    </table>
+                            <%rs.MoveNext%>
+                            <%loop%>
 
-                    
-                    <div class="total-payment-container mt-2">
+                            <%rs.close%>
+                            <%CN2.close%>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3"> <strong> Total Balance </strong> </td>
+                                    <td colspan="2"> <strong> <%=totalBalance%> </strong> </td>
+                                </tr>
+                            </tfoot>
+                        </table>
 
-                        <div class="item item-left form-group ">
-                            <span class="total-text">Reference No</span>
-                            <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" min="<%=minRefNo%>" value="<%=maxRefNo%>" pattern="[0-9]{9}" required/>
-                        </div>
                         
-                        <div class="item item-left form-group">
-                            <span class="total-text">Sub Total
-                                <span class="currency-sign">&#8369;</span>
-                            </span>
-                            <input class="input-total form-control form-control-sm" type="number" name="total" value="0" step="any" min="0.1" max="0" id="total" required data-readonly/>
+                        <div class="total-payment-container mt-2">
+
+                            <div class="item item-left form-group ">
+                                <span class="total-text">Reference No</span>
+                                <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" min="<%=minRefNo%>" value="<%=maxRefNo%>" pattern="[0-9]{9}" minlength="9" maxlength="9" required/>
+                            </div>
+                            
+                            <div class="item item-left form-group">
+                                <span class="total-text">Sub Total
+                                    <span class="currency-sign">&#8369;</span>
+                                </span>
+                                <input class="input-total form-control form-control-sm" type="number" name="total" value="0" step="any" min="0.1" max="0" id="total" required data-readonly/>
+                            </div>
+
+                            <div class="item item-right form-group">
+                                <span class="total-text">Cash
+                                    <span class="currency-sign">&#8369;</span>
+                                </span>
+                                <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" max="999999" required onchange="distributePayment()"/>
+                            </div>
+
                         </div>
 
-                        <div class="item item-right form-group">
-                            <span class="total-text">Cash
-                                <span class="currency-sign">&#8369;</span>
-                            </span>
-                            <input class="input-total cash-input form-control form-control-sm" type="number" value="0" min="0.1" name="cash_payment" step="any"  id="cash_payment" step="any" max="999999" required onchange="distributePayment()"/>
+                        <div class="d-flex justify-content-center">
+                            <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
+                            <input type="hidden" name="credit_date">
+                            <%if counter > 0 then%>
+                                <button type="submit" class="btn btn-primary " id="myBtn">Submit</button>
+                            <%end if%>
                         </div>
 
                     </div>
 
-                    <div class="d-flex justify-content-center">
-                        <input type="hidden" name="cust_id" id="cust_id" value="<%=custID%>">
-                        <input type="hidden" name="credit_date">
-                        <%if counter > 0 then%>
-                            <button type="submit" class="btn btn-primary " id="myBtn">Submit</button>
-                        <%end if%>
-                    </div>
+                </form>
 
+            <%else%>
+                <div class="no-credits">
+                    <h1> NO RECORDS </h1>
                 </div>
-
-            </form>
+            <%end if%>
 
         </div>    
     </div>
@@ -622,22 +629,25 @@ $(document).ready( function () {
         e.preventDefault();
     });
 
-    $(document).on("click", "#myBtn", function(event) {
+    $("#myBtn").click(function(event) {
 
         var valid = this.form.checkValidity();
+        // console.log(this.form.checkValidity());
+        // console.log(valid);
 
         if (valid) {
 
             event.preventDefault();
 
-            var myValue = document.querySelectorAll('input[name="sub_total"]');
-            var myStrings = "";
-            var myInvoices = "";
+            const myValue = document.querySelectorAll('input[name="sub_total"]');
+            // var myStrings = "";
+            let myInvoices = "";
             var myValues = "";
             const custID = document.getElementById("cust_id").value;
             var subTotal = document.getElementById("total").value;
             var cashPayment = document.getElementById("cash_payment").value;
-            var referenceNo = document.getElementById("reference_no").value;
+            const referenceNo = document.getElementById("reference_no").value;
+            const arReferenceNo = document.getElementById("dbArRefNo").value;
 
             var custName = document.getElementById('custName').textContent;
             var custDepartment = document.getElementById('custDepartment').textContent;
@@ -659,33 +669,34 @@ $(document).ready( function () {
                 type: "POST",
                 data: {
                        myInvoices: myInvoices, myValues: myValues, subTotal: subTotal, 
-                       custID: custID, cashPayment: cashPayment, referenceNo: referenceNo, custName: custName, custDepartment: custDepartment
+                       custID: custID, cashPayment: cashPayment, referenceNo: referenceNo, arReferenceNo: arReferenceNo, custName: custName, custDepartment: custDepartment
                       },
                 success: function(data) {
                     //alert(data)
 
                 /* Progress Bar
                 loadingImg.classList.add('hidden')
-                */
-                    console.log(`Data value: ${data}. Is data equal to false? ${data=='false'}`)
+                */  
+                    // console.log(arReferenceNo);
+                    // console.log(`Data value: ${data}. Is data equal to false? ${data=='false'}`)
                     
                     if (data=='false') {
                         
-                        alert('Error: Reference already exist!');
+                        alert('Sorry, Reference number already exist!');
                         // location.reload();
                     }
 
                     else if (data=='invalid transactions') {
-                        alert('Error: Invalid Payment');
+                        alert('Sorry, Invalid Transactions.');
                         // location.reload();
                     }
 
                     else {
 
                         alert("Payment Transfer Successfully!");
-                        location.reload();
+                        // location.reload();
                         //alert(data)
-                        // location.replace("receipt_ar.asp?ref_no="+data);
+                        location.replace("receipt_ar.asp?ref_no="+data);
 
 
                         //window.location.href= "editAR.asp?#";
@@ -699,18 +710,28 @@ $(document).ready( function () {
         }
     });
 
-     function findTotal(){
+    const inputTotal = document.getElementById('total');
+    const inputCashPayment = document.getElementById('cash_payment');
+
+    function findTotal(){
+
         var arr = document.getElementsByName('sub_total');
         var total = 0;
+
         for(var i=0;i<arr.length;i++){
             if(parseFloat(arr[i].value))
                 total += parseFloat(arr[i].value);
         }
-        total = total.toFixed(2)
-        document.querySelector('input#total').value = total;
-        document.querySelector('input#total').min = total;
-        document.querySelector('input#total').max = total;
-        document.querySelector('input#cash_payment').min = total;
+
+        total = total.toFixed(2);
+
+        if (total > 0) {
+            inputTotal.value = total;
+            inputTotal.min = total;
+            inputTotal.max = total;
+            inputCashPayment.min = total;
+        }
+        
     }
 
     function distributePayment() {
@@ -720,34 +741,39 @@ $(document).ready( function () {
 
         // console.log(typeof +custPayment.value);
 
-        for (let i = 0; i < invoiceBalance.length; i++) {
+        if (custPayment > 0) {
+
+            for (let i = 0; i < invoiceBalance.length; i++) {
             
-            if (custPayment <= 0) {
-                invoiceBalance[i].value = '';
-            } else {
-                
-                // console.log(`${custPayment} - ${invoiceBalance[i].max} = ${custPayment - invoiceBalance[i].max}`);
-                custPayment = custPayment - invoiceBalance[i].max;
-                
+                if (custPayment <= 0) {
+                    invoiceBalance[i].value = '';
+                } else {
+                    
+                    // console.log(`${custPayment} - ${invoiceBalance[i].max} = ${custPayment - invoiceBalance[i].max}`);
+                    custPayment = custPayment - invoiceBalance[i].max;
+                    
 
-                if (custPayment >= 0) invoiceBalance[i].value = invoiceBalance[i].max;
-                else invoiceBalance[i].value = invoiceBalance[i].max - (-custPayment);
+                    if (custPayment >= 0) invoiceBalance[i].value = invoiceBalance[i].max;
+                    else invoiceBalance[i].value = invoiceBalance[i].max - (-custPayment);
 
-                subTotal += +invoiceBalance[i].value;
+                    subTotal += +invoiceBalance[i].value;
+                }
+
+            
+
+                // if (custPayment <= 0) break;
+
             }
 
-            
-
-            // if (custPayment <= 0) break;
-
+            document.querySelector('input#total').value = subTotal;
+            document.querySelector('input#total').min = subTotal;
+            document.querySelector('input#total').max = subTotal;
+            document.querySelector('input#cash_payment').min = subTotal;
+            // console.log(custPayment);
+            // console.log(subTotal);
         }
 
-        document.querySelector('input#total').value = subTotal;
-        document.querySelector('input#total').min = subTotal;
-        document.querySelector('input#total').max = subTotal;
-        document.querySelector('input#cash_payment').min = subTotal;
-        // console.log(custPayment);
-        // console.log(subTotal);
+        
 
     }
 

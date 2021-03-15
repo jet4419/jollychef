@@ -447,7 +447,7 @@
 
                                             <div class="form-group mb-3">    
                                                 <label class="ml-1" style="font-weight: 500"> Reference No. </label>
-                                                <input type="text" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="referenceNo" id="referenceNo" value="<%=maxRefNo%>" pattern="[0-9]{9}" min="<%=minRefNo%>" required>
+                                                <input type="text" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="referenceNo" id="referenceNo" value="<%=maxRefNo%>" pattern="[0-9]{9}" min="<%=minRefNo%>" minlength="9" maxlength="9" required>
                                             </div>
                                             
                                             <div class="form-group">
@@ -622,7 +622,7 @@ document.querySelector('#userEmail').value = userEmail;
 
         }
 
-   })
+   });
 
 </script> 
 </html>   

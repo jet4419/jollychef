@@ -411,7 +411,7 @@
                             totalAmount = 0.00
                             totalProfit = 0.00
                     
-                            rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum, CN2
+                            rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID, CN2
                         %>
                         
                             <%if not rs.EOF then
@@ -497,7 +497,7 @@
      
                                         <div class="form-group mb-3">    
                                             <label class="ml-1" style="font-weight: 500"> Reference No. </label>
-                                            <input type="text" style="color: #ec7b1c; font-weight: 600;" pattern="[0-9]{9}" class="form-control" name="referenceNo" id="referenceNo" min="<%=minRefNo%>" value="<%=maxRefNo%>" required>
+                                            <input type="text" style="color: #ec7b1c; font-weight: 600;" pattern="[0-9]{9}" class="form-control" name="referenceNo" id="referenceNo" min="<%=minRefNo%>" value="<%=maxRefNo%>" minlength="9" maxlength="9" required>
                                         </div>
                                         
                                         <div class="form-group">
@@ -543,7 +543,7 @@
                                     -->
                                     <div class="form-group mb-3">    
                                         <label class="ml-1" style="font-weight: 500"> Reference No. </label>
-                                        <input type="text" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="arReferenceNo" id="arReferenceNo" min="<%=minArRefNo%>" value="<%=maxArRefNo%>" pattern="[0-9]{9}" required>
+                                        <input type="text" style="color: #ec7b1c; font-weight: 600;" class="form-control" name="arReferenceNo" id="arReferenceNo" min="<%=minArRefNo%>" value="<%=maxArRefNo%>" pattern="[0-9]{9}" minlength="9" maxlength="9" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -829,7 +829,7 @@ end if%>
                 }
 
                 else if (data === 'invalid reference number') {
-                    alert('Invalid Reference Number');
+                    alert('Error: Reference number may already exist.');
                 }
 
                 else if (data === 'order does not exist') {

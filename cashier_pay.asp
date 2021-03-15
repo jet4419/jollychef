@@ -178,6 +178,19 @@
                     Response.Write("</script>")
                 end if
 
+            elseif totalAmount <> realAmount then
+
+                Response.Write("<script language=""javascript"">")
+                Response.Write("alert('Sorry, Invalid transactions.')")
+                Response.Write("</script>")
+                isValidT = false
+
+                if isValidT = false then
+                    Response.Write("<script language=""javascript"">")
+                    Response.Write("window.location.href=""cashier_order_page.asp"";")
+                    Response.Write("</script>")
+                end if
+
             else
 
                 rs.Open "SELECT * FROM products", CN2
@@ -294,13 +307,15 @@
                     rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status='"&status&"' and cust_id=0", CN2
 
                     do until rs.EOF
-                    maxOHid = maxOHid + 1
 
-                    sqlSOAdd = "INSERT INTO "&salesOrderPath&""&_ 
-                    "(transactid, ref_no, invoice_no, cust_id, cust_name, product_id, prod_brand, prod_gen, prod_price, prodamount, prod_qty, profit, date, payment, duplicate)"&_
-                    "VALUES ("&maxOHid&", '"&referenceNo&"', "&maxInvoice&", "&custID&", '"&custName&"', "&rs("prod_id")&", '"&rs("prod_brand")&"', '"&rs("prod_name")&"', "&rs("price")&", "&rs("amount")&", "&rs("qty")&", "&rs("profit")&", ctod(["&systemDate&"]), '"&userPayment&"', '"&isDuplicate&"')"
-                    cnroot.execute sqlSOAdd
-                    rs.MoveNext
+                        maxOHid = maxOHid + 1
+
+                        sqlSOAdd = "INSERT INTO "&salesOrderPath&""&_ 
+                        "(transactid, ref_no, invoice_no, cust_id, cust_name, product_id, prod_brand, prod_gen, prod_price, prodamount, prod_qty, profit, date, payment, duplicate)"&_
+                        "VALUES ("&maxOHid&", '"&referenceNo&"', "&maxInvoice&", "&custID&", '"&custName&"', "&rs("prod_id")&", '"&rs("prod_brand")&"', '"&rs("prod_name")&"', "&rs("price")&", "&rs("amount")&", "&rs("qty")&", "&rs("profit")&", ctod(["&systemDate&"]), '"&userPayment&"', '"&isDuplicate&"')"
+                        cnroot.execute sqlSOAdd
+                        
+                        rs.MoveNext
                     loop
 
                     rs.close

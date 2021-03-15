@@ -458,7 +458,7 @@
                                                 <td class="text-darker link-or"><%="none"%></td> 
                                             <% else %>    
                                                 <td>
-                                                    <a class="text-dark" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=transactDate%>''><%=rs("invoice")%></a>
+                                                    <a class="text-dark" target="_blank" href='receipt_reports.asp?invoice=<%=rs("invoice")%>&date=<%=transactDate%>'><%=rs("invoice")%></a>
                                                 </td> 
                                             <% end if %>    
                                             <% if CDbl(rs("debit")) <= 0 then %>

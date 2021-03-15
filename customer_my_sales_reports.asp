@@ -141,11 +141,6 @@
                 color: #7d7d7d;
             }
 
-            .total-value, .total-text {
-                font-size: 18px;
-                font-weight: 500;
-            }
-
             a.link-or {
                 /* color: #206a5d; */
                 color: #318fb5;
@@ -290,7 +285,7 @@
                             "FROM "&transactionsPath&" "&_
                             "WHERE cust_id="&custID&" and t_type='OTC' and date between CTOD('"&p_start_date&"') and CTOD('"&p_end_date&"') ORDER BY id", CN2 
                     %>
-             
+            
                     <%
                         balance = endingCredit        
                     %>
@@ -344,13 +339,9 @@
 
                 <tfoot>
                     <tr>
-                        <td colspan="3"><h3 class="lead"><strong class="text-darker total-text">Total</strong></h3></td>
+                        <td colspan="3"><strong class="text-darker total-text">Total</strong></td>
                         <td colspan="2">
-                            <h3 class="lead">
-                                <strong class="text-darker total-value">
-                                    <span class="total-darker"><strong><%=totalCashPaid%></strong></span>
-                                </strong>    
-                            </h3>
+                            <strong class="total-darker total-value"> <span class="currency-sign">&#8369; </span><%=totalCashPaid%></strong>
                         </td>
                     </tr>
                 </tfoot>

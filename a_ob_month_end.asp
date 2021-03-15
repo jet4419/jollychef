@@ -247,7 +247,7 @@
                             fs.CopyFile adReferenceNoBlankFile, newAdReferencePath
 
                             set fs = nothing
-                            Response.Write "Files successfully copied!"
+                            'Response.Write "Files successfully copied!"
 
                             'Get all the records that have a remaining balance'
                             rs.open "SELECT * FROM "&arPath&" WHERE balance > 0 ", CN2

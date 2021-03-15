@@ -648,8 +648,14 @@ $(document).ready( function () {
                        paymentMethod: paymentMethod, date: transactDate, arPath: arPath
                       },
                 success: function(data) {
-                    alert("Payment Transfer Successfully!");
-                    location.replace("receipt_ar_current.asp?ref_no="+data);
+                    
+                    if (data === 'invalid transaction') alert('Sorry, Invalid Transaction.')
+                    else if (data === 'invalid cash') alert('Sorry, Invalid Payment.')
+                    else {
+                        alert("Payment Transfer Successfully!");
+                        location.replace("receipt_ar_current.asp?ref_no="+data);
+                    }
+                    
                 }
             });
 

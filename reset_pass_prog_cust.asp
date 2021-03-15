@@ -50,9 +50,11 @@
                     <input type="password" id="password2" name="password2" class="form-control form-control-sm" placeholder="Confirm Password" minlength="4" maxlength="25" required>
                 </div>
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
-        
-                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-primary btn-block mb-2">
-                
+
+                <div class="w-50" style="margin: auto">
+                    <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-success btn-block mb-2">
+                </div>
+
             </form>
         </div>
 

@@ -400,7 +400,7 @@
                     td1.innerHTML = '<strong>Total Balance<strong>'
                     const td2 = document.createElement('td');
                     td2.setAttribute('colspan', '1');
-                    td2.innerHTML = `<strong> ${custOB} </strong>`;
+                    td2.innerHTML = `<strong> <span class='currency-sign'>&#8369; </span> ${custOB} </strong>`;
                     tr.appendChild(td1);
                     tr.appendChild(td2);
 

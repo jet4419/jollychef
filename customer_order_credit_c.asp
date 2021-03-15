@@ -127,7 +127,7 @@
             isOrderExist = true
 
             'Getting the total profit and amount'
-            sqlGetSum = "SELECT DISTINCT unique_num, SUM(qty) AS qty, SUM(amount) AS amount, SUM(profit) AS profit FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" GROUP BY unique_num"
+            sqlGetSum = "SELECT DISTINCT unique_num, SUM(qty) AS qty, SUM(amount) AS amount, SUM(profit) AS profit FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&customerID&" GROUP BY unique_num"
             set objAccess  = cnroot.execute(sqlGetSum)
 
             if not objAccess.EOF then
@@ -157,7 +157,7 @@
             if isOrderExist = true then
 
                 rs.Open "SELECT * FROM products", CN2
-                sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" GROUP BY prod_id" 
+                sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&customerID&" GROUP BY prod_id" 
                 set objAccess  = cnroot.execute(sqlAccess)
 
                 'DECREASING THE ORDERED PRODUCTS QTY'
@@ -304,7 +304,7 @@
 
                     'GETTING THE On Process ORDERS FROM ORDERS_HOLDER and SENDING IT TO SALES_ORDER'
                     salesDate = CDate(Date)
-                    rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum, CN2
+                    rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&customerID, CN2
                     i = 0
                     
                     do until rs.EOF

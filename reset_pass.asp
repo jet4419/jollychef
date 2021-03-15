@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="css/customer_style.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -61,8 +61,10 @@
                 </div>
 
                 <span class="password-warning mb-3" style="display: inline-block; color: red"></span>
-        
-                <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-primary btn-block mb-2">
+
+                <div class="w-50" style="margin: auto">
+                    <input type="submit" name="btnRegister" value="Reset Password" class="btn-main btn btn-success btn-block mb-2">
+                </div>
                 
             </form>
         </div>

@@ -557,6 +557,15 @@ a.main-menus--items.customers-icon {
   color: #37615b;
 }
 
+.total-darker {
+  font-weight: 600;
+}
+
+.total-value,
+.total-text {
+  font-weight: 500;
+}
+
 /* .final-total,
 .total-label,
 .name-label {

@@ -1,7 +1,18 @@
 <!--#include file="dbConnect.asp"-->
 
 <%
+
+if Request.Form("customerID") = "" then
+
+    Response.Write("<script language=""javascript"">")
+    Response.Write("window.location.href=""customer_ordering_page.asp"";")
+    Response.Write("</script>")
+
+end if
+
 customerID = CInt(Request.Form("customerID"))
+
+
 
 Dim yearPath, monthPath
 
@@ -58,6 +69,8 @@ if not rs.EOF then
     rs.MoveNext
     loop
 
+else
+    isProcessed = false
 end if
 
 rs.close
@@ -85,6 +98,20 @@ if isProcessed = true then
     Response.Write("<script language=""javascript"">")
     Response.Write("alert('Your order is on the process!')")
     Response.Write("</script>")
+    isValidTransact = false
+
+    if isValidTransact = false then
+    ' Response.Redirect("bootSales.asp")
+        Response.Write("<script language=""javascript"">")
+        Response.Write("window.location.href=""customer_ordering_page.asp"";")
+        Response.Write("</script>")
+    end If
+    'Response.Redirect("a_sales.asp")
+else
+
+    Response.Write("<script language=""javascript"">")
+    Response.Write("alert('Sorry, Invalid transactions')")
+    Response.Write("</script>")
     isAdded = true
     'invoiceNumber = invoiceNumber + 1
     if isAdded = true then
@@ -93,7 +120,7 @@ if isProcessed = true then
         Response.Write("window.location.href=""customer_ordering_page.asp"";")
         Response.Write("</script>")
     end If
-    'Response.Redirect("a_sales.asp")
+
 end if
 
 %>

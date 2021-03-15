@@ -288,6 +288,7 @@
             <form id="myForm" method="POST">
                 <input type="text" name="cust_name" id="cust_name" value="<%=custName%>" hidden>
                 <input type="text" name="department" id="department" value="<%=department%>" hidden>
+                <input type="hidden" id="arRefno" value="<%=rs("ref_no")%>">
 
                 <div class="table-responsive-sm">
 
@@ -376,7 +377,7 @@
 
                             <div class="item item-left form-group ">
                                 <label class="d-block total-text text-center">Reference No</label>
-                                <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" min="<%=minAdRefNo%>" value="<%=maxAdRefNo%>" pattern="[0-9]{9}" required/>
+                                <input class="form-control form-control-sm" style="font-weight: 600;" type="text" id="reference_no" name="reference_no" min="<%=minAdRefNo%>" value="<%=maxAdRefNo%>" pattern="[0-9]{9}" minlength="9" maxlength="9" required/>
                             </div>
                             
                             <div class="item item-left form-group">
@@ -447,18 +448,18 @@ $(document).ready( function () {
 
             event.preventDefault();
 
-            var adjustmentValue = $('input[name="adjustment_value"]').val();
-            var invoice = $('input[name="adjustment_value"]').attr('id')
+            const adjustmentValue = $('input[name="adjustment_value"]').val();
+            const invoice = $('input[name="adjustment_value"]').attr('id')
 
-            var custID = $("#cust_id").val()
-            var custName = $("#cust_name").val()
-            var department = $("#department").val()
-            var receivable = $("#receivable").val()
-            var balance = $("#balance").val()
-            var totalAdjustment = $("#total_adjustment").val()
-            var referenceNo = $("#reference_no").val()
-            var remarks = $("#remarks").val()
-            var transactDate = $("#transact_date").val()
+            const custID = $("#cust_id").val();
+            const custName = $("#cust_name").val();
+            const department = $("#department").val();
+            const receivable = $("#receivable").val();
+            const balance = $("#balance").val();
+            const totalAdjustment = $("#total_adjustment").val();
+            const referenceNo = $("#reference_no").val();
+            const remarks = $("#remarks").val();
+            const transactDate = $("#transact_date").val();
             
             $.ajax({
                 url: "adjustment_plus_c.asp",
@@ -494,16 +495,19 @@ $(document).ready( function () {
         }
     });
 
-     function findTotal(){
+    function findTotal(){
 
         var adjustmentInput = document.getElementsByName('adjustment_value');
         var total = 0;
-
+        
         total = parseFloat(adjustmentInput[0].value)
         total = total.toFixed(2)
-        document.querySelector('input#total_adjustment').value = total;
-        document.querySelector('input#total_adjustment').min = total;
-        document.querySelector('input#total_adjustment').max = total;
+
+        if (total > 0) {
+            document.querySelector('input#total_adjustment').value = total;
+            document.querySelector('input#total_adjustment').min = total;
+            document.querySelector('input#total_adjustment').max = total;
+        }
 
     }
     

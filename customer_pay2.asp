@@ -136,7 +136,7 @@ else
             Dim isOrderExist
             isOrderExist = true
 
-            sqlGetAmount = "SELECT SUM(amount) AS amount FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum
+            sqlGetAmount = "SELECT SUM(amount) AS amount FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID
             set objAccess = cnroot.execute(sqlGetAmount)
 
             if not objAccess.EOF then
@@ -179,7 +179,7 @@ else
                 else
 
                     rs.Open "SELECT * FROM products", CN2
-                    sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" GROUP BY prod_id" 
+                    sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID&" GROUP BY prod_id" 
                     set objAccess  = cnroot.execute(sqlAccess)
 
 
@@ -289,7 +289,7 @@ else
 
                         'rs.Open "SELECT MAX(transactid) AS id FROM sales_order", CN2
                         'salesDate = CDate(Date)
-                        rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum, CN2
+                        rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID, CN2
 
                         do until rs.EOF
                         maxOHid = maxOHid + 1

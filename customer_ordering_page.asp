@@ -393,6 +393,7 @@
                 //console.log(custID, prodID, prodQty);
                 if (data !== 'invalid qty') location.reload();
                 else if (data == 'store closed') alert('Sorry, the store is closed.');
+                else if (data == 'product does not exist') alert('Sorry, Product does not exist.');
                 else alert('Error: Insufficient quantity stocks');    
             })
             .fail(function() {
@@ -428,9 +429,9 @@
                     output += ` <tr>
                                     <td> ${jsonObject[i].prodBrand} </td>
                                     <td> ${jsonObject[i].prodName} </td>
-                                    <td> <span class='text-primary'>&#8369; </span> ${jsonObject[i].price} </td> 
-                                    <td> <span class='text-primary'></span> ${jsonObject[i].qty} </td> 
-                                    <td> <strong class='text-primary'> &#8369; </strong> ${jsonObject[i].amount} </td> 
+                                    <td> <span class='currency-sign'>&#8369; </span> ${jsonObject[i].price} </td> 
+                                    <td> <span class='currency-sign'></span> ${jsonObject[i].qty} </td> 
+                                    <td> <strong class='currency-sign'> &#8369; </strong> ${jsonObject[i].amount} </td> 
                                     <td width="90">
                                         <button onClick="delete_order(${jsonObject[i].id})" class='btn btn-sm btn-warning'>
                                             Cancel
@@ -447,7 +448,7 @@
                 
                 totalAmountStr = `<tr>
                                     <td colspan="6"> 
-                                        <h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="text-primary">&#8369;</span> ${totAmount} </h4> 
+                                        <h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> ${totAmount} </h4> 
                                     </td> 
                                 </tr>    `
                 $('td.dataTables_empty').attr('hidden', 'hidden');
