@@ -61,7 +61,7 @@
             }
 
             .users-info {
-                font-family: 'Kulim Park', sans-serif;
+                font-family: monospace, 'Segoe UI', 'Roboto', 'sans-serif';
                 padding: 5px;
                 border-radius: 10px;
             }
@@ -112,7 +112,7 @@
 <div id="main">
 
     <div class="users-info mt-3 mb-5">
-        <h1 class="h1 text-center main-heading mt-0"> <strong><span class="order_of">Order of</span> <span class="customer-name"><%=custFullName%></span></strong> </h1>
+        <h1 class="main-heading-text-p h1 text-center main-heading mt-0"> <strong><span class="order_of">Order of</span> <span class="customer-name"><%=custFullName%></span></strong> </h1>
         <h1 class="h3 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
     </div>
 

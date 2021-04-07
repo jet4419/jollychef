@@ -486,6 +486,7 @@
 
 <script src="js/main.js"></script>   
 <script src="./js/print.js"></script> 
+<script src="./js/pagination.min.js"></script>
 
 </body>
 </html>

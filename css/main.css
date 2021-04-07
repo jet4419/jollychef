@@ -1,0 +1,382 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+body {
+  /* font-family: 'Montserrat', sans-serif; */
+  font-family: 'Segoe UI', 'Roboto', 'sans-serif';
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+a:hover,
+a:active,
+a:focus {
+  outline: none;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.navigation {
+  background-color: #161a1f;
+  color: #f4f4f4;
+  height: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  /* flexbox */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navigation .brand-name {
+  font-size: 20px;
+  height: 100%;
+  margin-left: 0.8rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-family: 'Merienda', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+}
+
+.navigation .brand-name .menu-icon-bar {
+  margin-top: 20px;
+}
+
+.navigation .brand-name .menu-icon-bar:hover .line-1,
+.navigation .brand-name .menu-icon-bar:hover .line-3 {
+  width: 25px;
+}
+
+.navigation .brand-name .line {
+  height: 2px;
+  width: 25px;
+  background-color: #fff;
+  margin-bottom: 6px;
+}
+
+.navigation .brand-name .line-1,
+.navigation .brand-name .line-3 {
+  width: 18px;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.navigation .brand-name a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.navigation .brand-name .jollychef-text {
+  padding-left: 2rem;
+  color: #a3deb1;
+}
+
+.navigation .user-info,
+.navigation .user-logout-container {
+  width: auto;
+  font-size: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navigation .user-info .navbar-date {
+  margin-right: 13px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.navigation .user-logout-container {
+  padding-right: 0.8rem;
+}
+
+.navigation .user-logout-container .user-profile-pic {
+  width: 2rem;
+  height: 2rem;
+  background-color: #000;
+  margin-right: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 5px;
+}
+
+.navigation .user-logout-container p {
+  margin: 0;
+}
+
+.navigation .user-logout-container .navbar--user-info {
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  padding-top: 5px;
+}
+
+.navigation .user-logout-container .navbar--user-info .user-logout-btn {
+  cursor: pointer;
+  background-color: #252f3a;
+  color: #fff;
+  margin-left: 0.8rem;
+}
+
+.navigation .user-logout-container .navbar--user-info .user-logout-btn:hover {
+  cursor: pointer;
+  color: #f4ea8e;
+}
+
+.sidebar {
+  margin-top: 50px;
+  height: 100%;
+  width: 50px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  font-family: 'Segoe UI', 'Roboto', 'sans-serif';
+  background-color: #168860;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  overflow: hidden;
+  padding-top: 35px;
+  white-space: nowrap;
+}
+
+.sidebar .main-menus--items {
+  margin-left: 0.55rem;
+  padding-bottom: 28px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #f6f6f6;
+  display: block;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.sidebar .main-menus--items .icon-container {
+  display: inline-block;
+  width: 60px;
+}
+
+.sidebar .main-menus--items .icon-container .sidebar-icons {
+  padding-bottom: 3px;
+  font-size: 1.3rem;
+  padding-left: 2px;
+}
+
+.sidebar .main-menus--items .icon-text {
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.sidebar .main-menus--items:hover,
+.sidebar .sidebar-label:hover {
+  color: #363f4d;
+}
+
+.sidebar .sidebar-label {
+  margin: 0;
+  color: #f6f6f6;
+}
+
+.sidebar .sidebar-icons,
+.sidebar .icon-text {
+  vertical-align: middle;
+}
+
+.sidebar .checkbox {
+  display: none;
+}
+
+.sidebar .checkbox:checked ~ .checked-items {
+  max-height: 30rem;
+}
+
+.sidebar .checkbox-receivables {
+  display: none;
+}
+
+.sidebar .checkbox-receivables:checked ~ .checked-items--receivables {
+  max-height: 30rem;
+}
+
+.sidebar .checked-items,
+.sidebar .checked-items--receivables {
+  max-height: 0;
+  overflow: hidden;
+  -webkit-transition: max-height 0.3s;
+  transition: max-height 0.3s;
+  padding-left: 20px;
+}
+
+.sidebar .checked-items a,
+.sidebar .checked-items--receivables a {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  padding-left: 55px;
+  margin-bottom: 15px;
+  position: relative;
+  color: #f4f4f4;
+}
+
+.sidebar .checked-items a:hover,
+.sidebar .checked-items--receivables a:hover {
+  text-decoration: none;
+  color: #363f4d;
+}
+
+#main {
+  margin-left: 50px;
+  padding-top: 50px;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+#main .home-main-heading {
+  line-height: 1.5;
+  height: 100%;
+  padding-left: 5rem;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: calc(100vh - 50px);
+}
+
+#main .home-main-heading .home-main-heading-text {
+  color: #3f3d56;
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  font-size: 5rem;
+  font-weight: 500;
+  -webkit-animation: popupDelay 0.8s ease-in 0.5s;
+          animation: popupDelay 0.8s ease-in 0.5s;
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+}
+
+#main .home-main-heading .home-main-heading-text .jollchef-text {
+  color: #516956;
+}
+
+#main .home-main-heading .home-main-heading--text-2 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: #3f3d56;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-animation: popupDelay 1s ease-in 1s;
+          animation: popupDelay 1s ease-in 1s;
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+  position: relative;
+}
+
+#main .home-main-heading .home-main-heading--text-2::before {
+  content: '';
+  position: absolute;
+  top: 1.8rem;
+  left: -5rem;
+  width: 20%;
+  border: 1px solid #3f3d56;
+  -webkit-animation: popupDelay 0.5s ease-out 1.5s;
+          animation: popupDelay 0.5s ease-out 1.5s;
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+}
+
+#main .home-main-heading .home-main-heading--text-2::after {
+  content: '';
+  position: absolute;
+  top: 1.8rem;
+  right: -5rem;
+  width: 20%;
+  border: 1px solid #3f3d56;
+  -webkit-animation: popupDelay 0.5s ease-out 1.5s;
+          animation: popupDelay 0.5s ease-out 1.5s;
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+}
+
+#main .home-heading-logo {
+  height: 100%;
+  padding-right: 5rem;
+  -webkit-animation: popupDelay 1.2s ease-in 1.5s;
+          animation: popupDelay 1.2s ease-in 1.5s;
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#main .home-heading-logo img {
+  display: inline-block;
+  width: 80%;
+}
+/*# sourceMappingURL=main.css.map */

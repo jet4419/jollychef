@@ -3,14 +3,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&display=swap" rel="stylesheet">
 <style>
 
-    .navbar-date {
-        /* margin-right: 40px; */
-        margin-right: 13px;
-        font-size: .90rem;
-        color: #fff;
-        font-weight: 600;
-    }
-
     .fas.fa-calendar-check {
         font-size: 1.5rem;
         padding-right: 10px;
@@ -35,9 +27,18 @@
         color: #a3deb1;
     }
 
+     .navbar-date {
+        /* margin-right: 40px; */
+        margin-right: 13px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: .90rem;
+        color: #fff;
+        font-weight: 600;
+    }
+
     .navbar--user-info {
         color: #fff;
-        font-family: Helvetica;
+        font-family: 'Montserrat', sans-serif;
         padding-top: 5px;
     }
 

@@ -150,12 +150,12 @@
 
                                 <div class="form-group mb-1">    
                                     <label class="ml-1" style="font-weight: 500"> Product Name </label>
-                                    <input type="text" class="form-control form-control-sm" name="productName" id="productName" required >
+                                    <input type="text" class="form-control form-control-sm" name="productName" id="productName" maxlength="50" required >
                                 </div>
 
                                 <div class="form-group mb-1"> 
                                     <label class="ml-1" style="font-weight: 500"> Selling Price </label>
-                                    <input type="number" class="form-control form-control-sm" name="price" required id="price">
+                                    <input type="number" class="form-control form-control-sm" name="price" max="999999" required id="price">
                                 </div>
 
                                 <!--
@@ -167,7 +167,7 @@
 
                                 <div class="form-group mb-1"> 
                                     <label class="ml-1" style="font-weight: 500"> Quantity </label>
-                                    <input type="number" class="form-control form-control-sm" name="qty" required id="qty">
+                                    <input type="number" class="form-control form-control-sm" name="qty" max="999999" required id="qty">
                                 </div>
 
                                 <div class="form-group mb-1"> 

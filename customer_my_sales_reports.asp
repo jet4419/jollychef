@@ -56,7 +56,7 @@
             }   
 
             .users-info {
-                font-family: 'Kulim Park', sans-serif;
+                font-family: monospace, 'Segoe UI', 'Roboto', 'sans-serif';
                 padding: 23px 5px 5px 5px;
                 border-radius: 10px;
             }
@@ -113,7 +113,7 @@
             }
 
             .main-heading {
-                font-family: 'Kulim Park', sans-serif;
+                font-family: monospace, 'Segoe UI', 'Roboto', 'sans-serif';
             }
 
             input {
@@ -220,13 +220,13 @@
     <div id="content">
         <div class="container mb-5">
             <div class="users-info mb-3">
-                <h1 class="h2 text-center main-heading my-0"> <strong><span class="order_of">Sales Reports of</span> <span class="cust_name"><%=custName%></span></strong> </h1>
+                <h1 class="main-heading-text-p h2 text-center main-heading my-0"> <strong><span class="order_of">Sales Reports of</span> <span class="customer-name"><%=custName%></span></strong> </h1>
                 <h1 class="h4 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
             </div>
 
             <div class="users-info--divider">
                 <span class="p-0 m-0 d-block">
-                    <button type="button" class="btn btn-dark btn-sm mb-1 d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Date Reports</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm mb-1 d-inline w-100 date_transact" id="<%=custID%>"  data-toggle="modal" data-target="#date_transactions">Generate Date Reports</button>
                 </span> 
             </div>
 

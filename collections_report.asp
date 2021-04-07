@@ -178,6 +178,7 @@
                             myDate = CDATE(rs("date"))
                             myYear = Year(myDate)
                             myDay = Day(myDate)
+                            
                             if Len(myDay) = 1 then
                                 myDay = "0" & myDay
                             end if
@@ -189,7 +190,7 @@
 
                             dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
                             d = CDate(rs("date"))
-                            d  = FormatDateTime(d, 2)
+                            d = FormatDateTime(d, 2)
                         %>
                         <td class="text-darker">
                             <%Response.Write(rs("cust_id"))%>

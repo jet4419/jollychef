@@ -283,10 +283,8 @@
                                         </tr>
                                         <%
                                         printTotal = false
-                                        customerTotalAmount = CDBL(rs("tot_amount"))
-                                        customerTotalCash = 0
-                                        customerTotalCharge = 0
                                     end if
+
                                 end if%>
 
                                 <tr>
@@ -295,6 +293,9 @@
 
                                 <%
                                 customerCount = 1
+                                customerTotalAmount = CDBL(rs("tot_amount"))
+                                customerTotalCash = 0
+                                customerTotalCharge = 0
                         
                             end if
 

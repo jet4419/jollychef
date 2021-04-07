@@ -37,7 +37,7 @@
 
     .navbar--user-info {
         color: #fff;
-        font-family: Helvetica;
+        /* font-family: Helvetica; */
         padding-top: 5px;
     }
 

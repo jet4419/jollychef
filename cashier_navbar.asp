@@ -16,13 +16,6 @@
         font-family: Verdana, Geneva, sans-serif;
     }
 
-    .navbar-date {
-        margin-right: 13px;
-        font-size: .90rem;
-        font-weight: 600;
-        color: #fff;
-    }
-
     .fas.fa-calendar-check {
         font-size: 1.5rem;
         padding-right: 10px;
@@ -47,9 +40,17 @@
         color: #a3deb1;
     }
 
+    .navbar-date {
+        margin-right: 13px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: .90rem;
+        font-weight: 600;
+        color: #fff;
+    }
+
     .navbar--user-info {
         color: #fff;
-        font-family: Helvetica;
+        font-family: 'Montserrat', sans-serif;
         padding-top: 5px;
     }
 

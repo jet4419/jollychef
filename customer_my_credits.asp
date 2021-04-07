@@ -59,11 +59,11 @@
                 text-align: left;
             }   
 
-            .users-info {
-                font-family: 'Kulim Park', sans-serif;
+            /* .users-info {
+                font-family: monospace, 'Segoe UI', 'Roboto', 'sans-serif';
                 padding: 23px 5px 5px 5px;
                 border-radius: 10px;
-            }
+            } */
 
             .total-payment-container {
                 /* border: 1px solid #ccc; */
@@ -140,9 +140,13 @@
                 width: 150px;
             }
 
-            .main-heading {
+            /* .main-heading {
                 font-family: 'Kulim Park', sans-serif;
-            }
+            } */
+
+            /* .main-heading {
+                font-family: monospace, 'Segoe UI', 'Roboto', 'sans-serif';
+            } */
 
             .total-text {
                 font-size: 20px;
@@ -242,7 +246,7 @@
         <div class="container pb-3 mb-5">
 
             <div class="users-info mb-5">
-                <h1 class="h1 text-center main-heading my-0"> <strong><span class="order_of">Credits of</span> <span class="cust_name"></span></strong> </h1>
+                <h1 class="main-heading-text-p h1 text-center main-heading my-0"> <strong><span class="order_of">Credits of</span> <span class="cust_name"></span></strong> </h1>
                 <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong></strong></span> </h1>
                 
             </div>
