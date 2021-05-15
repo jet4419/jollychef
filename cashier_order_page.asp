@@ -30,7 +30,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="./css/main.css">
+        <link rel="stylesheet" href="./css/staff/cashier_order_page.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -47,74 +48,6 @@
             setTimeout("preventBack()", 0);
             window.onunload=function(){null};
         </script>
-
-        <style>
-
-            div.tail-select.no-classes {
-                width: 400px !important;
-            }
-
-            .closed {
-                height: 100vh;
-                background: rgba(0,0,0,.7);
-                content: "STORE CLOSED";
-                z-index: 1000;
-            }
-
-            .center {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-            }
-
-            .cursive {
-                font-family: 'Sedgwick Ave', cursive;
-                font-size: 8rem;
-            }
-
-            .unlock {
-                position: absolute;
-                top: 1rem;
-                left: 1.2rem;
-                font-size: 2.5rem;
-                color: #ccc;
-            }
-
-            .home-link {
-                position: absolute;
-                top: 1rem;
-                right: 1.2rem;
-                font-size: 2.5rem;
-                color: #ccc;
-            }
-
-            .optgroup-title b {
-                font-weight: bold !important; 
-                color: rgba(0,0,0,.8)
-            }
-
-            .store-icon {
-                /*color: #5e6f64;*/
-                color: #52575d;
-            }
-
-            .keys-container {
-                display: flex;
-                justify-content: center;
-            }
-
-            body {
-                display: flex;
-                flex-direction: column;
-            }
-
-            /* .footer {
-                margin-top: auto;
-            } */
-
-        </style>
 
     </head>
 
@@ -568,7 +501,15 @@
 <script>
 
 const userEmail = localStorage.getItem('email');
-document.querySelector('#userEmail').value = userEmail;
+
+if (userEmail) {
+
+    const userEmailContainer = document.querySelector('#userEmail');
+
+    if (userEmailContainer) {
+        userEmailContainer.value = userEmail;
+    }
+    
 
     tail.select("#products", {
         search: true,
@@ -623,6 +564,7 @@ document.querySelector('#userEmail').value = userEmail;
         }
 
    });
+}
 
 </script> 
 </html>   

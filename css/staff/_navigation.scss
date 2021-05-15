@@ -1,0 +1,113 @@
+.navigation {
+  background-color: #161a1f;
+  color: #f4f4f4;
+  height: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  /* flexbox */
+  display: flex;
+  align-items: center;
+
+  .brand-name {
+    font-size: 20px;
+    height: 100%;
+    margin-left: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Merienda', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+
+    .menu-icon-bar {
+      margin-top: 20px;
+
+      &:hover .line-1,
+      &:hover .line-3 {
+        width: 25px;
+      }
+    }
+
+    .line {
+      height: 2px;
+      width: 25px;
+      background-color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .line-1,
+    .line-3 {
+      width: 18px;
+      transition: all 0.5s;
+    }
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .jollychef-text {
+      padding-left: 2rem;
+      color: #a3deb1;
+    }
+  }
+
+  .user-info,
+  .user-logout-container {
+    width: auto;
+    font-size: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .user-info {
+    .navbar-date {
+      margin-right: 13px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+    }
+  }
+
+  .user-logout-container {
+    padding-right: 0.8rem;
+
+    .user-profile-pic {
+      width: 2rem;
+      height: 2rem;
+      background-color: #000;
+      margin-right: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .navbar--user-info {
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      padding-top: 5px;
+
+      .user-logout-btn {
+        cursor: pointer;
+        background-color: #252f3a;
+        color: #fff;
+        margin-left: 0.8rem;
+
+        &:hover {
+          cursor: pointer;
+          color: #f4ea8e;
+        }
+      }
+    }
+  }
+}

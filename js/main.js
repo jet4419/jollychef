@@ -27,8 +27,11 @@
 //     }
 
 const mySidebar = document.getElementById('mySidebar');
-mySidebar.addEventListener('mouseover', toggleSidebar);
-mySidebar.addEventListener('mouseout', unToggleSidebar);
+
+if (mySidebar) {
+  mySidebar.addEventListener('mouseover', toggleSidebar);
+  mySidebar.addEventListener('mouseout', unToggleSidebar);
+}
 
 const mainElement = document.getElementById('main');
 const footerElement = document.querySelector('.footer');
@@ -39,18 +42,20 @@ const line3 = document.querySelector('.line-3');
 
 const btnNav = document.getElementById('btn-collapsible-bar');
 
-btnNav.addEventListener('click', () => {
-  line1.classList.toggle('line-1-anim');
-  line2.classList.toggle('line-2-anim');
-  line3.classList.toggle('line-3-anim');
-
-  mySidebar.classList.toggle('scale-up-width');
-  mainElement.classList.toggle('scale-up-margin');
-
-  if (footerElement) {
-    footerElement.classList.toggle('scale-up-margin');
-  }
-});
+if (btnNav) {
+  btnNav.addEventListener('click', () => {
+    line1.classList.toggle('line-1-anim');
+    line2.classList.toggle('line-2-anim');
+    line3.classList.toggle('line-3-anim');
+  
+    mySidebar.classList.toggle('scale-up-width');
+    mainElement.classList.toggle('scale-up-margin');
+  
+    if (footerElement) {
+      footerElement.classList.toggle('scale-up-margin');
+    }
+  });
+}
 
 function toggleSidebar() {
 

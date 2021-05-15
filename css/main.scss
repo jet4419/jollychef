@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   /* font-family: 'Montserrat', sans-serif; */
   font-family: 'Segoe UI', 'Roboto', 'sans-serif';
@@ -32,221 +38,24 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-.navigation {
-  background-color: #161a1f;
-  color: #f4f4f4;
-  height: 50px;
-  font-size: 12px;
-  font-weight: 600;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  /* flexbox */
-  display: flex;
-  align-items: center;
-
-  .brand-name {
-    font-size: 20px;
-    height: 100%;
-    margin-left: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Merienda', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
-
-    .menu-icon-bar {
-      margin-top: 20px;
-
-      &:hover .line-1,
-      &:hover .line-3 {
-        width: 25px;
-      }
-    }
-
-    .line {
-      height: 2px;
-      width: 25px;
-      background-color: #fff;
-      margin-bottom: 6px;
-    }
-
-    .line-1,
-    .line-3 {
-      width: 18px;
-      transition: all 0.5s;
-    }
-
-    a {
-      text-decoration: none;
-      color: #fff;
-    }
-
-    .jollychef-text {
-      padding-left: 2rem;
-      color: #a3deb1;
-    }
-  }
-
-  .user-info,
-  .user-logout-container {
-    width: auto;
-    font-size: 15px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-
-  .user-info {
-    .navbar-date {
-      margin-right: 13px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #fff;
-    }
-  }
-
-  .user-logout-container {
-    padding-right: 0.8rem;
-
-    .user-profile-pic {
-      width: 2rem;
-      height: 2rem;
-      background-color: #000;
-      margin-right: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 5px;
-    }
-
-    p {
-      margin: 0;
-    }
-
-    .navbar--user-info {
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      padding-top: 5px;
-
-      .user-logout-btn {
-        cursor: pointer;
-        background-color: #252f3a;
-        color: #fff;
-        margin-left: 0.8rem;
-
-        &:hover {
-          cursor: pointer;
-          color: #f4ea8e;
-        }
-      }
-    }
-  }
+.scale-up-width {
+  width: 280px !important;
 }
 
-.sidebar {
-  margin-top: 50px;
-  height: 100%;
-  width: 50px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  font-family: 'Segoe UI', 'Roboto', 'sans-serif';
-  background-color: #168860;
-  transition: 0.5s;
-  overflow: hidden;
-  padding-top: 35px;
-  white-space: nowrap;
-
-  .main-menus--items {
-    margin-left: 0.55rem;
-    padding-bottom: 28px;
-    text-decoration: none;
-    font-size: 16px;
-    color: #f6f6f6;
-    display: block;
-    transition: all 0.3s;
-    cursor: pointer;
-
-    .icon-container {
-      display: inline-block;
-      width: 60px;
-
-      .sidebar-icons {
-        padding-bottom: 3px;
-        // width: 60px;
-        font-size: 1.3rem;
-        padding-left: 2px;
-      }
-    }
-
-    .icon-text {
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-  }
-
-  .main-menus--items:hover,
-  .sidebar-label:hover {
-    color: #363f4d;
-  }
-
-  .sidebar-label {
-    margin: 0;
-    color: #f6f6f6;
-  }
-
-  .sidebar-icons,
-  .icon-text {
-    vertical-align: middle;
-  }
-
-  .checkbox {
-    display: none;
-
-    &:checked ~ {
-      .checked-items {
-        max-height: 30rem;
-      }
-    }
-  }
-
-  .checkbox-receivables {
-    display: none;
-
-    &:checked ~ {
-      .checked-items--receivables {
-        max-height: 30rem;
-      }
-    }
-  }
-
-  .checked-items,
-  .checked-items--receivables {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s;
-    padding-left: 20px;
-
-    a {
-      display: block;
-      font-size: 14px;
-      font-weight: 400;
-      padding-left: 55px;
-      margin-bottom: 15px;
-      position: relative;
-      color: #f4f4f4;
-
-      &:hover {
-        text-decoration: none;
-        color: #363f4d;
-      }
-    }
-  }
+.scale-up-margin {
+  margin-left: 280px !important;
 }
+
+.scale-down-width {
+  width: 50px i !important;
+}
+
+.scale-down-margin {
+  margin-left: 50px !important;
+}
+
+@import './staff/navigation';
+@import './staff/sidebar';
 
 #main {
   margin-left: 50px;
@@ -255,76 +64,42 @@ input[type='number'] {
   min-height: 100vh;
   background-color: #fff;
 
-  .home-main-heading {
-    line-height: 1.5;
-    height: 100%;
-    padding-left: 5rem;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: calc(100vh - 50px);
+  .main-heading {
+    margin-top: 1.5rem;
+  }
+}
 
-    .home-main-heading-text {
-      color: #3f3d56;
-      font-family: 'Montserrat', sans-serif;
-      position: relative;
-      font-size: 5rem;
-      font-weight: 500;
-      animation: popupDelay 0.8s ease-in 0.5s;
-      animation-fill-mode: backwards;
+// Footer
+@import './staff/footer';
 
-      .jollchef-text {
-        color: #516956;
-      }
-    }
-
-    .home-main-heading--text-2 {
-      font-size: 2.5rem;
-      font-weight: 400;
-      color: #3f3d56;
-      font-family: 'Montserrat', sans-serif;
-      animation: popupDelay 1s ease-in 1s;
-      animation-fill-mode: backwards;
-      position: relative;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 1.8rem;
-        left: -5rem;
-        width: 20%;
-        border: 1px solid #3f3d56;
-        animation: popupDelay 0.5s ease-out 1.5s;
-        animation-fill-mode: backwards;
-      }
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 1.8rem;
-        right: -5rem;
-        width: 20%;
-        border: 1px solid #3f3d56;
-        animation: popupDelay 0.5s ease-out 1.5s;
-        animation-fill-mode: backwards;
-      }
-    }
+@keyframes popupDelay {
+  0% {
+    opacity: 0;
   }
 
-  .home-heading-logo {
-    height: 100%;
-    padding-right: 5rem;
-    animation: popupDelay 1.2s ease-in 1.5s;
-    animation-fill-mode: backwards;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  100% {
+    opacity: 1;
   }
+}
 
-  .home-heading-logo img {
-    display: inline-block;
-    width: 80%;
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate(-5px);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate(-10px);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate(-15px);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translate(-20px);
+    opacity: 0;
   }
 }

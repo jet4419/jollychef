@@ -9,12 +9,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Canteen Homepage</title>
         
-        <!--
+       
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/homepage.css">
-        -->
         
-        <link rel="stylesheet" href="css/homepage_style.css">
         
         <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
