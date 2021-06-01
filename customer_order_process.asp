@@ -9,7 +9,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="./css/main.css">
+        <link rel="stylesheet" href="./css/staff/customer_order_process.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -28,61 +29,6 @@
             window.onunload=function(){null};
         </script>
 
-        <style>
-            .closed {
-                height: 100vh;
-                background: rgba(0,0,0,.7);
-                content: "STORE CLOSED";
-                z-index: 1000;
-            }
-
-            .center {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-            }
-
-            .cursive {
-                font-family: 'Sedgwick Ave', cursive;
-                font-size: 8rem;
-            }
-
-            .unlock {
-                position: absolute;
-                top: 1rem;
-                left: 1rem;
-                font-size: 2.5rem;
-                color: #ccc;
-            }
-
-            .optgroup-title b {
-                font-weight: bold !important; 
-                color: rgba(0,0,0,.8)
-            }
-
-            .users-info {
-                font-family: 'Kulim Park', sans-serif;
-                padding: 5px;
-                border-radius: 10px;
-            }
-
-            .cust_name {
-                color: #463535;
-            }
-
-            /* .order_of {
-                font-size: 33px;
-                font-weight: 400;
-                color: #333;
-            } */
-
-            div.tail-select.no-classes {
-                width: 400px !important;
-            }
-
-        </style>
     </head>
 
     <%
@@ -270,12 +216,12 @@
         %>
 
         <div id="main">
-            <div class="container p-3 mb-5">
+            <div class="container mb-5">
               
-                <div class="users-info mb-5 pt-4">
-                    <h1 class="h1 text-center main-heading mt-0"> <strong><span class="order_of">Order of</span> <span class="customer-name"><%=custFullName%></span></strong> </h1>
-                    <h1 class="h3 text-center main-heading my-0"> <span class="department_lbl"><strong><%=department%></strong></span> </h1>
-                </div>
+                <section class="main-heading--container mb-5">
+                    <h1 class="text-center main-heading--text mt-0"> <span class="order_of">Order of</span> <span class="customer-name"><%=custFullName%></span> </h1>
+                    <h1 class="h3 text-center main-heading my-0"> <span class="department_lbl"><%=department%></span> </h1>
+                </section>
 
                 <!-- 3 important parametes --> 
                 <input type="number" name="cust_id" id="cust_id" value="<%=custID%>" hidden>

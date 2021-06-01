@@ -8,7 +8,7 @@
         <title>Products</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="./css/main.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -31,21 +31,6 @@
         <script src="bootstraptable/datatables/js/jquery.dataTables.min.js"></script>
         <script src="bootstraptable/datatables/js/dataTables.bootstrap4.min.js"></script>
         
-        <style>
-            .main-heading {
-                font-family: 'Kulim Park', sans-serif;
-            }
-
-            .main-heading--container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .main-title {
-                font-weight: 500;
-            }
-        </style>
     </head>
     <%
         ' if Session("type") = "" then
@@ -68,11 +53,11 @@
     <div id="content">
     <div class="container mb-5">
 
-        <h1 class="main-heading--container h1 text-center mt-4 mb-4 pt-3"> 
+        <h1 class="product-heading--container main-heading--container h1 text-center mb-4"> 
             <button type="button" id="btnAddProduct" class="btn btn-outline-dark float-left" data-toggle="modal" data-target="#addProduct"> 
                 <i class="fas fa-plus-circle pr-1"></i> <span>Product</span> 
             </button> 
-            <span class="pr-5 main-heading main-title">Products</span> 
+            <span class="pr-5 main-heading--text main-title">Products</span> 
             <a href="daily_menu_list.asp" id="btnAddDailyMeal" class="btn btn-outline-dark float-right">
                 Menu List
             </a>

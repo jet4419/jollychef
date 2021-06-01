@@ -41,19 +41,39 @@
 
             do until rs.EOF
 
-            .Add i, oJSON.Collection()
-            With .item(i)       
-                .Add "id", CLng(rs("id").value)
-                .Add "prodBrand", CStr(rs("prod_brand").value)
-                .Add "prodName", CStr(rs("prod_name").value)
-                .Add "price", CDbl(rs("price").value)
-                .Add "qty", CLng(rs("qty").value)
-                .Add "amount", CDbl(rs("amount").value)
-            End With
+                orderProdID = CInt(rs("prod_id"))
+                orderQty = CInt(rs("qty"))
 
-            i = i + 1
+                checkQty = "SELECT prod_id, qty FROM daily_meals WHERE prod_id ="&orderProdID
+                set objAccess = cnroot.execute(checkQty)
 
-            rs.MoveNext
+                if not objAccess.EOF then
+
+                    currentQty = CInt(objAccess("qty").value) - orderQty
+
+                end if
+
+                .Add i, oJSON.Collection()
+                With .item(i)       
+                    .Add "id", CLng(rs("id").value)
+                    .Add "prodBrand", CStr(rs("prod_brand").value)
+                    .Add "prodName", CStr(rs("prod_name").value)
+                    .Add "price", CDbl(rs("price").value)
+                    .Add "qty", CLng(rs("qty").value)
+                    .Add "amount", CDbl(rs("amount").value)
+
+                    if currentQty < 0 then
+                        .Add "isValidQty", "false"
+                    else
+                        .Add "isValidQty", "true"
+                    end if
+
+
+                End With
+
+                i = i + 1
+
+                rs.MoveNext
 
             loop
         

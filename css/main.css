@@ -43,6 +43,24 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+.thead-bg {
+  /* background-color: #438a5e;
+  background-color: #8ebfc7;
+  background-color: #004954;
+  background-color: #053d46; */
+  background-color: #061323;
+  color: #fff;
+  border-color: #000;
+}
+
+.td-qty {
+  text-align: center;
+}
+
+.qty-value {
+  width: 2rem;
+}
+
 .scale-up-width {
   width: 280px !important;
 }
@@ -59,6 +77,47 @@ input[type='number'] {
   margin-left: 50px !important;
 }
 
+.currency-sign {
+  color: #333533c9;
+  font-weight: 500;
+  /* display: none; */
+}
+
+.btn-qty {
+  padding: 0 !important;
+  height: 20px !important;
+  width: 20px !important;
+  display: -webkit-inline-box !important;
+  display: -ms-inline-flexbox !important;
+  display: inline-flex !important;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.btn-qty--plus {
+  background-color: #1db47f;
+}
+
+.btn-qty--minus {
+  background-color: #1db47f;
+}
+
+/* Datatables */
+.page-item.active .page-link {
+  background-color: #1db47f !important;
+  border-color: #1db47f !important;
+  color: #fff !important;
+}
+
+.page-link {
+  color: #1db47f !important;
+}
+
+/* ----- */
 .navigation {
   background-color: #161a1f;
   color: #f4f4f4;
@@ -322,8 +381,24 @@ input[type='number'] {
   background-color: #fff;
 }
 
-#main .main-heading {
-  margin-top: 1.5rem;
+#main .main-heading--container-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#main .main-heading--container {
+  margin-top: 4rem;
+}
+
+#main .main-heading--text {
+  font-family: 'Kulim Park', sans-serif;
 }
 
 .footer {

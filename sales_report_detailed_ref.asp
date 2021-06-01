@@ -8,7 +8,8 @@
         <title>Detailed Sales Report</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="./css/main.css">
+        <link rel="stylesheet" href="./css/reports.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -224,7 +225,7 @@
             
 
            
-            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Sales Report <p class="report-type">per Reference</p></h1>
+            <h1 class="text-center mt-4 mb-4 report-heading--text"> Sales Report <p class="report-type">per Reference</p></h1>
 
             <div>
                 <%

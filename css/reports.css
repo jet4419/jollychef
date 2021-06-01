@@ -1,0 +1,53 @@
+td {
+  text-align: right;
+}
+
+.td-date {
+  text-align: center;
+}
+
+.currency-sign {
+  display: none;
+}
+
+.report-heading--text {
+  font-size: 2.25rem;
+  font-weight: 400;
+  font-family: monospace, 'Segoe UI', 'Roboto', 'sans-serif';
+  margin-top: 1.75rem;
+  margin-bottom: 30px;
+}
+
+.report-type {
+  padding-top: 5px;
+  font-weight: 400;
+}
+
+.report-type,
+.report-date {
+  font-size: 17px;
+}
+
+.creditsTotalAmount {
+  font-weight: 500;
+  color: #2b2a2a;
+  border-bottom: 1px #2b2a2a solid !important;
+}
+
+.salesTotalAmount {
+  font-weight: 500;
+  color: #2b2a2a;
+  border-bottom: 1px #2b2a2a solid !important;
+}
+
+.collectionTotalAmount {
+  font-weight: 500;
+  color: #2b2a2a;
+  border-bottom: 1px #2b2a2a solid !important;
+}
+
+/* Printing Reports */
+.print-main-heading {
+  display: none;
+}
+/*# sourceMappingURL=reports.css.map */

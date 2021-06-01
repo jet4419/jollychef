@@ -1,3 +1,13 @@
+// body #bg-clip {
+//   height: 100%;
+//   width: 100%;
+//   background-color: #ff85a1;
+//   clip-path: polygon(0 1%, 100% 100%, 76% 100%, 0% 100%);
+//   position: absolute;
+//   z-index: 0;
+// }
+
+
 #main.homepage {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -69,6 +79,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
   }
 
   .home-heading-logo img {

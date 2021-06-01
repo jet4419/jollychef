@@ -13,7 +13,7 @@
         <title>Add Daily Meals</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="./css/main.css">
         <!--<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">-->
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
@@ -34,20 +34,7 @@
            
         <script src="bootstraptable/datatables/js/jquery.dataTables.min.js"></script>
         <script src="bootstraptable/datatables/js/dataTables.bootstrap4.min.js"></script>
-        
-        
         <script type="text/javascript" src="datatablescheckbox/js/dataTables.checkboxes.min.js"></script>
-
-        <style>
-            .main-heading {
-                font-family: 'Kulim Park', sans-serif;
-            }    
-
-            .title-flex {
-                display: flex;
-                justify-content: space-between;
-            }
-        </style>
 
     </head>
 <body>
@@ -65,12 +52,12 @@
 
         <div class="container pt-3">
         
-            <h1 class="text-center mb-4 mt-4 title-flex"> 
+            <h1 class="main-heading--container-flex main-heading--container text-center mb-4"> 
                 
                 <p>
                     <a href="daily_menu_list.asp" class="btn btn-outline-dark"> Menu List </a>
                 </p>
-                <span class="h1 main-heading py-0" style="font-weight: 400">Choose Products</span> 
+                <span class="h1 main-heading--text py-0" style="font-weight: 400">Choose Products</span> 
                 <p><button class="btn btn-outline-dark"> <span class="pr-1">Submit</span> <i class="fas fa-share-square"></i></button></p>
                 
                 <!--<a href="bootDailyMeal.asp" id="btnAddDailyMeal" class="btn btn-success float-right">

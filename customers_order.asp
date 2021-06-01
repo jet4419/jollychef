@@ -17,7 +17,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="./css/main.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -36,18 +36,6 @@
   
         <script src="bootstraptable/datatables/js/jquery.dataTables.min.js"></script>
         <script src="bootstraptable/datatables/js/dataTables.bootstrap4.min.js"></script>
-
-        <style>
-            
-            body {
-                background: #fdfdfd;
-            }
-
-            .main-heading {
-                font-family: 'Kulim Park', sans-serif;
-            }
-
-        </style>
 
     </head>
     <%
@@ -86,7 +74,10 @@
 
 <div id="main">
 
-    <h1 class="h1 text-center pt-3 mt-4 mb-4 main-heading" style="font-weight: 400">Customers Order</h1>
+    <section class="main-heading--container">
+        <h1 class="text-center mb-4 main-heading--text">Customers Order</h1>
+    </section>
+
     <div id="content">
         <div class="container mb-5">
 

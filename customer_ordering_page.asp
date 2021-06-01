@@ -138,74 +138,80 @@
 
                                 <%do until rs.EOF 
 
+                                    dbQty = CInt(rs("qty"))
+
+                                    if dbQty < 0 then
+                                        dbQty = 0
+                                    end if
+
                                     if Trim(rs("category").value) = "lunch" or  Trim(rs("category").value) = "meat" or Trim(rs("category").value) = "vegetable" or Trim(rs("category").value) = "fish" or Trim(rs("category").value) = "chicken" then%>
 
                                     <optgroup label="Lunch">
                                         <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                         </option>   
                                     </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "breakfast" then%>       
                                         <optgroup label="Breakfast">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "rice" then%>       
                                         <optgroup label="Rice">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "drinks" then%>       
                                         <optgroup label="Drinks">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "dessert" then%>       
                                         <optgroup label="Dessert">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "snacks" then%>       
                                         <optgroup label="Snacks">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "candies" then%>       
                                         <optgroup label="Candies">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "groceries" then%>       
                                         <optgroup label="Groceries">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "fresh-meat" then%>       
                                         <optgroup label="Fresh Meat">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "others" then%>       
                                         <optgroup label="Others">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
                                     <%end if%>
@@ -380,7 +386,7 @@
             var URL = 'customer_incoming.asp';
             var custID = Number(localStorage.getItem('cust_id'));
             var prodID = Number(document.querySelector('#products').value);
-            var prodQty = Number(document.querySelector('#quantity').value);;
+            var prodQty = Number(document.querySelector('#quantity').value);
             // console.log(prodID);
             $.ajax({
                 url: URL,
@@ -426,7 +432,14 @@
                 let output = '';
 
                 for (let i in jsonObject) {
-                    output += ` <tr>
+                    
+                    tr = "<tr>"
+
+                    if (jsonObject[i].isValidQty === 'false') {
+                        tr = "<tr style='background: #ff5d5d'>"
+                    }
+
+                    output += ` ${tr}
                                     <td> ${jsonObject[i].prodBrand} </td>
                                     <td> ${jsonObject[i].prodName} </td>
                                     <td> <span class='currency-sign'>&#8369; </span> ${jsonObject[i].price} </td> 
@@ -441,7 +454,7 @@
 
                                 
                             `;
-
+                        console.log(jsonObject[i].isValidQty);
                         totAmount += jsonObject[i].amount;
                 }  
 
@@ -467,7 +480,7 @@
         
     }
 
-    setTimeout( () => getOrders(), 100 )
+    setTimeout( () => getOrders())
     
 
     function delete_order(transactID) {

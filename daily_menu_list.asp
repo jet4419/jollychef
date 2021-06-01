@@ -8,7 +8,7 @@
         <title>Products</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="./css/main.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -32,7 +32,7 @@
         <script src="bootstraptable/datatables/js/dataTables.bootstrap4.min.js"></script>
         
         <style>
-            .main-heading {
+            /* .main-heading {
                 font-family: 'Kulim Park', sans-serif;
             }
 
@@ -44,7 +44,7 @@
 
             .btn-invi {
                 opacity: 0;
-            }
+            } */
         </style>
     </head>
     <%
@@ -68,11 +68,11 @@
     <div id="content">
     <div class="container mb-5">
 
-        <h1 class="main-heading--container h1 text-center mt-4 mb-4 pt-3"> 
+        <h1 class="main-heading--container-flex main-heading--container h1 text-center mb-4 "> 
             <button type="button" id="btnAddProduct" class="btn btn-outline-dark float-left btn-invi" data-toggle="modal" data-target="#addProduct" disabled style="opacity: 0"> 
                 <i class="fas fa-plus-circle pr-1"></i> <span> Add Product </span> 
             </button> 
-            <span class="h1 pr-5 main-heading" style="font-weight: 400">Daily Menu List</span> 
+            <span class="h1 pr-5 main-heading--text" style="font-weight: 400">Daily Menu List</span> 
             <a href="daily_menu_add.asp" id="btnAddDailyMeal" class="btn btn-outline-dark float-right">
                 <i class="fas fa-plus-circle pr-1"></i> Add Meal
             </a>

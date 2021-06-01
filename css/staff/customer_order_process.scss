@@ -1,0 +1,46 @@
+.closed {
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  content: 'STORE CLOSED';
+  z-index: 1000;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.cursive {
+  font-family: 'Sedgwick Ave', cursive;
+  font-size: 8rem;
+}
+
+.unlock {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 2.5rem;
+  color: #ccc;
+}
+
+.optgroup-title b {
+  font-weight: bold !important;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.cust_name {
+  color: #463535;
+}
+
+/* .order_of {
+    font-size: 33px;
+    font-weight: 400;
+    color: #333;
+} */
+
+div.tail-select.no-classes {
+  width: 400px !important;
+}

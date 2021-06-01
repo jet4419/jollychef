@@ -1,0 +1,26 @@
+1. Remove the pesos sign in reports.
+2. Place all the values in reports to the right.
+3. Make the price editable when ordering or already ordered.
+4. Reports when modifying the order of customer
+
+
+Problem #1 (Ordering):
+	When the order stuck in a certain customer. 
+	It will stay there and will continue to 
+	decrease the qty of a product.
+Solution #1:
+	Show the real quantity of current product's qty.
+	When the customer was ordered a product.
+	Don't deduct right away their orders.
+	Should be deducted in the last process of ordering.
+Solution #2:
+	Show the current quantity of the product.
+	And only deduct each customer's order quantity 
+	(Don't deduct the other customer's order).
+
+Sample query:
+SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "c://jollychef/2021-01" ON daily_meals.prod_id = orders_holder.prod_id AND (orders_holder.status = 'Pending' OR orders_holder.status = 'On Process') WHERE cust_id=9 GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name
+
+
+Problem #2 (Ordering) [SOLVED]:
+	The user doesn't know which product has insufficient quantity

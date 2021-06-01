@@ -170,10 +170,14 @@
 
             <div class="container mb-5">
 
-                <p class=" mb-5 pb-3 pt-5 h1 p-0 text-center" style="font-weight: 400">Ordering Page 
-                    <img class="order-icon" src="./img/shop.svg">
-                <!--<i class="fas fa-store store-icon"></i>--> 
-                </p>
+                <section class="main-heading--container">
+
+                    <p class="main-heading--text mb-5 pb-3 h1 p-0 text-center">Ordering Page 
+                        <img class="order-icon" src="./img/shop.svg">
+                    </p>
+
+                </section>
+               
                 <%
                     ' Response.Write ordersHolderPath
                     ' Response.Write fs.FileExists(ordersHolderPath)
@@ -192,74 +196,81 @@
 
                                 <%do until rs.EOF 
 
+
+                                    dbQty = CInt(rs("qty"))
+
+                                    if dbQty < 0 then
+                                        dbQty = 0
+                                    end if
+
                                     if Trim(rs("category").value) = "lunch" or  Trim(rs("category").value) = "meat" or Trim(rs("category").value) = "vegetable" or Trim(rs("category").value) = "fish" or Trim(rs("category").value) = "chicken" then%>
 
                                     <optgroup label="Lunch">
                                         <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                            <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                         </option>   
                                     </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "breakfast" then%>       
                                         <optgroup label="Breakfast">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "rice" then%>       
                                         <optgroup label="Rice">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "drinks" then%>       
                                         <optgroup label="Drinks">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "dessert" then%>       
                                         <optgroup label="Dessert">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "snacks" then%>       
                                         <optgroup label="Snacks">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "candies" then%>       
                                         <optgroup label="Candies">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "groceries" then%>       
                                         <optgroup label="Groceries">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "fresh-meat" then%>       
                                         <optgroup label="Fresh Meat">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
 
                                     <%elseif Trim(rs("category").value) = "others" then%>       
                                         <optgroup label="Others">    
                                             <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & rs("qty")%>
+                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
                                             </option>
                                         </optgroup>
                                     <%end if%>
@@ -317,7 +328,10 @@
                                             <td><%=rs("prod_brand")%> </td>
                                             <td><%=rs("prod_name")%> </td>
                                             <td><%="<span class='currency-sign' >&#8369; </span>"&rs("price")%> </td>
-                                            <td><%=rs("qty")%> </td>
+                                            <td class="td-qty"><span class="d-inline-block qty-value"><%=rs("qty")%></span> 
+                                                <span class="ml-3 d-inline-flex flex-column"> <button class="btn btn-sm btn-qty btn-qty--plus">+</button> <button class="mt-1 btn btn-sm btn-qty btn-qty--minus">-</button>
+                                                </span>
+                                            </td>
                                             <td><%="<span class='currency-sign' >&#8369; </span>"&rs("amount")%> </td>
                                             <!--<td><'%=rs("profit")%> </td>-->
                                             <td width="90">
@@ -565,6 +579,66 @@ if (userEmail) {
 
    });
 }
+
+$('.btn-qty--plus').click(function(e) {
+
+    const qtyValue = e.target.parentElement.previousElementSibling
+    let newVal = 0
+    newVal = parseInt(qtyValue.innerText) + 1
+    qtyValue.innerText = newVal
+
+    console.log(qtyValue.innerText);
+
+});
+
+const products = document.querySelector('#products');
+const quantity = document.querySelector('#quantity');
+
+$('.btnAdd').click(function(event) {
+
+    if(products.checkValidity() && quantity.checkValidity()) {
+        //your form execution code
+        event.preventDefault();
+
+        var URL = 'customer_incoming.asp';
+        var custID = Number(localStorage.getItem('cust_id'));
+        var prodID = Number(document.querySelector('#products').value);
+        var prodQty = Number(document.querySelector('#quantity').value);
+        // console.log(prodID);
+        $.ajax({
+            url: URL,
+            type: 'POST',
+            data: {custID: custID, prodID: prodID, prodQty: prodQty},
+            //data: {},
+        })
+        .done(function(data) { 
+            // console.log(data);
+            //console.log(custID, prodID, prodQty);
+            if (data !== 'invalid qty') location.reload();
+            else if (data == 'store closed') alert('Sorry, the store is closed.');
+            else if (data == 'product does not exist') alert('Sorry, Product does not exist.');
+            else alert('Error: Insufficient quantity stocks');    
+        })
+        .fail(function() {
+            console.log("Response Error");
+        });
+
+    }
+});
+
+$('.btn-qty--minus').click(function(e) {
+
+    const qtyValue = e.target.parentElement.previousElementSibling
+    let newVal = 0
+
+    if (parseInt(qtyValue.innerText) > 1) {
+        newVal = parseInt(qtyValue.innerText) - 1
+        qtyValue.innerText = newVal
+    }
+
+    console.log(qtyValue.innerText);
+
+});
 
 </script> 
 </html>   

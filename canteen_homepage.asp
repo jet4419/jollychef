@@ -32,6 +32,7 @@
 <!--#include file="cashier_navbar.asp"-->
 <!--#include file="cashier_sidebar.asp"-->
 
+<div id="bg-clip"></div>
 
 <main id="main" class="main--main-page homepage">
 

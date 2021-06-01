@@ -38,3 +38,9 @@ svg.print {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   display: inline-block;
 }
+
+td {text-align: right}
+
+.td-date {text-align: center}
+
+.currency-sign {display: none}

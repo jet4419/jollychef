@@ -1,7 +1,7 @@
 <!--#include file="dbConnect.asp"-->
 
 <%
-	if TRIM(isStoreClosed) = "open" then
+	if Trim(isStoreClosed) = "open" then
 
 		Dim custID 
 		custID = CLng(Request.Form("custID"))

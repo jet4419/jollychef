@@ -8,7 +8,8 @@
         <title>Detailed Sales Report</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/homepage_style.css">
+        <link rel="stylesheet" href="./css/main.css">
+        <link rel="stylesheet" href="./css/reports.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -32,6 +33,7 @@
                 text-align: left;
             }   
 
+            
             /* .salesTotalAmount {
                 font-weight: 600;
                 border-bottom: 1.5px solid #000 !important;
@@ -115,10 +117,10 @@
                 margin: 2cm;
             }
 
-            #printData {
-                /* columns: 7; */
-                /* orphans: 3; */
-            }
+            /* #printData {
+                columns: 7;
+                orphans: 3;
+            } */
 
             .currency-sign {
                 color: #393e46 !important;
@@ -226,7 +228,7 @@
             </div>
 
 
-            <h1 class="h2 text-center mt-4 mb-4 main-heading" style="font-weight: 400"> Sales Report <p class="report-type">per Order</p></h1>
+            <h1 class="text-center mb-4 report-heading--text"> Sales Report <p class="report-type">per Order</p></h1>
 
            <div>
                 <%
@@ -425,7 +427,7 @@
                                     <%if dateCounter > 1 then%>
                                         <td></td>
                                     <%else%>
-                                        <td class="text-darker"><%Response.Write(dateFormat)%></td>
+                                        <td class="text-darker td-date"><%Response.Write(dateFormat)%></td>
                                     <%end if%>
                                     <td class="text-darker"><%Response.Write(rs("prod_gen"))%></td> 
                                     <td class="text-darker"><%Response.Write("<span class='currency-sign' >&#8369; </span>"&rs("prod_price"))%></td> 
