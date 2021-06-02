@@ -236,7 +236,7 @@
                         <select id="products" class="form-control mr-2" name="product_id" style="width:650px; "class="chzn-select" placeholder="Select Product" required>
                     
                         <% 
-                            rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND (orders_holder.status = 'Pending' OR orders_holder.status = 'On Process') GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name", CN2
+                            rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'On Process' AND orders_holder.cust_id="&custID&" GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name", CN2
 
                             if not rs.EOF then%>
 
@@ -362,9 +362,27 @@
                         
                             <%if not rs.EOF then
                                 hasOrdered = true%>
-                                <%do until rs.EOF%>
-                                    
+                                <%do until rs.EOF
+
+                                    orderProdID = CInt(rs("prod_id"))
+                                    orderQty = CInt(rs("qty"))
+
+                                    checkQty = "SELECT prod_id, qty FROM daily_meals WHERE prod_id ="&orderProdID
+                                    set objAccess = cnroot.execute(checkQty)
+
+                                    if not objAccess.EOF then
+
+                                        currentQty = CInt(objAccess("qty").value) - orderQty
+
+                                    end if
+
+                                    if currentQty < 0 then%>
+
+                                    <tr style="background: #ff5d5d">
+
+                                    <%else%>
                                     <tr>
+                                    <%end if%>                            
                                         <td><%=rs("prod_brand")%> </td>
                                         <td><%=rs("prod_name")%> </td>
                                         <td> <span class="currency-sign">&#8369;</span> <%=rs("price")%> </td>

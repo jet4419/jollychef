@@ -19,8 +19,16 @@ Solution #2:
 	(Don't deduct the other customer's order).
 
 Sample query:
-SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "c://jollychef/2021-01" ON daily_meals.prod_id = orders_holder.prod_id AND (orders_holder.status = 'Pending' OR orders_holder.status = 'On Process') WHERE cust_id=9 GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name
+SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "c://jollychef/2021-01" ON daily_meals.prod_id = orders_holder.prod_id AND (orders_holder.status = 'Pending' OR orders_holder.status = 'On Process') WHERE orders_holder.cust_id=9 GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name
 
 
 Problem #2 (Ordering) [SOLVED]:
 	The user doesn't know which product has insufficient quantity
+
+Problem #3 (Redding of Invalid Qty Order):
+	it didn't set the red background because it won't minus the previous
+	qty of that product. But still that is invalid qty of product order.
+
+Problem in localStorage:
+
+Solution #1: Refresh every half second the tokenID to avoid duplicates.

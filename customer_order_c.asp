@@ -34,7 +34,7 @@ isProcessed = true
 ordersHolderFile = "\orders_holder.dbf"
 ordersHolderPath = folderPath & ordersHolderFile
 
-rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.qty AS qty1, SUM(orders_holder.qty) AS qty2 FROM daily_meals JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'Pending' GROUP BY daily_meals.prod_id", CN2
+rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.qty AS qty1, SUM(orders_holder.qty) AS qty2 FROM daily_meals JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'Pending' AND orders_holder.cust_id="&customerID&" GROUP BY daily_meals.prod_id", CN2
 
 
 'DECREASING THE ORDERED PRODUCTS QTY'
