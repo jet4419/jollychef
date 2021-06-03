@@ -10,7 +10,6 @@
 		salesQty = CInt(Request.Form("prodQty"))
 		status= "Pending"
 
-
 		Dim yearPath, monthPath
 
 		yearPath = CStr(Year(systemDate))
@@ -133,8 +132,8 @@
 
 				rs.Open "SELECT * FROM "&ordersHolderPath&"", CN2
 				sqlAdd = "INSERT INTO "&ordersHolderPath&""&_ 
-				"(id, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, qty, amount, profit, status, date)"&_
-				"VALUES ("&maxID&", "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&salesQty&", "&amount&", "&profit&", '"&status&"', ctod(["&systemDate&"]))"
+				"(id, cashier_id, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, qty, amount, profit, status, date)"&_
+				"VALUES ("&maxID&", 0, "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&salesQty&", "&amount&", "&profit&", '"&status&"', ctod(["&systemDate&"]))"
 				set objAccess = cnroot.execute(sqlAdd)
 				set objAccess = nothing
 				rs.close

@@ -1,20 +1,19 @@
 <!--#include file="dbConnect.asp"-->
-<!--#include file="session_cashier.asp"-->
 <%
-	'if Session("name")<>"" then
-	btnAdd = Request.Form("btnAdd")
-	
-	if btnAdd<>"" then
-		'invoiceNumber = Request.Form("invoiceNumber")
-		productID = CInt(Request.Form("productID"))
-		salesQty = CInt(Request.Form("salesQty"))
-		status= "On Process"
+
+    if Trim(isStoreClosed) = "open" then
+
+        Dim cashierID, productID, salesQty, status
+
+        cashierID = CInt(Request.Form("cashierID"))
+        productID = CInt(Request.Form("prodID"))
+        salesQty = CInt(Request.Form("prodQty"))
+        status= "On Process"
 		
 		Dim yearPath, monthPath
 
 		yearPath = CStr(Year(systemDate))
 		monthPath = CStr(Month(systemDate))
-	
 
 		if Len(monthPath) = 1 then
 			monthPath = "0" & monthPath
@@ -26,101 +25,148 @@
 		Dim salesOrderPath
 		salesOrderPath = mainPath & yearPath & "-" & monthPath & salesOrderFile
 
+		Dim folderPath, holderCurrQty, isProductExist
+		isProductExist = true
 
-		rs.Open "SELECT * FROM products WHERE prod_id="&productID, CN2
+		Dim ordersHolderFile, ordersHolderPath
 
-		isValidQty = true
-		holderQty = CInt(rs("qty"))
-		productBrand = rs("prod_brand")
-		productName = rs("prod_name")
-		price = CDbl(rs("price"))
-		origPrice = CDbl(rs("orig_price"))
+		ordersHolderFile = "\orders_holder.dbf"
+		ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
-		holderCurrQty = holderQty - salesQty
-		custID = 0
-		
-		sqlGetInfo = "SELECT * FROM customers WHERE cust_id="&custID
-		set objAccess = cnroot.execute(sqlGetInfo)
+		rs.open "SELECT daily_meals.prod_name, daily_meals.qty - SUM(orders_holder.qty) AS qty FROM daily_meals INNER JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.cashier_id="&cashierID&" WHERE daily_meals.prod_id ="&productID, CN2
 
-		if not objAccess.EOF then
-			custFname = CStr(Trim(objAccess("cust_fname")))
-			custLname = CStr(Trim(objAccess("cust_lname")))
-			fullName = custFname & " " & custLname
-			department = objAccess("department")
+        if not rs.EOF then
+
+			holderCurrQty = CInt(rs("qty"))
+
 		else 
-			fullName = "OTC-Customer"
-			department = "unknown"
-		end if
 
-		if salesQty>holderQty then
-			
-			Response.Write("<script language=""javascript"">")
-			Response.Write("alert(""Error: Insufficient quantity stocks"")")
-			Response.Write("</script>")
-			isValidQty = false
-			if isValidQty=false then
-				Response.Write("<script language=""javascript"">")
-				Response.Write("window.location.href=""cashier_order_page.asp"";")
-				Response.Write("</script>")
-			end if
+			getQty = "SELECT qty FROM daily_meals WHERE prod_id = "&productID
+			set objAccess = cnroot.execute(getQty)
 
-		else
+			if not objAccess.EOF then
 
-			qtySold = CInt(rs("qty_sold")) + salesQty
-			amount = price * salesQty	
-			profit = (price - origPrice) * salesQty
-			uniqueNum = 0
-		
-			rs.close
+				holderCurrQty = CInt(objAccess("qty"))
 
-			Dim ordersHolderFile
-			ordersHolderFile = "\orders_holder.dbf" 
-
-			Dim ordersHolderPath
-			ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
-
-			rs.open "SELECT MAX(id) FROM "&ordersHolderPath&"", CN2
-				do until rs.EOF
-					for each x in rs.Fields
-						maxID = x.value
-					next
-					rs.MoveNext
-				loop
-			rs.close
-			maxID= CInt(maxID) + 1
-			'transact_id = transact_id + 1
-			'transact_id = 0
-			rs.open "SELECT MAX(transactid) FROM "&salesOrderPath&"", CN2
-				do until rs.EOF
-					for each x in rs.Fields
-						maxTransactID = x.value
-					next
-					rs.MoveNext
-				loop
-			rs.close
-			salesOrderID = CInt(maxTransactID) + 1
-
-			rs.Open "SELECT * FROM "&ordersHolderPath&"", CN2
-
-			sqlAdd = "INSERT INTO "&ordersHolderPath&""&_ 
-			"(id, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, qty, amount, profit, status, date)"&_
-			"VALUES ("&maxID&", "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&salesQty&", "&amount&", "&profit&", '"&status&"', ctod(["&systemDate&"]))"
-
-			set objAccess = cnroot.execute(sqlAdd)
-			set objAccess = nothing
-
-			rs.close
-			CN2.close
-
-			isRedirect = true
-
-			if isRedirect = true then
-				Response.Write("<script language=""javascript"">")
-				Response.Write("window.location.href=""cashier_order_page.asp""")
-				Response.Write("</script>")
+			else
+				Response.Write "product does not exist"
+				isProductExist = false
 			end if
 
 		end if
+
+		rs.close
+
+        if isProductExist = true then 
+
+            Dim isValidQty, currentQty
+			isValidQty = true
+
+            currentQty = holderCurrQty - salesQty
+
+            if currentQty <  0 then
+
+				isValidQty = false
+				Response.Write "invalid qty"
+
+			end if
+
+
+            if isValidQty = true then
+
+                rs.Open "SELECT prod_brand, prod_name, prod_price, orig_price FROM daily_meals WHERE prod_id="&productID, CN2
+                    
+                if not rs.EOF then
+
+                    productBrand = rs("prod_brand")
+                    productName = rs("prod_name")
+                    price = CDbl(rs("prod_price"))
+                    origPrice = CDbl(rs("orig_price"))
+
+                end if
+
+                ' rs.Open "SELECT * FROM daily_meals WHERE prod_id="&productID, CN2
+
+                ' Dim isValidQty, holderQty, prodBrand, prodName, price, origPrice
+
+                ' isValidQty = true
+                ' holderQty = CInt(rs("qty"))
+                ' productBrand = rs("prod_brand")
+                ' productName = rs("prod_name")
+                ' price = CDbl(rs("price"))
+                ' origPrice = CDbl(rs("orig_price"))
+
+                Dim custID
+
+                custID = 0
+                
+                sqlGetInfo = "SELECT * FROM customers WHERE cust_id="&custID
+                set objAccess = cnroot.execute(sqlGetInfo)
+
+                Dim custFname, custLname, fullName, department
+
+                if not objAccess.EOF then
+
+                    custFname = CStr(Trim(objAccess("cust_fname")))
+                    custLname = CStr(Trim(objAccess("cust_lname")))
+                    fullName = custFname & " " & custLname
+                    department = objAccess("department")
+
+                else 
+
+                    fullName = "OTC-Customer"
+                    department = "unknown"
+
+                end if
+
+                amount = price * salesQty	
+                profit = (price - origPrice) * salesQty
+                uniqueNum = 0
+            
+                rs.close
+
+                rs.open "SELECT MAX(id) FROM "&ordersHolderPath&"", CN2
+                    do until rs.EOF
+                        for each x in rs.Fields
+                            maxID = x.value
+                        next
+                        rs.MoveNext
+                    loop
+                rs.close
+                maxID= CInt(maxID) + 1
+                'transact_id = transact_id + 1
+                'transact_id = 0
+                rs.open "SELECT MAX(transactid) FROM "&salesOrderPath&"", CN2
+                    do until rs.EOF
+                        for each x in rs.Fields
+                            maxTransactID = x.value
+                        next
+                        rs.MoveNext
+                    loop
+                rs.close
+                salesOrderID = CInt(maxTransactID) + 1
+
+                rs.Open "SELECT * FROM "&ordersHolderPath&"", CN2
+
+                sqlAdd = "INSERT INTO "&ordersHolderPath&""&_ 
+                "(id, cashier_id, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, qty, amount, profit, status, date)"&_
+                "VALUES ("&maxID&", "&cashierID&", "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&salesQty&", "&amount&", "&profit&", '"&status&"', ctod(["&systemDate&"]))"
+
+                set objAccess = cnroot.execute(sqlAdd)
+                set objAccess = nothing
+
+                rs.close
+                CN2.close
+
+                Response.Write "valid qty"                
+
+            end if
+
+        end if
+
+    else
+
+        Response.Write "store closed"
 
 	end If
 	

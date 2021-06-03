@@ -321,7 +321,7 @@
             });
 
         }
-    })
+    });
 
     const custID = Number(localStorage.getItem('cust_id'));
 

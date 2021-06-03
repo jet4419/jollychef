@@ -570,6 +570,7 @@ end if%>
 
 <script>
 
+    const cashierID = localStorage.getItem('id');
     const cashierType = localStorage.getItem('type');
     const cashierEmail = localStorage.getItem('email');
     const cashierName = localStorage.getItem('fullname');
@@ -644,7 +645,7 @@ end if%>
             $.ajax({
                 url: URL,
                 type: 'POST',
-                data: {productID: prodID, salesQty: prodQty, cashierType: cashierType, cashierEmail: cashierEmail, cust_id: custID, unique_num: uniqueNum, tokenID: cashierTokenId},
+                data: {cashierID: cashierID,productID: prodID, salesQty: prodQty, cashierType: cashierType, cashierEmail: cashierEmail, cust_id: custID, unique_num: uniqueNum, tokenID: cashierTokenId},
             })
             .done(function(data) { 
                 // console.log(data);
@@ -675,7 +676,7 @@ end if%>
             $.ajax({
                 url: 'customer_order_process_cancel.asp',
                 type: 'POST',
-                data: {orderID: orderID, unique_num: uniqueNum, cust_id: custID, cashierEmail: cashierEmail, cashierType: cashierType, tokenID: cashierTokenId},
+                data: {cashierID: cashierID, orderID: orderID, unique_num: uniqueNum, cust_id: custID, cashierEmail: cashierEmail, cashierType: cashierType, tokenID: cashierTokenId},
             })
             .done(function(data) { 
 
@@ -707,9 +708,11 @@ end if%>
             $.ajax({
                 url: 'customer_pay2.asp',
                 type: 'POST',
-                data: {custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, totalProfit: totalProfit, totalAmount: totalAmount, customerMoney: customerMoney, referenceNo: referenceNo, cashierEmail: cashierEmail, cashierName: cashierName, cashierType: cashierType, tokenID: cashierTokenId},
+                data: {cashierID: cashierID, custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, totalProfit: totalProfit, totalAmount: totalAmount, customerMoney: customerMoney, referenceNo: referenceNo, cashierEmail: cashierEmail, cashierName: cashierName, cashierType: cashierType, tokenID: cashierTokenId},
             })
             .done(function(data) { 
+
+                // console.log(data);
 
                 // console.log(data);
                 if (data === 'no cashier') {
@@ -739,6 +742,12 @@ end if%>
                     formOrder.submit();
                 }
 
+                else if (data === 'invalid ordered qty') {
+                    alert('Invalid Ordered Quantity');
+                    // document.body.appendChild(formOrder);
+                    // formOrder.submit();
+                }
+
                 else if (data === 'insufficient product stock') {
                     alert('Insufficient Product Stock');
                     document.body.appendChild(formOrder);
@@ -748,6 +757,7 @@ end if%>
                 else {
                     alert('Order Completed!');
                     window.location.href = 'receipt_customer_cash.asp?invoice='+data;
+                    
                 }
 
             })
@@ -775,7 +785,7 @@ end if%>
             $.ajax({
                 url: 'customer_order_credit_c.asp',
                 type: 'POST',
-                data: {arReferenceNo: arReferenceNo, custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, customerType: customerType, cashierType: cashierType, cashierEmail: cashierEmail, cashierName: cashierName,  tokenID: cashierTokenId},
+                data: {arReferenceNo: arReferenceNo, custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, customerType: customerType, cashierID: cashierID, cashierType: cashierType, cashierEmail: cashierEmail, cashierName: cashierName,  tokenID: cashierTokenId},
             })
             .done(function(data) { 
 
@@ -799,6 +809,12 @@ end if%>
                 else if (data === 'order does not exist') {
                     alert('Order does not exist');
                     window.location.href = 'customer_orders.asp';
+                }
+
+                else if (data === 'invalid ordered qty') {
+                    alert('Invalid Ordered Quantity');
+                    // document.body.appendChild(formOrder);
+                    // formOrder.submit();
                 }
 
                 else if (data === 'insufficient product stock') {

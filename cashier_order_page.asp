@@ -184,119 +184,20 @@
                 %>
                 <%if fs.FileExists(ordersHolderPath) = true then%>
                     <!-- ORDER FORM -->
-                    <form action="cashier_incoming.asp" class="form-group form-inline" method="POST">
+                    <form id="form-meal" class="form-group form-inline" method="POST">
                         <select id="products" class="form-control mr-2" name="productID" style="width:650px; "class="chzn-select" required placeholder="Select Product">
                                 
-                        <% 
-                            rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name", CN2
-
-                            if not rs.EOF then%>
-
-                                <option value="" disabled selected>Select a product</option>
-
-                                <%do until rs.EOF 
-
-
-                                    dbQty = CInt(rs("qty"))
-
-                                    if dbQty < 0 then
-                                        dbQty = 0
-                                    end if
-
-                                    if Trim(rs("category").value) = "lunch" or  Trim(rs("category").value) = "meat" or Trim(rs("category").value) = "vegetable" or Trim(rs("category").value) = "fish" or Trim(rs("category").value) = "chicken" then%>
-
-                                    <optgroup label="Lunch">
-                                        <option value="<%=rs("prod_id")%>"> 
-                                            <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                        </option>   
-                                    </optgroup>
-
-                                    <%elseif Trim(rs("category").value) = "breakfast" then%>       
-                                        <optgroup label="Breakfast">    
-                                            <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                            </option>
-                                        </optgroup>
-
-                                    <%elseif Trim(rs("category").value) = "rice" then%>       
-                                        <optgroup label="Rice">    
-                                            <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                            </option>
-                                        </optgroup>
-
-                                    <%elseif Trim(rs("category").value) = "drinks" then%>       
-                                        <optgroup label="Drinks">    
-                                            <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                            </option>
-                                        </optgroup>
-
-                                    <%elseif Trim(rs("category").value) = "dessert" then%>       
-                                        <optgroup label="Dessert">    
-                                            <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                            </option>
-                                        </optgroup>
-
-                                    <%elseif Trim(rs("category").value) = "snacks" then%>       
-                                        <optgroup label="Snacks">    
-                                            <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                            </option>
-                                        </optgroup>
-
-                                    <%elseif Trim(rs("category").value) = "candies" then%>       
-                                        <optgroup label="Candies">    
-                                            <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                            </option>
-                                        </optgroup>
-
-                                    <%elseif Trim(rs("category").value) = "groceries" then%>       
-                                        <optgroup label="Groceries">    
-                                            <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                            </option>
-                                        </optgroup>
-
-                                    <%elseif Trim(rs("category").value) = "fresh-meat" then%>       
-                                        <optgroup label="Fresh Meat">    
-                                            <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                            </option>
-                                        </optgroup>
-
-                                    <%elseif Trim(rs("category").value) = "others" then%>       
-                                        <optgroup label="Others">    
-                                            <option value="<%=rs("prod_id")%>"> 
-                                                <%="<span class='currency-sign'>&#8369; </span>" & rs("prod_price") & " / " & rs("prod_name") & "/ Qty Left: " & dbQty%>
-                                            </option>
-                                        </optgroup>
-                                    <%end if%>
-
-                                    <%
-                                    rs.MoveNext
-                                loop 
-
-                            else%>
-
-                                <option value="" disabled selected>No available product</option>
-
-                            <%end if
-
-                            rs.close
-                        %>
+                        
                                 
                         </select>
 
                         <input type="number" class="form-control" id="quantity" name="salesQty"  min="1" placeholder="Qty" autocomplete="off" style="width: 68px; height:30px; padding-top:6px; padding-bottom: 4px; margin-right: 4px; font-size:15px;" max="999999" required>
-                        <button name="btnAdd" value="btnAddDetails" type="submit" class="btn btn-success" min="1" max="100" >Add</button>
+                        <button name="btnAdd" value="btnAddDetails" type="submit" class="btn btn-success btnAdd" min="1" max="100" >Add</button>
                     </form>
                     <!-- END OF ORDER FORM -->
 
                     <!-- ORDER TABLE --> 
-                    <table class="table table-striped table-bordered table-sm"> 
+                    <table id="myTable" class="table table-striped table-bordered table-sm"> 
                         <caption>List of orders</caption>
                         <thead class="thead-dark">
                             <th>Brand Name</th>
@@ -309,73 +210,15 @@
                         </thead>
                     
                         <tbody>
-                            
-                            <%	
-
-                                Dim totalAmount, totalProfit, hasOrdered
-                                totalAmount = 0.00
-                                totalProfit = 0.00
-                                hasOrdered = true
-                        
-                                rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status=""On Process"" and cust_id=0", CN2
-        
-                            %>
-
-                            <%if not rs.EOF then%>
-                                <%do until rs.EOF%>
-                                        
-                                        <tr>
-                                            <td><%=rs("prod_brand")%> </td>
-                                            <td><%=rs("prod_name")%> </td>
-                                            <td><%="<span class='currency-sign' >&#8369; </span>"&rs("price")%> </td>
-                                            <td class="td-qty"><span class="d-inline-block qty-value"><%=rs("qty")%></span> 
-                                                <span class="ml-3 d-inline-flex flex-column"> <button class="btn btn-sm btn-qty btn-qty--plus">+</button> <button class="mt-1 btn btn-sm btn-qty btn-qty--minus">-</button>
-                                                </span>
-                                            </td>
-                                            <td><%="<span class='currency-sign' >&#8369; </span>"&rs("amount")%> </td>
-                                            <!--<td><'%=rs("profit")%> </td>-->
-                                            <td width="90">
-                                                <button onClick="delete_order(<%=CDbl(rs("id"))%>)" class="btn btn-sm btn-warning"> Cancel </button>
-                                            </td>
-                                        </tr>
-
-                                        <%  
-                                            totalAmount = totalAmount + CDbl(rs("amount"))
-                                            totalProfit = totalProfit + CDbl(rs("profit"))
-                                            rs.MoveNext
-
-                                    loop
-                                    
-                                    %>
-                                
-                                        <tr>
-                                            <!--<td colspan="3"><h1 class="lead"><strong>Total Profit</h1></strong> <h4>  &#8369; <'%=totalProfit%></h4> </td> -->
-                                            <td colspan="6"><h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> <%=totalAmount%></h4> </td>
-                                        </tr>
-                            <%else
-                                hasOrdered = false
-                            end if
-                            %>                
+                                          
                                         
                         </tbody>
                     </table>
                     <!-- END OF ORDER TABLE -->
-                    <%
-                        rs.close
-                        CN2.close
-                    %>
-
-                        <%if hasOrdered = false then%>
-                            <button type="button" class="btn btn-success btn-block mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#payCashModal" disabled>
-                            Pay Cash
-                            </button>
-
-                        <%else%>   
-                            <button type="button" class="btn btn-success btn-block mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#payCashModal">
-                            Pay Cash
-                            </button>
-
-                        <%end if%>    
+    
+                        <button type="button" class="btn btnPayment btn-success btn-block mx-auto mb-2" style="max-width: 300px;" data-toggle="modal" data-target="#payCashModal">
+                        Pay Cash
+                        </button>    
                 
                 <%end if%>
                         <!-- Pay Cash Modal -->
@@ -514,7 +357,31 @@
 
 <script>
 
+function tailSelect() {
+
+    tail.select("#select1", {
+        width: "auto",
+        animate: true,
+        search: true,
+        deselect: true,
+        descriptions: true
+    });
+
+    tail.select("#products", {
+        search: true,
+        deselect: true,    
+    });
+
+}
+
 const userEmail = localStorage.getItem('email');
+const cashierID = localStorage.getItem('id');
+const formMeal = document.getElementById('form-meal');
+
+const selectTagMeal = document.getElementById('products');
+const quantity = document.getElementById('quantity');
+
+// console.log(`ID: ${cashierID}, Email: ${userEmail}`);
 
 if (userEmail) {
 
@@ -525,10 +392,10 @@ if (userEmail) {
     }
     
 
-    tail.select("#products", {
-        search: true,
-        deselect: true,    
-    });
+    // tail.select("#products", {
+    //     search: true,
+    //     deselect: true,    
+    // });
 
     function delete_order(transactID , qty, productID, uniqueNum) {
 
@@ -543,32 +410,36 @@ if (userEmail) {
     const idRef = document.getElementById('referenceNo')
     idRef.value = idRef.value.padStart(9, '0')
     */
+   
 
-   const products = document.getElementById('products');
-   const quantity = document.getElementById('quantity');
+    $('.btnAdd').click(function(event) {
 
-   $('.btnAdd').click(function(event) {
+    //    event.preventDefault();
 
-       if(products.checkValidity() && quantity.checkValidity()) {
+        if(selectTagMeal.checkValidity() && quantity.checkValidity()) {
             //your form execution code
             event.preventDefault();
 
-            var URL = 'customer_incoming.asp';
-            var custID = Number(localStorage.getItem('cust_id'));
-            var prodID = Number(document.querySelector('#products').value);
-            var prodQty = Number(document.querySelector('#quantity').value);;
+            const URL = 'cashier_incoming.asp';
+            // var custID = Number(localStorage.getItem('cust_id'));
+            const prodID = Number(document.querySelector('#products').value);
+            const prodQty = Number(document.querySelector('#quantity').value);;
             // console.log(prodID);
             $.ajax({
                 url: URL,
                 type: 'POST',
-                data: {custID: custID, prodID: prodID, prodQty: prodQty},
+                data: {cashierID: cashierID, prodID: prodID, prodQty: prodQty},
                 //data: {},
             })
             .done(function(data) { 
                 // console.log(data);
                 //console.log(custID, prodID, prodQty);
                 if (data !== 'invalid qty') location.reload();
-                else if (data == 'store closed') alert('Sorry, the store is closed.');
+                else if (data == 'store closed') {
+                    alert('Sorry, the store is closed.');
+                    location.reload();
+                } 
+                else if (data == 'product does not exist') alert('Sorry, Product does not exist.');
                 else alert('Error: Insufficient quantity stocks');    
             })
             .fail(function() {
@@ -577,68 +448,289 @@ if (userEmail) {
 
         }
 
-   });
+    });
 }
 
-$('.btn-qty--plus').click(function(e) {
+function getMeals () {
+        
+    const URL = 'cashier_get_meals.asp';
 
-    const qtyValue = e.target.parentElement.previousElementSibling
-    let newVal = 0
-    newVal = parseInt(qtyValue.innerText) + 1
-    qtyValue.innerText = newVal
+    $.ajax({
+        url: URL,
+        type: 'POST',
+        data: {cashierID: cashierID},
+    })
+    .done(function(data) {
+        // console.log(data)
 
-    console.log(qtyValue.innerText);
+        html = '';
 
-});
+        if (data === 'no meals') {
+            html += `<option value="" disabled selected>No available product</option>`
+            selectTagMeal.insertAdjacentHTML('beforeend', html);
+            // formMeal.insertAdjacentHTML('afterbegin', selectTagMeal);
+            
+        } else if (data === 'invalid customer') {
+            console.log('invalid customer');
+        } 
+        
+        else  {
 
-const products = document.querySelector('#products');
-const quantity = document.querySelector('#quantity');
+            const json = JSON.parse(data)
+            html += `<option value="" disabled selected>Select a product</option>`
+            for (let i in json) {
+                // console.log(json[i]);
+                const category = json[i].category;
+                
+                if (category === 'lunch' || category === 'meat' ||
+                    category === 'vegetable' || category === 'fish' ||
+                    category === 'chicken' 
+                    ) {
+                    
+                    
+                    html += `
+                        <optgroup label='Lunch'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                    // console.log(html);
 
-$('.btnAdd').click(function(event) {
+                } 
+                
+                else if (category === 'breakfast') {
 
-    if(products.checkValidity() && quantity.checkValidity()) {
-        //your form execution code
-        event.preventDefault();
+                    html += `
+                        <optgroup label='Breakfast'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                }
 
-        var URL = 'customer_incoming.asp';
-        var custID = Number(localStorage.getItem('cust_id'));
-        var prodID = Number(document.querySelector('#products').value);
-        var prodQty = Number(document.querySelector('#quantity').value);
-        // console.log(prodID);
-        $.ajax({
-            url: URL,
-            type: 'POST',
-            data: {custID: custID, prodID: prodID, prodQty: prodQty},
-            //data: {},
-        })
-        .done(function(data) { 
-            // console.log(data);
-            //console.log(custID, prodID, prodQty);
-            if (data !== 'invalid qty') location.reload();
-            else if (data == 'store closed') alert('Sorry, the store is closed.');
-            else if (data == 'product does not exist') alert('Sorry, Product does not exist.');
-            else alert('Error: Insufficient quantity stocks');    
-        })
-        .fail(function() {
-            console.log("Response Error");
-        });
+                else if (category === 'rice') {
 
-    }
-});
+                    html += `
+                        <optgroup label='Rice'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                }
 
-$('.btn-qty--minus').click(function(e) {
+                else if (category === 'drinks') {
 
-    const qtyValue = e.target.parentElement.previousElementSibling
-    let newVal = 0
+                    html += `
+                        <optgroup label='Drinks'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                }
 
-    if (parseInt(qtyValue.innerText) > 1) {
-        newVal = parseInt(qtyValue.innerText) - 1
-        qtyValue.innerText = newVal
-    }
+                else if (category === 'dessert') {
 
-    console.log(qtyValue.innerText);
+                    html += `
+                        <optgroup label='Dessert'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                }
 
-});
+                else if (category === 'snacks') {
+
+                    html += `
+                        <optgroup label='Snacks'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                }
+
+                else if (category === 'candies') {
+
+                    html += `
+                        <optgroup label='Candies'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                }
+
+                else if (category === 'groceries') {
+
+                    html += `
+                        <optgroup label='Groceries'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                }
+
+                else if (category === 'fresh-meat') {
+
+                    html += `
+                        <optgroup label='Fresh Meat'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                }
+
+                else if (category === 'others') {
+
+                    html += `
+                        <optgroup label='Others'>
+                            <option value=${json[i].prodID}>
+                                <span>&#8369;</span> ${json[i].prodPrice} / ${json[i].prodName} / Qty Left: ${json[i].qty}
+                            </option>
+                        </optgroup>
+                    
+                    `
+                }
+
+                
+
+            }
+
+            selectTagMeal.insertAdjacentHTML('beforeend', html);
+            // formMeal.prepend(selectTagMeal);
+
+            tailSelect();
+
+        } 
+    })
+    .fail(function() {
+        console.log("error");
+    });
+}
+
+function getOrders () {
+            
+    const URL = 'cashier_get_orders.asp';
+    var totAmount = 0;
+    var totalAmountStr = "";
+    
+    $.ajax({
+        url: URL,
+        type: 'POST',
+        data: {cashierID: cashierID},
+        //data: {},
+    })
+    .done(function(data) {
+
+        // console.log(data)
+
+        if (data!=="no data") {
+
+            let jsonObject = JSON.parse(data)
+
+            let output = '';
+
+            for (let i in jsonObject) {
+                
+                tr = "<tr>"
+
+                if (jsonObject[i].isValidQty === 'false') {
+                    tr = "<tr style='background: #ff5d5d'>"
+                }
+
+                output += ` ${tr}
+                                <td> ${jsonObject[i].prodBrand} </td>
+                                <td> ${jsonObject[i].prodName} </td>
+                                <td> <span class='currency-sign'>&#8369; </span> ${jsonObject[i].price}</span>
+                                </td> 
+                                <td class='td-qty'> 
+                                    <span class="d-inline-block qty-value">${jsonObject[i].qty}</span>
+                                    <span class="ml-3 d-inline-flex flex-column"> 
+                                        <button class="btn btn-sm btn-qty btn-qty--plus">+</button> <button class="mt-1 btn btn-sm btn-qty btn-qty--minus">-</button>
+                                    </span>
+                                </td> 
+                                
+                                <td> <strong class='currency-sign'> &#8369; </strong> ${jsonObject[i].amount} </td> 
+                                <td width="90">
+                                    <button onClick="delete_order(${jsonObject[i].id})" class='btn btn-sm btn-warning'>
+                                        Cancel
+                                    </button>
+                                </td>
+                            </tr>    
+
+                            
+                        `;
+                    // console.log(jsonObject[i].isValidQty);
+                    totAmount += jsonObject[i].amount;
+            }  
+
+            
+            totalAmountStr = `<tr>
+                                <td colspan="6"> 
+                                    <h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> ${totAmount} </h4> 
+                                </td> 
+                            </tr>    `
+            $('td.dataTables_empty').attr('hidden', 'hidden');
+            $('#myTable tr:last').after(output + totalAmountStr);
+
+            $('.btn-qty--plus').click(function(e) {
+
+                const qtyValue = e.target.parentElement.previousElementSibling
+                let newVal = 0
+                newVal = parseInt(qtyValue.innerText) + 1
+                qtyValue.innerText = newVal
+
+                // console.log(qtyValue.innerText);
+
+            });
+
+            $('.btn-qty--minus').click(function(e) {
+
+                const qtyValue = e.target.parentElement.previousElementSibling
+                let newVal = 0
+
+                if (parseInt(qtyValue.innerText) > 1) {
+                    newVal = parseInt(qtyValue.innerText) - 1
+                    qtyValue.innerText = newVal
+                }
+
+                // console.log(qtyValue.innerText);
+
+            });
+            
+            // document.querySelector('#customerID').value = Number(localStorage.getItem('cust_id'));
+
+        } else {
+            // console.log("no new data");
+            $('.btnPayment').attr('disabled', "");
+        }
+    })
+    .fail(function() {
+        console.log("error");
+    });
+    
+}
+
+setTimeout( () => getMeals());
+setTimeout( () => getOrders());
+
+
 
 </script> 
 </html>   

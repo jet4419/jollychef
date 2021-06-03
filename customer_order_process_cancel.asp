@@ -12,6 +12,7 @@
 	orderID = CInt(Request.Form("orderID"))
 	uniqueNum = CLng(Request.Form("unique_num"))
 	custID = CLng(Request.Form("cust_id"))
+    cashierID = CInt(Request.Form("cashierID"))
 	cashierEmail = CStr(Request.Form("cashierEmail"))
     cashierType = CStr(Request.Form("cashierType"))
 	tokenID = CStr(Request.Form("tokenID"))
@@ -51,6 +52,10 @@
         Dim ordersHolderPath
 
         ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
+
+        sqlUpdate = "UPDATE "&ordersHolderPath&" SET cashier_id="&cashierID&" WHERE id="&orderID
+        set objAccess = cnroot.execute(sqlUpdate)
+        set objAccess = nothing
 
         rs.open "SELECT * FROM "&ordersHolderPath&"", CN2
         sqlDelete = "DELETE FROM "&ordersHolderPath&" WHERE id="&orderID

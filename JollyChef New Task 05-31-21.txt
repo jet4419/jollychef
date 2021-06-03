@@ -5,29 +5,38 @@
 
 
 Problem #1 (Ordering):
-	When the order stuck in a certain customer. 
-	It will stay there and will continue to 
-	decrease the qty of a product.
+	- When the order stuck in a certain customer. 
+	- It will stay there and will continue to 
+	- decrease the qty of a product.
 Solution #1:
-	Show the real quantity of current product's qty.
-	When the customer was ordered a product.
-	Don't deduct right away their orders.
-	Should be deducted in the last process of ordering.
+	- Show the real quantity of current product's qty.
+	- When the customer was ordered a product.
+	- Don't deduct right away their orders.
+	- Should be deducted in the last process of ordering.
 Solution #2:
-	Show the current quantity of the product.
-	And only deduct each customer's order quantity 
-	(Don't deduct the other customer's order).
+	- Show the current quantity of the product.
+	- And only deduct each customer's order quantity 
+	- (Don't deduct the other customer's order).
 
 Sample query:
 SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "c://jollychef/2021-01" ON daily_meals.prod_id = orders_holder.prod_id AND (orders_holder.status = 'Pending' OR orders_holder.status = 'On Process') WHERE orders_holder.cust_id=9 GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name
 
 
 Problem #2 (Ordering) [SOLVED]:
-	The user doesn't know which product has insufficient quantity
+	- The user doesn't know which product has insufficient quantity
 
 Problem #3 (Redding of Invalid Qty Order):
-	it didn't set the red background because it won't minus the previous
-	qty of that product. But still that is invalid qty of product order.
+	- it didn't set the red background because it won't minus the previous
+	- qty of that product. But still that is invalid qty of product order.
+
+Problem #4 (Cashier Ordering Page)
+	 - When two account is using in cashier ordering page
+	 - Their orders will sync even though the customer are not the same
+Solution #1:
+	- Use the cashier's ID to list the orders of his customer
+	- If the admin wants to access his employees orders.
+	- The admin just needs to select whose cashier/employee
+	- he wants to access.
 
 Problem in localStorage:
 

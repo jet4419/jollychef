@@ -33,10 +33,13 @@ else
     cashierName = CStr(Request.Form("cashierName"))
     tokenID = CStr(Request.Form("tokenID"))
 
+    Dim cashierID
+    cashierID = CInt(Request.Form("cashierID"))
+
     Dim isValidCashier
 
     validateCashier = "SELECT email, user_type, token_id, log_status FROM users "&_
-                      "WHERE email='"&cashierEmail&"' AND user_type='"&cashierType&"' "&_
+                      "WHERE id="&cashierID&" AND email='"&cashierEmail&"' AND user_type='"&cashierType&"' "&_
                       "AND token_id='"&tokenID&"' AND log_status='active'"
     set objAccess = cnroot.execute(validateCashier)
 
@@ -50,16 +53,58 @@ else
 
     end if
 
-    if isValidCashier = true then
+    Dim yearPath, monthPath
 
-        Dim yearPath, monthPath
+    yearPath = Year(systemDate)
+    monthPath = Month(systemDate)
 
-        yearPath = Year(systemDate)
-        monthPath = Month(systemDate)
+    if Len(monthPath) = 1 then
+        monthPath = "0" & CStr(monthPath)
+    end if
 
-        if Len(monthPath) = 1 then
-            monthPath = "0" & CStr(monthPath)
+    Dim ordersHolderFile
+
+    ordersHolderFile = "\orders_holder.dbf" 
+
+    Dim ordersHolderPath
+
+    ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
+
+    Dim isValidQty
+    isValidQty = true
+
+    rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.qty AS qty1, SUM(orders_holder.qty) AS qty2 FROM daily_meals JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'On Process' AND orders_holder.cust_id="&custID&" GROUP BY daily_meals.prod_id", CN2
+
+    'Check if the ordered QTY is valid'
+    if not rs.EOF then
+
+        do until rs.EOF 
+
+            newQty = CLng(rs("qty1")) - CLng(rs("qty2"))
+
+            if newQty < 0 then
+
+                isValidQty = false
+                EXIT DO
+
+            end if
+        
+            rs.MoveNext
+        loop
+
+        if isValidQty = false then
+
+            Response.Write "invalid ordered qty"
+
         end if
+
+    else
+        isValidQty = false
+    end if
+
+    rs.close
+
+    if isValidCashier = true AND isValidQty = true then
 
         Dim referenceNoFile
         referenceNoFile = "\reference_no.dbf" 
@@ -124,14 +169,6 @@ else
 
 
         if isValidRef = true then
-
-            Dim ordersHolderFile
-
-            ordersHolderFile = "\orders_holder.dbf" 
-
-            Dim ordersHolderPath
-
-            ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
             Dim isOrderExist
             isOrderExist = true
@@ -271,7 +308,7 @@ else
 
                     rs.close
 
-                            sqlAdd = "INSERT INTO "&salesPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, cashier, date, cash_paid, amount, profit, payment, duplicate)"&_ 
+                    sqlAdd = "INSERT INTO "&salesPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, cashier, date, cash_paid, amount, profit, payment, duplicate)"&_ 
                     "VALUES ("&maxTransactID&", '"&referenceNo&"', "&maxInvoice&", "&custID&", '"&custName&"', '"&cashierName&"', ctod(["&systemDate&"]), "&customerCash&", "&totalAmount&", "&totalProfit&", '"&userPayment&"', '"&isDuplicate&"')"
 
                     set objAccess = cnroot.execute(sqlAdd)
@@ -370,6 +407,7 @@ else
                         cnroot.execute(sqlRefAdd)   
 
                         CN2.close
+                        
                         sqlHolderDelete = "DELETE FROM "&ordersHolderPath&" WHERE unique_num="&uniqueNum
                         set objAccess = cnroot.execute(sqlHolderDelete)
                         set objAccess = nothing
