@@ -61,6 +61,7 @@
                     .Add "price", CDbl(rs("price").value)
                     .Add "qty", CLng(rs("qty").value)
                     .Add "amount", CDbl(rs("amount").value)
+                    .Add "profit", CDbl(rs("profit").value)
 
                     if currentQty < 0 then
                         .Add "isValidQty", "false"

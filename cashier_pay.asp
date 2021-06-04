@@ -3,8 +3,9 @@
 
 <%
 
-    Dim userEmail
-    userEmail = CStr(Request.Form("userEmail"))
+    Dim cashierID, cahierEmail
+    cashierID = CInt(Request.Form("cashierID"))
+    cahierEmail = CStr(Request.Form("userEmail"))
 
     Dim custID, custName, custDepartment, isValidRef
     isValidRef = true
@@ -30,31 +31,6 @@
 
     end if
 
-    Dim totalProfit, totalAmount, customerCash, userPayment, email, cashierName, referenceNo
-
-    totalProfit = CDbl(Request.Form("totalProfit"))
-    totalAmount = CDbl(Request.Form("totalAmount"))
-    customerCash = CDbl(Request.Form("customerMoney"))
-    'userType = "Cashier"
-    userPayment = "Cash"
-    referenceNo = CStr(Request.Form("referenceNo"))
-    referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
-    'currDate = CDate(Date)
-    status = "On Process"
-
-    email = userEmail
-    'Set the user type of the cashier's currently logged in'
-    sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
-    set objAccess = cnroot.execute(sqlGetInfo)
-
-    if not objAccess.EOF then
-
-        cashierName = Trim(objAccess("first_name")) & " " & Trim(objAccess("last_name"))
-
-    end if
-
-    set objAccess = nothing
-
     Dim yearPath, monthPath
 
     yearPath = Year(systemDate)
@@ -64,47 +40,108 @@
         monthPath = "0" & CStr(monthPath)
     end if
 
-    Dim referenceNoFile
-    referenceNoFile = "\reference_no.dbf" 
+    Dim ordersHolderFile
 
-    Dim referenceNoPath
-    referenceNoPath = mainPath & yearPath & "-" & monthPath & referenceNoFile  
+    ordersHolderFile = "\orders_holder.dbf" 
 
-    Dim minRefNo
-    rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id ASC;", CN2
-        do until rs.EOF
-            for each x in rs.Fields
-                minRefNo = x.value
-            next
+    Dim ordersHolderPath
+
+    ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
+
+    Dim isValidQty
+    isValidQty = true
+
+    rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.qty AS qty1, SUM(orders_holder.qty) AS qty2 FROM daily_meals JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'On Process' AND orders_holder.cashier_id="&cashierID&" AND orders_holder.cust_id=0 GROUP BY daily_meals.prod_id", CN2
+
+    'Check if the ordered QTY is valid'
+    if not rs.EOF then
+
+        do until rs.EOF 
+
+            newQty = CLng(rs("qty1")) - CLng(rs("qty2"))
+
+            if newQty < 0 then
+
+                isValidQty = false
+                EXIT DO
+
+            end if
+        
             rs.MoveNext
         loop
-    rs.close   
 
-    if minRefNo = "" then
-        minRefNo = CLNG(minRefNo) + 1
-    else
-        minRefNo = CLNG(Mid(minRefNo, 6)) + 1
-    end if
+        if isValidQty = false then
 
-    if CLNG(Request.Form("referenceNo")) < minRefNo then
-
-        isValidRef = false
-        Response.Write("<script language=""javascript"">")
-        Response.Write("alert('Error: Reference already exist!')")
-        Response.Write("</script>")
-
-        if isValidRef = false then
             Response.Write("<script language=""javascript"">")
-            Response.Write("window.location.href=""cashier_order_page.asp"";")
+            Response.Write("alert('Error: Invalid Quantity.')")
             Response.Write("</script>")
+
+            if isValidQty = false then
+                Response.Write("<script language=""javascript"">")
+                Response.Write("window.location.href=""cashier_order_page.asp"";")
+                Response.Write("</script>")
+            end if
+
+            Response.Write "invalid ordered qty"
+
         end if
 
     else
+        isValidQty = false
+    end if
 
-        sqlCheckRef = "SELECT ref_no FROM "&referenceNoPath&" WHERE ref_no='"&referenceNo&"'"
-        set objAccess = cnroot.execute(sqlCheckRef)
+    rs.close
+
+    if isValidQty = true then
+
+        Dim totalProfit, totalAmount, customerCash, userPayment, email, cashierName, referenceNo
+
+        totalProfit = CDbl(Request.Form("totalProfit"))
+        totalAmount = CDbl(Request.Form("totalAmount"))
+        customerCash = CDbl(Request.Form("customerMoney"))
+        'userType = "Cashier"
+        userPayment = "Cash"
+        referenceNo = CStr(Request.Form("referenceNo"))
+        referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
+        'currDate = CDate(Date)
+        status = "On Process"
+
+        email = cahierEmail
+        'Set the user type of the cashier's currently logged in'
+        sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
+        set objAccess = cnroot.execute(sqlGetInfo)
 
         if not objAccess.EOF then
+
+            cashierName = Trim(objAccess("first_name")) & " " & Trim(objAccess("last_name"))
+
+        end if
+
+        set objAccess = nothing
+
+        Dim referenceNoFile
+        referenceNoFile = "\reference_no.dbf" 
+
+        Dim referenceNoPath
+        referenceNoPath = mainPath & yearPath & "-" & monthPath & referenceNoFile  
+
+        Dim minRefNo
+        rs.Open "SELECT TOP 1 ref_no FROM "&referenceNoPath&" ORDER BY id ASC;", CN2
+            do until rs.EOF
+                for each x in rs.Fields
+                    minRefNo = x.value
+                next
+                rs.MoveNext
+            loop
+        rs.close   
+
+        if minRefNo = "" then
+            minRefNo = CLNG(minRefNo) + 1
+        else
+            minRefNo = CLNG(Mid(minRefNo, 6)) + 1
+        end if
+
+        if CLNG(Request.Form("referenceNo")) < minRefNo then
 
             isValidRef = false
             Response.Write("<script language=""javascript"">")
@@ -117,151 +154,162 @@
                 Response.Write("</script>")
             end if
 
-        end if
-
-        set objAccess = nothing
-
-    end if
-    
-
-    if isValidRef = true then
-
-        Dim ordersHolderFile
-
-        ordersHolderFile = "\orders_holder.dbf" 
-
-        Dim isOrderExist
-        isOrderExist = true
-
-        Dim ordersHolderPath
-
-        ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
-
-        sqlGetAmount = "SELECT SUM(amount) AS amount FROM "&ordersHolderPath&" WHERE status='"&status&"' and cust_id=0"
-        set objAccess = cnroot.execute(sqlGetAmount)
-
-        if not objAccess.EOF then
-
-            realAmount = CDbl(objAccess("amount").value)
-
         else
 
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Order doesn\'t exist!')")
-            Response.Write("</script>")
-            isOrderExist = false
+            sqlCheckRef = "SELECT ref_no FROM "&referenceNoPath&" WHERE ref_no='"&referenceNo&"'"
+            set objAccess = cnroot.execute(sqlCheckRef)
 
-            if isOrderExist = false then
+            if not objAccess.EOF then
 
+                isValidRef = false
                 Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href='cashier_order_page.asp';")
+                Response.Write("alert('Error: Reference already exist!')")
                 Response.Write("</script>")
 
-            end if        
+                if isValidRef = false then
+                    Response.Write("<script language=""javascript"">")
+                    Response.Write("window.location.href=""cashier_order_page.asp"";")
+                    Response.Write("</script>")
+                end if
+
+            end if
+
+            set objAccess = nothing
 
         end if
-        
-        set objAccess = nothing
+    
 
-        if isOrderExist = true then
+        if isValidRef = true then
 
-            if customerCash < realAmount then
 
-                Response.Write("<script language=""javascript"">")
-                Response.Write("alert('Error: Insufficient cash!')")
-                Response.Write("</script>")
-                isValidT = false
+            Dim isOrderExist
+            isOrderExist = true
 
-                if isValidT = false then
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href=""cashier_order_page.asp"";")
-                    Response.Write("</script>")
-                end if
+            sqlGetAmount = "SELECT SUM(amount) AS amount FROM "&ordersHolderPath&" WHERE status='"&status&"' AND cashier_id="&cashierID&" and cust_id=0"
+            set objAccess = cnroot.execute(sqlGetAmount)
 
-            elseif totalAmount <> realAmount then
+            if not objAccess.EOF then
 
-                Response.Write("<script language=""javascript"">")
-                Response.Write("alert('Sorry, Invalid transactions.')")
-                Response.Write("</script>")
-                isValidT = false
-
-                if isValidT = false then
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href=""cashier_order_page.asp"";")
-                    Response.Write("</script>")
-                end if
+                realAmount = CDbl(objAccess("amount").value)
 
             else
 
-                rs.Open "SELECT * FROM products", CN2
-                sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status='"&status&"' and cust_id=0 GROUP BY prod_id" 
-                set objAccess  = cnroot.execute(sqlAccess)
+                Response.Write("<script language=""javascript"">")
+                Response.Write("alert('Order doesn\'t exist!')")
+                Response.Write("</script>")
+                isOrderExist = false
+
+                if isOrderExist = false then
+
+                    Response.Write("<script language=""javascript"">")
+                    Response.Write("window.location.href='cashier_order_page.asp';")
+                    Response.Write("</script>")
+
+                end if        
+
+            end if
+            
+            set objAccess = nothing
+
+            if isOrderExist = true then
+
+                if customerCash < realAmount then
+
+                    Response.Write("<script language=""javascript"">")
+                    Response.Write("alert('Error: Insufficient cash!')")
+                    Response.Write("</script>")
+                    isValidT = false
+
+                    if isValidT = false then
+                        Response.Write("<script language=""javascript"">")
+                        Response.Write("window.location.href=""cashier_order_page.asp"";")
+                        Response.Write("</script>")
+                    end if
+
+                elseif totalAmount <> realAmount then
+
+                    Response.Write("<script language=""javascript"">")
+                    Response.Write("alert('Sorry, Invalid transactions.')")
+                    Response.Write("</script>")
+                    isValidT = false
+
+                    if isValidT = false then
+                        Response.Write("<script language=""javascript"">")
+                        Response.Write("window.location.href=""cashier_order_page.asp"";")
+                        Response.Write("</script>")
+                    end if
+
+                else
+
+                    rs.Open "SELECT * FROM products", CN2
+                    sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status='"&status&"' AND cashier_id="&cashierID&" AND cust_id=0 GROUP BY prod_id" 
+                    set objAccess  = cnroot.execute(sqlAccess)
 
 
-                if objAccess.EOF >= 0 then
+                    if objAccess.EOF >= 0 then
 
-                    do until objAccess.EOF
+                        do until objAccess.EOF
 
-                        do until rs.EOF
+                            do until rs.EOF
 
-                            if CLng(objAccess("prod_id")) = CLng(rs("prod_id")) then 
-                                currQty = CLng(rs("qty")) - CLng(objAccess("qty"))
-                                qtySold = CLng(objAccess("qty")) + CLng(rs("qty_sold"))
+                                if CLng(objAccess("prod_id")) = CLng(rs("prod_id")) then 
+                                    currQty = CLng(rs("qty")) - CLng(objAccess("qty"))
+                                    qtySold = CLng(objAccess("qty")) + CLng(rs("qty_sold"))
 
-                                if CLng(currQty) < 0 then
-                                    Response.Write("<script language=""javascript"">")
-                                    Response.Write("alert('Error: Insufficient product stock!')")
-                                    Response.Write("</script>")
-                                    isProcessed = false
-                                    If isProcessed = false then
-                                    ' Response.Redirect("bootSales.asp")
+                                    if CLng(currQty) < 0 then
                                         Response.Write("<script language=""javascript"">")
-                                        Response.Write("window.location.href=""cashier_order_page.asp"";")
+                                        Response.Write("alert('Error: Insufficient product stock!')")
                                         Response.Write("</script>")
-                                    end If
-                                
-                                else
-                                    sqlUpdate = "UPDATE products SET qty="&currQty&", qty_sold="&qtySold&" WHERE prod_id="&rs("prod_id")
-                                    sqlDailyMeal = "UPDATE daily_meals SET qty="&currQty&" WHERE prod_id="&rs("prod_id")
-                                    cnroot.execute(sqlUpdate)
-                                    cnroot.execute(sqlDailyMeal)
-                                    Exit Do
-                                end if 
+                                        isProcessed = false
+                                        If isProcessed = false then
+                                        ' Response.Redirect("bootSales.asp")
+                                            Response.Write("<script language=""javascript"">")
+                                            Response.Write("window.location.href=""cashier_order_page.asp"";")
+                                            Response.Write("</script>")
+                                        end If
+                                    
+                                    else
+                                        sqlUpdate = "UPDATE products SET qty="&currQty&", qty_sold="&qtySold&" WHERE prod_id="&rs("prod_id")
+                                        sqlDailyMeal = "UPDATE daily_meals SET qty="&currQty&" WHERE prod_id="&rs("prod_id")
+                                        cnroot.execute(sqlUpdate)
+                                        cnroot.execute(sqlDailyMeal)
+                                        Exit Do
+                                    end if 
 
-                            end if  
+                                end if  
                                 
-                            rs.MoveNext
+                                rs.MoveNext
                             
 
+                            loop
+                            objAccess.MoveNext
                         loop
-                        objAccess.MoveNext
-                    loop
 
-                end if
+                    end if
 
-                ' rs.movefirst
-                ' objAccess.movefirst
-                rs.close
-                set objAccess = nothing
+                    ' rs.movefirst
+                    ' objAccess.movefirst
+                    rs.close
+                    set objAccess = nothing
 
 
-                Dim salesFile, salesOrderFile, collectionsFile, transactionsFile
+                    Dim salesFile, salesOrderFile, collectionsFile, transactionsFile
 
-                salesFile = "\sales.dbf"
-                salesOrderFile = "\sales_order.dbf"
-                collectionsFile = "\collections.dbf"
-                transactionsFile = "\transactions.dbf"
+                    salesFile = "\sales.dbf"
+                    salesOrderFile = "\sales_order.dbf"
+                    collectionsFile = "\collections.dbf"
+                    transactionsFile = "\transactions.dbf"
 
-                Dim salesPath, salesOrderPath, collectionsPath, transactionsPath
+                    Dim salesPath, salesOrderPath, collectionsPath, transactionsPath
 
-                salesPath = mainPath & yearPath & "-" & monthPath & salesFile 
-                salesOrderPath = mainPath & yearPath & "-" & monthPath & salesOrderFile
-                collectionsPath = mainPath & yearPath & "-" & monthPath & collectionsFile
-                transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
+                    salesPath = mainPath & yearPath & "-" & monthPath & salesFile 
+                    salesOrderPath = mainPath & yearPath & "-" & monthPath & salesOrderFile
+                    collectionsPath = mainPath & yearPath & "-" & monthPath & collectionsFile
+                    transactionsPath = mainPath & yearPath & "-" & monthPath & transactionsFile
 
-                Dim maxInvoice, maxTransactID
+                    Dim maxInvoice, maxTransactID
 
-                rs.open "SELECT MAX(invoice_no) AS invoice, MAX(transactid) AS transactid FROM "&salesPath&"", CN2
+                    rs.open "SELECT MAX(invoice_no) AS invoice, MAX(transactid) AS transactid FROM "&salesPath&"", CN2
 
                     do until rs.EOF
                         for each x in rs.Fields
@@ -281,30 +329,30 @@
                     maxInvoice = CLng(maxInvoice) + 1  
                     maxTransactID= CLng(maxTransactID) + 1  
 
-                rs.close
+                    rs.close
 
-                Dim isDuplicate
-                isDuplicate = ""
+                    Dim isDuplicate
+                    isDuplicate = ""
 
-                sqlAdd = "INSERT INTO "&salesPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, cashier, date, cash_paid, amount, profit, payment, duplicate)"&_ 
-                "VALUES ("&maxTransactID&", '"&referenceNo&"', "&maxInvoice&", "&custID&", '"&custName&"', '"&cashierName&"', ctod(["&systemDate&"]), "&customerCash&", "&totalAmount&", "&totalProfit&", '"&userPayment&"', '"&isDuplicate&"')"
+                    sqlAdd = "INSERT INTO "&salesPath&" (transactid, ref_no, invoice_no, cust_id, cust_name, cashier, date, cash_paid, amount, profit, payment, duplicate)"&_ 
+                    "VALUES ("&maxTransactID&", '"&referenceNo&"', "&maxInvoice&", "&custID&", '"&custName&"', '"&cashierName&"', ctod(["&systemDate&"]), "&customerCash&", "&totalAmount&", "&totalProfit&", '"&userPayment&"', '"&isDuplicate&"')"
 
-                set objAccess = cnroot.execute(sqlAdd)
-                set objAccess = nothing 
+                    set objAccess = cnroot.execute(sqlAdd)
+                    set objAccess = nothing 
 
-                rs.open "SELECT MAX(transactid) AS transactid FROM "&salesOrderPath&"", CN2
-                        do until rs.EOF
-                        for each x in rs.Fields
-                            maxOHid = x.value
-                        next
-                        rs.MoveNext
-                    loop
-                rs.close
-                maxOHid = CLng(maxOHid)    
+                    rs.open "SELECT MAX(transactid) AS transactid FROM "&salesOrderPath&"", CN2
+                            do until rs.EOF
+                                for each x in rs.Fields
+                                    maxOHid = x.value
+                                next
+                                rs.MoveNext
+                            loop
+                    rs.close
+                    maxOHid = CLng(maxOHid)    
 
                     'rs.Open "SELECT MAX(transactid) AS id FROM sales_order", CN2
                     'salesDate = CDate(Date)
-                    rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status='"&status&"' and cust_id=0", CN2
+                    rs.Open "SELECT * FROM "&ordersHolderPath&" WHERE status='"&status&"' AND cashier_id="&cashierID&" AND cust_id=0", CN2
 
                     do until rs.EOF
 
@@ -385,7 +433,7 @@
                     ' cnroot.execute(sqlUpdateRef)
 
                     CN2.close
-                    sqlHolderDelete = "DELETE FROM "&ordersHolderPath&" WHERE cust_id=0"
+                    sqlHolderDelete = "DELETE FROM "&ordersHolderPath&" WHERE cashier_id="&cashierID&" AND cust_id=0"
                     set objAccess = cnroot.execute(sqlHolderDelete)
                     set objAccess = nothing
 
@@ -394,9 +442,11 @@
                     
                     Response.Redirect("receipt.asp?invoice="&maxInvoice&"&date="&transactDate)
 
-            end if
+                end if
 
-        end if    
+            end if    
+
+        end if
 
     end if
   

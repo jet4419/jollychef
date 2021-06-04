@@ -1,7 +1,8 @@
 1. Remove the pesos sign in reports.
 2. Place all the values in reports to the right.
-3. Make the price editable when ordering or already ordered.
-4. Reports when modifying the order of customer
+3. Make the qty an order editable.
+4. Make the price editable when ordering or already ordered.
+5. Reports when modifying the order of customer
 
 
 Problem #1 (Ordering):
@@ -37,6 +38,12 @@ Solution #1:
 	- If the admin wants to access his employees orders.
 	- The admin just needs to select whose cashier/employee
 	- he wants to access.
+
+Problem #5 (total of anything in order)
+	- Always use the values from a database
+	- NEVER use the front-end values
+	- AMOUNT IN CASHIER ORDERING PAGE
+ 	- Should also change when changing the quantity
 
 Problem in localStorage:
 

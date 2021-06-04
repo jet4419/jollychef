@@ -246,11 +246,13 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-primary text-light">&#8369;</span>
                                                     </div>
-                                                    <!--<input type="hidden" name="invoiceNumber" value="<'%=invoice%>"> -->
-                                                    <input type="text" id="userEmail" name="userEmail" value="" hidden>
-                                                    <input type="number" name="totalProfit" value="<%=totalProfit%>" hidden>
-                                                    <input type="number" name="totalAmount" value="<%=totalAmount%>" hidden>
-                                                    <input type="number" name="customerMoney" class="form-control" aria-label="Amount (to the nearest dollar)" min="<%=totalAmount%>" required>
+                                                    <!--<input type="hidden" name="invoiceNumber" value="<'%=invoice%>">
+                                                    --> 
+                                                    <input type="number" id="cashierID" name="cashierID" hidden>
+                                                    <input type="text" id="userEmail" name="userEmail" hidden>
+                                                    <input type="number" id="totalProfit" name="totalProfit" hidden>
+                                                    <input type="number" id="totalAmount" name="totalAmount" hidden>
+                                                    <input type="number" id="customerMoney" name="customerMoney" class="form-control" aria-label="Amount (to the nearest dollar)" required>
                             
                                                 </div>
 
@@ -627,8 +629,9 @@ function getMeals () {
 function getOrders () {
             
     const URL = 'cashier_get_orders.asp';
-    var totAmount = 0;
-    var totalAmountStr = "";
+    let totAmount = 0;
+    let totalProfit = 0;
+    let totalAmountStr = "";
     
     $.ajax({
         url: URL,
@@ -660,7 +663,7 @@ function getOrders () {
                                 <td> <span class='currency-sign'>&#8369; </span> ${jsonObject[i].price}</span>
                                 </td> 
                                 <td class='td-qty'> 
-                                    <span class="d-inline-block qty-value">${jsonObject[i].qty}</span>
+                                    <span id='${jsonObject[i].id}' class="d-inline-block">${jsonObject[i].qty}</span>
                                     <span class="ml-3 d-inline-flex flex-column"> 
                                         <button class="btn btn-sm btn-qty btn-qty--plus">+</button> <button class="mt-1 btn btn-sm btn-qty btn-qty--minus">-</button>
                                     </span>
@@ -678,6 +681,15 @@ function getOrders () {
                         `;
                     // console.log(jsonObject[i].isValidQty);
                     totAmount += jsonObject[i].amount;
+                    totalProfit += jsonObject[i].profit;
+
+                    document.getElementById('totalProfit').value = totalProfit;
+                    document.getElementById('totalAmount').value = totAmount;
+                    document.getElementById('customerMoney').min = totAmount;
+                    document.getElementById('userEmail').value = userEmail;
+                    document.getElementById('cashierID').value = cashierID;
+
+                   
             }  
 
             
@@ -690,31 +702,60 @@ function getOrders () {
             $('#myTable tr:last').after(output + totalAmountStr);
 
             $('.btn-qty--plus').click(function(e) {
+                
+                const qtyValue = e.target.parentElement.previousElementSibling;
+                const prodID = qtyValue.id;
+                let newQty = 0;
+                newQty = parseInt(qtyValue.innerText) + 1;
+                qtyValue.innerText = newQty;
 
-                const qtyValue = e.target.parentElement.previousElementSibling
-                let newVal = 0
-                newVal = parseInt(qtyValue.innerText) + 1
-                qtyValue.innerText = newVal
+                //console.log(`Prod ID: ${prodID}, Qty: ${qtyValue.innerText}`);
 
-                // console.log(qtyValue.innerText);
+                const URL = 'cashier_qty_add.asp';
+                
+                $.ajax({
+                    url: URL,
+                    type: 'POST',
+                    data: {cashierID: cashierID, prodID: prodID, qty: newQty},
+                })
+                .done(function(data) {
+                    console.log(`Data: ${data}`);
+                })
+                .fail(function(e){
+                    console.error(`Error: ${e}`);
+                });
 
             });
 
             $('.btn-qty--minus').click(function(e) {
 
-                const qtyValue = e.target.parentElement.previousElementSibling
-                let newVal = 0
+                const qtyValue = e.target.parentElement.previousElementSibling;
+                const prodID = qtyValue.id;
+                let newQty = 0;
+                newQty = parseInt(qtyValue.innerText) - 1;
 
-                if (parseInt(qtyValue.innerText) > 1) {
-                    newVal = parseInt(qtyValue.innerText) - 1
-                    qtyValue.innerText = newVal
-                }
+                if (newQty > 0) {
+                    
+                    qtyValue.innerText = newQty;
 
-                // console.log(qtyValue.innerText);
+                    //console.log(`Prod ID: ${prodID}, Qty: ${qtyValue.innerText}`);
 
+                    const URL = 'cashier_qty_minus.asp';
+                    
+                    $.ajax({
+                        url: URL,
+                        type: 'POST',
+                        data: {cashierID: cashierID, prodID: prodID, qty: newQty},
+                    })
+                    .done(function(data) {
+                        console.log(`Data: ${data}`);
+                    })
+                    .fail(function(e){
+                        console.error(`Error: ${e}`);
+                    });
+                } 
+                
             });
-            
-            // document.querySelector('#customerID').value = Number(localStorage.getItem('cust_id'));
 
         } else {
             // console.log("no new data");
@@ -729,8 +770,6 @@ function getOrders () {
 
 setTimeout( () => getMeals());
 setTimeout( () => getOrders());
-
-
 
 </script> 
 </html>   
