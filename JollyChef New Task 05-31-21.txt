@@ -45,6 +45,10 @@ Problem #5 (total of anything in order)
 	- AMOUNT IN CASHIER ORDERING PAGE
  	- Should also change when changing the quantity
 
+Problem in double sending of AJAX Request:
+Solution: Disable the button after clicking.
+	  Then enable it after the response was sent.
+
 Problem in localStorage:
 
 Solution #1: Refresh every half second the tokenID to avoid duplicates.

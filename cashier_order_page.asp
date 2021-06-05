@@ -233,7 +233,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <!-- Modal Body (Contents) -->
-                                        <form action="cashier_pay.asp" method="POST">
+                                        <form method="POST">
 
                                             <div class="form-group mb-3">    
                                                 <label class="ml-1" style="font-weight: 500"> Reference No. </label>
@@ -247,11 +247,13 @@
                                                         <span class="input-group-text bg-primary text-light">&#8369;</span>
                                                     </div>
                                                     <!--<input type="hidden" name="invoiceNumber" value="<'%=invoice%>">
-                                                    --> 
+                                                    
                                                     <input type="number" id="cashierID" name="cashierID" hidden>
                                                     <input type="text" id="userEmail" name="userEmail" hidden>
                                                     <input type="number" id="totalProfit" name="totalProfit" hidden>
                                                     <input type="number" id="totalAmount" name="totalAmount" hidden>
+                                                    --> 
+
                                                     <input type="number" id="customerMoney" name="customerMoney" class="form-control" aria-label="Amount (to the nearest dollar)" required>
                             
                                                 </div>
@@ -261,7 +263,7 @@
                                     </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary btn-dark" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="submit" class="btn btn-primary btnPayCash">Submit</button>
                                             </div>
                                         </form>  
                                 </div>
@@ -376,6 +378,7 @@ function tailSelect() {
 
 }
 
+const customerMoney = document.getElementById('customerMoney');
 const userEmail = localStorage.getItem('email');
 const cashierID = localStorage.getItem('id');
 const formMeal = document.getElementById('form-meal');
@@ -416,7 +419,7 @@ if (userEmail) {
 
     $('.btnAdd').click(function(event) {
 
-    //    event.preventDefault();
+        //    event.preventDefault();
 
         if(selectTagMeal.checkValidity() && quantity.checkValidity()) {
             //your form execution code
@@ -443,6 +446,74 @@ if (userEmail) {
                 } 
                 else if (data == 'product does not exist') alert('Sorry, Product does not exist.');
                 else alert('Error: Insufficient quantity stocks');    
+            })
+            .fail(function() {
+                console.log("Response Error");
+            });
+
+        }
+
+    });
+
+    $('.btnPayCash').click(function(event) {
+
+        // btnPayCash    event.preventDefault();
+
+        const refNoInput = document.getElementById('referenceNo');
+        const customerMoneyInput = document.getElementById('customerMoney');
+
+        if(refNoInput.checkValidity() && customerMoneyInput.checkValidity()) {
+            //your form execution code
+            event.preventDefault();
+
+            const URL = 'cashier_pay.asp';
+
+            $.ajax({
+                url: URL,
+                type: 'POST',
+                data: {cashierID: cashierID, cashierEmail: userEmail, referenceNo: refNoInput.value, customerMoney: customerMoneyInput.value},
+                //data: {},
+            })
+            .done(function(data) { 
+                console.log(data.split());
+
+
+                if (data === 'invalid ordered qty') {
+                    alert('Invalid Quantity');
+                }
+
+                else if (data === 'invalid reference number') {
+                    alert('Invalid Reference Number');
+                    location.reload();
+                }
+
+                else if (data === 'order does not exist') {
+                    alert('Order does not exist');
+                    location.reload();
+                }
+
+                else if (data === 'insufficient cash') {
+                    alert('Insufficient Cash');
+                }
+
+                else if (data === 'invalid transactions') {
+                    alert('Invalid transactions');
+                    location.reload();
+                }
+
+                else if (data === 'insufficient product stock') {
+                    alert('Insufficient product stock');
+                    location.reload();
+                    // document.body.appendChild(formOrder);
+                    // formOrder.submit();
+                }
+
+                else {
+                    const receiptDetails = data.split(',');
+                    window.location.href = `receipt.asp?invoice=${receiptDetails[0]}&date=${receiptDetails[1]}`;
+                    
+                }
+
             })
             .fail(function() {
                 console.log("Response Error");
@@ -630,7 +701,7 @@ function getOrders () {
             
     const URL = 'cashier_get_orders.asp';
     let totAmount = 0;
-    let totalProfit = 0;
+    // let totalProfit = 0;
     let totalAmountStr = "";
     
     $.ajax({
@@ -663,13 +734,13 @@ function getOrders () {
                                 <td> <span class='currency-sign'>&#8369; </span> ${jsonObject[i].price}</span>
                                 </td> 
                                 <td class='td-qty'> 
-                                    <span id='${jsonObject[i].id}' class="d-inline-block">${jsonObject[i].qty}</span>
-                                    <span class="ml-3 d-inline-flex flex-column"> 
+                                    <span id='${jsonObject[i].id}' class="qty-order d-inline-block">${jsonObject[i].qty}</span>
+                                    <span class="ml-4 d-inline-flex flex-column"> 
                                         <button class="btn btn-sm btn-qty btn-qty--plus">+</button> <button class="mt-1 btn btn-sm btn-qty btn-qty--minus">-</button>
                                     </span>
                                 </td> 
                                 
-                                <td> <strong class='currency-sign'> &#8369; </strong> ${jsonObject[i].amount} </td> 
+                                <td> <strong class='currency-sign'> &#8369; </strong> <span class='order-amount'>${jsonObject[i].amount}</span> </td> 
                                 <td width="90">
                                     <button onClick="delete_order(${jsonObject[i].id})" class='btn btn-sm btn-warning'>
                                         Cancel
@@ -681,13 +752,15 @@ function getOrders () {
                         `;
                     // console.log(jsonObject[i].isValidQty);
                     totAmount += jsonObject[i].amount;
-                    totalProfit += jsonObject[i].profit;
+                    // totalProfit += jsonObject[i].profit;
 
-                    document.getElementById('totalProfit').value = totalProfit;
-                    document.getElementById('totalAmount').value = totAmount;
-                    document.getElementById('customerMoney').min = totAmount;
-                    document.getElementById('userEmail').value = userEmail;
-                    document.getElementById('cashierID').value = cashierID;
+                    customerMoney.min = totAmount;
+
+                    // document.getElementById('totalProfit').value = totalProfit;
+                    // document.getElementById('totalAmount').value = totAmount;
+                    
+                    // document.getElementById('userEmail').value = userEmail;
+                    // document.getElementById('cashierID').value = cashierID;
 
                    
             }  
@@ -695,7 +768,7 @@ function getOrders () {
             
             totalAmountStr = `<tr>
                                 <td colspan="6"> 
-                                    <h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> ${totAmount} </h4> 
+                                    <h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> <span id="total-amount">${totAmount}</span> </h4> 
                                 </td> 
                             </tr>    `
             $('td.dataTables_empty').attr('hidden', 'hidden');
@@ -703,8 +776,12 @@ function getOrders () {
 
             $('.btn-qty--plus').click(function(e) {
                 
+                const totalAmountOrder = document.getElementById('total-amount');
+
+                const totalOrderAmount = e.target.parentElement.parentElement.nextElementSibling.lastElementChild; 
                 const qtyValue = e.target.parentElement.previousElementSibling;
                 const prodID = qtyValue.id;
+
                 let newQty = 0;
                 newQty = parseInt(qtyValue.innerText) + 1;
                 qtyValue.innerText = newQty;
@@ -719,7 +796,17 @@ function getOrders () {
                     data: {cashierID: cashierID, prodID: prodID, qty: newQty},
                 })
                 .done(function(data) {
-                    console.log(`Data: ${data}`);
+                    // console.log(`Data: ${data}`);
+
+                    let prodPrice = parseFloat(data);
+                    let totalAmountText = parseFloat(totalAmountOrder.innerText) + prodPrice;
+
+                    totalOrderAmount.innerText = parseFloat(totalOrderAmount.innerText) + prodPrice;
+                    totalAmountOrder.innerText = totalAmountText;
+
+                    customerMoney.min = totalAmountText;
+
+                    
                 })
                 .fail(function(e){
                     console.error(`Error: ${e}`);
@@ -728,9 +815,12 @@ function getOrders () {
             });
 
             $('.btn-qty--minus').click(function(e) {
-
+                
+                const totalOrderAmount = e.target.parentElement.parentElement.nextElementSibling.lastElementChild;
+                const totalAmountOrder = document.getElementById('total-amount');
                 const qtyValue = e.target.parentElement.previousElementSibling;
                 const prodID = qtyValue.id;
+                
                 let newQty = 0;
                 newQty = parseInt(qtyValue.innerText) - 1;
 
@@ -748,7 +838,15 @@ function getOrders () {
                         data: {cashierID: cashierID, prodID: prodID, qty: newQty},
                     })
                     .done(function(data) {
-                        console.log(`Data: ${data}`);
+
+                        // console.log(`Data: ${data}`);
+
+                        let prodPrice = parseFloat(data);
+                        let totalAmountText = parseFloat(totalAmountOrder.innerText) - prodPrice;
+
+                        totalOrderAmount.innerText = parseFloat(totalOrderAmount.innerText) - prodPrice;
+                        totalAmountOrder.innerText = totalAmountText;
+                        document.getElementById('customerMoney').min = totalAmountText;
                     })
                     .fail(function(e){
                         console.error(`Error: ${e}`);
@@ -767,6 +865,8 @@ function getOrders () {
     });
     
 }
+
+
 
 setTimeout( () => getMeals());
 setTimeout( () => getOrders());

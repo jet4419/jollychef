@@ -35,6 +35,10 @@ body p.cursive {
   font-size: 8rem;
 }
 
+.qty-order {
+  width: 1.5rem;
+}
+
 div.tail-select.no-classes {
   width: 400px !important;
 }

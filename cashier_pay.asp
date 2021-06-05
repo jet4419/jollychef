@@ -1,11 +1,14 @@
 <!--#include file="dbConnect.asp"-->
-<!--#include file="session_cashier.asp"-->
 
 <%
 
-    Dim cashierID, cahierEmail
+    Dim cashierID, cahierEmail, customerCash, referenceNo
+
     cashierID = CInt(Request.Form("cashierID"))
-    cahierEmail = CStr(Request.Form("userEmail"))
+    cahierEmail = CStr(Request.Form("cashierEmail"))
+    customerCash = CDbl(Request.Form("customerMoney"))
+    referenceNo = CStr(Request.Form("referenceNo"))
+    referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
 
     Dim custID, custName, custDepartment, isValidRef
     isValidRef = true
@@ -70,43 +73,43 @@
             rs.MoveNext
         loop
 
-        if isValidQty = false then
-
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Error: Invalid Quantity.')")
-            Response.Write("</script>")
-
-            if isValidQty = false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""cashier_order_page.asp"";")
-                Response.Write("</script>")
-            end if
-
-            Response.Write "invalid ordered qty"
-
-        end if
-
     else
         isValidQty = false
+    end if
+
+    if isValidQty = false then
+        Response.Write "invalid ordered qty"
     end if
 
     rs.close
 
     if isValidQty = true then
 
-        Dim totalProfit, totalAmount, customerCash, userPayment, email, cashierName, referenceNo
+        Dim totalProfit, totalAmount, userPayment, email, cashierName
 
-        totalProfit = CDbl(Request.Form("totalProfit"))
-        totalAmount = CDbl(Request.Form("totalAmount"))
-        customerCash = CDbl(Request.Form("customerMoney"))
+        'GETTING THE totalProfit and totalAmount
+        sqlQuery = "SELECT SUM(amount) AS amount, SUM(profit) AS profit FROM "&ordersHolderPath&" WHERE cashier_id="&cashierID&" AND cust_id=0 AND status='On Process'"
+        set objAccess = cnroot.execute(sqlQuery)
+
+        if not objAccess.EOF then
+
+            totalAmount = CDbl(objAccess("amount").value)
+            totalProfit = CDbl(objAccess("profit").value)
+
+        else
+
+            totalAmount = 0
+            totalProfit = 0
+
+        end if
+
         'userType = "Cashier"
-        userPayment = "Cash"
-        referenceNo = CStr(Request.Form("referenceNo"))
-        referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
         'currDate = CDate(Date)
+        userPayment = "Cash"
         status = "On Process"
 
         email = cahierEmail
+
         'Set the user type of the cashier's currently logged in'
         sqlGetInfo = "SELECT * FROM users WHERE email='"&email&"'"    
         set objAccess = cnroot.execute(sqlGetInfo)
@@ -144,15 +147,8 @@
         if CLNG(Request.Form("referenceNo")) < minRefNo then
 
             isValidRef = false
-            Response.Write("<script language=""javascript"">")
-            Response.Write("alert('Error: Reference already exist!')")
-            Response.Write("</script>")
-
-            if isValidRef = false then
-                Response.Write("<script language=""javascript"">")
-                Response.Write("window.location.href=""cashier_order_page.asp"";")
-                Response.Write("</script>")
-            end if
+            
+            Response.Write "invalid reference number"
 
         else
 
@@ -162,15 +158,7 @@
             if not objAccess.EOF then
 
                 isValidRef = false
-                Response.Write("<script language=""javascript"">")
-                Response.Write("alert('Error: Reference already exist!')")
-                Response.Write("</script>")
-
-                if isValidRef = false then
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href=""cashier_order_page.asp"";")
-                    Response.Write("</script>")
-                end if
+                Response.Write "invalid reference number"
 
             end if
 
@@ -194,18 +182,8 @@
 
             else
 
-                Response.Write("<script language=""javascript"">")
-                Response.Write("alert('Order doesn\'t exist!')")
-                Response.Write("</script>")
                 isOrderExist = false
-
-                if isOrderExist = false then
-
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("window.location.href='cashier_order_page.asp';")
-                    Response.Write("</script>")
-
-                end if        
+                Response.Write "order does not exist"       
 
             end if
             
@@ -215,29 +193,13 @@
 
                 if customerCash < realAmount then
 
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("alert('Error: Insufficient cash!')")
-                    Response.Write("</script>")
                     isValidT = false
-
-                    if isValidT = false then
-                        Response.Write("<script language=""javascript"">")
-                        Response.Write("window.location.href=""cashier_order_page.asp"";")
-                        Response.Write("</script>")
-                    end if
+                    Response.Write "insufficient cash"
 
                 elseif totalAmount <> realAmount then
 
-                    Response.Write("<script language=""javascript"">")
-                    Response.Write("alert('Sorry, Invalid transactions.')")
-                    Response.Write("</script>")
                     isValidT = false
-
-                    if isValidT = false then
-                        Response.Write("<script language=""javascript"">")
-                        Response.Write("window.location.href=""cashier_order_page.asp"";")
-                        Response.Write("</script>")
-                    end if
+                    Response.Write "invalid transactions"
 
                 else
 
@@ -257,16 +219,9 @@
                                     qtySold = CLng(objAccess("qty")) + CLng(rs("qty_sold"))
 
                                     if CLng(currQty) < 0 then
-                                        Response.Write("<script language=""javascript"">")
-                                        Response.Write("alert('Error: Insufficient product stock!')")
-                                        Response.Write("</script>")
+
                                         isProcessed = false
-                                        If isProcessed = false then
-                                        ' Response.Redirect("bootSales.asp")
-                                            Response.Write("<script language=""javascript"">")
-                                            Response.Write("window.location.href=""cashier_order_page.asp"";")
-                                            Response.Write("</script>")
-                                        end If
+                                        Response.Write "insufficient product stock"
                                     
                                     else
                                         sqlUpdate = "UPDATE products SET qty="&currQty&", qty_sold="&qtySold&" WHERE prod_id="&rs("prod_id")
@@ -440,7 +395,8 @@
                     Dim transactDate
                     transactDate = FormatDateTime(systemDate, 2)
                     
-                    Response.Redirect("receipt.asp?invoice="&maxInvoice&"&date="&transactDate)
+                    Response.Write maxInvoice & "," & transactDate
+                    ' Response.Redirect("receipt.asp?invoice="&maxInvoice&"&date="&transactDate)
 
                 end if
 
