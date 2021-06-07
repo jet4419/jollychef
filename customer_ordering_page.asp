@@ -535,17 +535,22 @@
                                     <td> ${jsonObject[i].prodBrand} </td>
                                     <td> ${jsonObject[i].prodName} </td>
                                     <td> <span class='currency-sign'>&#8369; </span> ${jsonObject[i].price} </td> 
-                                    <td> <span class='currency-sign'></span> ${jsonObject[i].qty} </td> 
-                                    <td> <strong class='currency-sign'> &#8369; </strong> ${jsonObject[i].amount} </td> 
+                                    <td class='td-qty'> 
+                                        <span id='${jsonObject[i].id}' class="qty-order d-inline-block">${jsonObject[i].qty}</span> 
+                                        <span class="ml-4 d-inline-flex flex-column"> 
+                                            <button class="btn btn-sm btn-qty btn-qty--plus">+</button> <button class="mt-1 btn btn-sm btn-qty btn-qty--minus">-</button>
+                                        </span>
+                                    </td> 
+
+                                    <td> <strong class='currency-sign'> &#8369; </strong> <span class='order-amount'>${jsonObject[i].amount}</span> </td> 
                                     <td width="90">
                                         <button onClick="delete_order(${jsonObject[i].id})" class='btn btn-sm btn-warning'>
                                             Cancel
                                         </button>
                                     </td>
                                 </tr>    
-
-                                
                             `;
+
                         console.log(jsonObject[i].isValidQty);
                         totAmount += jsonObject[i].amount;
                 }  
@@ -553,13 +558,95 @@
                 
                 totalAmountStr = `<tr>
                                     <td colspan="6"> 
-                                        <h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> ${totAmount} </h4> 
+                                        <h1 class="lead"><strong>Total Amount</strong></h1> <h4>  <span class="currency-sign">&#8369;</span> <span id="total-amount">${totAmount}</span> </h4> 
                                     </td> 
                                 </tr>    `
                 $('td.dataTables_empty').attr('hidden', 'hidden');
                 $('#myTable tr:last').after(output + totalAmountStr);
                 
                 document.querySelector('#customerID').value = Number(localStorage.getItem('cust_id'));
+
+                
+                $('.btn-qty--plus').click(function(e) {
+                
+                    const totalAmountOrder = document.getElementById('total-amount');
+
+                    const totalOrderAmount = e.target.parentElement.parentElement.nextElementSibling.lastElementChild; 
+                    const qtyValue = e.target.parentElement.previousElementSibling;
+                    const prodID = qtyValue.id;
+
+                    let newQty = 0;
+                    newQty = parseInt(qtyValue.innerText) + 1;
+                    qtyValue.innerText = newQty;
+
+                    //console.log(`Prod ID: ${prodID}, Qty: ${qtyValue.innerText}`);
+                    // console.log(`Total Order Amount: ${totalOrderAmount.innerText}, Qty: ${qtyValue.innerText}, Prod ID: ${prodID}`);
+
+                    const URL = 'customer_qty_add.asp';
+                    
+                    $.ajax({
+                        url: URL,
+                        type: 'POST',
+                        data: {custID: custID, prodID: prodID, qty: newQty},
+                    })
+                    .done(function(data) {
+                        console.log(`Data: ${data}`);
+
+                        let prodPrice = parseFloat(data);
+                        let totalAmountText = parseFloat(totalAmountOrder.innerText) + prodPrice;
+
+                        totalOrderAmount.innerText = parseFloat(totalOrderAmount.innerText) + prodPrice;
+                        totalAmountOrder.innerText = totalAmountText;
+                        
+                    })
+                    .fail(function(e){
+                        console.error(`Error: ${e}`);
+                    });
+
+                });
+
+                
+                $('.btn-qty--minus').click(function(e) {
+                    
+                    const totalAmountOrder = document.getElementById('total-amount');
+
+                    const totalOrderAmount = e.target.parentElement.parentElement.nextElementSibling.lastElementChild; 
+                    const qtyValue = e.target.parentElement.previousElementSibling;
+                    const prodID = qtyValue.id;
+                    
+                    let newQty = 0;
+                    newQty = parseInt(qtyValue.innerText) - 1;
+
+                    if (newQty > 0) {
+                        
+                        qtyValue.innerText = newQty;
+
+                        //console.log(`Prod ID: ${prodID}, Qty: ${qtyValue.innerText}`);
+
+                        const URL = 'customer_qty_minus.asp';
+                        
+                        $.ajax({
+                            url: URL,
+                            type: 'POST',
+                            data: {custID: custID, prodID: prodID, qty: newQty},
+                        })
+                        .done(function(data) {
+
+                            // console.log(`Data: ${data}`);
+
+                            let prodPrice = parseFloat(data);
+                            let totalAmountText = parseFloat(totalAmountOrder.innerText) - prodPrice;
+
+                            totalOrderAmount.innerText = parseFloat(totalOrderAmount.innerText) - prodPrice;
+                            totalAmountOrder.innerText = totalAmountText;
+                        })
+                        .fail(function(e){
+                            console.error(`Error: ${e}`);
+                        });
+                    } 
+                    
+                });
+
 
             } else {
                 // console.log("no new data");

@@ -53,15 +53,15 @@
 
         ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
-        sqlUpdate = "UPDATE "&ordersHolderPath&" SET cashier_id="&cashierID&" WHERE id="&orderID
+        sqlUpdate = "UPDATE "&ordersHolderPath&" SET cashier_id="&cashierID&", status= 'Cancelled', is_edited = 'true' WHERE id="&orderID
         set objAccess = cnroot.execute(sqlUpdate)
         set objAccess = nothing
 
-        rs.open "SELECT * FROM "&ordersHolderPath&"", CN2
-        sqlDelete = "DELETE FROM "&ordersHolderPath&" WHERE id="&orderID
-        set objAccess  = cnroot.execute(sqlDelete)
-        set objAccess = nothing
-        rs.close
+        ' rs.open "SELECT * FROM "&ordersHolderPath&"", CN2
+        ' sqlDelete = "DELETE FROM "&ordersHolderPath&" WHERE id="&orderID
+        ' set objAccess  = cnroot.execute(sqlDelete)
+        ' set objAccess = nothing
+        ' rs.close
         CN2.close
 
         if err<>0 then

@@ -365,7 +365,7 @@
                                 <%do until rs.EOF
 
                                     orderProdID = CInt(rs("prod_id"))
-                                    orderQty = CInt(rs("qty"))
+                                    orderQty = CInt(rs("upd_qty"))
 
                                     checkQty = "SELECT prod_id, qty FROM daily_meals WHERE prod_id ="&orderProdID
                                     set objAccess = cnroot.execute(checkQty)
@@ -385,9 +385,17 @@
                                     <%end if%>                            
                                         <td><%=rs("prod_brand")%> </td>
                                         <td><%=rs("prod_name")%> </td>
-                                        <td> <span class="currency-sign">&#8369;</span> <%=rs("price")%> </td>
-                                        <td><%=rs("qty")%> </td>
-                                        <td> <span class="currency-sign">&#8369; </span><%=rs("amount")%> </td>
+                                        <td> <span class="currency-sign">&#8369;</span> <%=rs("upd_price")%> </td>
+                                        <td class="td-qty">
+                                            <span id='<%=rs("id")%>' class="qty-order d-inline-block"><%=rs("upd_qty")%></span>
+                                            <span class="ml-4 d-inline-flex flex-column"> 
+                                                <button class="btn btn-sm btn-qty btn-qty--plus">+</button> <button class="mt-1 btn btn-sm btn-qty btn-qty--minus">-</button>
+                                            </span>
+                                        </td>
+                                        <td> 
+                                            <span class="currency-sign">&#8369; </span>
+                                            <span class='order-amount'><%=rs("upd_amount")%></span>
+                                         </td>
                                         <%if userType = "admin" or userType = "programmer" then%>    
                                             <td width="90">
                                                 <button value="<%=CLng(rs("id"))%>" class="btn btn-sm btn-warning btnCancel"> Cancel </button>
@@ -397,13 +405,19 @@
                                         <%end if%>
                                     </tr>
                                     <%
-                                        totalAmount = totalAmount + CDbl(rs("amount"))
-                                        totalProfit = totalProfit + CDbl(rs("profit"))
+                                        totalAmount = totalAmount + CDbl(rs("upd_amount"))
+                                        totalProfit = totalProfit + CDbl(rs("upd_profit"))
                                     rs.MoveNext
                                 loop%>
                             
                                     <tr>
-                                        <td colspan="6"><h1 class="lead"><strong>Total Amount</h1></strong> <h4> <span class="currency-sign">&#8369;</span> <%=totalAmount%></h4> </td>
+                                        <td colspan="6">
+                                            <h1 class="lead"><strong>Total Amount</strong></h1> 
+                                            <h4> 
+                                                <span class="currency-sign">&#8369;</span> 
+                                                <span id="total-amount"><%=totalAmount%></span>
+                                            </h4> 
+                                        </td>
                                     </tr>
                             <%else
                                 hasOrdered = false
@@ -576,6 +590,8 @@ end if%>
     const cashierName = localStorage.getItem('fullname');
     const cashierTokenId = localStorage.getItem('tokenid');
 
+    customerMoney = document.getElementById('customerMoney');
+
     tail.select("#products", {
         search: true,
         deselect: true,    
@@ -700,15 +716,13 @@ end if%>
 
             event.preventDefault();
             
-            const totalProfit = document.getElementById('totalProfit').value;
-            const totalAmount = document.getElementById('totalAmount').value;
             const customerMoney = document.getElementById('customerMoney').value;
             const referenceNo = document.getElementById('referenceNo').value;
 
             $.ajax({
                 url: 'customer_pay2.asp',
                 type: 'POST',
-                data: {cashierID: cashierID, custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, totalProfit: totalProfit, totalAmount: totalAmount, customerMoney: customerMoney, referenceNo: referenceNo, cashierEmail: cashierEmail, cashierName: cashierName, cashierType: cashierType, tokenID: cashierTokenId},
+                data: {cashierID: cashierID, custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, customerMoney: customerMoney, referenceNo: referenceNo, cashierEmail: cashierEmail, cashierName: cashierName, cashierType: cashierType, tokenID: cashierTokenId},
             })
             .done(function(data) { 
 
@@ -771,8 +785,6 @@ end if%>
     
     $('.btnPayCredit').click(function(event) {
 
-        const totalProfit = document.getElementById('totalProfit').value;
-        const totalAmount = document.getElementById('totalAmount').value;
         const customerMoney = document.getElementById('customerMoney').value;
         const customerType = document.getElementById('customerType').value;
         const arReferenceNo = document.getElementById('arReferenceNo').value;
@@ -847,6 +859,91 @@ end if%>
     //     }
 
     // }
+
+    $('.btn-qty--plus').click(function(e) {
+                
+        const totalAmountOrder = document.getElementById('total-amount');
+
+        const totalOrderAmount = e.target.parentElement.parentElement.nextElementSibling.lastElementChild; 
+        const qtyValue = e.target.parentElement.previousElementSibling;
+        const prodID = qtyValue.id;
+
+        let newQty = 0;
+        newQty = parseInt(qtyValue.innerText) + 1;
+        qtyValue.innerText = newQty;
+
+        //console.log(`Prod ID: ${prodID}, Qty: ${qtyValue.innerText}`);
+        // console.log(`Total Order Amount: ${totalOrderAmount.innerText}, Qty: ${qtyValue.innerText}, Prod ID: ${prodID}`);
+
+        const URL = 'cashier_cust_qty_add.asp';
+        
+        $.ajax({
+            url: URL,
+            type: 'POST',
+            data: {cashierID: cashierID, custID: custID, prodID: prodID, qty: newQty},
+        })
+        .done(function(data) {
+            console.log(`Data: ${data}`);
+
+            const prodPrice = parseFloat(data);
+            const totalAmountText = parseFloat(totalAmountOrder.innerText) + prodPrice;
+
+            totalOrderAmount.innerText = parseFloat(totalOrderAmount.innerText) + prodPrice;
+            totalAmountOrder.innerText = totalAmountText;
+
+            customerMoney.min = totalAmountText;
+            
+        })
+        .fail(function(e){
+            console.error(`Error: ${e}`);
+        });
+
+    });
+
+    $('.btn-qty--minus').click(function(e) {
+                    
+        const totalAmountOrder = document.getElementById('total-amount');
+
+        const totalOrderAmount = e.target.parentElement.parentElement.nextElementSibling.lastElementChild; 
+        const qtyValue = e.target.parentElement.previousElementSibling;
+        const prodID = qtyValue.id;
+        
+        let newQty = 0;
+        newQty = parseInt(qtyValue.innerText) - 1;
+
+        if (newQty > 0) {
+            
+            qtyValue.innerText = newQty;
+
+            //console.log(`Prod ID: ${prodID}, Qty: ${qtyValue.innerText}`);
+            // console.log(`Total Order Amount: ${totalOrderAmount.innerText}, Qty: ${qtyValue.innerText}, Prod ID: ${prodID}`);
+
+            const URL = 'cashier_cust_qty_minus.asp';
+            
+            $.ajax({
+                url: URL,
+                type: 'POST',
+                data: {cashierID: cashierID, custID: custID, prodID: prodID, qty: newQty},
+            })
+            .done(function(data) {
+
+                // console.log(`Data: ${data}`);
+
+                const prodPrice = parseFloat(data);
+                const totalAmountText = parseFloat(totalAmountOrder.innerText) - prodPrice;
+
+                totalOrderAmount.innerText = parseFloat(totalOrderAmount.innerText) - prodPrice;
+                totalAmountOrder.innerText = totalAmountText;
+
+                customerMoney.min = totalAmountText;
+
+            })
+            .fail(function(e){
+                console.error(`Error: ${e}`);
+            });
+        } 
+        
+    });
 
 </script> 
 

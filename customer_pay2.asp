@@ -20,10 +20,8 @@ else
     custDepartment = CStr(Request.Form("custDept"))
     uniqueNum = CLng(Request.Form("uniqueNum"))
 
-    Dim totalProfit, totalAmount, customerCash, userPayment, email, cashierName, referenceNo
+    Dim customerCash, userPayment, email, cashierName, referenceNo
 
-    totalProfit = CDbl(Request.Form("totalProfit"))
-    totalAmount = CDbl(Request.Form("totalAmount"))
     customerCash = CDbl(Request.Form("customerMoney"))
     userPayment = "Cash"
     referenceNo = CStr(Request.Form("referenceNo"))
@@ -105,6 +103,24 @@ else
     rs.close
 
     if isValidCashier = true AND isValidQty = true then
+
+        Dim totalProfit, totalAmount
+
+        rs.Open "SELECT SUM(profit) AS profit, SUM(amount) AS amount FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID, CN2
+
+        if not rs.EOF then
+
+            totalProfit = CDbl(rs("profit"))
+            totalAmount = CDbl(rs("amount"))
+
+        else
+
+            totalProfit = 0
+            totalAmount = 0        
+
+        end if
+        
+        rs.close
 
         Dim referenceNoFile
         referenceNoFile = "\reference_no.dbf" 
@@ -408,7 +424,7 @@ else
 
                         CN2.close
                         
-                        sqlHolderDelete = "DELETE FROM "&ordersHolderPath&" WHERE unique_num="&uniqueNum
+                        sqlHolderDelete = "UPDATE "&ordersHolderPath&" SET status='Finished' WHERE unique_num="&uniqueNum
                         set objAccess = cnroot.execute(sqlHolderDelete)
                         set objAccess = nothing
             

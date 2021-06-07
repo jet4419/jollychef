@@ -424,6 +424,37 @@ input[type='number'] {
   font-weight: 500;
 }
 
+.td-qty {
+  text-align: center;
+}
+
+.qty-value {
+  width: 2rem;
+}
+
+.btn-qty {
+  /* padding: 3px 3px !important; */
+  padding: 0 !important;
+  height: 20px !important;
+  width: 20px !important;
+  /* text-align: center !important;
+  vertical-align: middle !important;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center; */
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-qty--plus {
+  background-color: #1db47f;
+}
+
+.btn-qty--minus {
+  background-color: #1db47f;
+}
+
 /* .main--main-page {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('../img/home-bg.jpg') no-repeat center/ cover;

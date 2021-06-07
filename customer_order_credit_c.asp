@@ -353,7 +353,7 @@
                     loop    
                     rs.close
                     'FLUSHING THE PENDING ORDERS'
-                    sqlHolderDelete = "DELETE FROM "&ordersHolderPath&" WHERE unique_num="&uniqueNum
+                    sqlHolderDelete = "UPDATE "&ordersHolderPath&" SET status='Finished' WHERE unique_num="&uniqueNum
                     set objAccess = cnroot.execute(sqlHolderDelete)
                     set objAccess = nothing
                     'END OF GETTING THE PENDING ORDERS FROM ORDERS_HOLDER and SENDING IT TO SALES_ORDER'
