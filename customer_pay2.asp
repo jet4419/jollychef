@@ -71,7 +71,7 @@ else
     Dim isValidQty
     isValidQty = true
 
-    rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.qty AS qty1, SUM(orders_holder.qty) AS qty2 FROM daily_meals JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'On Process' AND orders_holder.cust_id="&custID&" GROUP BY daily_meals.prod_id", CN2
+    rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.qty AS qty1, SUM(orders_holder.upd_qty) AS qty2 FROM daily_meals JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'On Process' AND orders_holder.cust_id="&custID&" GROUP BY daily_meals.prod_id", CN2
 
     'Check if the ordered QTY is valid'
     if not rs.EOF then
@@ -106,7 +106,7 @@ else
 
         Dim totalProfit, totalAmount
 
-        rs.Open "SELECT SUM(profit) AS profit, SUM(amount) AS amount FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID, CN2
+        rs.Open "SELECT SUM(upd_profit) AS profit, SUM(upd_amount) AS amount FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID, CN2
 
         if not rs.EOF then
 
@@ -189,7 +189,7 @@ else
             Dim isOrderExist
             isOrderExist = true
 
-            sqlGetAmount = "SELECT SUM(amount) AS amount FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID
+            sqlGetAmount = "SELECT SUM(upd_amount) AS amount FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID
             set objAccess = cnroot.execute(sqlGetAmount)
 
             if not objAccess.EOF then
@@ -232,7 +232,7 @@ else
                 else
 
                     rs.Open "SELECT * FROM products", CN2
-                    sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID&" GROUP BY prod_id" 
+                    sqlAccess = "SELECT DISTINCT prod_id, SUM(upd_qty) AS qty FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&custID&" GROUP BY prod_id" 
                     set objAccess  = cnroot.execute(sqlAccess)
 
 
@@ -349,7 +349,7 @@ else
 
                         sqlSOAdd = "INSERT INTO "&salesOrderPath&""&_ 
                         "(transactid, ref_no, invoice_no, cust_id, cust_name, product_id, prod_brand, prod_gen, prod_price, prodamount, prod_qty, profit, date, payment, duplicate)"&_
-                        "VALUES ("&maxOHid&", '"&referenceNo&"', "&maxInvoice&", "&custID&", '"&custName&"', "&rs("prod_id")&", '"&rs("prod_brand")&"', '"&rs("prod_name")&"', "&rs("price")&", "&rs("amount")&", "&rs("qty")&", "&rs("profit")&", ctod(["&systemDate&"]), '"&userPayment&"', '"&isDuplicate&"')"
+                        "VALUES ("&maxOHid&", '"&referenceNo&"', "&maxInvoice&", "&custID&", '"&custName&"', "&rs("prod_id")&", '"&rs("prod_brand")&"', '"&rs("prod_name")&"', "&rs("upd_price")&", "&rs("upd_amount")&", "&rs("upd_qty")&", "&rs("upd_profit")&", ctod(["&systemDate&"]), '"&userPayment&"', '"&isDuplicate&"')"
                         cnroot.execute sqlSOAdd
                         rs.MoveNext
                         loop

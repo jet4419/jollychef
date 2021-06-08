@@ -62,7 +62,7 @@
     Dim isValidQty
     isValidQty = true
 
-    rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.qty AS qty1, SUM(orders_holder.qty) AS qty2 FROM daily_meals JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'On Process' AND orders_holder.cust_id="&customerID&" GROUP BY daily_meals.prod_id", CN2
+    rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.qty AS qty1, SUM(orders_holder.upd_qty) AS qty2 FROM daily_meals JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'On Process' AND orders_holder.cust_id="&customerID&" GROUP BY daily_meals.prod_id", CN2
 
     'Check if the ordered QTY is valid'
     if not rs.EOF then
@@ -163,7 +163,7 @@
             isOrderExist = true
 
             'Getting the total profit and amount'
-            sqlGetSum = "SELECT DISTINCT unique_num, SUM(qty) AS qty, SUM(amount) AS amount, SUM(profit) AS profit FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&customerID&" GROUP BY unique_num"
+            sqlGetSum = "SELECT DISTINCT unique_num, SUM(upd_qty) AS qty, SUM(upd_amount) AS amount, SUM(upd_profit) AS profit FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&customerID&" GROUP BY unique_num"
             set objAccess  = cnroot.execute(sqlGetSum)
 
             if not objAccess.EOF then
@@ -193,7 +193,7 @@
             if isOrderExist = true then
 
                 rs.Open "SELECT * FROM products", CN2
-                sqlAccess = "SELECT DISTINCT prod_id, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&customerID&" GROUP BY prod_id" 
+                sqlAccess = "SELECT DISTINCT prod_id, SUM(upd_qty) AS qty FROM "&ordersHolderPath&" WHERE status=""On Process"" and unique_num="&uniqueNum&" and cust_id="&customerID&" GROUP BY prod_id" 
                 set objAccess  = cnroot.execute(sqlAccess)
 
                 'DECREASING THE ORDERED PRODUCTS QTY'
@@ -347,7 +347,7 @@
                         maxOHid = maxOHid + 1
                         sqlSOAdd = "INSERT INTO "&salesOrderPath&""&_ 
                         "(transactid, ref_no, invoice_no, cust_id, cust_name, product_id, prod_brand, prod_gen, prod_price, prodamount, prod_qty, profit, date, payment, duplicate)"&_
-                        "VALUES ("&maxOHid&", '"&arReferenceNo&"', "&maxInvoice&", "&customerID&", '"&custName&"', "&rs("prod_id")&", '"&rs("prod_brand")&"', '"&rs("prod_name")&"', "&rs("price")&", "&rs("amount")&", "&rs("qty")&", "&rs("profit")&", ctod(["&systemDate&"]), '"&payment&"', '"&isDuplicate&"')"
+                        "VALUES ("&maxOHid&", '"&arReferenceNo&"', "&maxInvoice&", "&customerID&", '"&custName&"', "&rs("prod_id")&", '"&rs("prod_brand")&"', '"&rs("prod_name")&"', "&rs("upd_price")&", "&rs("upd_amount")&", "&rs("upd_qty")&", "&rs("upd_profit")&", ctod(["&systemDate&"]), '"&payment&"', '"&isDuplicate&"')"
                         cnroot.execute sqlSOAdd
                         rs.MoveNext
                     loop    

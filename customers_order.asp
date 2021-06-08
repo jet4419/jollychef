@@ -83,7 +83,7 @@
 
             <%if fs.FileExists(ordersHolderPath) = true then %>
 
-                <% rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" and cust_id!=0 GROUP BY unique_num", CN2 %>
+                <% rs.Open "SELECT DISTINCT id, unique_num, cust_id, cust_name, department, SUM(upd_amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" and cust_id!=0 GROUP BY unique_num", CN2 %>
                 <table class="table table-hover table-bordered table-sm" id="myTable">
                 <caption>List of orders</caption>
                     <thead class="thead-bg">
@@ -148,7 +148,9 @@
 <script src="js/main.js"></script> 
 <script>  
 
+const cashierID = localStorage.getItem('id');
 const userType = localStorage.getItem('type');
+
 // const btnViewOrder = document.querySelector('.btnViewOrder');
 
  $(document).ready( function () {
@@ -220,7 +222,7 @@ function delete_order(unique_num ,order_number) {
 
      if(confirm('Are you sure that you want to cancel Order# ' + order_number + ' ?'))
      {
-        window.location.href='customer_order_cancel.asp?unique_num='+unique_num;
+        window.location.href=`customer_order_cancel.asp?unique_num=${unique_num}&cashierId=${cashierID}`;
 		//window.location.href='delete.asp?delete_id='+id;
      }
 }

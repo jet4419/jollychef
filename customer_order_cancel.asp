@@ -20,8 +20,11 @@
 
     ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
-    Dim uniqueNum
+    Dim cashierID, uniqueNum
+
+    cashierID = CInt(Request.Form("cashierID"))
     uniqueNum = CInt(Request.QueryString("unique_num"))
+
 
     ' Dim prodIDs, qtys
     ' rs.open "SELECT prod_id, prod_name, SUM(qty) AS qty FROM "&ordersHolderPath&" WHERE unique_num ="&uniqueNum&" GROUP BY prod_id", CN2
@@ -48,10 +51,15 @@
 
     ' next
 	
-	rs.open "SELECT * FROM "&ordersHolderPath&"", CN2
-	sqlDelete = "DELETE FROM "&ordersHolderPath&" WHERE unique_num="&uniqueNum
-	set objAccess  = cnroot.execute(sqlDelete)
-	set objAccess = nothing
+    sqlUpdate = "UPDATE "&ordersHolderPath&" SET cashier_id="&cashierID&", status= 'Cancelled', is_edited = 'true' WHERE unique_num="&uniqueNum
+
+    set objAccess = cnroot.execute(sqlUpdate)
+    set objAccess = nothing
+
+	' rs.open "SELECT * FROM "&ordersHolderPath&"", CN2
+	' sqlDelete = "DELETE FROM "&ordersHolderPath&" WHERE unique_num="&uniqueNum
+	' set objAccess  = cnroot.execute(sqlDelete)
+	' set objAccess = nothing
 
 	if err<>0 THEN
 		Response.Write("<script language=""javascript"">")
@@ -59,7 +67,7 @@
         Response.Write("</script>")
         isError = true
 
-        rs.close
+        'rs.close
         CN2.close
 
         if isError = true then
@@ -69,7 +77,7 @@
         end If
 	else
     	
-        rs.close 
+        'rs.close 
         CN2.close
         Response.Write("<script language=""javascript"">")
         Response.Write("alert('Order has been cancelled successfully!')")

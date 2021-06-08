@@ -385,7 +385,22 @@
                                     <%end if%>                            
                                         <td><%=rs("prod_brand")%> </td>
                                         <td><%=rs("prod_name")%> </td>
-                                        <td> <span class="currency-sign">&#8369;</span> <%=rs("upd_price")%> </td>
+                                        <td> 
+                                            <span class="price-val">
+                                                <span class="currency-sign">&#8369;</span>
+                                                <span class="prod-price"> <%=rs("upd_price")%></span>
+                                            </span>
+                                            <span class="edit-prod-price d-inline-flex justify-content-center align-items-center">
+                                                <button type="button" id="<%=rs("id")%>" class="btnEditPrice btn btn-sm btn-outline-dark mx-auto mb-2 updateProduct" style="max-width: 50px;" data-toggle="modal" data-target="#editProdPrice">
+                                                    <i id="icon-edit-price" class="fas fa-edit"></i>
+                                                </button>
+                                            </span>
+                                            <!--
+                                            <button type="button" class="btn btn-sm btn-outline-dark mx-auto mb-2 updateProduct" style="max-width: 50px;" data-toggle="modal" data-target="#editProduct">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            -->
+                                        </td>
                                         <td class="td-qty">
                                             <span id='<%=rs("id")%>' class="qty-order d-inline-block"><%=rs("upd_qty")%></span>
                                             <span class="ml-4 d-inline-flex flex-column"> 
@@ -534,6 +549,39 @@
                     </div>
                 <!-- END OF CREDIT PAY MODAL -->
 
+                <!-- Edit Product Price MODAL -->
+                    <div class="modal fade" id="editProdPrice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <form id="formEditProdPrice">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Price</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group mb-3">    
+                                            <label class="ml-1" style="font-weight: 500"> Current Price </label>
+                                            <input type="number" readonly style="color: #393e46; font-weight: 600;" class="form-control" name="arReferenceNo" id="edit-price">
+                                        </div>
+                                        <div class="form-group mb-3">    
+                                            <label class="ml-1" style="font-weight: 500"> New Price (&#8369;) </label>
+                                            <input type="number" style="color: #000; font-weight: 600;" id="input-new-price" class="form-control" min="1" required>
+                                            <input type="hidden" id="edit-price-prod-id">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                        <button type="submit" id="btnEditPriceProcess" class="btn btn-success">Proceed</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                <!-- END OF Edit Product Price MODAL -->
+
             </div>
 
         </div>
@@ -637,6 +685,8 @@ end if%>
 
     const formPayCash = document.getElementById('formPayCash');
     const formPayCredit = document.getElementById('formPayCredit');
+
+    const totalAmountElement = document.getElementById('total-amount');
 
     $('.btnAdd').click(function(event) {
 
@@ -758,6 +808,7 @@ end if%>
 
                 else if (data === 'invalid ordered qty') {
                     alert('Invalid Ordered Quantity');
+                    location.reload();
                     // document.body.appendChild(formOrder);
                     // formOrder.submit();
                 }
@@ -825,6 +876,7 @@ end if%>
 
                 else if (data === 'invalid ordered qty') {
                     alert('Invalid Ordered Quantity');
+                    location.reload();
                     // document.body.appendChild(formOrder);
                     // formOrder.submit();
                 }
@@ -944,6 +996,114 @@ end if%>
         } 
         
     });
+
+    const btnEditPrice = document.querySelectorAll('.btnEditPrice');
+    const inputCurrentPrice = document.getElementById('edit-price');
+
+    for (let btnEdit of btnEditPrice) {
+        btnEdit.addEventListener('click', (e) => {
+            console.log('Prod ID: ', btnEdit.id);
+            const prodID = btnEdit.id;
+            const targetEle = e.target; 
+            const targetEleId = e.target.id;
+            const inputProdID = document.getElementById('edit-price-prod-id');
+
+            if (!isNaN(targetEleId)) {
+                console.log('number');
+                const prevPriceElement = targetEle.parentElement.previousElementSibling;
+                const prevPriceVal = targetEle.parentElement.previousElementSibling.innerText;
+                console.log(`Previous Price: ${prevPriceVal}`);
+                const targetAmount = e.target.parentElement.parentElement.nextElementSibling.nextElementSibling.lastElementChild;
+                console.log(targetAmount);
+
+                inputCurrentPrice.value = prevPriceVal;
+                inputProdID.value = prodID;
+
+                editPrice(prodID, targetAmount, prevPriceElement);
+                
+            } else {
+                console.log('not a number');
+                const prevPriceElement = targetEle.parentElement.parentElement.previousElementSibling;
+                const prevPriceVal = targetEle.parentElement.parentElement.previousElementSibling.innerText;
+                console.log(`Previous Price: ${prevPriceVal}`);
+                const targetAmount = e.target.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling.lastElementChild;
+                console.log(targetAmount);
+
+                inputCurrentPrice.value = prevPriceVal;
+                inputProdID.value = prodID;
+
+                editPrice(prodID, targetAmount, prevPriceElement);
+
+            }
+        });
+    }
+
+    const formEditPrice = document.getElementById('formEditProdPrice');
+    const editPriceModal = document.getElementById('editProdPrice');
+
+    function editPrice(prodID, targetAmount, prevPriceElement) {
+
+        let targetAmountVal = parseFloat(targetAmount.innerText);
+
+        $('#btnEditPriceProcess').click(function(event) {
+
+            if(formEditPrice.checkValidity()) {
+                
+                event.preventDefault();
+                
+                console.log('form was clicked');
+                const newPrice = parseFloat(document.getElementById('input-new-price').value);
+                // const prodID = document.getElementById('edit-price-prod-id').value;
+                // const customerMoney = document.getElementById('customerMoney').value;
+                // const referenceNo = document.getElementById('referenceNo').value;
+                console.log(`New Price: ${newPrice}, Product ID: ${prodID}`);
+                $.ajax({
+                    url: 'cashier_cust_edit_price.asp',
+                    type: 'POST',
+                    data: {cashierID: cashierID, custID: custID, prodID: prodID, uniqueNum: uniqueNum, newPrice: newPrice},
+                })
+                .done(function(data) { 
+
+                    if (!isNaN(data)) {
+                        
+                        console.log(`Data: ${data}`);
+                        alert('Price updated successfully!');
+                        location.reload();
+                        
+                        // let newTotalOrder = 0;
+                        // newTotalOrder = newPrice * data;
+                        
+                        // let newTotalAmount = parseFloat(totalAmountElement.innerText);
+                        // newTotalAmount -= targetAmountVal 
+                        // newTotalAmount += newTotalOrder
+                        // totalAmountElement.innerText = newTotalAmount
+                        // targetAmount.innerText = newTotalOrder;
+                        // prevPriceElement.innerText = newPrice;
+
+                        // $('#editProdPrice').removeClass('show');
+                        // $('.modal-backdrop').removeClass('show');
+
+                        // formEditPrice.reset();
+                        
+                    } else {
+                        console.log(`Data: ${data}`);
+
+                    }
+
+                })
+                .fail(function() {
+                    console.log("Response Error");
+                });
+            }
+
+        });
+
+    }
+
+    
+
+
+
 
 </script> 
 

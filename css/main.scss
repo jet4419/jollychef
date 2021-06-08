@@ -101,6 +101,15 @@ input[type='number'] {
   background-color: #1db47f;
 }
 
+.edit-prod-price {
+  margin-left: 2rem;
+}
+
+.price-val {
+  width: 2rem;
+  display: inline-block;
+}
+
 /* Datatables */
 
 .page-item.active .page-link {
