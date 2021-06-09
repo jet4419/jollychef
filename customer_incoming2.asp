@@ -53,7 +53,7 @@
 			salesOrderPath = mainPath & yearPath & "-" & monthPath & salesOrderFile
 			ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
-			rs.open "SELECT daily_meals.prod_name, daily_meals.qty - SUM(orders_holder.qty) AS qty FROM daily_meals INNER JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id WHERE daily_meals.prod_id ="&productID, CN2
+			rs.open "SELECT daily_meals.prod_name, daily_meals.qty - SUM(orders_holder.upd_qty) AS qty FROM daily_meals INNER JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id WHERE orders_holder.cust_id="&custID&" AND orders_holder.status='On Process' AND daily_meals.prod_id ="&productID, CN2
 
 			Dim holderCurrQtyp
 

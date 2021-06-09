@@ -236,7 +236,7 @@
                         <select id="products" class="form-control mr-2" name="product_id" style="width:650px; "class="chzn-select" placeholder="Select Product" required>
                     
                         <% 
-                            rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.qty), 0, SUM(orders_holder.qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'On Process' AND orders_holder.cust_id="&custID&" GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name", CN2
+                            rs.open "SELECT daily_meals.prod_id, daily_meals.prod_name, daily_meals.prod_price, daily_meals.qty - (IIF(ISNULL(orders_holder.upd_qty), 0, SUM(orders_holder.upd_qty))) AS qty, daily_meals.category, orders_holder.id FROM daily_meals LEFT JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.status = 'On Process' AND orders_holder.cust_id="&custID&" GROUP BY daily_meals.prod_id ORDER BY daily_meals.prod_brand, daily_meals.prod_name", CN2
 
                             if not rs.EOF then%>
 
@@ -361,6 +361,7 @@
                         %>
                         
                             <%if not rs.EOF then
+                                i = 0
                                 hasOrdered = true%>
                                 <%do until rs.EOF
 
@@ -436,6 +437,7 @@
                                     </tr>
                             <%else
                                 hasOrdered = false
+                                Response.Redirect("customers_order.asp")
                             end if
                             %>
                                     
@@ -552,7 +554,7 @@
                 <!-- Edit Product Price MODAL -->
                     <div class="modal fade" id="editProdPrice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
-                            <form id="formEditProdPrice">
+                            <form id="formEditProdPrice" data-prod-id="">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">Edit Price</h5>
@@ -564,7 +566,7 @@
 
                                         <div class="form-group mb-3">    
                                             <label class="ml-1" style="font-weight: 500"> Current Price </label>
-                                            <input type="number" readonly style="color: #393e46; font-weight: 600;" class="form-control" name="arReferenceNo" id="edit-price">
+                                            <input type="text" readonly style="color: #393e46; font-weight: 600;" class="form-control" id="edit-price">
                                         </div>
                                         <div class="form-group mb-3">    
                                             <label class="ml-1" style="font-weight: 500"> New Price (&#8369;) </label>
@@ -997,6 +999,10 @@ end if%>
         
     });
 
+
+    const formEditPrice = document.getElementById('formEditProdPrice');
+    const editPriceModal = document.getElementById('editProdPrice');
+
     const btnEditPrice = document.querySelectorAll('.btnEditPrice');
     const inputCurrentPrice = document.getElementById('edit-price');
 
@@ -1011,94 +1017,96 @@ end if%>
             if (!isNaN(targetEleId)) {
                 console.log('number');
                 const prevPriceElement = targetEle.parentElement.previousElementSibling;
-                const prevPriceVal = targetEle.parentElement.previousElementSibling.innerText;
-                console.log(`Previous Price: ${prevPriceVal}`);
+                const prevPriceVal = targetEle.parentElement.previousElementSibling.lastElementChild.innerText;
+                
                 const targetAmount = e.target.parentElement.parentElement.nextElementSibling.nextElementSibling.lastElementChild;
-                console.log(targetAmount);
-
+                // console.log(targetAmount);
+                // console.log(`Prev Price: ${prevPriceVal}`)
                 inputCurrentPrice.value = prevPriceVal;
+                console.log(`Prev Price: ${prevPriceVal}`);
+
                 inputProdID.value = prodID;
 
-                editPrice(prodID, targetAmount, prevPriceElement);
+                formEditPrice.dataset.prodId = prodID;
+                // editPrice(prodID, targetAmount, prevPriceElement);
                 
             } else {
                 console.log('not a number');
                 const prevPriceElement = targetEle.parentElement.parentElement.previousElementSibling;
-                const prevPriceVal = targetEle.parentElement.parentElement.previousElementSibling.innerText;
-                console.log(`Previous Price: ${prevPriceVal}`);
+                const prevPriceVal = targetEle.parentElement.parentElement.previousElementSibling.lastElementChild.innerText;
+                // console.log(`Previous Price: ${prevPriceVal}`);
                 const targetAmount = e.target.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling.lastElementChild;
-                console.log(targetAmount);
-
+                // console.log(targetAmount);
+                console.log(`Prev Price: ${prevPriceVal}`);
                 inputCurrentPrice.value = prevPriceVal;
                 inputProdID.value = prodID;
 
-                editPrice(prodID, targetAmount, prevPriceElement);
+                formEditPrice.dataset.prodId = prodID;
+                // editPrice(prodID, targetAmount, prevPriceElement);
 
             }
         });
     }
 
-    const formEditPrice = document.getElementById('formEditProdPrice');
-    const editPriceModal = document.getElementById('editProdPrice');
 
-    function editPrice(prodID, targetAmount, prevPriceElement) {
+    $('#btnEditPriceProcess').click(function(event) {
 
-        let targetAmountVal = parseFloat(targetAmount.innerText);
+        if(formEditPrice.checkValidity()) {
+            
+            event.preventDefault();
+            
+            console.log('form was clicked');
+            const newPrice = parseFloat(document.getElementById('input-new-price').value);
+            const dataProdID = formEditPrice.dataset.prodId;
+            // const prodID = document.getElementById('edit-price-prod-id').value;
+            // const customerMoney = document.getElementById('customerMoney').value;
+            // const referenceNo = document.getElementById('referenceNo').value;
+            console.log(`New Price: ${newPrice}, Product ID: ${dataProdID}`);
+            $.ajax({
+                url: 'cashier_cust_edit_price.asp',
+                type: 'POST',
+                data: {cashierID: cashierID, custID: custID, prodID: dataProdID, uniqueNum: uniqueNum, newPrice: newPrice},
+            })
+            .done(function(data) { 
 
-        $('#btnEditPriceProcess').click(function(event) {
+                if (!isNaN(data)) {
+                    
+                    console.log(`Data: ${data}`);
+                    document.getElementById('input-new-price').value = '';
+                    document.getElementById('edit-price-prod-id').value = '';
+                    console.log(document.getElementById('input-new-price').value);
+                    console.log(document.getElementById('edit-price-prod-id').value);
+                    alert('Price updated successfully!');
+                    location.reload();
+                    
+                    // let newTotalOrder = 0;
+                    // newTotalOrder = newPrice * data;
+                    
+                    // let newTotalAmount = parseFloat(totalAmountElement.innerText);
+                    // newTotalAmount -= targetAmountVal 
+                    // newTotalAmount += newTotalOrder
+                    // totalAmountElement.innerText = newTotalAmount
+                    // targetAmount.innerText = newTotalOrder;
+                    // prevPriceElement.innerText = newPrice;
 
-            if(formEditPrice.checkValidity()) {
-                
-                event.preventDefault();
-                
-                console.log('form was clicked');
-                const newPrice = parseFloat(document.getElementById('input-new-price').value);
-                // const prodID = document.getElementById('edit-price-prod-id').value;
-                // const customerMoney = document.getElementById('customerMoney').value;
-                // const referenceNo = document.getElementById('referenceNo').value;
-                console.log(`New Price: ${newPrice}, Product ID: ${prodID}`);
-                $.ajax({
-                    url: 'cashier_cust_edit_price.asp',
-                    type: 'POST',
-                    data: {cashierID: cashierID, custID: custID, prodID: prodID, uniqueNum: uniqueNum, newPrice: newPrice},
-                })
-                .done(function(data) { 
+                    // $('#editProdPrice').removeClass('show');
+                    // $('.modal-backdrop').removeClass('show');
 
-                    if (!isNaN(data)) {
-                        
-                        console.log(`Data: ${data}`);
-                        alert('Price updated successfully!');
-                        location.reload();
-                        
-                        // let newTotalOrder = 0;
-                        // newTotalOrder = newPrice * data;
-                        
-                        // let newTotalAmount = parseFloat(totalAmountElement.innerText);
-                        // newTotalAmount -= targetAmountVal 
-                        // newTotalAmount += newTotalOrder
-                        // totalAmountElement.innerText = newTotalAmount
-                        // targetAmount.innerText = newTotalOrder;
-                        // prevPriceElement.innerText = newPrice;
+                    // formEditPrice.reset();
+                    
+                } else {
+                    console.log(`Data: ${data}`);
 
-                        // $('#editProdPrice').removeClass('show');
-                        // $('.modal-backdrop').removeClass('show');
+                }
 
-                        // formEditPrice.reset();
-                        
-                    } else {
-                        console.log(`Data: ${data}`);
+            })
+            .fail(function() {
+                console.log("Response Error");
+            });
+        }
 
-                    }
+    });
 
-                })
-                .fail(function() {
-                    console.log("Response Error");
-                });
-            }
-
-        });
-
-    }
 
     
 

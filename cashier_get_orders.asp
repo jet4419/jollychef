@@ -42,7 +42,7 @@
             do until rs.EOF
 
                 orderProdID = CInt(rs("prod_id"))
-                orderQty = CInt(rs("qty"))
+                orderQty = CInt(rs("upd_qty"))
 
                 checkQty = "SELECT prod_id, qty FROM daily_meals WHERE prod_id ="&orderProdID
                 set objAccess = cnroot.execute(checkQty)
@@ -58,10 +58,10 @@
                     .Add "id", CLng(rs("id").value)
                     .Add "prodBrand", CStr(rs("prod_brand").value)
                     .Add "prodName", CStr(rs("prod_name").value)
-                    .Add "price", CDbl(rs("price").value)
-                    .Add "qty", CLng(rs("qty").value)
-                    .Add "amount", CDbl(rs("amount").value)
-                    .Add "profit", CDbl(rs("profit").value)
+                    .Add "price", CDbl(rs("upd_price").value)
+                    .Add "qty", CLng(rs("upd_qty").value)
+                    .Add "amount", CDbl(rs("upd_amount").value)
+                    .Add "profit", CDbl(rs("upd_profit").value)
 
                     if currentQty < 0 then
                         .Add "isValidQty", "false"

@@ -33,7 +33,7 @@
 		ordersHolderFile = "\orders_holder.dbf"
 		ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
-		rs.open "SELECT daily_meals.prod_name, daily_meals.qty - SUM(orders_holder.qty) AS qty FROM daily_meals INNER JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.cashier_id="&cashierID&" WHERE daily_meals.prod_id ="&productID, CN2
+		rs.open "SELECT daily_meals.prod_name, daily_meals.qty - SUM(orders_holder.upd_qty) AS qty FROM daily_meals INNER JOIN "&ordersHolderPath&" ON daily_meals.prod_id = orders_holder.prod_id AND orders_holder.cashier_id="&cashierID&" WHERE orders_holder.status='On Process' AND orders_holder.cust_id=0 AND daily_meals.prod_id ="&productID, CN2
 
         if not rs.EOF then
 
