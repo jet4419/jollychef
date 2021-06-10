@@ -12,15 +12,16 @@ if cashierType = "" then
 
 else
 
-    Dim custID, uniqueNum, custName, custDepartment, isValidRef
+    Dim custID, cashierName, uniqueNum, custName, custDepartment, isValidRef
     isValidRef = true
 
     custID = CLng(Request.Form("custID"))
+    cashierName = CStr(Request.Form("cashierName"))
     custName = CStr(Request.Form("custName"))
     custDepartment = CStr(Request.Form("custDept"))
     uniqueNum = CLng(Request.Form("uniqueNum"))
 
-    Dim customerCash, userPayment, email, cashierName, referenceNo
+    Dim customerCash, userPayment, email, referenceNo
 
     customerCash = CDbl(Request.Form("customerMoney"))
     userPayment = "Cash"
@@ -28,7 +29,6 @@ else
     referenceNo = Trim(CStr(Year(systemDate)) & "-" & referenceNo)
 
     cashierEmail = CStr(Request.Form("cashierEmail"))
-    cashierName = CStr(Request.Form("cashierName"))
     tokenID = CStr(Request.Form("tokenID"))
 
     Dim cashierID
@@ -422,13 +422,40 @@ else
                                     "VALUES ("&maxRefId&", '"&referenceNo&"', '')"
                         cnroot.execute(sqlRefAdd)   
 
-                        CN2.close
+                        'CN2.close
                         
-                        sqlHolderDelete = "UPDATE "&ordersHolderPath&" SET status='Finished' WHERE unique_num="&uniqueNum
+                        sqlHolderDelete = "UPDATE "&ordersHolderPath&" SET status='Finished', ref_no='"&referenceNo&"', invoice_no="&maxInvoice&", cshr_name='"&cashierName&"' WHERE unique_num="&uniqueNum&" AND cust_id="&custID&" AND status!='Cancelled'"
                         set objAccess = cnroot.execute(sqlHolderDelete)
                         set objAccess = nothing
-            
-                        ' Response.Redirect("receipt_customer_cash.asp?invoice="&maxInvoice)
+
+                        rs.open "SELECT * FROM "&ordersHolderPath&" WHERE (qty != upd_qty OR price != upd_price) AND cust_id="&custID&" AND unique_num="&uniqueNum, CN2
+
+                        if not rs.EOF then
+
+                            sqlUpdateOrder = "UPDATE "&ordersHolderPath&" SET is_edited = 'true' WHERE cust_id="&custID&" AND unique_num="&uniqueNum
+                            cnroot.execute(sqlUpdateOrder)
+
+                        else
+
+                            sqlUpdateOrder = "UPDATE "&ordersHolderPath&" SET is_edited = 'false' WHERE cust_id="&custID&" AND unique_num="&uniqueNum
+                            cnroot.execute(sqlUpdateOrder)
+
+                        end if
+
+                        rs.close
+
+                        rs.open "SELECT * FROM "&ordersHolderPath&" WHERE (is_added='true' OR status='Cancelled') AND cust_id="&custID&" AND unique_num="&uniqueNum, CN2
+
+                        if not rs.EOF then
+
+                            sqlUpdateOrder = "UPDATE "&ordersHolderPath&" SET is_edited = 'true' WHERE cust_id="&custID&" AND unique_num="&uniqueNum
+                            cnroot.execute(sqlUpdateOrder)
+
+                        end if
+
+                        rs.close
+                        CN2.close
+
                         Response.Write maxInvoice
 
                 end if

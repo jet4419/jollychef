@@ -2,9 +2,10 @@
 
 <%
 
-    Dim cashierID, prodID, customerID, qty
+    Dim cashierID, cashierName, prodID, customerID, qty
 
     cashierID = CInt(Request.Form("cashierID"))
+    cashierName = CStr(Request.Form("cashierName"))
     prodID = CInt(Request.Form("prodID"))
     customerID = CInt(Request.Form("custID"))
     qty = CInt(Request.Form("qty"))
@@ -37,7 +38,7 @@
 
     if qty > 0 and customerID > 0 and prodID > 0 then
 
-        sqlUpdate = "UPDATE "&ordersHolderPath&" SET upd_qty = upd_qty + 1, upd_amount = upd_amount + upd_price, cashier_id = "&cashierID&", is_edited = 'true' WHERE cust_id="&customerID&" AND id="&prodID&" AND status=""On Process"""
+        sqlUpdate = "UPDATE "&ordersHolderPath&" SET upd_qty = upd_qty + 1, upd_amount = upd_amount + upd_price, cashier_id = "&cashierID&", cshr_name='"&cashierName&"', is_edited = 'true' WHERE cust_id="&customerID&" AND id="&prodID&" AND status=""On Process"""
         set objAccess = cnroot.execute(sqlUpdate)
 
         Response.Write prodPrice

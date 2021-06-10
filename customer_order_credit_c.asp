@@ -352,10 +352,6 @@
                         rs.MoveNext
                     loop    
                     rs.close
-                    'FLUSHING THE PENDING ORDERS'
-                    sqlHolderDelete = "UPDATE "&ordersHolderPath&" SET status='Finished' WHERE unique_num="&uniqueNum
-                    set objAccess = cnroot.execute(sqlHolderDelete)
-                    set objAccess = nothing
                     'END OF GETTING THE PENDING ORDERS FROM ORDERS_HOLDER and SENDING IT TO SALES_ORDER'
 
                     Dim maxObTestID, cust_type
@@ -433,11 +429,45 @@
                     cnroot.execute(sqlRefAdd)   
 
 
-                    CN2.close    
+                    'CN2.close    
                     ' Response.Write("<script language=""javascript"">")
                     ' Response.Write("alert('Order Completed!')")
                     ' Response.Write("</script>")
-                    isAdded = true
+                    'isAdded = true
+
+ 
+                    sqlHolderDelete = "UPDATE "&ordersHolderPath&" SET status='Finished', ref_no='"&arReferenceNo&"', invoice_no="&maxInvoice&", cshr_name='"&cashierName&"' WHERE unique_num="&uniqueNum&" AND cust_id="&customerID&" AND status!='Cancelled'"
+                    set objAccess = cnroot.execute(sqlHolderDelete)
+                    set objAccess = nothing
+
+                    rs.open "SELECT * FROM "&ordersHolderPath&" WHERE (qty != upd_qty OR price != upd_price) AND cust_id="&customerID&" AND unique_num="&uniqueNum, CN2
+
+                    if not rs.EOF then
+
+                        sqlUpdateOrder = "UPDATE "&ordersHolderPath&" SET is_edited = 'true' WHERE cust_id="&customerID&" AND unique_num="&uniqueNum
+                        cnroot.execute(sqlUpdateOrder)
+
+                    else
+
+                        sqlUpdateOrder = "UPDATE "&ordersHolderPath&" SET is_edited = 'false' WHERE cust_id="&customerID&" AND unique_num="&uniqueNum
+                        cnroot.execute(sqlUpdateOrder)
+
+                    end if
+
+                    rs.close
+
+                    rs.open "SELECT * FROM "&ordersHolderPath&" WHERE (is_added='true' OR status='Cancelled') AND cust_id="&customerID&" AND unique_num="&uniqueNum, CN2
+
+                    if not rs.EOF then
+
+                        sqlUpdateOrder = "UPDATE "&ordersHolderPath&" SET is_edited = 'true' WHERE cust_id="&customerID&" AND unique_num="&uniqueNum
+                        cnroot.execute(sqlUpdateOrder)
+
+                    end if
+
+                    rs.close
+                    CN2.close
+
 
                     Dim transactDate
                     transactDate = FormatDateTime(systemDate)

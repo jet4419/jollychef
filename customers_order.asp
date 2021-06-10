@@ -149,6 +149,7 @@
 <script>  
 
 const cashierID = localStorage.getItem('id');
+const cashierName = localStorage.getItem('fullname');
 const userType = localStorage.getItem('type');
 
 // const btnViewOrder = document.querySelector('.btnViewOrder');
@@ -222,7 +223,7 @@ function delete_order(unique_num ,order_number) {
 
      if(confirm('Are you sure that you want to cancel Order# ' + order_number + ' ?'))
      {
-        window.location.href=`customer_order_cancel.asp?unique_num=${unique_num}&cashierId=${cashierID}`;
+        window.location.href=`customer_order_cancel.asp?unique_num=${unique_num}&cashierID=${cashierID}&cashierName=${cashierName}`;
 		//window.location.href='delete.asp?delete_id='+id;
      }
 }

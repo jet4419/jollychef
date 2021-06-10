@@ -414,6 +414,7 @@ function tailSelect() {
 const customerMoney = document.getElementById('customerMoney');
 const userEmail = localStorage.getItem('email');
 const cashierID = localStorage.getItem('id');
+const cashierName = localStorage.getItem('fullname');
 const formMeal = document.getElementById('form-meal');
 
 const selectTagMeal = document.getElementById('products');
@@ -466,7 +467,7 @@ if (userEmail) {
             $.ajax({
                 url: URL,
                 type: 'POST',
-                data: {cashierID: cashierID, prodID: prodID, prodQty: prodQty},
+                data: {cashierID: cashierID, cashierName: cashierName, prodID: prodID, prodQty: prodQty},
                 //data: {},
             })
             .done(function(data) { 

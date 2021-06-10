@@ -20,9 +20,10 @@
 
     ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
-    Dim cashierID, uniqueNum
+    Dim cashierID, uniqueNum, cashierName
 
-    cashierID = CInt(Request.Form("cashierID"))
+    cashierID = CInt(Request.QueryString("cashierID"))
+    cashierName = CStr(Request.QueryString("cashierName"))
     uniqueNum = CInt(Request.QueryString("unique_num"))
 
 
@@ -51,7 +52,7 @@
 
     ' next
 	
-    sqlUpdate = "UPDATE "&ordersHolderPath&" SET cashier_id="&cashierID&", status= 'Cancelled', is_edited = 'true' WHERE unique_num="&uniqueNum
+    sqlUpdate = "UPDATE "&ordersHolderPath&" SET cashier_id="&cashierID&", cshr_name='"&cashierName&"', status= 'Cancelled', is_edited = 'true' WHERE unique_num="&uniqueNum
 
     set objAccess = cnroot.execute(sqlUpdate)
     set objAccess = nothing

@@ -3,7 +3,10 @@
 <%
 	if Trim(isStoreClosed) = "open" then
 
+		Dim cashierID, cashierName, productID, salesQty, cashierType, cashierEmail, custID, uniqueNum, tokenID
+
 		cashierID = CInt(Request.Form("cashierID"))
+		cashierName = CStr(Request.Form("cashierName"))
 		productID = CInt(Request.Form("productID"))
 		salesQty = CInt(Request.Form("salesQty"))
 		cashierType = CStr(Request.Form("cashierType"))
@@ -167,8 +170,8 @@
 
 				rs.Open "SELECT * FROM "&ordersHolderPath&"", CN2
 				sqlAdd = "INSERT INTO "&ordersHolderPath&""&_ 
-				"(id, cashier_id, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, upd_price, qty, upd_qty, amount, upd_amount, profit, upd_profit, status, is_edited, is_added, date)"&_
-				"VALUES ("&maxID&", "&cashierID&", "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&price&", "&salesQty&", "&salesQty&", "&amount&", "&amount&", "&profit&", "&profit&", '"&status&"', 'true', 'true', ctod(["&systemDate&"]))"
+				"(id, ref_no, invoice_no, cashier_id, cshr_name, cust_id, unique_num, cust_name, department, transactid, prod_id, prod_brand, prod_name, price, upd_price, qty, upd_qty, amount, upd_amount, profit, upd_profit, status, is_edited, is_added, date)"&_
+				"VALUES ("&maxID&", '', 0, "&cashierID&", '"&cashierName&"', "&custID&", "&uniqueNum&", '"&fullName&"', '"&department&"', "&salesOrderID&", "&productID&" , '"&productBrand&"', '"&productName&"', "&price&", "&price&", "&salesQty&", "&salesQty&", "&amount&", "&amount&", "&profit&", "&profit&", '"&status&"', 'true', 'true', ctod(["&systemDate&"]))"
 				set objAccess = cnroot.execute(sqlAdd)
 				set objAccess = nothing
 				rs.close

@@ -4,6 +4,7 @@
     <a href="customer_my_orders.asp" class="main-menus--items"><i class="fa fa-shopping-cart sidebar-icons cart-icon"></i> <span class="icon-text">Cart</span></a>
     <a href="customer_my_ob.asp" class="main-menus--items"><i class="fas fa-chart-bar sidebar-icons reports-icon"></i> <span class="icon-text">Reports</span></a>
     <a href="customer_my_credits.asp" class="main-menus--items"><i class="fas fa-layer-group sidebar-icons"></i> <span class="icon-text">Credits</span></a>
+    <a href="cust_order_history.asp" class="main-menus--items"><i class="fas fa-history sidebar-icons"></i> <span class="icon-text">Orders History</span></a>
 </div>
 
 

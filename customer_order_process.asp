@@ -713,7 +713,7 @@ end if%>
             $.ajax({
                 url: URL,
                 type: 'POST',
-                data: {cashierID: cashierID,productID: prodID, salesQty: prodQty, cashierType: cashierType, cashierEmail: cashierEmail, cust_id: custID, unique_num: uniqueNum, tokenID: cashierTokenId},
+                data: {cashierID: cashierID, cashierName: cashierName, productID: prodID, salesQty: prodQty, cashierType: cashierType, cashierEmail: cashierEmail, cust_id: custID, unique_num: uniqueNum, tokenID: cashierTokenId},
             })
             .done(function(data) { 
                 // console.log(data);
@@ -774,7 +774,7 @@ end if%>
             $.ajax({
                 url: 'customer_pay2.asp',
                 type: 'POST',
-                data: {cashierID: cashierID, custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, customerMoney: customerMoney, referenceNo: referenceNo, cashierEmail: cashierEmail, cashierName: cashierName, cashierType: cashierType, tokenID: cashierTokenId},
+                data: {cashierID: cashierID, cashierName: cashierName, custID: custID, custName: custName, custDept: custDept, uniqueNum: uniqueNum, customerMoney: customerMoney, referenceNo: referenceNo, cashierEmail: cashierEmail, cashierName: cashierName, cashierType: cashierType, tokenID: cashierTokenId},
             })
             .done(function(data) { 
 
@@ -934,7 +934,7 @@ end if%>
         $.ajax({
             url: URL,
             type: 'POST',
-            data: {cashierID: cashierID, custID: custID, prodID: prodID, qty: newQty},
+            data: {cashierID: cashierID, cashierName: cashierName, custID: custID, prodID: prodID, qty: newQty},
         })
         .done(function(data) {
             console.log(`Data: ${data}`);
@@ -977,7 +977,7 @@ end if%>
             $.ajax({
                 url: URL,
                 type: 'POST',
-                data: {cashierID: cashierID, custID: custID, prodID: prodID, qty: newQty},
+                data: {cashierID: cashierID, cashierName: cashierName, custID: custID, prodID: prodID, qty: newQty},
             })
             .done(function(data) {
 
@@ -1065,7 +1065,7 @@ end if%>
             $.ajax({
                 url: 'cashier_cust_edit_price.asp',
                 type: 'POST',
-                data: {cashierID: cashierID, custID: custID, prodID: dataProdID, uniqueNum: uniqueNum, newPrice: newPrice},
+                data: {cashierID: cashierID, cashierName: cashierName, custID: custID, prodID: dataProdID, uniqueNum: uniqueNum, newPrice: newPrice},
             })
             .done(function(data) { 
 

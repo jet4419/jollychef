@@ -388,7 +388,7 @@
                     ' cnroot.execute(sqlUpdateRef)
 
                     CN2.close
-                    sqlHolderDelete = "UPDATE "&ordersHolderPath&" SET status='Finished' WHERE cashier_id="&cashierID&" AND cust_id=0"
+                    sqlHolderDelete = "UPDATE "&ordersHolderPath&" SET status='Finished', ref_no='"&referenceNo&"', invoice_no="&maxInvoice&" WHERE cashier_id="&cashierID&" AND cust_id=0"
                     set objAccess = cnroot.execute(sqlHolderDelete)
                     set objAccess = nothing
 
