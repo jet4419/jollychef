@@ -172,7 +172,7 @@
 
                 <section class="main-heading--container">
 
-                    <p class="main-heading--text mb-5 pb-3 h1 p-0 text-center">Ordering Page 
+                    <p class="main-heading--text mb-5 pb-3 h1 p-0 text-center">Ordering Page
                         <img class="order-icon" src="./img/shop.svg">
                     </p>
 

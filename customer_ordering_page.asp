@@ -118,7 +118,7 @@
 
             <div class="container">
 
-                <p class="main-heading-text-m h1 mb-5 p-3 text-center" style="font-weight: 400">Ordering Page 
+                <p class="h1 main-heading-text-m mb-5 p-3 text-center" style="font-weight: 400">Ordering Page 
                     <!--<i class="fas fa-store store-icon"></i>-->
                     <img class="order-icon" src="./img/shop.svg">
                 </p>

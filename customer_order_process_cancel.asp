@@ -13,6 +13,7 @@
 	uniqueNum = CLng(Request.Form("unique_num"))
 	custID = CLng(Request.Form("cust_id"))
     cashierID = CInt(Request.Form("cashierID"))
+    cashierName = CStr(Request.Form("cashierName"))
 	cashierEmail = CStr(Request.Form("cashierEmail"))
     cashierType = CStr(Request.Form("cashierType"))
 	tokenID = CStr(Request.Form("tokenID"))
@@ -53,7 +54,7 @@
 
         ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
-        sqlUpdate = "UPDATE "&ordersHolderPath&" SET cashier_id="&cashierID&", status= 'Cancelled', is_edited = 'true' WHERE id="&orderID
+        sqlUpdate = "UPDATE "&ordersHolderPath&" SET cashier_id="&cashierID&", cshr_name='"&cashierName&"', status= 'Cancelled', is_edited = 'true' WHERE id="&orderID
         set objAccess = cnroot.execute(sqlUpdate)
         set objAccess = nothing
 

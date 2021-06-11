@@ -744,7 +744,7 @@ end if%>
             $.ajax({
                 url: 'customer_order_process_cancel.asp',
                 type: 'POST',
-                data: {cashierID: cashierID, orderID: orderID, unique_num: uniqueNum, cust_id: custID, cashierEmail: cashierEmail, cashierType: cashierType, tokenID: cashierTokenId},
+                data: {cashierID: cashierID, cashierName: cashierName, orderID: orderID, unique_num: uniqueNum, cust_id: custID, cashierEmail: cashierEmail, cashierType: cashierType, tokenID: cashierTokenId},
             })
             .done(function(data) { 
 

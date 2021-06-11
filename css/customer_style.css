@@ -188,8 +188,9 @@ input[type='number'] {
   margin-bottom: 30px;
 }
 
-.main-heading-text-m {
+#main .main-heading-text-m {
   margin-top: 3rem;
+  font-family: monospace, "Segoe UI", Roboto, sans-serif;
 }
 
 .main-heading-text-p {

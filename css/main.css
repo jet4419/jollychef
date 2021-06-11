@@ -407,7 +407,8 @@ input[type='number'] {
 }
 
 #main .main-heading--text {
-  font-family: 'Kulim Park', sans-serif;
+  /* font-family: 'Kulim Park', sans-serif; */
+  font-family: monospace, "Segoe UI", Roboto, sans-serif;
 }
 
 .footer {
