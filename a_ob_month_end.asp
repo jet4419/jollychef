@@ -11,8 +11,7 @@
     On Error Resume Next
 
         if fs.FileExists(tempSalesReportTbl) then
-            
-                fs.DeleteFile(tempSalesReportTbl)
+            fs.DeleteFile(tempSalesReportTbl)
         end if
 
         if fs.FileExists(tempCollectionsReportTbl) then
@@ -22,8 +21,8 @@
 
         if CN2.Errors.Count <> 0 then
             Response.Write "<br> There's a connection error Error: " & CN2.Error & "<br>"
-        else 
-            Response.Write "<br> No Error <br>"
+        ' else 
+        '     Response.Write "<br> No Error <br>"
         end if
 
     Dim isDayEnded
@@ -115,13 +114,13 @@
         'and use the system_date for the ending_date which is the last day of the month'
         rs.open "SELECT MIN(date) AS fdate, cust_id, cust_type, balance FROM "&obPath&" WHERE status!='completed' and cust_type='in' GROUP BY cust_id", CN2
 
-        if Err.Number = 0 and CN2.Errors.Count = 0 then
-
+        'if Err.Number = 0 and CN2.Errors.Count = 0 then
+                'Response.Write "189"
             'If the records are not yet completed, month end process will continue'
             if not rs.eof then
 
                 if isFileExist(folderPath) = true then
-                
+                    
                     do until rs.EOF
 
                         custId = rs("cust_id").value
@@ -186,6 +185,7 @@
 
                     newFolderPath = mainPath & newYearPath & "-" & newMonthPath
 
+
                     if fs.FolderExists(newFolderPath) <> true then
 
                         'Creating the new folder path'
@@ -222,6 +222,7 @@
                         newReferenceNoPath = newFolderPath & referenceNoFile
                         newArReferenceNoPath = newFolderPath & arReferenceNoFile
                         newAdReferencePath = newFolderPath & adReferenceNoFile
+
 
                         if fs.FileExists(newArPath) <> true AND fs.FileExists(newAdjustmentPath) <> true AND _ 
                         fs.FileExists(newCollectionsPath) <> true AND fs.FileExists(newObPath) <> true AND fs.FileExists(newEbPath) <> true AND _
@@ -264,7 +265,7 @@
 
                             'Getting the AR TBL Max record
                             rs.open "SELECT TOP 1 ar_id, date_owed FROM "&arPath&" ORDER BY ar_id DESC", CN2
-                        
+                            
                             do until rs.EOF 
 
                                 addMaxDuplicate = "INSERT INTO "&newArPath&" (ar_id, cust_id, cust_name, cust_dept, ref_no, invoice_no, receivable, balance, date_owed, duplicate) "&_
@@ -481,7 +482,7 @@
 
             end if
 
-        end if
+        'end if
 
     end if
     

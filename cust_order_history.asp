@@ -70,25 +70,44 @@
 
         <div class="container">
 
-            <div class="users-info mb-5">
-            
-                <h1 class="main-heading-text-p h1 text-center main-heading my-0"> Order History </h1>
-                <h1 class="h5 text-center main-heading my-0"> <span class="department_lbl"><strong></strong></span> </h1>
+            <div class="mt-5 d-flex justify-content-between">
+                <form id="formReportDate">
+                    
+                    <label>Start</label>
+                    <input class="form-control form-control-sm d-inline col-2" name="startDate" id="startDate" type="date" required> 
                 
+                    <label class="ml-3">End&nbsp;</label>
+                    <input class="form-control form-control-sm d-inline col-2" name="endDate" id="endDate" type="date" required> 
+                    
+                    <input type="hidden" id="currentDate" value="<%=systemDate%>"> 
+                    
+                    <button type="submit" class="btn btn-sm btn-outline-dark mb-1 " id="btnGenerateReport">Generate</button>
+                </form>
+
+                
+
             </div>
 
+            <h1 id="order-history-heading" class="main-heading-text-p h1 text-center main-heading my-0"> Edited Orders </h1>
+
             <div class="table-responsive-sm mt-4">
+                <p>
+                    <strong>Date: </strong> 
+                    <span class="reportDate"></span>
+                </p>
+
                 <table class="table table-bordered table-sm" id="myTable">
                     <thead class="thead-dark">
                         <th>Invoice</th>
-                        <th>Order ID</th>
-                        <th>Customer</th>
+                        <th>OrderID</th>
+                        <!--<th>Customer</th>-->
                         <th>Product</th>
-                        <th>Price - (New Price)</th>
-                        <th>Amount - (New Amount)</th>
-                        <th>Qty - (New Qty)</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                        <th>Qty</th>
                         <th>Status</th>
                         <th>Added by Cashier</th>
+                        <th>Date</th>
                     </thead>
 
                     <tbody>
@@ -107,46 +126,84 @@
     <!--#include file="cust_login_logout.asp"-->
     <!--#include file="footer.asp"-->
 
+    <script src="js/main.js"></script>
     <script>
 
         const custID = localStorage.getItem('cust_id');
-
+        const currentDate = document.getElementById('currentDate').value;
+        console.log(`Current Date: ${currentDate}`);
 
         $(document).ready( function () {
 
-            // function getOrderHistory() { 
+            function getOrderHistory(startDate = currentDate, endDate = currentDate) { 
+
+                console.log('Start Date:', startDate);
+                console.log('End Date:', endDate);
 
                 $('#myTable').DataTable({
                     scrollY: "36vh",
                     scroller: true,
-                    "paging": false,
+                    // "paging": false,
                     "order": [[1, "asc"]],
                     scrollCollapse: true,
                     ajax: {
                         'url': 'cust_get_order_history.asp',
                         'type': 'POST',
-                        'data': {'custID': custID},
+                        'data': {'custID': custID, startDate: startDate, endDate: endDate},
                         'dataSrc': function (json) {
                             const return_data = new Array();
+                            let reportDate;
+
+                            startDate = new Date(startDate);
+                            endDate = new Date(endDate);
 
                             if (json.length !== 0) {
+                                
+                                // reportDate = new Date(json[0].date);
 
                                 for (let i=0; i < json.length; i++) {
-                                    
+
                                     return_data.push({
-                                        'invoice': json[i].invoiceNo === 0 ? `` : `${json[i].invoiceNo}`,
+                                        'invoice': json[i].invoiceNo === 0 ? `` : `<a class='text-info' target='_blank' href='receipt_reports.asp?invoice=${json[i].invoiceNo}&date=${json[i].date}'>${json[i].invoiceNo}`,
                                         'orderid': `${json[i].uniqueNum}` ,
-                                        'customer': `${json[i].customerName}` ,
+                                        // 'customer': `${json[i].customerName}` ,
                                         'product': `${json[i].prodName}` ,
-                                        'price': `${json[i].price} - (${json[i].updPrice})` ,
-                                        'amount': `${json[i].amount} - (${json[i].updAmount})` ,
-                                        'qty': `${json[i].qty} - (${json[i].updQty})` ,
-                                        'status': `${json[i].status}` ,
-                                        'added': `${json[i].isAdded}` ,
+                                        'price': json[i].price === json[i].updPrice ? `${json[i].price}` : `${json[i].price} - (${json[i].updPrice})`,
+                                        'amount': json[i].amount === json[i].updAmount ? `${json[i].amount}` :  `${json[i].amount} - (${json[i].updAmount})`,
+                                        'qty': json[i].qty === json[i].updQty ? `${json[i].qty}` : `${json[i].qty} - (${json[i].updQty})` ,
+                                        'status': json[i].status === 'Finished' ? `Processed` : `${json[i].status}`,
+                                        'added': json[i].isAdded === 'true' ? `yes` : `no` ,
+                                        'date': `${json[i].date}`,
                                     });
 
                                 }
+
+                                // console.log(reportDate);
+                                // if (reportDate.getMonth() < 9) {
+                                //     console.log(`Month: 0${reportDate.getMonth() + 1}`);
+                                // } else {
+                                //     console.log(`Month: ${reportDate.getMonth() + 1}`);
+                                // }
                             }
+
+                            const startDateMonth = getMonthName(startDate.getMonth());
+                            const startDateDay = startDate.getDate();
+                            const startDateYear = startDate.getFullYear();
+                            const startFullDate = `${startDateMonth} ${startDateDay}, ${startDateYear}`;
+
+                            const endDateMonth = getMonthName(endDate.getMonth());
+                            const endDateDay = endDate.getDate();
+                            const endDateYear = endDate.getFullYear();
+                            const endFullDate = `${endDateMonth} ${endDateDay}, ${endDateYear}`;
+
+                            document.querySelector('.reportDate').innerText = `${startFullDate} - ${endFullDate}`;
+
+                            function getMonthName(month){
+
+                                monthNamelist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+
+                                return monthNamelist[month];
+                            };
 
                             return return_data;
                         }
@@ -154,20 +211,46 @@
                     "columns": [
                         {"data": "invoice"},
                         {"data": "orderid"},
-                        {"data": "customer"},
+                        // {"data": "customer"},
                         {"data": "product"},
                         {"data": "price"},
                         {"data": "amount"},
                         {"data": "qty"},
                         {"data": "status"},
                         {"data": "added"},
+                        {"data": "date"},
                     ],   
                 });
 
-            // }
+            }
 
-            // getOrderHistory();
+            getOrderHistory();
 
+            const formDateReport = document.getElementById('formReportDate');
+
+            $('#btnGenerateReport').click(function (event) {
+                
+                if (formDateReport.checkValidity()) {
+
+                    event.preventDefault();
+
+                    const startDate = document.getElementById('startDate').value;
+                    const endDate = document.getElementById('endDate').value;
+                    console.log(`Start Date: ${new Date(startDate)}`);
+                    console.log(`End Date: ${new Date(endDate)}`);
+                    $('#myTable').DataTable().destroy();
+                    getOrderHistory(startDate, endDate);
+                    
+                    // getOrderHistory(startDate, endDate);
+                    // $('#myTable').DataTable({
+                    //     'url': 'cust_get_order_history.asp',
+                    //     'type': 'POST',
+                    //     'data': {'custID': custID, startDate: startDate, endDate: endDate},
+                    // }).ajax.reload();
+
+                }
+
+            });
 
         }); 
 

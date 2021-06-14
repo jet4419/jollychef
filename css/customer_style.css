@@ -193,6 +193,10 @@ input[type='number'] {
   font-family: monospace, "Segoe UI", Roboto, sans-serif;
 }
 
+#order-history-heading {
+  font-family: monospace, "Segoe UI", Roboto, sans-serif;
+}
+
 .main-heading-text-p {
   padding-top: 3rem;
 }
