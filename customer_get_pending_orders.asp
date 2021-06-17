@@ -23,7 +23,7 @@ ordersHolderFile = "\orders_holder.dbf"
 Dim ordersHolderPath
 ordersHolderPath = mainPath & yearPath & "-" & monthPath & ordersHolderFile
 
-rs.Open "SELECT DISTINCT unique_num, cust_id, cust_name, department, SUM(amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" and cust_id="&custID&" GROUP BY unique_num", CN2 
+rs.Open "SELECT DISTINCT unique_num, cust_id, cust_name, department, SUM(upd_amount) AS amount, date FROM "&ordersHolderPath&" WHERE status=""On Process"" and cust_id="&custID&" GROUP BY unique_num", CN2 
 
 Dim i, orderNumber
 i = 0

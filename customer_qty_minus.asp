@@ -36,7 +36,7 @@
 
     if qty > 0 and customerID > 0 and prodID > 0 then
 
-        sqlUpdate = "UPDATE "&ordersHolderPath&" SET qty = "&qty&", amount = amount - price WHERE cust_id="&customerID&" AND id="&prodID&" AND status=""Pending"""
+        sqlUpdate = "UPDATE "&ordersHolderPath&" SET upd_qty = "&qty&", upd_amount = upd_amount - upd_price WHERE cust_id="&customerID&" AND id="&prodID&" AND status=""Pending"""
         set objAccess = cnroot.execute(sqlUpdate)
 
         Response.Write prodPrice

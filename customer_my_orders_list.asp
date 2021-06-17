@@ -202,11 +202,11 @@
                                 <tr>
                                 <td><%=rs("prod_brand")%> </td>
                                 <td><%=rs("prod_name")%> </td>
-                                <td><span class='currency-sign' >&#8369; </span><%=rs("price")%> </td>
-                                <td><%=rs("qty")%> </td>
-                                <td><span class='currency-sign' >&#8369; </span><%=rs("amount")%> </td>
+                                <td><span class='currency-sign' >&#8369; </span><%=rs("upd_price")%> </td>
+                                <td><%=rs("upd_qty")%> </td>
+                                <td><span class='currency-sign' >&#8369; </span><%=rs("upd_amount")%> </td>
                                 </tr>
-                            <%totalAmount = totalAmount + CDbl(rs("amount"))
+                            <%totalAmount = totalAmount + CDbl(rs("upd_amount"))
                                 rs.MoveNext
                             loop%>
                         
