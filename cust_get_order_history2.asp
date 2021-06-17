@@ -3,9 +3,9 @@
 
 <%
 
-    Dim fs, custID
+    Dim fs
 
-    custID = CLng(Request.Form("custID"))
+    ' custID = CLng(Request.Form("custID"))
     ' orderDate = Request.Form("orderDate")
 
     Set fs=Server.CreateObject("Scripting.FileSystemObject")
@@ -91,7 +91,7 @@
                         if fs.FolderExists(folderPath) <> true then EXIT DO
                         if fs.FileExists(ordersHolderPath) <> true then EXIT DO
 
-                        getOrders = "SELECT invoice_no, unique_num, cust_name, prod_name, price, upd_price, qty, upd_qty, amount, upd_amount, status, is_added, date FROM "&ordersHolderPath&" WHERE (is_edited='true' OR is_added='true') AND cust_id="&custID&" AND date BETWEEN CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') ORDER BY date, unique_num"
+                        getOrders = "SELECT invoice_no, unique_num, cust_name, prod_name, price, upd_price, qty, upd_qty, amount, upd_amount, status, is_added, date FROM "&ordersHolderPath&" WHERE (is_edited='true' OR is_added='true') AND date BETWEEN CTOD('"&queryDate1&"') and CTOD('"&queryDate2&"') ORDER BY date, unique_num"
                         set objAccess = cnroot.execute(getOrders)
 
                         do until objAccess.EOF

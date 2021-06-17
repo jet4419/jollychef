@@ -254,7 +254,7 @@
                                                     <input type="number" id="totalAmount" name="totalAmount" hidden>
                                                     --> 
 
-                                                    <input type="number" id="customerMoney" name="customerMoney" class="form-control" aria-label="Amount (to the nearest dollar)" required>
+                                                    <input type="number" id="customerMoney" name="customerMoney" class="form-control" aria-label="Amount (to the nearest dollar)" max="999999" required>
                             
                                                 </div>
 

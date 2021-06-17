@@ -1,15 +1,16 @@
 <!--#include file="dbConnect.asp"-->
-<!--#include file="session.asp"-->
+<!--#include file="session_cashier.asp"-->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Orders History</title>
+    <title>Edited Orders</title>
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="css/customer_style.css">
+        <link rel="stylesheet" href="./css/main.css">
+        <link rel="stylesheet" href="./css/staff/customer_order_process.css">
         <!--<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">-->
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Great+Vibes&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
@@ -41,11 +42,20 @@
         <script src="bootstraptable/buttons/js/buttons.html5.min.js"></script>
         <script src="bootstraptable/buttons/js/buttons.print.min.js"></script>
 
+        <style>
+
+            .container {
+                min-width: 1230px !important;
+                /* max-width: 970px !important; */
+            }
+
+        </style>
+
 </head>
 <body>
 
-<!--#include file="customer_navbar.asp"-->
-<!--#include file="customer_sidebar.asp"-->
+<!--#include file="cashier_navbar.asp"-->
+<!--#include file="cashier_sidebar.asp"-->
 
     <%
 
@@ -89,7 +99,7 @@
 
             </div>
 
-            <h1 id="order-history-heading" class="main-heading-text-p h1 text-center main-heading my-0"> Edited Orders </h1>
+            <h1 id="order-history-heading" class="text-center mb-4 report-heading--text"> Edited Orders </h1>
 
             <div class="table-responsive-sm mt-4">
                 <p>
@@ -101,13 +111,13 @@
                     <thead class="thead-dark">
                         <th>Invoice</th>
                         <th>OrderID</th>
-                        <!--<th>Customer</th>-->
+                        <th>Customer</th>
                         <th>Product</th>
                         <th>Price</th>
                         <th>Amount</th>
                         <th>Qty</th>
                         <th>Status</th>
-                        <th>Added by Cashier</th>
+                        <th>Add by Cashier</th>
                         <th>Date</th>
                     </thead>
 
@@ -124,13 +134,13 @@
     </main>
 
 
-    <!--#include file="cust_login_logout.asp"-->
+    <!--#include file="cashier_login_logout.asp"-->
     <!--#include file="footer.asp"-->
 
     <script src="js/main.js"></script>
     <script>
 
-        const custID = localStorage.getItem('cust_id');
+        // const custID = localStorage.getItem('cust_id');
         const currentDate = document.getElementById('currentDate').value;
         console.log(`Current Date: ${currentDate}`);
 
@@ -148,9 +158,9 @@
                     "order": [],
                     scrollCollapse: true,
                     ajax: {
-                        'url': 'cust_get_order_history.asp',
+                        'url': 'cust_get_order_history2.asp',
                         'type': 'POST',
-                        'data': {'custID': custID, startDate: startDate, endDate: endDate},
+                        'data': {startDate: startDate, endDate: endDate},
                         'dataSrc': function (json) {
                             const return_data = new Array();
                             let reportDate;
@@ -167,7 +177,7 @@
                                     return_data.push({
                                         'invoice': json[i].invoiceNo === 0 ? `` : `<a class='text-info' target='_blank' href='receipt_reports.asp?invoice=${json[i].invoiceNo}&date=${json[i].date}'>${json[i].invoiceNo}`,
                                         'orderid': `${json[i].uniqueNum}` ,
-                                        // 'customer': `${json[i].customerName}` ,
+                                        'customer': `${json[i].customerName}` ,
                                         'product': `${json[i].prodName}` ,
                                         'price': json[i].price === json[i].updPrice ? `${json[i].price}` : `${json[i].price} - <span class='text-green'>(${json[i].updPrice})</span>`,
                                         'amount': json[i].amount === json[i].updAmount ? `${json[i].amount}` :  `${json[i].amount} - <span class='text-green'>(${json[i].updAmount})</span>`,
@@ -212,7 +222,7 @@
                     "columns": [
                         {"data": "invoice"},
                         {"data": "orderid"},
-                        // {"data": "customer"},
+                        {"data": "customer"},
                         {"data": "product"},
                         {"data": "price"},
                         {"data": "amount"},

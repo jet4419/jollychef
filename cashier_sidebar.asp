@@ -17,6 +17,12 @@
         </span><span class="icon-text">Cart</span>
     </a>
 
+    <a href="customers_edited_orders.asp" class="main-menus--items">
+        <span class="icon-container">
+            <i class="fas fa-history sidebar-icons"></i> 
+        </span><span class="icon-text">Edited Orders</span>
+    </a>
+
         <input class="checkbox" type="checkbox" id="reports">
         <label class="sidebar-label" for="reports" id="reports-container">
             <a class="main-menus--items reports-container">
