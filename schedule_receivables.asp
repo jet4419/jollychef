@@ -183,7 +183,7 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td class="creditsTotalAmount"><span class="currency-sign">&#8369;</span> <%=customerTotalBalance%></td>
+                                        <td class="creditsTotalAmount"><span class="currency-sign">&#8369;</span> <%=formatNumber(customerTotalBalance)%></td>
                                     </tr>
                                     <%
                                 end if
@@ -232,7 +232,7 @@
                             <td class="text-darker">
                                 <%Response.Write(dateFormat)%>
                             </td> 
-                            <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("balance"))%></td>  
+                            <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(formatNumber(rs("balance")))%></td>  
                         </tr>
                         <%rs.MoveNext%>
                     <%loop%>
@@ -243,7 +243,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class='creditsTotalAmount'><span class="currency-sign">&#8369;</span> <%=customerTotalBalance%></td>
+                            <td class='creditsTotalAmount'><span class="currency-sign">&#8369;</span> <%=formatNumber(customerTotalBalance)%></td>
                         </tr>
                     <%end if%>
 
@@ -251,10 +251,41 @@
                         <td class="total-label">Total</td>
                         <td></td>
                         <td></td>
-                        <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalBalance%></td>
+                        <td class="final-total"><span class="currency-sign">&#8369;</span> <%=formatNumber(totalBalance)%></td>
                     </tr>      
 
                 </table>
+
+                <%
+                    Function formatNumber(myNum)
+
+                        Dim i, counter, numFormat
+                        counter = 1
+                        numFormat = ""
+
+                        for i = Len(myNum) to 1 step -1
+
+                            ' Response.Write "<br>" & i & "<br>"
+                            if counter mod 3 = 0 then
+                                if counter = Len(myNum) then
+                                    numFormat = Mid(myNum, i, 1) & numFormat
+                                else
+                                    numFormat = "," & Mid(myNum, i, 1) & numFormat
+                                end if
+                            else
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            end if
+
+                            counter = counter + 1
+
+                        next
+
+                        formatNumber = numFormat
+
+                    End Function
+
+                %>
+
             </div>
         </div>    
     </div>  

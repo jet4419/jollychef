@@ -122,14 +122,27 @@ input[type='number'] {
   color: #1db47f !important;
 }
 
-.text-green {
-  color: #1EAE98;
-  color: #00917C;
+.recent-val {
+  // color: #a0a0a0;
+  color: #868686;
+}
+
+.new-val {
+  // color: #1EAE98;
+  // color: #00917C;
+  color: #000
 }
 
 #order-history-heading {
   font-family: monospace, "Segoe UI", Roboto, sans-serif;
 }
+
+// .main-heading--container {
+//   #ordering-heading-text {
+//     font-family: monospace, "Segoe UI", Roboto, sans-serif;
+//   }
+// }
+
 
 /* ----- */
 
@@ -154,8 +167,8 @@ input[type='number'] {
   }
 
   .main-heading--text {
-    font-family: 'Kulim Park', sans-serif;
-    // font-family: monospace, "Segoe UI", Roboto, sans-serif;
+    // font-family: 'Kulim Park', sans-serif;
+    font-family: monospace, "Segoe UI", Roboto, sans-serif;
   }
 }
 

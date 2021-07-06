@@ -534,7 +534,7 @@
                     output += ` ${tr}
                                     <td> ${jsonObject[i].prodBrand} </td>
                                     <td> ${jsonObject[i].prodName} </td>
-                                    <td> <span class='currency-sign'>&#8369; </span> ${jsonObject[i].price} </td> 
+                                    <td> <span class='currency-sign'>&#8369; </span> ${numberFormat(jsonObject[i].price.toString().split(''))} </td> 
                                     <td class='td-qty'> 
                                         <span id='${jsonObject[i].id}' class="qty-order d-inline-block">${jsonObject[i].qty}</span> 
                                         <span class="ml-4 d-inline-flex flex-column"> 
@@ -542,7 +542,7 @@
                                         </span>
                                     </td> 
 
-                                    <td> <strong class='currency-sign'> &#8369; </strong> <span class='order-amount'>${jsonObject[i].amount}</span> </td> 
+                                    <td> <strong class='currency-sign'> &#8369; </strong> <span class='order-amount'>${numberFormat(jsonObject[i].amount.toString().split(''))}</span> </td> 
                                     <td width="90">
                                         <button onClick="delete_order(${jsonObject[i].id})" class='btn btn-sm btn-warning'>
                                             Cancel
@@ -558,7 +558,7 @@
                 
                 totalAmountStr = `<tr>
                                     <td colspan="6"> 
-                                        <h1 class="lead"><strong>Total Amount</strong></h1> <h4>  <span class="currency-sign">&#8369;</span> <span id="total-amount">${totAmount}</span> </h4> 
+                                        <h1 class="lead"><strong>Total Amount</strong></h1> <h4>  <span class="currency-sign">&#8369;</span> <span id="total-amount">${numberFormat(totAmount.toString().split(''))}</span> </h4> 
                                     </td> 
                                 </tr>    `
                 $('td.dataTables_empty').attr('hidden', 'hidden');
@@ -566,6 +566,30 @@
                 
                 document.querySelector('#customerID').value = Number(localStorage.getItem('cust_id'));
 
+                function numberFormat(num) {
+
+                    let counter = 1;
+                    let numFormat = '';
+
+                    for (let i = num.length -1; i >= 0; i--) {
+                    
+                        if (counter % 3 === 0) {
+                            if (counter === num.length) {
+                                numFormat = num[i] + numFormat;
+                            } else {
+                                numFormat = `,${num[i]}${numFormat}`
+                            }  
+                        } else {
+                            numFormat = num[i] + numFormat
+                        }
+
+                        counter++;
+
+                    }
+
+                    return numFormat;
+
+                }
                 
                 $('.btn-qty--plus').click(function(e) {
                 

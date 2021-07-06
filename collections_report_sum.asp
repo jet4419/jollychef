@@ -378,9 +378,9 @@
                                 if printTototal = true then%>
                                     <tr>
                                         <td><%=dateFormat%></td>
-                                        <td  class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCollections%></td>
-                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCash%></td>
-                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCharge%></td>
+                                        <td  class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=formatNumber(dayTotalCollections)%></td>
+                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=formatNumber(dayTotalCash)%></td>
+                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=formatNumber(dayTotalCharge)%></td>
                                     </tr>
 
                                     <%if printBlankRow = true then%>
@@ -428,9 +428,9 @@
                                 if rs.EOF then%>
                                     <tr>
                                         <td><%=dateFormat%></td>
-                                        <td  class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCollections%></td>
-                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCash%></td>
-                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=dayTotalCharge%></td>
+                                        <td  class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=formatNumber(dayTotalCollections)%></td>
+                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=formatNumber(dayTotalCash)%></td>
+                                        <td class="totalAmountCollect"><span class="currency-sign">&#8369;</span> <%=formatNumber(dayTotalCharge)%></td>
                                     </tr>
                                 <%end if
                         loop
@@ -442,9 +442,9 @@
                             <%if isTotalPrinted = false then%>
                                 <tr class="final-total"> 
                                     <td class="final-total">Total</td>
-                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCollections%></td>
-                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCash%></td>
-                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=totalCharge%></td>
+                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=formatNumber(totalCollections)%></td>
+                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=formatNumber(totalCash)%></td>
+                                    <td class="final-total"><span class="currency-sign">&#8369;</span> <%=formatNumber(totalCharge)%></td>
                                 </tr>  
                             <%end if%>
 
@@ -454,6 +454,36 @@
                              
 
                 </table>
+
+                <%
+                    Function formatNumber(myNum)
+
+                        Dim i, counter, numFormat
+                        counter = 1
+                        numFormat = ""
+
+                        for i = Len(myNum) to 1 step -1
+
+                            ' Response.Write "<br>" & i & "<br>"
+                            if counter mod 3 = 0 then
+                                if counter = Len(myNum) then
+                                    numFormat = Mid(myNum, i, 1) & numFormat
+                                else
+                                    numFormat = "," & Mid(myNum, i, 1) & numFormat
+                                end if
+                            else
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            end if
+
+                            counter = counter + 1
+
+                        next
+
+                        formatNumber = numFormat
+
+                    End Function
+
+                %>
 
                 <!-- DELETING sales_report_container -->
                 <%  

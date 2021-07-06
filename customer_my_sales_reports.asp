@@ -319,11 +319,11 @@
                         </td>    
 
                         <% if CDbl(rs("debit")) < 0 then %>
-                            <td class="text-darker"><%=rs("credit")%></td>
+                            <td class="text-darker"><%=formatNumber(rs("credit"))%></td>
                             <% totalCashPaid = totalCashPaid + CDbl(rs("credit").value) %>
                         <% else %>
                             <td class="text-darker">
-                                <span class="currency-sign">&#8369; </span><%=rs("debit")%>
+                                <span class="currency-sign">&#8369; </span><%=formatNumber(rs("debit"))%>
                                 <% totalCashPaid = totalCashPaid + CDbl(rs("debit").value) %>
                             </td>
                         <% end if %>    
@@ -341,12 +341,43 @@
                     <tr>
                         <td colspan="3"><strong class="text-darker total-text">Total</strong></td>
                         <td colspan="2">
-                            <strong class="total-darker total-value"> <span class="currency-sign">&#8369; </span><%=totalCashPaid%></strong>
+                            <strong class="total-darker total-value"> <span class="currency-sign">&#8369; </span><%=formatNumber(totalCashPaid)%></strong>
                         </td>
                     </tr>
                 </tfoot>
 
             </table>
+
+            <%
+                Function formatNumber(myNum)
+
+                    Dim i, counter, numFormat
+                    counter = 1
+                    numFormat = ""
+
+                    for i = Len(myNum) to 1 step -1
+
+                        ' Response.Write "<br>" & i & "<br>"
+                        if counter mod 3 = 0 then
+                            if counter = Len(myNum) then
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            else
+                                numFormat = "," & Mid(myNum, i, 1) & numFormat
+                            end if
+                        else
+                            numFormat = Mid(myNum, i, 1) & numFormat
+                        end if
+
+                        counter = counter + 1
+
+                    next
+
+                    formatNumber = numFormat
+
+                End Function
+
+            %>
+
             </div>
         </div>    
     </div>

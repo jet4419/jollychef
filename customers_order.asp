@@ -110,8 +110,8 @@
                         <td class="text-bold"><%Response.Write(i)%></td> 
                         <td class="text-darker"><%Response.Write(rs("cust_name"))%></td> 
                         <td class="text-darker"><%Response.Write(rs("department"))%></td>   
-                        <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("amount"))%></td> 
-                        <td class="text-darker"><%Response.Write(FormatDateTime(rs("date"), 2))%></td>
+                        <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&formatNumber(rs("amount")))%></td> 
+                        <td class="text-darker"><%Response.Write(dateFormat(rs("date")))%></td>
                         <td class="m-0">
                             <button id="<%=rs("unique_num")%>" value="<%=rs("cust_id")%>"  class="btn btn-sm btn-outline-dark mx-auto mb-2 btnViewOrder">
                             View
@@ -128,6 +128,57 @@
                     <%rs.close%>
                     </tbody>
                 </table>
+
+                <%
+                    Function formatNumber(myNum)
+
+                        Dim i, counter, numFormat
+                        counter = 1
+                        numFormat = ""
+
+                        for i = Len(myNum) to 1 step -1
+
+                            ' Response.Write "<br>" & i & "<br>"
+                            if counter mod 3 = 0 then
+                                if counter = Len(myNum) then
+                                    numFormat = Mid(myNum, i, 1) & numFormat
+                                else
+                                    numFormat = "," & Mid(myNum, i, 1) & numFormat
+                                end if
+                            else
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            end if
+
+                            counter = counter + 1
+
+                        next
+
+                        formatNumber = numFormat
+
+                    End Function
+
+                %>
+
+                <%
+                    Function dateFormat(reportDate)
+
+                        myYear = Year(reportDate)
+                        myDay = Day(reportDate)
+                        if Len(myDay) = 1 then
+                            myDay = "0" & myDay
+                        end if
+     
+                        myMonth = Month(reportDate)
+                        if Len(myMonth) = 1 then
+                            myMonth = "0" & myMonth
+                        end if
+
+                        dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+
+                    End Function
+
+                %>
+
                 <!-- Last ID number of order -->
                 <span class="orderID" id="<%=ordersID%>" hidden> </span>
                 <span class="orderNumber" id="<%=i%>" hidden> </span>

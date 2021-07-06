@@ -125,8 +125,8 @@ $(document).ready( function () {
                         'order': `<span class='text-bold'>${json[i].orderNumber} </span>` ,
                         'name'  : `<span class='text-darker'> ${json[i].custName} </span> `,
                         'department' :`<span class='text-darker'>${json[i].department} </span> ` ,
-                        'amount' : `<strong class='currency-sign'>&#8369; </strong> ${json[i].amount}`,
-                        'date' : `<span class='text-darker'>${json[i].date} </span> `,
+                        'amount' : `<strong class='currency-sign'>&#8369; </strong> ${numberFormat(json[i].amount.toString().split(''))}`,
+                        'date' : `<span class='text-darker'>${dateFormat(new Date(json[i].date))} </span> `,
                         'button' : `<a href='customer_my_orders_list.asp?unique_num=${json[i].uniqueNum}&cust_id=${json[i].custID}' class='btn btn-sm btn-outline-dark mx-auto mb-2 deleteProduct'>
                         View Orders
                         </a>`
@@ -139,6 +139,49 @@ $(document).ready( function () {
                 }
 
             }
+
+                function numberFormat(num) {
+    
+                    let counter = 1;
+                    let numFormat = '';
+
+                    for (let i = num.length -1; i >= 0; i--) {
+                    
+                        if (counter % 3 === 0) {
+                            if (counter === num.length) {
+                                numFormat = num[i] + numFormat;
+                            } else {
+                                numFormat = `,${num[i]}${numFormat}`
+                            }  
+                        } else {
+                            numFormat = num[i] + numFormat
+                        }
+
+                        counter++;
+
+                    }
+
+                    return numFormat;
+
+                }
+
+                function dateFormat(dateReport) {
+                    day = dateReport.getDate();
+                    month = dateReport.getMonth() + 1;
+                    year = dateReport.getFullYear().toString().slice(2);
+
+                    
+                    if (day < 10) {
+                        day = "0" + day
+                    }
+
+                    if (month < 10) {
+                        month = "0" + month
+                    }
+                    // console.log(`Year: ${year.toString().slice(2)}`);
+                    // console.log(`Date: ${month} - ${day} - ${year}`);
+                    return `${month}/${day}/${year}`
+                }
         
                 // const td1 = document.createElement('td');
                 // td1.setAttribute('colspan', '3');

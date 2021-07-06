@@ -444,7 +444,7 @@ a.main-menus--items.customers-icon {
 .currency-sign {
   color: #333533c9;
   font-weight: 500;
-  /* display: none; */
+  display: none;
 }
 
 @media screen {

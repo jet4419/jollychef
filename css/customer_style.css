@@ -418,6 +418,7 @@ input[type='number'] {
   color: #608c71; */
   color: #333533c9;
   font-weight: 500;
+  display: none;
 }
 
 .total-darker {
@@ -460,8 +461,14 @@ input[type='number'] {
   background-color: #1db47f;
 }
 
-.text-green {
-  color: #1EAE98;
+.recent-val {
+  /* color: rgb(124, 121, 121); */
+  /* color: #aaa; */
+  color: #868686;
+}
+
+.new-val {
+  color: #000;
 }
 
 /* .main--main-page {

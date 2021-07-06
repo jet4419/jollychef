@@ -416,7 +416,7 @@
                         <td></td>
                         <td></td>
                         <td><strong>Beginning Balance</strong></td>
-                        <td><strong><span class="currency-sign">&#8369;</span> <%=endingCredit%></strong></td>
+                        <td><strong><span class="currency-sign">&#8369;</span> <%=formatNumber(endingCredit)%></strong></td>
                         <td></td>
                     </tr>
                     <% 
@@ -429,19 +429,6 @@
                     <%do until rs.EOF%>
 
                         <% 
-                            myDate = CDATE(rs("date"))
-                            myYear = Year(myDate)
-                            myDay = Day(myDate)
-                            if Len(myDay) = 1 then
-                                myDay = "0" & myDay
-                            end if
-
-                            myMonth = Month(myDate)
-                            if Len(myMonth) = 1 then
-                                myMonth = "0" & myMonth
-                            end if
-
-                            dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
                             d = CDate(rs("date"))
                             d = FormatDateTime(d, 2)
                         %>
@@ -467,7 +454,7 @@
                             <% if CDbl(rs("debit")) <= 0 then %>
                                 <td class="text-darker"><%=" "%></td>
                             <% else %>
-                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%=rs("debit")%></td>
+                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%=formatNumber(rs("debit"))%></td>
                                 <% totalDebit = CDbl(totalDebit) + CDbl(rs("debit").value) 
                                 balance = balance - CDbl(rs("debit").value)
                                 %>
@@ -475,14 +462,14 @@
                             <% if CDbl(rs("credit")) <= 0 then %>
                                 <td class="text-darker"><%=" "%></td>
                             <% else %>    
-                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%=rs("credit")%></td>
+                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%=formatNumber(rs("credit"))%></td>
                                 <% totalCredit = CDbl(totalCredit) + CDbl(rs("credit").value) 
                                 balance = balance + CDbl(rs("credit").value)
                                 %>
                             <% end if %>    
-                            <td class="text-darker"><span class="currency-sign">&#8369;</span> <%=balance%></td>
+                            <td class="text-darker"><span class="currency-sign">&#8369;</span> <%=formatNumber(balance)%></td>
                             
-                            <td class="text-darker"><%Response.Write(dateFormat)%></td>
+                            <td class="text-darker"><%Response.Write(dateFormat(rs("date")))%></td>
 
                         </tr>
                         <%rs.MoveNext%>
@@ -496,19 +483,19 @@
                             <td class="no-cell"></td>
                             <td>
                                 <strong class="text-darker">
-                                    <span class="total-value total-darker"> <span class="currency-sign">&#8369; </span> <%=totalDebit%></span>
+                                    <span class="total-value total-darker"> <span class="currency-sign">&#8369; </span> <%=formatNumber(totalDebit)%></span>
                                 </strong>    
                             </td>
 
                             <td>
                                 <strong class="text-darker">
-                                    <span class="total-value total-darker"> <span class="currency-sign">&#8369; </span> <%=totalCredit%></span>
+                                    <span class="total-value total-darker"> <span class="currency-sign">&#8369; </span> <%=formatNumber(totalCredit)%></span>
                                 </strong>    
                             </td>
 
                             <td>
                                 <strong class="text-darker">
-                                    <span class="total-value total-darker"> <span class="currency-sign">&#8369; </span> <%=currCredit%></span>
+                                    <span class="total-value total-darker"> <span class="currency-sign">&#8369; </span> <%=formatNumber(currCredit)%></span>
                                 </strong>
                             </td>
                             <td></td>
@@ -516,6 +503,57 @@
                     </tfoot>
 
                 </table>
+
+                <%
+                    Function formatNumber(myNum)
+
+                        Dim i, counter, numFormat
+                        counter = 1
+                        numFormat = ""
+
+                        for i = Len(myNum) to 1 step -1
+
+                            ' Response.Write "<br>" & i & "<br>"
+                            if counter mod 3 = 0 then
+                                if counter = Len(myNum) then
+                                    numFormat = Mid(myNum, i, 1) & numFormat
+                                else
+                                    numFormat = "," & Mid(myNum, i, 1) & numFormat
+                                end if
+                            else
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            end if
+
+                            counter = counter + 1
+
+                        next
+
+                        formatNumber = numFormat
+
+                    End Function
+
+                %>
+
+                <%
+                    Function dateFormat(reportDate)
+
+                        myDate = CDATE(reportDate)
+                        myYear = Year(myDate)
+                        myDay = Day(myDate)
+                        if Len(myDay) = 1 then
+                            myDay = "0" & myDay
+                        end if
+
+                        myMonth = Month(myDate)
+                        if Len(myMonth) = 1 then
+                            myMonth = "0" & myMonth
+                        end if
+
+                        dateFormat = myMonth & "/" & myDay & "/" & Mid(myYear, 3)
+
+                    End Function
+
+                %>
 
             </div>
    

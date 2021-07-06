@@ -163,18 +163,19 @@
                                 // reportDate = new Date(json[0].date);
 
                                 for (let i=0; i < json.length; i++) {
-
+                                    
                                     return_data.push({
                                         'invoice': json[i].invoiceNo === 0 ? `` : `<a class='text-info' target='_blank' href='receipt_reports.asp?invoice=${json[i].invoiceNo}&date=${json[i].date}'>${json[i].invoiceNo}`,
                                         'orderid': `${json[i].uniqueNum}` ,
                                         // 'customer': `${json[i].customerName}` ,
                                         'product': `${json[i].prodName}` ,
-                                        'price': json[i].price === json[i].updPrice ? `${json[i].price}` : `${json[i].price} - <span class='text-green'>(${json[i].updPrice})</span>`,
-                                        'amount': json[i].amount === json[i].updAmount ? `${json[i].amount}` :  `${json[i].amount} - <span class='text-green'>(${json[i].updAmount})</span>`,
-                                        'qty': json[i].qty === json[i].updQty ? `${json[i].qty}` : `${json[i].qty} - <span class='text-green'>(${json[i].updQty})</span>` ,
+                                        'price': json[i].price === json[i].updPrice ? `${json[i].price}` : `<span class='recent-val'>${json[i].price}</span> - <span class='new-val'>(${json[i].updPrice})</span>`,
+                                        'amount': json[i].amount === json[i].updAmount ? `${json[i].amount}` :  `<span class='recent-val'>${json[i].amount}</span> - <span class='new-val'>(${json[i].updAmount})</span>`,
+                                        'qty': json[i].qty === json[i].updQty ? `${json[i].qty}` : `<span class='recent-val'>${json[i].qty}</span> - <span class='new-val'>(${json[i].updQty})</span>` ,
                                         'status': json[i].status === 'Finished' ? `Processed` : `${json[i].status}`,
                                         'added': json[i].isAdded === 'true' ? `yes` : `no` ,
-                                        'date': `${json[i].date}`,
+                                        //'date': `${json[i].date}`,
+                                        'date': dateFormat(new Date(json[i].date)),
                                     });
 
                                 }
@@ -205,6 +206,24 @@
 
                                 return monthNamelist[month];
                             };
+
+                            function dateFormat(dateReport) {
+                                day = dateReport.getDate();
+                                month = dateReport.getMonth() + 1;
+                                year = dateReport.getFullYear().toString().slice(2);
+
+                                
+                                if (day < 10) {
+                                    day = "0" + day
+                                }
+
+                                if (month < 10) {
+                                    month = "0" + month
+                                }
+                                // console.log(`Year: ${year.toString().slice(2)}`);
+                                // console.log(`Date: ${month} - ${day} - ${year}`);
+                                return `${month}/${day}/${year}`
+                            }
 
                             return return_data;
                         }

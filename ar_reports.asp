@@ -184,7 +184,7 @@
                                 <td class="text-darker"><%Response.Write(rs("cust_dept"))%></td> 
                                 <td class="text-darker"><%Response.Write(rs("invoice_no"))%></td> 
                                 <td class="text-darker"><%Response.Write(dateFormat)%></td>
-                                <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&rs("receivable"))%></td> 
+                                <td class="text-darker"><%Response.Write("<strong class='currency-sign' >&#8369; </strong>"&formatNumber(rs("receivable")))%></td> 
                                 
                             <%rs.MoveNext%>
                             </tr>
@@ -195,6 +195,37 @@
                         
                     next%>       
             </table>
+
+            <%
+                Function formatNumber(myNum)
+
+                    Dim i, counter, numFormat
+                    counter = 1
+                    numFormat = ""
+
+                    for i = Len(myNum) to 1 step -1
+
+                        ' Response.Write "<br>" & i & "<br>"
+                        if counter mod 3 = 0 then
+                            if counter = Len(myNum) then
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            else
+                                numFormat = "," & Mid(myNum, i, 1) & numFormat
+                            end if
+                        else
+                            numFormat = Mid(myNum, i, 1) & numFormat
+                        end if
+
+                        counter = counter + 1
+
+                    next
+
+                    formatNumber = numFormat
+
+                End Function
+
+            %>
+
         </div> 
     </div>        
 </div>

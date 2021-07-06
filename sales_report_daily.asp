@@ -266,9 +266,9 @@
 
                 <tfoot>
                     <tr>
-                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Sales</h3></strong> <h5>  <span class="currency-sign">  &#8369; </span> <%=totalGross%></h5></td>
-                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Cash</h3></strong> <h5>  <span class="currency-sign">  &#8369; </span> <%=totalCOH%></h5></td>
-                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Charge</h3></strong> <h5><span class="currency-sign">  &#8369; </span> <%=totalCredit%></h5></td>
+                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Sales</h3></strong> <h5>  <span class="currency-sign">  &#8369; </span> <%=formatNumber(totalGross)%></h5></td>
+                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Cash</h3></strong> <h5>  <span class="currency-sign">  &#8369; </span> <%=formatNumber(totalCOH)%></h5></td>
+                        <td><h3 class="lead"><strong class="text-darker font-weight-normal">Total Charge</h3></strong> <h5><span class="currency-sign">  &#8369; </span> <%=formatNumber(totalCredit)%></h5></td>
                     </tr>
                 </tfoot>
 
@@ -277,6 +277,36 @@
                     <h1 class="lead"><strong class="text-darker font-weight-normal">Total Gross Amount</h1></strong> <h4>  <span class="text-primary">  &#8369; </span> <'%=totalGross%></h4>
                     <h1 class="lead"><strong class="text-darker font-weight-normal">Total Net Amount</h1></strong> <h4><span class="text-primary">  &#8369; </span> <'%=totalNet%></h4>
                 </div> -->
+
+            <%
+                Function formatNumber(myNum)
+
+                    Dim i, counter, numFormat
+                    counter = 1
+                    numFormat = ""
+
+                    for i = Len(myNum) to 1 step -1
+
+                        ' Response.Write "<br>" & i & "<br>"
+                        if counter mod 3 = 0 then
+                            if counter = Len(myNum) then
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            else
+                                numFormat = "," & Mid(myNum, i, 1) & numFormat
+                            end if
+                        else
+                            numFormat = Mid(myNum, i, 1) & numFormat
+                        end if
+
+                        counter = counter + 1
+
+                    next
+
+                    formatNumber = numFormat
+
+                End Function
+
+            %>
 		</div>    
     </div>
 </div>

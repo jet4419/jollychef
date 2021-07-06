@@ -202,20 +202,51 @@
                                 <tr>
                                 <td><%=rs("prod_brand")%> </td>
                                 <td><%=rs("prod_name")%> </td>
-                                <td><span class='currency-sign' >&#8369; </span><%=rs("upd_price")%> </td>
+                                <td><span class='currency-sign' >&#8369; </span><%=formatNumber(rs("upd_price"))%> </td>
                                 <td><%=rs("upd_qty")%> </td>
-                                <td><span class='currency-sign' >&#8369; </span><%=rs("upd_amount")%> </td>
+                                <td><span class='currency-sign' >&#8369; </span><%=formatNumber(rs("upd_amount"))%> </td>
                                 </tr>
                             <%totalAmount = totalAmount + CDbl(rs("upd_amount"))
                                 rs.MoveNext
                             loop%>
                         
                                 <tr>
-                                    <td colspan="6"><h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> <%=totalAmount%></h4> </td>
+                                    <td colspan="6"><h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> <%=formatNumber(totalAmount)%></h4> </td>
                                 </tr>
                                 
                 </tbody>
             </table>
+
+            <%
+                Function formatNumber(myNum)
+
+                    Dim i, counter, numFormat
+                    counter = 1
+                    numFormat = ""
+
+                    for i = Len(myNum) to 1 step -1
+
+                        ' Response.Write "<br>" & i & "<br>"
+                        if counter mod 3 = 0 then
+                            if counter = Len(myNum) then
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            else
+                                numFormat = "," & Mid(myNum, i, 1) & numFormat
+                            end if
+                        else
+                            numFormat = Mid(myNum, i, 1) & numFormat
+                        end if
+
+                        counter = counter + 1
+
+                    next
+
+                    formatNumber = numFormat
+
+                End Function
+
+            %>
+
             <!-- END OF ORDER TABLE -->
             <%
                 rs.close

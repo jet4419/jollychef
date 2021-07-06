@@ -188,7 +188,7 @@ const custID = localStorage.getItem('cust_id');
                         'id': `<span class='text-darker'>${json[i].id} </span>` ,
                         'name'  : `<span class='text-darker'> ${json[i].name}`,
                         'department' :`<span class='text-darker'> ${json[i].department}`,
-                        'balance' : `<span class='text-darker'> <span class='currency-sign'> &#8369; </span> ${json[i].balance} </span>`,
+                        'balance' : `<span class='text-darker'> <span class='currency-sign'> &#8369; </span> ${numberFormat(json[i].balance.toString().split(''))} </span>`,
                         'buttons' : `<button type='button' id='${json[i].id}' class='btn btn-sm btn-outline-dark mx-auto mb-2 date_sales w-100' data-toggle='modal' data-target='#date_sales'  title='View Transactions' data-toggle='tooltip' data-placement='top'>
                             Cash
                         </button>
@@ -203,6 +203,31 @@ const custID = localStorage.getItem('cust_id');
                     // console.log(custOB);
 
                     
+                }
+                
+                function numberFormat(num) {
+
+                    let counter = 1;
+                    let numFormat = '';
+
+                    for (let i = num.length -1; i >= 0; i--) {
+                    
+                        if (counter % 3 === 0) {
+                            if (counter === num.length) {
+                                numFormat = num[i] + numFormat;
+                            } else {
+                                numFormat = `,${num[i]}${numFormat}`
+                            }  
+                        } else {
+                            numFormat = num[i] + numFormat
+                        }
+
+                        counter++;
+
+                    }
+
+                    return numFormat;
+
                 }
   
                 return return_data;

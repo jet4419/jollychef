@@ -389,10 +389,10 @@
                     for(var i=0;i< json.length; i++){
 
                         return_data.push({
-                            'date': `<span class='text-darker'>${json[i].date} </span>` ,
+                            'date': `<span class='text-darker'> ${dateFormat(new Date(json[i].date))} </span>` ,
                             'invoice'  : `<a target='_blank' href='ob_invoice_records.asp?invoice=${json[i].invoice}&date=${json[i].date}'> ${json[i].invoice} </a> `,
-                            'receivable' :`<span class='currency-sign'>&#8369; </span> ${json[i].receivable}` ,
-                            'balance' : `<span class='currency-sign'>&#8369; </span> ${json[i].balance}`
+                            'receivable' :`<span class='currency-sign'>&#8369; </span> ${numberFormat(json[i].receivable.toString().split(''))}` ,
+                            'balance' : `<span class='currency-sign'>&#8369; </span> ${numberFormat(json[i].balance.toString().split(''))}`
                         });
                         
                         custOB += json[i].balance;
@@ -404,12 +404,54 @@
                     td1.innerHTML = '<strong>Total Balance<strong>'
                     const td2 = document.createElement('td');
                     td2.setAttribute('colspan', '1');
-                    td2.innerHTML = `<strong> <span class='currency-sign'>&#8369; </span> ${custOB} </strong>`;
+                    td2.innerHTML = `<strong> <span class='currency-sign'>&#8369; </span> ${numberFormat(custOB.toString().split(''))} </strong>`;
                     tr.appendChild(td1);
                     tr.appendChild(td2);
 
                 }
-        
+
+                function numberFormat(num) {
+
+                    let counter = 1;
+                    let numFormat = '';
+
+                    for (let i = num.length -1; i >= 0; i--) {
+                    
+                        if (counter % 3 === 0) {
+                            if (counter === num.length) {
+                                numFormat = num[i] + numFormat;
+                            } else {
+                                numFormat = `,${num[i]}${numFormat}`
+                            }  
+                        } else {
+                            numFormat = num[i] + numFormat
+                        }
+
+                        counter++;
+
+                    }
+
+                    return numFormat;
+
+                }
+
+                function dateFormat(dateReport) {
+                    day = dateReport.getDate();
+                    month = dateReport.getMonth() + 1;
+                    year = dateReport.getFullYear().toString().slice(2);
+
+                    
+                    if (day < 10) {
+                        day = "0" + day
+                    }
+
+                    if (month < 10) {
+                        month = "0" + month
+                    }
+                    // console.log(`Year: ${year.toString().slice(2)}`);
+                    // console.log(`Date: ${month} - ${day} - ${year}`);
+                    return `${month}/${day}/${year}`
+                }
                 
 
                 // time()

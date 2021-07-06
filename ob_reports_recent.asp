@@ -234,7 +234,7 @@
                         -->
                         <td class="text-darker"><%Response.Write(Trim(rs("cust_name")))%></td>
                         <td class="text-darker"><%Response.Write(rs("department"))%></td>
-                        <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("credit_bal"))%></td>
+                        <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(formatNumber(rs("credit_bal")))%></td>
                         <% 
                             myDate = CDATE(rs("end_date"))
                             myYear = Year(myDate)
@@ -265,6 +265,37 @@
                 <%rs.close%>
 
             </table>
+
+            <%
+                Function formatNumber(myNum)
+
+                    Dim i, counter, numFormat
+                    counter = 1
+                    numFormat = ""
+
+                    for i = Len(myNum) to 1 step -1
+
+                        ' Response.Write "<br>" & i & "<br>"
+                        if counter mod 3 = 0 then
+                            if counter = Len(myNum) then
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            else
+                                numFormat = "," & Mid(myNum, i, 1) & numFormat
+                            end if
+                        else
+                            numFormat = Mid(myNum, i, 1) & numFormat
+                        end if
+
+                        counter = counter + 1
+
+                    next
+
+                    formatNumber = numFormat
+
+                End Function
+
+            %>
+
         </div>    
     </div>  
 

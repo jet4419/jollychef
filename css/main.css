@@ -126,9 +126,12 @@ input[type='number'] {
   color: #1db47f !important;
 }
 
-.text-green {
-  color: #1EAE98;
-  color: #00917C;
+.recent-val {
+  color: #868686;
+}
+
+.new-val {
+  color: #000;
 }
 
 #order-history-heading {
@@ -416,7 +419,7 @@ input[type='number'] {
 }
 
 #main .main-heading--text {
-  font-family: 'Kulim Park', sans-serif;
+  font-family: monospace, "Segoe UI", Roboto, sans-serif;
 }
 
 .footer {

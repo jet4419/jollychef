@@ -816,7 +816,7 @@ function getOrders () {
             
             totalAmountStr = `<tr>
                                 <td colspan="6"> 
-                                    <h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> <span id="total-amount">${totAmount}</span> </h4> 
+                                    <h1 class="lead"><strong>Total Amount</h1></strong> <h4>  <span class="currency-sign">&#8369;</span> <span id="total-amount">${numberFormat(totAmount.toString().split(''))}</span> </h4> 
                                 </td> 
                             </tr>    `
             $('td.dataTables_empty').attr('hidden', 'hidden');
@@ -1018,6 +1018,31 @@ function getOrders () {
         console.log("error");
     });
     
+}
+
+function numberFormat(num) {
+
+    let counter = 1;
+    let numFormat = '';
+
+    for (let i = num.length -1; i >= 0; i--) {
+    
+        if (counter % 3 === 0) {
+            if (counter === num.length) {
+                numFormat = num[i] + numFormat;
+            } else {
+                numFormat = `,${num[i]}${numFormat}`
+            }  
+        } else {
+            numFormat = num[i] + numFormat
+        }
+
+        counter++;
+
+    }
+
+    return numFormat;
+
 }
 
 setTimeout( () => getMeals());

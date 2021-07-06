@@ -386,8 +386,8 @@
                                 %>
                                 <td class="text-darker"><%Response.Write(dateFormat)%></td>
                                 <td class="text-darker"><a target="_blank" href='ob_invoice_records.asp?invoice=<%=invoice%>&date=<%=d%>' class="text-dark"><%Response.Write(rs("invoice_no"))%></a></td>
-                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("receivable"))%></td>
-                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(rs("balance"))%></td>
+                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(formatNumber(rs("receivable")))%></td>
+                                <td class="text-darker"><span class="currency-sign">&#8369;</span> <%Response.Write(formatNumber(rs("balance")))%></td>
                                 <% totalBalance = totalBalance + CDbl(rs("balance").value) %>
                                 <td>
                                 <div class="input-group input-group-sm py-1">
@@ -407,10 +407,40 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="3"> <strong> Total Balance </strong> </td>
-                                    <td colspan="2"> <strong> <%=totalBalance%> </strong> </td>
+                                    <td colspan="2"> <strong> <%=formatNumber(totalBalance)%> </strong> </td>
                                 </tr>
                             </tfoot>
                         </table>
+
+                        <%
+                            Function formatNumber(myNum)
+
+                                Dim i, counter, numFormat
+                                counter = 1
+                                numFormat = ""
+
+                                for i = Len(myNum) to 1 step -1
+
+                                    ' Response.Write "<br>" & i & "<br>"
+                                    if counter mod 3 = 0 then
+                                        if counter = Len(myNum) then
+                                            numFormat = Mid(myNum, i, 1) & numFormat
+                                        else
+                                            numFormat = "," & Mid(myNum, i, 1) & numFormat
+                                        end if
+                                    else
+                                        numFormat = Mid(myNum, i, 1) & numFormat
+                                    end if
+
+                                    counter = counter + 1
+
+                                next
+
+                                formatNumber = numFormat
+
+                            End Function
+
+                        %>
 
                         
                         <div class="total-payment-container mt-2">

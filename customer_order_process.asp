@@ -389,7 +389,7 @@
                                         <td> 
                                             <span class="price-val">
                                                 <span class="currency-sign">&#8369;</span>
-                                                <span class="prod-price"> <%=rs("upd_price")%></span>
+                                                <span class="prod-price"> <%=formatNumber(rs("upd_price"))%></span>
                                             </span>
                                             <span class="edit-prod-price d-inline-flex justify-content-center align-items-center">
                                                 <button type="button" id="<%=rs("id")%>" class="btnEditPrice btn btn-sm btn-outline-dark mx-auto mb-2 updateProduct" style="max-width: 50px;" data-toggle="modal" data-target="#editProdPrice">
@@ -410,7 +410,7 @@
                                         </td>
                                         <td> 
                                             <span class="currency-sign">&#8369; </span>
-                                            <span class='order-amount'><%=rs("upd_amount")%></span>
+                                            <span class='order-amount'><%=formatNumber(rs("upd_amount"))%></span>
                                          </td>
                                         <%if userType = "admin" or userType = "programmer" then%>    
                                             <td width="90">
@@ -431,7 +431,7 @@
                                             <h1 class="lead"><strong>Total Amount</strong></h1> 
                                             <h4> 
                                                 <span class="currency-sign">&#8369;</span> 
-                                                <span id="total-amount"><%=totalAmount%></span>
+                                                <span id="total-amount"><%=formatNumber(totalAmount)%></span>
                                             </h4> 
                                         </td>
                                     </tr>
@@ -443,6 +443,37 @@
                                     
                     </tbody>
                 </table>
+
+                <%
+                    Function formatNumber(myNum)
+
+                        Dim i, counter, numFormat
+                        counter = 1
+                        numFormat = ""
+
+                        for i = Len(myNum) to 1 step -1
+
+                            ' Response.Write "<br>" & i & "<br>"
+                            if counter mod 3 = 0 then
+                                if counter = Len(myNum) then
+                                    numFormat = Mid(myNum, i, 1) & numFormat
+                                else
+                                    numFormat = "," & Mid(myNum, i, 1) & numFormat
+                                end if
+                            else
+                                numFormat = Mid(myNum, i, 1) & numFormat
+                            end if
+
+                            counter = counter + 1
+
+                        next
+
+                        formatNumber = numFormat
+
+                    End Function
+
+                %>
+
                 <!-- END OF ORDER TABLE -->
                 <%
                     rs.close
